@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
 
   const handleChange = event => {
     setVideoUrl(event.target.value);
@@ -10,12 +10,11 @@ function App() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(videoUrl);
+    console.log('hello');
   };
 
   return (
     <div className="App">
-      {console.log(videoUrl)}
       <form onSubmit={event => handleSubmit(event)}>
         <label>
           Your Youtube Video:
@@ -32,7 +31,7 @@ function App() {
         title="video"
         width="420"
         height="315"
-        src="https://www.youtube.com/embed/tgbNymZ7vqY"
+        src={`https://www.youtube.com/embed/${videoUrl}`}
       ></iframe>
     </div>
   );
