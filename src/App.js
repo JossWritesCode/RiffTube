@@ -33,6 +33,7 @@ function App() {
         height="315"
         src={`https://www.youtube.com/embed/${videoUrl}`}
       ></iframe>
+      <script src="https://www.youtube.com/iframe_api"></script>
     </div>
   );
 }
