@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
@@ -33,7 +32,6 @@ function App() {
         height="315"
         src={`https://www.youtube.com/embed/${videoUrl}`}
       ></iframe>
- 
     </div>
   );
 }
