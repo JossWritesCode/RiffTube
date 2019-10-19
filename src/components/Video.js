@@ -1,7 +1,14 @@
 import React from 'react';
 
-function Video() {
-  return <div className="video"></div>;
+function Video(props) {
+  return (
+    <iframe
+      title="video"
+      width="420"
+      height="315"
+      src={`https://www.youtube.com/embed/${props.videoUrl}`}
+    ></iframe>
+  );
 }
 
 export default Video;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import Video from './components/Video.js'
 
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <form onSubmit={event => handleSubmit(event)}>
+      <form>
         <label>
           Your Youtube Video:
           <input
@@ -27,14 +28,8 @@ function App() {
             onChange={event => handleChange(event)}
           />
         </label>
-        <button>Submit!</button>
       </form>
-      <iframe
-        title="video"
-        width="420"
-        height="315"
-        src={`https://www.youtube.com/embed/${videoUrl}`}
-      ></iframe>
+      <Video videoUrl={videoUrl} />
  
     </div>
   );
