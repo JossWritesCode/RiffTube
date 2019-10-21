@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Video from './components/Video.js'
+import Login from './components/Login.js'
 
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
@@ -18,6 +19,9 @@ function App() {
 
   return (
     <div className="App">
+
+      <Login />
+
       <form>
         <label>
           Your Youtube Video:
@@ -29,6 +33,7 @@ function App() {
           />
         </label>
       </form>
+
       <Video videoUrl={videoUrl} />
  
     </div>
