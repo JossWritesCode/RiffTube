@@ -16,6 +16,7 @@ function App() {
   const [googleUser, setGoogleUser] = useState(null);
 
   const loggedIn = () => {
+    debugger;
     if ( googleUser )
     {
       return googleUser.isSignedIn();
@@ -24,7 +25,7 @@ function App() {
   };
 
   const authCheck = (props, Component) => {
-    return this.loggedIn() ? <Component {...props} /> : <Header />;
+    return loggedIn() ? <Component {...props} /> : <Header />;
   };
 
 
@@ -33,7 +34,7 @@ function App() {
 
       <div className="App">
 
-        <Login setUser={setGoogleUser} />
+        <Login setUser={(val) => { debugger; setGoogleUser( val ); }} />
 
         <form>
           <label>
@@ -51,7 +52,7 @@ function App() {
 
         <Switch>
 
-        <Route exact path="/" render={this.authCheck.bind(this, EditControls)}/>
+        <Route exact path="/" render={authCheck.bind(this, EditControls)}/>
 
         </Switch>
   
