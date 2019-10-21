@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import Video from './components/Video.js'
-import Login from './components/Login.js'
-import Header from './components/Header.js'
-import EditControls from './components/EditControls.js'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Video from './components/Video.js';
+import Login from './components/Login.js';
+import Header from './components/Header.js';
+import EditControls from './components/EditControls.js';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
@@ -16,23 +16,19 @@ function App() {
   const [googleUser, setGoogleUser] = useState(null);
 
   const loggedIn = () => {
-    if ( googleUser )
-    {
+    if (googleUser) {
       return googleUser.isSignedIn();
     }
     return false;
   };
 
   const authCheck = (props, Component) => {
-    return this.loggedIn() ? <Component {...props} /> : <Header />;
+    return loggedIn() ? <Component {...props} /> : <Header />;
   };
-
 
   return (
     <Router>
-
       <div className="App">
-
         <Login setUser={setGoogleUser} />
 
         <form>
@@ -50,14 +46,10 @@ function App() {
         <Video videoUrl={videoUrl} />
 
         <Switch>
-
-        <Route exact path="/" render={this.authCheck.bind(this, EditControls)}/>
-
+          <Route exact path="/" render={authCheck.bind(this, EditControls)} />
         </Switch>
-  
       </div>
-
-      </Router>
+    </Router>
   );
 }
 
