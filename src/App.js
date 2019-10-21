@@ -2,41 +2,62 @@ import React, { useState } from 'react';
 import './App.css';
 import Video from './components/Video.js'
 import Login from './components/Login.js'
+import Header from './components/Header.js'
+import EditControls from './components/EditControls.js'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
-
-  /* comment */
 
   const handleChange = event => {
     setVideoUrl(event.target.value);
   };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log('hello');
+  const [googleUser, setGoogleUser] = useState(null);
+
+  const loggedIn = () => {
+    if ( googleUser )
+    {
+      return googleUser.isSignedIn();
+    }
+    return false;
   };
 
+  const authCheck = (props, Component) => {
+    return this.loggedIn() ? <Component {...props} /> : <Header />;
+  };
+
+
   return (
-    <div className="App">
+    <Router>
 
-      <Login />
+      <div className="App">
 
-      <form>
-        <label>
-          Your Youtube Video:
-          <input
-            type="text"
-            name="videoUrl"
-            value={videoUrl}
-            onChange={event => handleChange(event)}
-          />
-        </label>
-      </form>
+        <Login setUser={setGoogleUser} />
 
-      <Video videoUrl={videoUrl} />
- 
-    </div>
+        <form>
+          <label>
+            Your Youtube Video:
+            <input
+              type="text"
+              name="videoUrl"
+              value={videoUrl}
+              onChange={event => handleChange(event)}
+            />
+          </label>
+        </form>
+
+        <Video videoUrl={videoUrl} />
+
+        <Switch>
+
+        <Route exact path="/" render={this.authCheck.bind(this, EditControls)}/>
+
+        </Switch>
+  
+      </div>
+
+      </Router>
   );
 }
 

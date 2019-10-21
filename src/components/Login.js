@@ -7,7 +7,7 @@ class Login extends React.Component{
     super(props, context);
   }
  
-  responseGoogle (googleUser) {
+  responseGoogle (su_bound, googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     var googleId = googleUser.getId();
     
@@ -15,7 +15,7 @@ class Login extends React.Component{
     console.log({accessToken: id_token});
     //anything else you want to do(save to localStorage)...
 
-    console.log( "get", googleUser.getAuthResponse() );
+    su_bound( googleUser );
   }
  
   render () {
@@ -25,7 +25,7 @@ class Login extends React.Component{
                      className="google-login"
                      scope="profile"
                      fetchBasicProfile={false}
-                     responseHandler={this.responseGoogle}
+                     responseHandler={this.responseGoogle.bind(null, this.props.setUser)}
                      buttonText="Login With Google"/>
       </div>
     );
