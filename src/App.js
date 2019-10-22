@@ -16,7 +16,6 @@ function App() {
   const [googleUser, setGoogleUser] = useState(null);
 
   const loggedIn = () => {
-    debugger;
     if (googleUser) {
       return googleUser.isSignedIn();
     }
@@ -24,14 +23,13 @@ function App() {
   };
 
   const authCheck = (props, Component) => {
-    debugger;
     return loggedIn() ? <Component {...props} /> : <Header />;
   };
 
   return (
     <Router>
       <div className="App">
-        <Login setUser={(val, val2, val3, val4) => {debugger; setGoogleUser(val)}} />
+        <Login setUser={(val) => {setGoogleUser(val)}} />
 
         <form>
           <label>
@@ -48,7 +46,7 @@ function App() {
         <Video videoUrl={videoUrl} />
 
         <Switch>
-          <Route exact path="/" render={authCheck.bind(this, EditControls)} />
+          <Route exact path="/" render={authCheck.bind(this, null, EditControls)} />
         </Switch>
       </div>
     </Router>
