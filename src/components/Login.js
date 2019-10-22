@@ -10,8 +10,6 @@ class Login extends React.Component {
     console.log({ accessToken: id_token });
     //anything else you want to do(save to localStorage)...
 
-    debugger;
-
     /* I commented out the below line because it wasn't working*/
     su_bound(googleUser);
   }
