@@ -16,6 +16,7 @@ function App() {
   const [googleUser, setGoogleUser] = useState(null);
 
   const loggedIn = () => {
+    debugger;
     if (googleUser) {
       return googleUser.isSignedIn();
     }
@@ -23,13 +24,14 @@ function App() {
   };
 
   const authCheck = (props, Component) => {
+    debugger;
     return loggedIn() ? <Component {...props} /> : <Header />;
   };
 
   return (
     <Router>
       <div className="App">
-        <Login setUser={setGoogleUser} />
+        <Login setUser={(val, val2, val3, val4) => {debugger; setGoogleUser(val)}} />
 
         <form>
           <label>
