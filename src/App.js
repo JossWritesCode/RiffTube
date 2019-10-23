@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import Video from './components/Video.js';
 import Login from './components/Login.js';
-import Header from './components/Header.js';
 import EditControls from './components/EditControls.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -22,14 +21,13 @@ function App() {
     return false;
   };
 
-  const authCheck = (props, Component) => {
-    return loggedIn() ? <Component {...props} /> : <Header />;
+  const authCheck = (props, Component, props2, DefaultComponent) => {
+    return loggedIn() ? <Component {...props} /> : <DefaultComponent {...props2} />;
   };
 
   return (
     <Router>
       <div className="App">
-        <Login setUser={(val) => {setGoogleUser(val)}} />
 
         <form>
           <label>
@@ -46,7 +44,7 @@ function App() {
         <Video videoUrl={videoUrl} />
 
         <Switch>
-          <Route exact path="/" render={authCheck.bind(this, null, EditControls)} />
+          <Route exact path="/" render={authCheck.bind(this, {}, EditControls, {setUser: (val => {setGoogleUser(val)})}, Login )} />
         </Switch>
       </div>
     </Router>
