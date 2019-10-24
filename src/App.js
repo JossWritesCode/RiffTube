@@ -1,33 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import Video from './components/Video.js';
 import Login from './components/Login.js';
 import EditControls from './components/EditControls.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-/*youtube api key: AIzaSyBxBTDucXDQ5l6yzWTa5sO3RkEY_5LmBtU  */
-function App() {
-  const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
-
-  const handleChange = event => {
-    setVideoUrl(event.target.value);
-  };
-
-  const [googleUser, setGoogleUser] = useState(null);
-
+function App(props) {
   const loggedIn = () => {
-    if (googleUser) {
-      return googleUser.isSignedIn();
+    if (props.googleUser) {
+      return props.googleUser.isSignedIn();
     }
     return false;
   };
 
-  const authCheck = (props, Component, props2, DefaultComponent) => {
-    return loggedIn() ? (
-      <Component {...props} />
-    ) : (
-      <DefaultComponent {...props2} />
-    );
+  const authCheck = (Component, DefaultComponent) => {
+    return loggedIn() ? <Component /> : <DefaultComponent />;
   };
 
   return (
@@ -36,32 +24,17 @@ function App() {
         <form>
           <label>
             Your Youtube Video:
-            <input
-              type="text"
-              name="videoUrl"
-              value={videoUrl}
-              onChange={event => handleChange(event)}
-            />
+            <input type="text" name="videoUrl" value={props.videoID} />
           </label>
         </form>
 
-        <Video videoUrl={videoUrl} />
+        <Video />
 
         <Switch>
           <Route
             exact
             path="/"
-            render={authCheck.bind(
-              this,
-              {},
-              EditControls,
-              {
-                setUser: val => {
-                  setGoogleUser(val);
-                }
-              },
-              Login
-            )}
+            render={authCheck.bind(this, EditControls, Login)}
           />
         </Switch>
       </div>
@@ -69,4 +42,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  videoID: state.videoID,
+  googleUser: state.googleUser
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(App);
