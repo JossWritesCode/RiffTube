@@ -5,6 +5,7 @@ import Login from './components/Login.js';
 import EditControls from './components/EditControls.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+/*youtube api key: AIzaSyBxBTDucXDQ5l6yzWTa5sO3RkEY_5LmBtU  */
 function App() {
   const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
 
@@ -22,13 +23,16 @@ function App() {
   };
 
   const authCheck = (props, Component, props2, DefaultComponent) => {
-    return loggedIn() ? <Component {...props} /> : <DefaultComponent {...props2} />;
+    return loggedIn() ? (
+      <Component {...props} />
+    ) : (
+      <DefaultComponent {...props2} />
+    );
   };
 
   return (
     <Router>
       <div className="App">
-
         <form>
           <label>
             Your Youtube Video:
@@ -44,7 +48,21 @@ function App() {
         <Video videoUrl={videoUrl} />
 
         <Switch>
-          <Route exact path="/" render={authCheck.bind(this, {}, EditControls, {setUser: (val => {setGoogleUser(val)})}, Login )} />
+          <Route
+            exact
+            path="/"
+            render={authCheck.bind(
+              this,
+              {},
+              EditControls,
+              {
+                setUser: val => {
+                  setGoogleUser(val);
+                }
+              },
+              Login
+            )}
+          />
         </Switch>
       </div>
     </Router>
