@@ -1,7 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login-component';
+import { setGoogleUser } from '../actions';
 
-class Login extends React.Component {
+class Login extends React.Component
+{
+  /*
   responseGoogle(su_bound, googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     var googleId = googleUser.getId();
@@ -10,9 +14,10 @@ class Login extends React.Component {
     console.log({ accessToken: id_token });
     //anything else you want to do(save to localStorage)...
 
-    /* I commented out the below line because it wasn't working*/
+    // I commented out the below line because it wasn't working
     su_bound(googleUser);
   }
+  */
 
   render() {
     return (
@@ -22,7 +27,7 @@ class Login extends React.Component {
           className="google-login"
           scope="profile"
           fetchBasicProfile={false}
-          responseHandler={this.responseGoogle.bind(null, this.props.setUser)}
+          responseHandler={this.props.googleResponse}
           buttonText="Login With Google"
         />
       </div>
@@ -30,4 +35,11 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  googleResponse: guser => { dispatch( setGoogleUser( guser ) ); }
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);
