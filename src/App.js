@@ -44,7 +44,12 @@ function App(props)
   );
 }
 
-const mapStateToProps = state => ({ videoID: state.videoID, googleUser: state.googleUser });
+const mapStateToProps = state => (
+  {
+    videoID: state.videoID,
+    googleUser: state.googleUser
+  }
+);
 
 export default connect(
   mapStateToProps,

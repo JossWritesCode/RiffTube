@@ -14,12 +14,13 @@ export default (state = initialState, action) =>
         switch (action.type)
         {
             case GOOGLE_USER_SIGNIN:
-                debugger;
-                return {
-                    ...state,
-                    googleUser: action.payload
-                };
+                return (
+                    {
+                        ...state,
+                        googleUser: action.payload
+                    }
+                );
             default:
-            return state;
+                return state;
         }
     };
