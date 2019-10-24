@@ -1,7 +1,8 @@
 import React from 'react';
+import Record from './Record.js';
 
 function EditControls() {
-  return <h1>signed inNN</h1>;
+  return <Record />;
 }
 
 export default EditControls;
