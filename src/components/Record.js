@@ -21,10 +21,6 @@ function Record(props)
 
                     mr.onstop = e =>
                     {
-                        console.log("data available after MediaRecorder.stop() called.");
-
-                        debugger;
-
                         var blob = new Blob( window.chunks, { 'type' : 'audio/webm;codecs=opus' }) ;
                         var audioURL = URL.createObjectURL(blob);
 
@@ -32,8 +28,6 @@ function Record(props)
                         audio.controls = false;
                         audio.src = audioURL;
                         audio.play();
-
-                        console.log("recorder stopped");
                     }
                 
                     setMediaRecorder( mr );
