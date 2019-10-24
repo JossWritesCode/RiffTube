@@ -5,20 +5,6 @@ import { setGoogleUser } from '../actions';
 
 class Login extends React.Component
 {
-  /*
-  responseGoogle(su_bound, googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    var googleId = googleUser.getId();
-
-    console.log({ googleId });
-    console.log({ accessToken: id_token });
-    //anything else you want to do(save to localStorage)...
-
-    // I commented out the below line because it wasn't working
-    su_bound(googleUser);
-  }
-  */
-
   render() {
     return (
       <div>
