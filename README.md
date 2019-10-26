@@ -1,4 +1,4 @@
-# Project Title
+# RiffTube
 
 RiffTube is a toolkit for riffing any video on YouTube.
 
