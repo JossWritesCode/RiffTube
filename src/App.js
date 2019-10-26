@@ -42,21 +42,12 @@ function App(props) {
   );
 }
 
-<<<<<<< HEAD
-const mapStateToProps = state => ({
-  videoID: state.videoID,
-  googleUser: state.googleUser
-});
-||||||| merged common ancestors
-const mapStateToProps = state => ({ videoID: state.videoID, googleUser: state.googleUser });
-=======
 const mapStateToProps = state => (
   {
     videoID: state.videoID,
     googleUser: state.googleUser
   }
 );
->>>>>>> 1588a023a56cb7d6138b7440187e6d8ad223874f
 
 export default connect(
   mapStateToProps,
