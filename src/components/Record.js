@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Record(props)
+function Record()
 {
     const [mediaRecorder, setMediaRecorder] = useState( null );
     const [recordingState, setRecordingState] = useState( false );
@@ -32,11 +32,14 @@ function Record(props)
                 
                     setMediaRecorder( mr );
                 }
+            )
+            .catch( err =>
+                console.log('Error', err)
             );
         }
     }, [] );
   
-    var ret;
+    var ret; // var for the value to be returned
 
     if (navigator.mediaDevices &&  mediaRecorder)
     {
@@ -59,6 +62,8 @@ function Record(props)
             );
         }
     }
+    else if (navigator.mediaDevices && !mediaRecorder)
+        ret = <span>mediaRecorder failed to initialize</span>;
     else
         ret = <span>navigator.mediaDevices not supported. sorry.</span>;
 
