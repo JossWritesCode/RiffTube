@@ -1,9 +1,11 @@
-<<<<<<< HEAD
-import { GOOGLE_USER_SIGNIN } from '../actions';
-
+import
+{
+    GOOGLE_USER_SIGNIN
+} from '../actions';
+  
 const initialState = {
-  videoID: 'tgbNymZ7vqY',
-  googleUser: null
+    videoID: "tgbNymZ7vqY",
+    googleUser: null
 };
 
 export default (state = initialState, action) =>
@@ -21,12 +23,3 @@ export default (state = initialState, action) =>
                 return state;
         }
     };
-=======
-import { combineReducers } from 'redux'
-import googleUser from './googleUser'
-
-export default combineReducers({
-    googleUser
-})
-
->>>>>>> working
