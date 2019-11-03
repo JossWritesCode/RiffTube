@@ -1,0 +1,28 @@
+{
+  "name": "rifftube-backend",
+  "version": "1.0.0",
+  "description": "RiffTube backend",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joscelyn1/RiffTube.git"
+  },
+  "keywords": [],
+  "author": "Joscelyn and David",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Joscelyn1/RiffTube/issues"
+  },
+  "homepage": "https://github.com/Joscelyn1/RiffTube/blob/master/README.md",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.19.3",
+    "sqlite3": "^4.1.0"
+  }
+}
