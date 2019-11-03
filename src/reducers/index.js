@@ -1,12 +1,8 @@
+import { GOOGLE_USER_SIGNIN } from '../actions';
 
-import
-{
-    GOOGLE_USER_SIGNIN
-} from '../actions';
-  
 const initialState = {
-    videoID: "tgbNymZ7vqY",
-    googleUser: null
+  videoID: 'tgbNymZ7vqY',
+  googleUser: null
 };
 
 export default (state = initialState, action) =>
