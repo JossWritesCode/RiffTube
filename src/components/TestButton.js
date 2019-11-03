@@ -1,44 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { sendGoogleToken } from '../actions';
 
-function TestButton()
+class TestButton extends React.Component
 {
-    const [scribing, setScribing] = useState( false );
-  
-    var ret; // var for the value to be returned
-
-    if ( !scribing )
-    {
-        ret = (
+    render() {
+        return (
             <button
-                id="scribeBtn"
-                onClick={ () => { setScribing(true); } }
-            >scribe</button>
+                id="test-post-button"
+                onClick={ () => { this.props.sendGoogleToken(this.props.googleUser.getAuthResponse().id_token); } }
+            >test verify token</button>
         );
     }
-    else
-    {
-        ret = (
-            <div>
-                <input
-                    id="scribeInput"
-                ></input>
-                <button
-                    id="scribeBtn"
-                    onClick={ () => { setScribing(false); } }
-                >done</button>
-                <button
-                    id="scribeBtn"
-                    onClick={ () => { setScribing(false); } }
-                >cancel</button>
-            </div>
-        );
-    }
-
-    return ret;
 }
 
+const mapStateToProps = state => (
+  {
+    googleUser: state.googleUser
+  }
+);
+
+const mapDispatchToProps =
+  {
+    sendGoogleToken
+  };
+
 export default connect(
-    null,
-    null
+    mapStateToProps,
+    mapDispatchToProps
   )(TestButton);  

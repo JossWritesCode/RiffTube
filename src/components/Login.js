@@ -13,7 +13,7 @@ class Login extends React.Component
           className="google-login"
           scope="profile"
           fetchBasicProfile={false}
-          responseHandler={this.props.googleResponse}
+          responseHandler={this.props.setGoogleUser}
           buttonText="Login With Google"
         />
       </div>
@@ -23,7 +23,7 @@ class Login extends React.Component
 
 const mapDispatchToProps =
   {
-    googleResponse: setGoogleUser
+    setGoogleUser
   };
 
 export default connect(
