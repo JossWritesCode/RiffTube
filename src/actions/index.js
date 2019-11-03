@@ -45,8 +45,7 @@ export const setGoogleUser = googleUser => ({
     payload: googleUser
   })
 
-export const addRiff = () => ({
+export const addRiff = type => ({
     type: ADD_RIFF,
-    payload: null
-})
->>>>>>> working
+    payload: type
+})>>>>>>> working
