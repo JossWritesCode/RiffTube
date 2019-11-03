@@ -21,9 +21,10 @@ class Login extends React.Component
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  googleResponse: guser => { dispatch( setGoogleUser( guser ) ); }
-})
+const mapDispatchToProps =
+  {
+    googleResponse: setGoogleUser
+  };
 
 export default connect(
   null,
