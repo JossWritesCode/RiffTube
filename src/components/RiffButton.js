@@ -1,20 +1,20 @@
 import React from 'react';
 
-class Login extends React.Component
+class RiffButton extends React.Component
 {
     render()
     {
         return (
             <button
                     id={ this.props.id }
-                    onClick={ this.props.addRiff }
+                    onClick={ this.props.createTemp }
                 >{this.props.type}</button>
         );
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    addRiff: () => { dispatch( addRiff( ownProps.type ) ); }
+    createTemp: () => { dispatch( createTemp( ownProps.type ) ); }
   })
   
   export default connect(
