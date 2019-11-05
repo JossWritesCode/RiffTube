@@ -1,3 +1,5 @@
+import React from 'react';
+import { connect } from 'react-redux'
 import
 {
     setPlayerMode,
@@ -16,7 +18,7 @@ class YouTubeVideo extends React.Component {
   componentDidMount = () => {
     // On mount, check to see if the API script is already loaded
 
-    if (!window.YT)  // If not, load the script asynchronously
+    if (!window.YT || !window.YT.Player)  // If not, load the script asynchronously
     {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
@@ -65,13 +67,18 @@ class YouTubeVideo extends React.Component {
         */
 
         // the following conditional leaves out some 'else's that should never occur
-    
+
+        console.log( "state change", data );
+        console.log( "cur mode", this.props.mode )
+
         if ( data == 1 ) // playing
         {
             if ( this.props.mode == PAUSE_MODE )
             {
                 // change mode state
                 this.props.setPlayerMode( PLAY_MODE );
+
+                console.log( "paused to play" );
             }
         }
         else // not playing
@@ -80,46 +87,42 @@ class YouTubeVideo extends React.Component {
             {
                 // cahnge mode state
                 this.props.setPlayerMode( PAUSE_MODE );
+
+                console.log( "play to paused" );
             }
         }
   }
 
-shouldComponentUpdate = nextProps =>
+componentDidUpdate = prevProps =>
 {
-    // is this wrong to do? maybe, but this is an odd use case
-    
-    if ( this.props.mode != nextProps.mode )
+    console.log( "compdidupdate", this, prevProps );
+
+    if ( this.props.mode != prevProps.mode )
     {
         if
         (
             (
-                nextProps.mode == EDIT_MODE ||
-                nextProps.mode == EDIT_NEW_MODE ||
-                nextProps.mode == PAUSE_MODE
+                this.props.mode == EDIT_MODE ||
+                this.props.mode == EDIT_NEW_MODE ||
+                this.props.mode == PAUSE_MODE
             ) &&
             this.player.getPlayerState() != 2
         )
         {
             this.player.pauseVideo();
         }
-        else if ( nextProps.mode == PLAY_MODE && this.player.getPlayerState() == 1 )
+        else if ( this.props.mode == PLAY_MODE && this.player.getPlayerState() != 1 )
         {
-            this.player.pauseVideo();
+            this.player.playVideo();
         }
     }
-
-    if ( this.props.id == nextProps.id )
-        return false;
-
-    return true;
 }
-
 
   render = () => {
     const { id } = this.props;
     return (
-      <div className={classes.container}>
-        <div id={`youtube-player-${id}`} className={classes.video} />
+      <div /*className={classes.container}*/>
+        <div id='rifftube-player' /*className={classes.video}*/ />
       </div>
     );
   };

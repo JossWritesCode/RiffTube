@@ -5,6 +5,7 @@ import
     CREATE_TEMP_AUDIO_RIFF,
     CREATE_TEMP_TEXT_RIFF,
     CANCEL_TEMP_RIFF,
+    SET_PLAYER_MODE,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -18,7 +19,8 @@ let initialState =
         googleUser: null,
         riffs: [],
         tempRiff: null,
-        mode: PAUSE_MODE
+        mode: PAUSE_MODE,
+        videoID: "PcT-xjnHCLA"
     };
 
 export default (state = initialState, action) =>
@@ -65,7 +67,15 @@ export default (state = initialState, action) =>
                         mode: PAUSE_MODE
                     }
                 );
+            case SET_PLAYER_MODE:
+                    return (
+                        {
+                            ...state,
+                            mode: action.payload
+                        }
+                    );
             default:
+                console.log( "uncaught action!" );
                 return state;
         }
     };
