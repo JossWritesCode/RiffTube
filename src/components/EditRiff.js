@@ -54,9 +54,9 @@ class EditRiff extends React.Component
                         </div>
                     :
                         <div>
-                            <textarea id="riff-edit-field"></textarea>
+                            <textarea id="riff-edit-field">{this.props.tempRiff.payload}</textarea>
                             <div>
-                                Duration: <input id="riff-duration-field" />
+                                Duration: <input id="riff-duration-field" value={this.props.tempRiff.duration} />
                             </div>
                             <button
                                 onClick={ () =>
