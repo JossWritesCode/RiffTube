@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import Video from './components/Video.js';
+import YouTubeVideo from './components/YouTubeVideo.js';
 import Login from './components/Login.js';
 import EditControls from './components/EditControls.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -28,7 +28,7 @@ function App(props) {
           </label>
         </form>
 
-        <Video />
+        <YouTubeVideo />
 
         <Switch>
           <Route
