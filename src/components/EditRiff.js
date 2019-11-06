@@ -41,7 +41,7 @@ class EditRiff extends React.Component
                                     null
                             }
                             <button
-                                disabled={!this.props.tempAudio}
+                                disabled={ !this.props.tempAudio }
                                 onClick={
                                     this.props.saveRiff.bind( null,
                                         {

@@ -39,7 +39,7 @@ export default (state = initialState, action) =>
                 return (
                     {
                         ...state,
-                        tempRiff: { type: 'audio' },
+                        tempRiff: { type: 'audio', time: window.rifftubePlayer.getCurrentTime() },
                         mode: EDIT_NEW_MODE
                     }
                 );
@@ -47,7 +47,7 @@ export default (state = initialState, action) =>
                     return (
                         {
                             ...state,
-                            tempRiff: { type: 'text' },
+                            tempRiff: { type: 'text', time: window.rifftubePlayer.getCurrentTime() },
                             mode: EDIT_NEW_MODE
                         }
                     );
