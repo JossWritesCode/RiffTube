@@ -22,7 +22,7 @@ let initialState =
         riffs: [],
         tempRiff: null,
         mode: PAUSE_MODE,
-        videoID: "PcT-xjnHCLA"
+        videoID: "8N_tupPBtWQ"
     };
 
 export default (state = initialState, action) =>
