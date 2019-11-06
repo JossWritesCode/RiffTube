@@ -13,6 +13,8 @@ export const CREATE_TEMP_TEXT_RIFF = 'CREATE_TEMP_TEXT_RIFF';
 export const CANCEL_TEMP_RIFF = 'CANCEL_TEMP_RIFF';
 export const SAVE_RIFF = 'SAVE_RIFF';
 
+export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
+
 export const EDIT_MODE = 'EDIT_MODE';
 export const EDIT_NEW_MODE = 'EDIT_NEW_MODE';
 export const PLAY_MODE = 'PLAY_MODE';
@@ -38,6 +40,14 @@ export const saveRiff = payload => (
         payload
     }
 );
+
+export const saveTempAudio = payload => (
+    {
+        type: SAVE_TEMP_AUDIO,
+        payload
+    }
+);
+
 export const sendGoogleToken = token => {
     return dispatch => {
         dispatch({ type: SEND_ACCESS_TOKEN });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Record from './Record.js';
 import
 {
     saveRiff,
@@ -19,20 +20,33 @@ class EditRiff extends React.Component
             <div>
                 {
                     this.props.tempRiff.type == 'audio' ?
-                        <span>audio</span> :
-                        <span>visual</span>
+                        <div>
+                            <Record />
+                            <button
+                                onClick={
+                                    this.props.saveRiff.bind( null,
+                                        {
+                                            payload: 42
+                                        }
+                                    )
+                                }>Save</button>
+                        </div> :
+                        <div>
+                            <textarea id="riff-edit-field"></textarea>
+                            <button
+                                onClick={ () =>
+                                    {
+                                        //debugger;
+                                        this.props.saveRiff(
+                                            {
+                                                payload: document.querySelector( "#riff-edit-field" ).innerHTML
+                                            }
+                                        )
+                                    }
+                                }>Save</button>
+                        </div>
                 }
 
-                <button
-                    onClick={
-                        this.props.saveRiff.bind( null,
-                            {
-                                test: 42
-                            }
-                        )
-                    }>
-                    Save
-                </button>
             </div>
         );
     }

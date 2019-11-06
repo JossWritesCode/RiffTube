@@ -6,6 +6,7 @@ import
     CREATE_TEMP_TEXT_RIFF,
     CANCEL_TEMP_RIFF,
     SET_PLAYER_MODE,
+    SAVE_TEMP_AUDIO,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -63,6 +64,13 @@ export default (state = initialState, action) =>
                     {
                         ...state,
                         mode: action.payload
+                    }
+                );
+            case SAVE_TEMP_AUDIO:
+                return (
+                    {
+                        ...state,
+                        tempAudio: action.payload
                     }
                 );
             case SAVE_RIFF:

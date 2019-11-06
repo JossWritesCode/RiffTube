@@ -95,7 +95,7 @@ class YouTubeVideo extends React.Component {
 
 componentDidUpdate = prevProps =>
 {
-    console.log( "compdidupdate", this, prevProps );
+    console.log( "compdidupdate", this.props, prevProps );
     
     if ( this.props.mode != prevProps.mode )
     {

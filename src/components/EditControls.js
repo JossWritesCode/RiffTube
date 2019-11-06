@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Record from './Record.js';
-import Scribe from './Scribe.js';
 import TestButton from './TestButton.js';
 import RiffList from './RiffList.js';
 import EditRiff from './EditRiff.js';
@@ -20,9 +19,9 @@ function EditControls(props) {
     <div>
       <div>
         <RiffButton type="audio" />
+        <RiffButton type="text" />
         ||
         <Record />
-        <Scribe />
         <TestButton />
         {
           props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE ?
