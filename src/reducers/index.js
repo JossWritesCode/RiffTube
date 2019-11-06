@@ -4,9 +4,9 @@ import
     SAVE_RIFF,
     CREATE_TEMP_AUDIO_RIFF,
     CREATE_TEMP_TEXT_RIFF,
-    CANCEL_TEMP_RIFF,
     SET_PLAYER_MODE,
     SAVE_TEMP_AUDIO,
+    CANCEL_EDIT,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -51,14 +51,6 @@ export default (state = initialState, action) =>
                             mode: EDIT_NEW_MODE
                         }
                     );
-            case CANCEL_TEMP_RIFF:
-                return (
-                    {
-                        ...state,
-                        tempRiff: null,
-                        mode: PAUSE_MODE
-                    }
-                );
             case SET_PLAYER_MODE:
                 return (
                     {
@@ -71,6 +63,16 @@ export default (state = initialState, action) =>
                     {
                         ...state,
                         tempAudio: action.payload
+                    }
+                );
+            case CANCEL_EDIT:
+                return (
+                    {
+                        ...state,
+                        tempAudio: null,
+                        tempRiff: null,
+                        editIndex: null,
+                        mode: PAUSE_MODE
                     }
                 );
             case SAVE_RIFF:

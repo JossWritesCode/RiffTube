@@ -10,7 +10,7 @@ export const SEND_ACCESS_TOKEN_FAILURE = 'SEND_ACCESS_TOKEN_FAILURE';
 export const CREATE_TEMP_AUDIO_RIFF = 'CREATE_TEMP_AUDIO_RIFF';
 export const CREATE_TEMP_TEXT_RIFF = 'CREATE_TEMP_TEXT_RIFF';
 
-export const CANCEL_TEMP_RIFF = 'CANCEL_TEMP_RIFF';
+export const CANCEL_EDIT = 'CANCEL_EDIT';
 export const SAVE_RIFF = 'SAVE_RIFF';
 
 export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
@@ -45,6 +45,12 @@ export const saveTempAudio = payload => (
     {
         type: SAVE_TEMP_AUDIO,
         payload
+    }
+);
+
+export const cancelEdit = () => (
+    {
+        type: CANCEL_EDIT
     }
 );
 

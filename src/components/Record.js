@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Record()
+function Record(props)
 {
     const [mediaRecorder, setMediaRecorder] = useState( null );
     const [recordingState, setRecordingState] = useState( false );
@@ -24,10 +24,7 @@ function Record()
                         var blob = new Blob( window.chunks, { 'type' : 'audio/webm' }) ; // was 'audio/webm;codecs=opus'
                         var audioURL = URL.createObjectURL(blob);
 
-                        var audio = document.createElement('audio');
-                        audio.controls = false;
-                        audio.src = audioURL;
-                        audio.play();
+                        props.saveTempAudio( audioURL );
                     }
                 
                     setMediaRecorder( mr );

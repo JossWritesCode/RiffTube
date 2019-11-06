@@ -5,6 +5,8 @@ import
 {
     saveRiff,
     setPlayerMode,
+    saveTempAudio,
+    cancelEdit,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -19,24 +21,41 @@ class EditRiff extends React.Component
         return (
             <div>
                 {
-                    this.props.tempRiff.type == 'audio' ?
+                    this.props.tempRiff.type == 'audio'
+                    ?
                         <div>
-                            <Record />
+                            <Record saveTempAudio={this.props.saveTempAudio} />
+                            {
+                                this.props.tempAudio
+                                ?
+                                    <button
+                                        onClick={ () =>
+                                            {
+                                                var audio = document.createElement('audio');
+                                                audio.controls = false;
+                                                audio.src = this.props.tempAudio;
+                                                audio.play();
+                                            }
+                                        }>Play</button>
+                                :
+                                    null
+                            }
                             <button
+                                disabled={!this.props.tempAudio}
                                 onClick={
                                     this.props.saveRiff.bind( null,
                                         {
-                                            payload: 42
+                                            payload: this.props.tempAudio
                                         }
                                     )
                                 }>Save</button>
-                        </div> :
+                        </div>
+                    :
                         <div>
                             <textarea id="riff-edit-field"></textarea>
                             <button
                                 onClick={ () =>
                                     {
-                                        //debugger;
                                         this.props.saveRiff(
                                             {
                                                 payload: document.querySelector( "#riff-edit-field" ).innerHTML
@@ -47,6 +66,13 @@ class EditRiff extends React.Component
                         </div>
                 }
 
+                <button
+                    onClick={ () =>
+                        {
+                            this.props.cancelEdit();
+                        }
+                    }>Cancel</button>
+
             </div>
         );
     }
@@ -55,14 +81,17 @@ class EditRiff extends React.Component
 const mapStateToProps = state => (
     {
         mode: state.mode,
-        tempRiff: state.tempRiff
+        tempRiff: state.tempRiff,
+        tempAudio: state.tempAudio
     }
 );
 
 const mapDispatchToProps =
   {
     setPlayerMode,
-    saveRiff
+    saveRiff,
+    saveTempAudio,
+    cancelEdit
   };
 
 export default connect(
