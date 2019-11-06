@@ -21,7 +21,6 @@ function EditControls(props) {
         <RiffButton type="audio" />
         <RiffButton type="text" />
         ||
-        <Record />
         <TestButton />
         {
           props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE ?

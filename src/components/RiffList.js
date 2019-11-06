@@ -7,8 +7,8 @@ function RiffList(props) {
     <div>
         {
             props.riffs ?
-                props.riffs.map(riff => (
-                    <RiffDetail {...riff} />
+                props.riffs.map( (riff, index) => (
+                    <RiffDetail {...riff} index={index} />
                 )) :
                     null
         }

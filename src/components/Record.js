@@ -38,9 +38,9 @@ function Record(props)
   
     var ret; // var for the value to be returned
 
-    if (navigator.mediaDevices &&  mediaRecorder)
+    if (navigator.mediaDevices && mediaRecorder)
     {
-        if (!recordingState )
+        if ( !recordingState )
         {
             ret = (
                 <button
