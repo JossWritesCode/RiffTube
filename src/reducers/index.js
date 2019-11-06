@@ -7,6 +7,7 @@ import
     SET_PLAYER_MODE,
     SAVE_TEMP_AUDIO,
     CANCEL_EDIT,
+    EDIT_RIFF,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -21,7 +22,7 @@ let initialState =
         riffs: [],
         tempRiff: null,
         mode: PAUSE_MODE,
-        videoID: "PcT-xjnHCLA"
+        videoID: "8N_tupPBtWQ"
     };
 
 export default (state = initialState, action) =>
@@ -44,13 +45,22 @@ export default (state = initialState, action) =>
                     }
                 );
             case CREATE_TEMP_TEXT_RIFF:
-                    return (
-                        {
-                            ...state,
-                            tempRiff: { type: 'text', time: window.rifftubePlayer.getCurrentTime() },
-                            mode: EDIT_NEW_MODE
-                        }
-                    );
+                return (
+                    {
+                        ...state,
+                        tempRiff: { type: 'text', time: window.rifftubePlayer.getCurrentTime() },
+                        mode: EDIT_NEW_MODE
+                    }
+                );
+            case EDIT_RIFF:
+                return (
+                    {
+                        ...state,
+                        tempRiff: { ...state.riffs[ action.payload ] }, // copy specified riff to tempRiff
+                        editIndex: action.payload,
+                        mode: EDIT_MODE
+                    }
+                );
             case SET_PLAYER_MODE:
                 return (
                     {
@@ -80,8 +90,8 @@ export default (state = initialState, action) =>
                 let riffs;
                 if ( state.mode == EDIT_NEW_MODE )
                     riffs = [ ...state.riffs, riff ];
-                else
-                { // not yet implemented
+                else // EDIT_MODE
+                {
                     riffs = [ ...state.riffs ];
                     riffs[ state.editIndex ] = riff;
                 }

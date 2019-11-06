@@ -42,23 +42,29 @@ class EditRiff extends React.Component
                             }
                             <button
                                 disabled={ !this.props.tempAudio }
-                                onClick={
-                                    this.props.saveRiff.bind( null,
-                                        {
-                                            payload: this.props.tempAudio
-                                        }
-                                    )
+                                onClick={ () =>
+                                    {
+                                        this.props.saveRiff(
+                                            {
+                                                payload: this.props.tempAudio
+                                            }
+                                        );
+                                    }
                                 }>Save</button>
                         </div>
                     :
                         <div>
-                            <textarea id="riff-edit-field"></textarea>
+                            <textarea id="riff-edit-field">{this.props.tempRiff.payload}</textarea>
+                            <div>
+                                Duration: <input id="riff-duration-field" value={this.props.tempRiff.duration} />
+                            </div>
                             <button
                                 onClick={ () =>
                                     {
                                         this.props.saveRiff(
                                             {
-                                                payload: document.querySelector( "#riff-edit-field" ).innerHTML
+                                                payload: document.querySelector( "#riff-edit-field" ).value,
+                                                duration: document.querySelector( "#riff-duration-field" ).value
                                             }
                                         )
                                     }
