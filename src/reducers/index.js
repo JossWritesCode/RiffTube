@@ -1,7 +1,7 @@
 import
 {
     GOOGLE_USER_SIGNIN,
-    SAVE_TEMP_RIFF,
+    SAVE_RIFF,
     CREATE_TEMP_AUDIO_RIFF,
     CREATE_TEMP_TEXT_RIFF,
     CANCEL_TEMP_RIFF,
@@ -34,15 +34,6 @@ export default (state = initialState, action) =>
                         googleUser: action.payload
                     }
                 );
-            case SAVE_TEMP_RIFF:
-                return (
-                    {
-                        ...state,
-                        riffs: [ ...state.riffs, state.tempRiff ],
-                        tempRiff: null,
-                        mode: PAUSE_MODE
-                    }
-                );
             case CREATE_TEMP_AUDIO_RIFF:
                 return (
                     {
@@ -68,12 +59,31 @@ export default (state = initialState, action) =>
                     }
                 );
             case SET_PLAYER_MODE:
-                    return (
-                        {
-                            ...state,
-                            mode: action.payload
-                        }
-                    );
+                return (
+                    {
+                        ...state,
+                        mode: action.payload
+                    }
+                );
+            case SAVE_RIFF:
+                let riff = { ...state.tempRiff, ...action.payload };
+                let riffs;
+                if ( state.mode == EDIT_NEW_MODE )
+                    riffs = [ ...state.riffs, riff ];
+                else
+                { // not yet implemented
+                    riffs = [ ...state.riffs ];
+                    riffs[ state.editIndex ] = riff;
+                }
+
+                return (
+                    {
+                        ...state,
+                        riffs,
+                        tempRiff: null,
+                        mode: PLAY_MODE // should be an option
+                    }
+                );
             default:
                 console.log( "uncaught action!" );
                 return state;

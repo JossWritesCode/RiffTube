@@ -21,7 +21,7 @@ function Record()
 
                     mr.onstop = e =>
                     {
-                        var blob = new Blob( window.chunks, { 'type' : 'audio/webm;codecs=opus' }) ;
+                        var blob = new Blob( window.chunks, { 'type' : 'audio/webm' }) ; // was 'audio/webm;codecs=opus'
                         var audioURL = URL.createObjectURL(blob);
 
                         var audio = document.createElement('audio');

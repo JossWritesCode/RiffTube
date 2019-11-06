@@ -96,7 +96,7 @@ class YouTubeVideo extends React.Component {
 componentDidUpdate = prevProps =>
 {
     console.log( "compdidupdate", this, prevProps );
-
+    
     if ( this.props.mode != prevProps.mode )
     {
         if
@@ -106,20 +106,21 @@ componentDidUpdate = prevProps =>
                 this.props.mode == EDIT_NEW_MODE ||
                 this.props.mode == PAUSE_MODE
             ) &&
-            this.player.getPlayerState() != 2
+            this.player.getPlayerState() == 1
         )
         {
+            console.log( "pauseVideo" );
             this.player.pauseVideo();
         }
         else if ( this.props.mode == PLAY_MODE && this.player.getPlayerState() != 1 )
         {
+            console.log( "playVideo" );
             this.player.playVideo();
         }
     }
 }
 
   render = () => {
-    const { id } = this.props;
     return (
       <div /*className={classes.container}*/>
         <div id='rifftube-player' /*className={classes.video}*/ />

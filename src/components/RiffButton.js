@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createTempRiff } from '../actions';
 
 class RiffButton extends React.Component
 {
@@ -6,18 +8,18 @@ class RiffButton extends React.Component
     {
         return (
             <button
-                    id={ this.props.id }
-                    onClick={ this.props.createTemp }
+                    onClick={ this.props.createTempRiff.bind( null, this.props.type ) }
                 >{this.props.type}</button>
         );
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    createTemp: () => { dispatch( createTemp( ownProps.type ) ); }
-  })
+const mapDispatchToProps =
+    {
+        createTempRiff
+    };
   
-  export default connect(
+export default connect(
     null,
     mapDispatchToProps
-  )(RiffButton);
+)(RiffButton);
