@@ -13,8 +13,8 @@ function RiffDetail(props) {
             <button onClick={ () => props.editRiff( props.index ) }>
                 Edit
             </button>
+            <span>Riff info: {JSON.stringify(props)}</span>
         </div>
-        <div>Riff info: {JSON.stringify(props)}</div>
     </div>
   );
 }
