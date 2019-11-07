@@ -73,6 +73,45 @@ class YouTubeVideo extends React.Component {
 
         if ( data == 1 ) // playing
         {
+            this.curRiff = null;
+            this.riffInterval = setInterval( () =>
+            {
+                let t = window.rifftubePlayer.getCurrentTime();
+
+                /*
+                if ( this.curRiff != null )
+                    console.log( "fuck", t, this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration * 1000 );
+
+                if ( this.curRiff != null )
+                    console.log( `cur riff #${this.curRiff} @ ${t - (this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration)} / ${t} - ${this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration}` );
+                */
+               
+                if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
+                {
+                    console.log( "curRiff null" );
+                    this.curRiff = null;
+                }
+                
+                if ( this.curRiff === null )
+                {
+                    //debugger;
+                    for ( let i = 0; i < this.props.riffs.length; i++ )
+                    {
+                        //if ( ! this.props.riffs[ i ] )
+                        //    debugger;
+
+                        if ( t > this.props.riffs[ i ].time && t < this.props.riffs[ i ].time + 0.5 )
+                        {
+                            //debugger;
+                            console.log( `riff #${i} @ ${t - this.props.riffs[ i ].time}, ${t} - ${this.props.riffs[ i ].time}` );
+                            this.curRiff = i;
+                            //break;
+                        }
+                    }
+                }
+            },
+            100 ); // 100/1000 = 1/10 s
+
             if ( this.props.mode == PAUSE_MODE )
             {
                 // change mode state
@@ -131,7 +170,8 @@ componentDidUpdate = prevProps =>
 
 const mapStateToProps = state => ({
   id: state.videoID,
-  mode: state.mode
+  mode: state.mode,
+  riffs: state.riffs
 });
 
 const mapDispatchToProps =
