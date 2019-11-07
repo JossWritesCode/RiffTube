@@ -63,7 +63,7 @@ class EditRiff extends React.Component
                                     {
                                         this.props.saveRiff(
                                             {
-                                                payload: Number( document.querySelector( "#riff-edit-field" ).value ),
+                                                payload: document.querySelector( "#riff-edit-field" ).value,
                                                 duration: Number( document.querySelector( "#riff-duration-field" ).value )
                                             }
                                         )

@@ -8,6 +8,8 @@ import
     SAVE_TEMP_AUDIO,
     CANCEL_EDIT,
     EDIT_RIFF,
+    SET_RIFF_NOT_PLAYING,
+    SET_RIFF_PLAYING,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -22,7 +24,8 @@ let initialState =
         riffs: [],
         tempRiff: null,
         mode: PAUSE_MODE,
-        videoID: "8N_tupPBtWQ"
+        videoID: "8N_tupPBtWQ",
+        riffsPlaying: {}
     };
 
 export default (state = initialState, action) =>
@@ -83,6 +86,28 @@ export default (state = initialState, action) =>
                         tempRiff: null,
                         editIndex: null,
                         mode: PAUSE_MODE
+                    }
+                );
+            case SET_RIFF_PLAYING:
+                return (
+                    {
+                        ...state,
+                        riffsPlaying:
+                        {
+                            ...state.riffsPlaying,
+                            [action.payload]: true
+                        }
+                    }
+                );
+            case SET_RIFF_NOT_PLAYING:
+                return (
+                    {
+                        ...state,
+                        riffsPlaying:
+                        {
+                            ...state.riffsPlaying,
+                            [action.payload]: false
+                        }
                     }
                 );
             case SAVE_RIFF:

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const GOOGLE_USER_SIGNIN = 'GOOGLE_USER_SIGNIN';
-export const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
 
 export const SEND_ACCESS_TOKEN = 'SEND_ACCESS_TOKEN';
 export const SEND_ACCESS_TOKEN_SUCCESS = 'SEND_ACCESS_TOKEN_SUCCESS';
@@ -17,6 +16,10 @@ export const SAVE_RIFF = 'SAVE_RIFF';
 
 export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
 
+export const SET_RIFF_PLAYING = 'SET_RIFF_PLAYING';
+export const SET_RIFF_NOT_PLAYING = 'SET_RIFF_NOT_PLAYING';
+
+export const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
 export const EDIT_MODE = 'EDIT_MODE';
 export const EDIT_NEW_MODE = 'EDIT_NEW_MODE';
 export const PLAY_MODE = 'PLAY_MODE';
@@ -80,4 +83,9 @@ export const sendGoogleToken = token => {
 
 export const createTempRiff = type => ({
     type: type == 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
+});
+
+export const setRiffPlaying = (index, playing) => ({
+    type: playing ? SET_RIFF_PLAYING : SET_RIFF_NOT_PLAYING,
+    payload: index
 });

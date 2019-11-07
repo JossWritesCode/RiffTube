@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import
 {
     setPlayerMode,
+    setRiffPlaying,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -85,10 +86,11 @@ class YouTubeVideo extends React.Component {
                 if ( this.curRiff != null )
                     console.log( `cur riff #${this.curRiff} @ ${t - (this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration)} / ${t} - ${this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration}` );
                 */
-               
+
                 if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
                 {
                     console.log( "curRiff null" );
+                    this.props.setRiffPlaying( this.curRiff, false );
                     this.curRiff = null;
                 }
                 
@@ -104,7 +106,10 @@ class YouTubeVideo extends React.Component {
                         {
                             //debugger;
                             console.log( `riff #${i} @ ${t - this.props.riffs[ i ].time}, ${t} - ${this.props.riffs[ i ].time}` );
+                            
                             this.curRiff = i;
+                            this.props.setRiffPlaying( i, true );
+
                             //break;
                         }
                     }
@@ -176,7 +181,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps =
   {
-    setPlayerMode
+    setPlayerMode,
+    setRiffPlaying
   };
 
 export default connect(

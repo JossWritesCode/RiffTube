@@ -8,7 +8,7 @@ function RiffList(props) {
         {
             props.riffs ?
                 props.riffs.map( (riff, index) => (
-                    <RiffDetail {...riff} index={index} />
+                    <RiffDetail {...riff} key={index} selected={ props.riffsPlaying[index] === true } />
                 )) :
                     null
         }
@@ -17,7 +17,8 @@ function RiffList(props) {
 }
 
 const mapStateToProps = state => ({
-  riffs: state.riffs
+  riffs: state.riffs,
+  riffsPlaying: state.riffsPlaying
 });
 
 export default connect(
