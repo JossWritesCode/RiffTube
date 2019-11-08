@@ -77,36 +77,54 @@ class YouTubeVideo extends React.Component {
 
         if ( data == 1 ) // playing
         {
-            this.curRiff = null;
+            this.curRiff = {};
+
+            // this timer is responsible for showing and hiding riffs
             this.riffInterval = setInterval( () =>
             {
                 let t = window.rifftubePlayer.getCurrentTime();
 
-                /*
-                if ( this.curRiff != null )
-                    console.log( "fuck", t, this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration * 1000 );
+                // first stop any zombie riffs
+                this.props.riffs.forEach( (riff, index) => 
+                    {
+                        if ( this.curRiff[ index ] && (t < riff.time || t > riff.time + riff.duration) )
+                        {
+                            this.props.setRiffPlaying( index, false );
+                            this.curRiff[ index ] = false;
+                            document.querySelector( '#riff-content' ).innerHTML = '';
+                        }
+                    }
+                );
 
-                if ( this.curRiff != null )
-                    console.log( `cur riff #${this.curRiff} @ ${t - (this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration)} / ${t} - ${this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration}` );
-                */
-
-                if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
+                /*if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
                 {
                     console.log( "curRiff null" );
                     this.props.setRiffPlaying( this.curRiff, false );
                     this.curRiff = null;
 
                     document.querySelector( '#riff-content' ).innerHTML = '';
-                }
+                }*/
+
+                // next start any that should be playing
+                this.props.riffs.forEach( (riff, index) => 
+                    {
+                        // the riff will start playing within half a second, or will be skipped
+                        if ( !this.curRiff[ index ] && t > riff.time && t < riff.time + 0.5 )
+                        {
+                            this.props.setRiffPlaying( index, true );
+                            this.curRiff[ index ] = true;
+
+                            if ( riff.type == 'text' )
+                                document.querySelector( '#riff-content' ).innerHTML = riff.payload;
+                        }
+                    }
+                );
                 
-                if ( this.curRiff === null )
+                /*if ( this.curRiff === null )
                 {
                     //debugger;
                     for ( let i = 0; i < this.props.riffs.length; i++ )
                     {
-                        //if ( ! this.props.riffs[ i ] )
-                        //    debugger;
-
                         if ( t > this.props.riffs[ i ].time && t < this.props.riffs[ i ].time + 0.5 )
                         {
                             //debugger;
@@ -121,7 +139,7 @@ class YouTubeVideo extends React.Component {
                             //break;
                         }
                     }
-                }
+                }*/
             },
             100 ); // 100/1000 = 1/10 s
 
@@ -135,6 +153,9 @@ class YouTubeVideo extends React.Component {
         }
         else // not playing
         {
+            // stop riff-check interval when not playing
+            clearInterval( this.riffInterval );
+
             if ( this.props.mode == PLAY_MODE )
             {
                 // cahnge mode state
@@ -147,8 +168,6 @@ class YouTubeVideo extends React.Component {
 
 componentDidUpdate = prevProps =>
 {
-    console.log( "compdidupdate", this.props, prevProps );
-    
     if ( this.props.mode != prevProps.mode )
     {
         if
@@ -174,9 +193,9 @@ componentDidUpdate = prevProps =>
 
   render = () => {
     return (
-      <div style={ { position: 'relative' } } /*className={classes.container}*/>
-        <div id='rifftube-player' /*className={classes.video}*/ />
-        <div id='riff-holder' style={ { position: 'absolute', width: '100%', height: '340px', lineHeight: '390px', top: 0, textAlign: 'center' } }
+      <div style={ { position: 'relative' } }>
+        <div id='rifftube-player' />
+        <div id='riff-holder' style={ { position: 'absolute', width: '100%', height: '390px', lineHeight: '390px', top: 0, textAlign: 'center', pointerEvents: 'none' } }
             onClick={ () => this.props.togglePlayerMode() }>
             <div id='riff-content' style={ { display: 'inline-block', verticalAlign: 'middle', width: '640px', font: '36pt serif', backgroundColor: 'rgba(255,255,255,33%' } } />
         </div>
@@ -188,7 +207,8 @@ componentDidUpdate = prevProps =>
 const mapStateToProps = state => ({
   id: state.videoID,
   mode: state.mode,
-  riffs: state.riffs
+  riffs: state.riffs,
+  riffsPlaying: state.riffsPlaying
 });
 
 const mapDispatchToProps =
