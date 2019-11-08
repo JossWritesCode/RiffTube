@@ -10,7 +10,7 @@ function RiffDetail(props) {
   return (
     <div className="riff-detail">
         <div style={ { backgroundColor: props.selected ? 'lightpink' : 'white' } }>
-            <button onClick={ () => props.editRiff( props.key ) }>
+            <button onClick={ () => props.editRiff( props.index ) }>
                 Edit
             </button>
             <span>Riff info: {JSON.stringify(props)}</span>

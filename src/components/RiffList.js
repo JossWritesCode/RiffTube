@@ -8,7 +8,7 @@ function RiffList(props) {
         {
             props.riffs ?
                 props.riffs.map( (riff, index) => (
-                    <RiffDetail {...riff} key={index} selected={ props.riffsPlaying[index] === true } />
+                    <RiffDetail {...riff} index={index} selected={ props.riffsPlaying[index] === true } />
                 )) :
                     null
         }
