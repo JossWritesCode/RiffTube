@@ -24,6 +24,7 @@ export const EDIT_MODE = 'EDIT_MODE';
 export const EDIT_NEW_MODE = 'EDIT_NEW_MODE';
 export const PLAY_MODE = 'PLAY_MODE';
 export const PAUSE_MODE = 'PAUSE_MODE';
+export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
 export const setGoogleUser = googleUser => (
     {
@@ -36,6 +37,12 @@ export const setPlayerMode = mode => (
     {
         type: SET_PLAYER_MODE,
         payload: mode
+    }
+);
+
+export const togglePlayerMode = mode => (
+    {
+        type: TOGGLE_PLAYER_MODE
     }
 );
 

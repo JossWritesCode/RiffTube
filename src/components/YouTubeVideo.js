@@ -4,6 +4,7 @@ import
 {
     setPlayerMode,
     setRiffPlaying,
+    togglePlayerMode,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -43,6 +44,8 @@ class YouTubeVideo extends React.Component {
     this.player = new window.YT.Player('rifftube-player',
         {
         videoId: id,
+        height: 390,
+        width: 640,
         events:
             {
                 onReady: this.onPlayerReady,
@@ -92,6 +95,8 @@ class YouTubeVideo extends React.Component {
                     console.log( "curRiff null" );
                     this.props.setRiffPlaying( this.curRiff, false );
                     this.curRiff = null;
+
+                    document.querySelector( '#riff-content' ).innerHTML = '';
                 }
                 
                 if ( this.curRiff === null )
@@ -109,6 +114,9 @@ class YouTubeVideo extends React.Component {
                             
                             this.curRiff = i;
                             this.props.setRiffPlaying( i, true );
+
+                            if ( this.props.riffs[ i ].type == 'text' )
+                                document.querySelector( '#riff-content' ).innerHTML = this.props.riffs[ i ].payload;
 
                             //break;
                         }
@@ -166,8 +174,12 @@ componentDidUpdate = prevProps =>
 
   render = () => {
     return (
-      <div /*className={classes.container}*/>
+      <div style={ { position: 'relative' } } /*className={classes.container}*/>
         <div id='rifftube-player' /*className={classes.video}*/ />
+        <div id='riff-holder' style={ { position: 'absolute', width: '100%', height: '340px', lineHeight: '390px', top: 0, textAlign: 'center' } }
+            onClick={ () => this.props.togglePlayerMode() }>
+            <div id='riff-content' style={ { display: 'inline-block', verticalAlign: 'middle', width: '640px', font: '36pt serif', backgroundColor: 'rgba(255,255,255,33%' } } />
+        </div>
       </div>
     );
   };
@@ -182,7 +194,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps =
   {
     setPlayerMode,
-    setRiffPlaying
+    setRiffPlaying,
+    togglePlayerMode
   };
 
 export default connect(

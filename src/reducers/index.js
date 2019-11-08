@@ -14,7 +14,8 @@ import
     EDIT_MODE,
     EDIT_NEW_MODE,
     PLAY_MODE,
-    PAUSE_MODE
+    PAUSE_MODE,
+    TOGGLE_PLAYER_MODE
 }
 from '../actions';
 
@@ -108,6 +109,13 @@ export default (state = initialState, action) =>
                             ...state.riffsPlaying,
                             [action.payload]: false
                         }
+                    }
+                );
+            case TOGGLE_PLAYER_MODE:
+                return (
+                    {
+                        ...state,
+                        mode: state.mode == PLAY_MODE ? PAUSE_MODE : PLAY_MODE
                     }
                 );
             case SAVE_RIFF:
