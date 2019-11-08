@@ -6,12 +6,7 @@ import
     saveRiff,
     setPlayerMode,
     saveTempAudio,
-    cancelEdit,
-
-    EDIT_MODE,
-    EDIT_NEW_MODE,
-    PLAY_MODE,
-    PAUSE_MODE
+    cancelEdit
 }
 from '../actions';
 
@@ -19,11 +14,12 @@ class EditRiff extends React.Component
 {
     render() {
         return (
-            <div>
+            <div style={ { border: "1px solid black", padding: "1em" } }>
                 {
                     this.props.tempRiff.type == 'audio'
                     ?
-                        <div>
+                        <React.Fragment>
+                            <br />
                             <Record saveTempAudio={this.props.saveTempAudio} />
                             {
                                 this.props.tempAudio
@@ -40,6 +36,7 @@ class EditRiff extends React.Component
                                 :
                                     null
                             }
+                            <br />
                             <button
                                 disabled={ !this.props.tempAudio }
                                 onClick={ () =>
@@ -51,12 +48,15 @@ class EditRiff extends React.Component
                                         );
                                     }
                                 }>Save</button>
-                        </div>
+                        </React.Fragment>
                     :
-                        <div>
+                        <React.Fragment>
+                            <div>
+                            HTML payload:
+                            </div>
                             <textarea id="riff-edit-field">{this.props.tempRiff.payload}</textarea>
                             <div>
-                                Duration: <input id="riff-duration-field" value={this.props.tempRiff.duration} />
+                                Duration: <input id="riff-duration-field" defaultValue={this.props.tempRiff.duration || 2} />
                             </div>
                             <button
                                 onClick={ () =>
@@ -64,12 +64,12 @@ class EditRiff extends React.Component
                                         this.props.saveRiff(
                                             {
                                                 payload: document.querySelector( "#riff-edit-field" ).value,
-                                                duration: document.querySelector( "#riff-duration-field" ).value
+                                                duration: Number( document.querySelector( "#riff-duration-field" ).value )
                                             }
                                         )
                                     }
                                 }>Save</button>
-                        </div>
+                        </React.Fragment>
                 }
 
                 <button

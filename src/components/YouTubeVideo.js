@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import
 {
     setPlayerMode,
+    setRiffPlaying,
+    togglePlayerMode,
 
     EDIT_MODE,
     EDIT_NEW_MODE,
@@ -42,6 +44,8 @@ class YouTubeVideo extends React.Component {
     this.player = new window.YT.Player('rifftube-player',
         {
         videoId: id,
+        height: 390,
+        width: 640,
         events:
             {
                 onReady: this.onPlayerReady,
@@ -73,6 +77,54 @@ class YouTubeVideo extends React.Component {
 
         if ( data == 1 ) // playing
         {
+            this.curRiff = null;
+            this.riffInterval = setInterval( () =>
+            {
+                let t = window.rifftubePlayer.getCurrentTime();
+
+                /*
+                if ( this.curRiff != null )
+                    console.log( "fuck", t, this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration * 1000 );
+
+                if ( this.curRiff != null )
+                    console.log( `cur riff #${this.curRiff} @ ${t - (this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration)} / ${t} - ${this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration}` );
+                */
+
+                if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
+                {
+                    console.log( "curRiff null" );
+                    this.props.setRiffPlaying( this.curRiff, false );
+                    this.curRiff = null;
+
+                    document.querySelector( '#riff-content' ).innerHTML = '';
+                }
+                
+                if ( this.curRiff === null )
+                {
+                    //debugger;
+                    for ( let i = 0; i < this.props.riffs.length; i++ )
+                    {
+                        //if ( ! this.props.riffs[ i ] )
+                        //    debugger;
+
+                        if ( t > this.props.riffs[ i ].time && t < this.props.riffs[ i ].time + 0.5 )
+                        {
+                            //debugger;
+                            console.log( `riff #${i} @ ${t - this.props.riffs[ i ].time}, ${t} - ${this.props.riffs[ i ].time}` );
+                            
+                            this.curRiff = i;
+                            this.props.setRiffPlaying( i, true );
+
+                            if ( this.props.riffs[ i ].type == 'text' )
+                                document.querySelector( '#riff-content' ).innerHTML = this.props.riffs[ i ].payload;
+
+                            //break;
+                        }
+                    }
+                }
+            },
+            100 ); // 100/1000 = 1/10 s
+
             if ( this.props.mode == PAUSE_MODE )
             {
                 // change mode state
@@ -122,8 +174,12 @@ componentDidUpdate = prevProps =>
 
   render = () => {
     return (
-      <div /*className={classes.container}*/>
+      <div style={ { position: 'relative' } } /*className={classes.container}*/>
         <div id='rifftube-player' /*className={classes.video}*/ />
+        <div id='riff-holder' style={ { position: 'absolute', width: '100%', height: '340px', lineHeight: '390px', top: 0, textAlign: 'center' } }
+            onClick={ () => this.props.togglePlayerMode() }>
+            <div id='riff-content' style={ { display: 'inline-block', verticalAlign: 'middle', width: '640px', font: '36pt serif', backgroundColor: 'rgba(255,255,255,33%' } } />
+        </div>
       </div>
     );
   };
@@ -131,12 +187,15 @@ componentDidUpdate = prevProps =>
 
 const mapStateToProps = state => ({
   id: state.videoID,
-  mode: state.mode
+  mode: state.mode,
+  riffs: state.riffs
 });
 
 const mapDispatchToProps =
   {
-    setPlayerMode
+    setPlayerMode,
+    setRiffPlaying,
+    togglePlayerMode
   };
 
 export default connect(

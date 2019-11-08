@@ -9,12 +9,12 @@ from '../actions';
 function RiffDetail(props) {
   return (
     <div className="riff-detail">
-        <div>
+        <div style={ { backgroundColor: props.selected ? 'lightpink' : 'white' } }>
             <button onClick={ () => props.editRiff( props.index ) }>
                 Edit
             </button>
+            <span>Riff info: {JSON.stringify(props)}</span>
         </div>
-        <div>Riff info: {JSON.stringify(props)}</div>
     </div>
   );
 }
