@@ -91,19 +91,10 @@ class YouTubeVideo extends React.Component {
                         {
                             this.props.setRiffPlaying( index, false );
                             this.curRiff[ index ] = false;
-                            document.querySelector( '#riff-content' ).innerHTML = '';
+                            //document.querySelector( '#riff-content' ).innerHTML = '';
                         }
                     }
                 );
-
-                /*if ( this.curRiff != null && (t < this.props.riffs[ this.curRiff ].time || t > this.props.riffs[ this.curRiff ].time + this.props.riffs[ this.curRiff ].duration) )
-                {
-                    console.log( "curRiff null" );
-                    this.props.setRiffPlaying( this.curRiff, false );
-                    this.curRiff = null;
-
-                    document.querySelector( '#riff-content' ).innerHTML = '';
-                }*/
 
                 // next start any that should be playing
                 this.props.riffs.forEach( (riff, index) => 
@@ -114,32 +105,11 @@ class YouTubeVideo extends React.Component {
                             this.props.setRiffPlaying( index, true );
                             this.curRiff[ index ] = true;
 
-                            if ( riff.type == 'text' )
-                                document.querySelector( '#riff-content' ).innerHTML = riff.payload;
+                            /*if ( riff.type == 'text' )
+                                document.querySelector( '#riff-content' ).innerHTML = riff.payload;*/
                         }
                     }
                 );
-                
-                /*if ( this.curRiff === null )
-                {
-                    //debugger;
-                    for ( let i = 0; i < this.props.riffs.length; i++ )
-                    {
-                        if ( t > this.props.riffs[ i ].time && t < this.props.riffs[ i ].time + 0.5 )
-                        {
-                            //debugger;
-                            console.log( `riff #${i} @ ${t - this.props.riffs[ i ].time}, ${t} - ${this.props.riffs[ i ].time}` );
-                            
-                            this.curRiff = i;
-                            this.props.setRiffPlaying( i, true );
-
-                            if ( this.props.riffs[ i ].type == 'text' )
-                                document.querySelector( '#riff-content' ).innerHTML = this.props.riffs[ i ].payload;
-
-                            //break;
-                        }
-                    }
-                }*/
             },
             100 ); // 100/1000 = 1/10 s
 
@@ -192,14 +162,28 @@ componentDidUpdate = prevProps =>
 }
 
   render = () => {
+      console.log( "render vid", this.props.riffsPlaying );
     return (
       <div style={ { position: 'relative' } }>
         <div id='rifftube-player' />
-        <div id='riff-holder' style={ { position: 'absolute', width: '100%', height: '390px', lineHeight: '390px', top: 0, textAlign: 'center', pointerEvents: 'none' } }
-            onClick={ () => this.props.togglePlayerMode() }>
-            <div id='riff-content' style={ { display: 'inline-block', verticalAlign: 'middle', width: '640px', font: '36pt serif', backgroundColor: 'rgba(255,255,255,33%' } } />
+            {
+                Object.keys( this.props.riffsPlaying ).filter( i => this.props.riffsPlaying[i] ).map( key =>
+                    (
+                        <div style={ { position: 'absolute', width: '100%', height: '390px', lineHeight: '390px', top: 0, textAlign: 'center', pointerEvents: 'none' } }>
+                            <div style={ { display: 'inline-block', verticalAlign: 'middle', width: '640px', font: '36pt serif', backgroundColor: 'rgba(255,255,255,33%' } }>
+                                {
+                                    this.props.riffs[ key ].type == 'text'
+                                    ?
+                                        this.props.riffs[ key ].payload
+                                    :
+                                        null
+                                }
+                            </div>
+                        </div>
+                    )
+                )
+            }
         </div>
-      </div>
     );
   };
 }
