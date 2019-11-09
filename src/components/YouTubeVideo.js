@@ -95,6 +95,9 @@ class YouTubeVideo extends React.Component {
                             this.props.setRiffPlaying( index, false );
                             this.curRiff[ index ] = false;
                             //document.querySelector( '#riff-content' ).innerHTML = '';
+
+                            if ( riff.type == 'audio' )
+                                window.rifftubePlayer.setVolume( this.vol );
                         }
                     }
                 );
@@ -108,8 +111,16 @@ class YouTubeVideo extends React.Component {
                             this.props.setRiffPlaying( index, true );
                             this.curRiff[ index ] = true;
 
-                            /*if ( riff.type == 'text' )
-                                document.querySelector( '#riff-content' ).innerHTML = riff.payload;*/
+                            if ( riff.type == 'audio' )
+                            {
+                                this.vol = window.rifftubePlayer.getVolume();
+                                window.rifftubePlayer.setVolume( this.vol * 0.5 );
+
+                                let audio = document.createElement('audio');
+                                audio.controls = false;
+                                audio.src = riff.payload;
+                                audio.play();
+                            }
                         }
                     }
                 );
