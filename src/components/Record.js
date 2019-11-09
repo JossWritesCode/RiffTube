@@ -32,7 +32,7 @@ class Record extends React.Component
                         var blob = new Blob( this.chunks, { 'type' : 'audio/webm' }) ; // was 'audio/webm;codecs=opus'
                         var audioURL = URL.createObjectURL(blob);
 
-                        this.props.saveTempAudio( audioURL );
+                        this.props.saveTempAudio( audioURL, this.duration );
                     }
                 
                     this.setState( { mediaRecorder: mr } );
@@ -55,7 +55,13 @@ class Record extends React.Component
                 ret = (
                     <button
                         id="recordBtn"
-                        onClick={ () => { this.setState( { recordingState: true } ); this.chunks = []; this.state.mediaRecorder.start(); } }
+                        onClick={ () =>
+                            {
+                                this.setState( { recordingState: true } );
+                                this.chunks = [];
+                                this.startTime = Date.now();
+                                this.state.mediaRecorder.start();
+                            } }
                     >record</button>
                 );
             }
@@ -64,7 +70,12 @@ class Record extends React.Component
                 ret = (
                     <button
                         id="recordBtn"
-                        onClick={ () => { this.setState( { recordingState: false } ); this.state.mediaRecorder.stop(); } }
+                        onClick={ () =>
+                            {
+                                this.setState( { recordingState: false } );
+                                this.duration = (Date.now() - this.startTime) / 1000;
+                                this.state.mediaRecorder.stop();
+                            } }
                     >stop</button>
                 );
             }

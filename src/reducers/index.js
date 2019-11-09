@@ -76,7 +76,8 @@ export default (state = initialState, action) =>
                 return (
                     {
                         ...state,
-                        tempAudio: action.payload
+                        tempAudio: action.payload,
+                        tempRiff: { ...state.tempRiff, duration: action.duration }
                     }
                 );
             case CANCEL_EDIT:

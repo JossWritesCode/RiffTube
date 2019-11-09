@@ -53,10 +53,11 @@ export const saveRiff = payload => (
     }
 );
 
-export const saveTempAudio = payload => (
+export const saveTempAudio = (payload, duration) => (
     {
         type: SAVE_TEMP_AUDIO,
-        payload
+        payload,
+        duration
     }
 );
 
