@@ -39,7 +39,11 @@ class YouTubeVideo extends React.Component {
   };
 
   loadVideo = () => {
+
     const { id } = this.props;
+
+    if ( window.rifftubePlayer )
+        window.rifftubePlayer.destroy();
 
     this.player = new window.YT.Player('rifftube-player',
         {
@@ -152,6 +156,9 @@ class YouTubeVideo extends React.Component {
 
 componentDidUpdate = prevProps =>
 {
+    if ( this.props.id != prevProps.id )
+        this.loadVideo();
+
     if ( this.props.mode != prevProps.mode )
     {
         if
