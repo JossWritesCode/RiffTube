@@ -77,11 +77,14 @@ class YouTubeVideo extends React.Component {
 
         if ( data == 1 ) // playing
         {
-            this.curRiff = {};
+            // needed I think... for pausing during a riff
+            this.curRiff = this.props.riffsPlaying;
 
             // this timer is responsible for showing and hiding riffs
             this.riffInterval = setInterval( () =>
             {
+                //console.log( "interval", this.curRiff, this.props.riffsPlaying );
+
                 let t = window.rifftubePlayer.getCurrentTime();
 
                 // first stop any zombie riffs

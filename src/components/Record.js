@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-function Record(props)
+class Record extends React.Component
 {
-    const [mediaRecorder, setMediaRecorder] = useState( null );
-    const [recordingState, setRecordingState] = useState( false );
+    constructor(props)
+    {
+        super(props);
 
-    useEffect( () =>
+        this.state =
+        {
+            mediaRecorder: null,
+            recordingState: false
+        };
+    }    
+
+    componentDidMount()
     {
         if (navigator.mediaDevices)
         {
@@ -16,55 +24,58 @@ function Record(props)
 
                     mr.ondataavailable = e =>
                     {
-                        window.chunks.push( e.data );
+                        this.chunks.push( e.data );
                     };
 
                     mr.onstop = e =>
                     {
-                        var blob = new Blob( window.chunks, { 'type' : 'audio/webm' }) ; // was 'audio/webm;codecs=opus'
+                        var blob = new Blob( this.chunks, { 'type' : 'audio/webm' }) ; // was 'audio/webm;codecs=opus'
                         var audioURL = URL.createObjectURL(blob);
 
-                        props.saveTempAudio( audioURL );
+                        this.props.saveTempAudio( audioURL );
                     }
                 
-                    setMediaRecorder( mr );
+                    this.setState( { mediaRecorder: mr } );
                 }
             )
             .catch( err =>
                 console.log('Error', err)
             );
         }
-    }, [] );
-  
-    var ret; // var for the value to be returned
-
-    if (navigator.mediaDevices && mediaRecorder)
-    {
-        if ( !recordingState )
-        {
-            ret = (
-                <button
-                    id="recordBtn"
-                    onClick={ () => { setRecordingState(true); window.chunks = []; mediaRecorder.start(); } }
-                >record</button>
-            );
-        }
-        else
-        {
-            ret = (
-                <button
-                    id="recordBtn"
-                    onClick={ () => { setRecordingState(false); mediaRecorder.stop(); } }
-                >stop</button>
-            );
-        }
     }
-    else if (navigator.mediaDevices && !mediaRecorder)
-        ret = <span>mediaRecorder failed to initialize</span>;
-    else
-        ret = <span>navigator.mediaDevices not supported. sorry.</span>;
+  
+    render()
+    {
+        var ret; // var for the value to be returned
 
-    return ret;
+        if (navigator.mediaDevices && this.state.mediaRecorder)
+        {
+            if ( !this.state.recordingState )
+            {
+                ret = (
+                    <button
+                        id="recordBtn"
+                        onClick={ () => { this.setState( { recordingState: true } ); this.chunks = []; this.state.mediaRecorder.start(); } }
+                    >record</button>
+                );
+            }
+            else
+            {
+                ret = (
+                    <button
+                        id="recordBtn"
+                        onClick={ () => { this.setState( { recordingState: false } ); this.state.mediaRecorder.stop(); } }
+                    >stop</button>
+                );
+            }
+        }
+        else if (navigator.mediaDevices && !this.state.mediaRecorder)
+            ret = <span>mediaRecorder failed to initialize</span>;
+        else
+            ret = <span>navigator.mediaDevices not supported. sorry.</span>;
+
+        return ret;
+    }
 }
 
 export default Record;
