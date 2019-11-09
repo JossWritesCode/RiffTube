@@ -26,6 +26,15 @@ export const PLAY_MODE = 'PLAY_MODE';
 export const PAUSE_MODE = 'PAUSE_MODE';
 export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
+export const SET_VIDEO_ID = 'SET_VIDEO_ID';
+
+export const setVideoID = payload => (
+    {
+        type: SET_VIDEO_ID,
+        payload
+    }
+)
+
 export const setGoogleUser = googleUser => (
     {
         type: GOOGLE_USER_SIGNIN,
@@ -53,10 +62,11 @@ export const saveRiff = payload => (
     }
 );
 
-export const saveTempAudio = payload => (
+export const saveTempAudio = (payload, duration) => (
     {
         type: SAVE_TEMP_AUDIO,
-        payload
+        payload,
+        duration
     }
 );
 

@@ -5,41 +5,51 @@ import YouTubeVideo from './components/YouTubeVideo.js';
 import Login from './components/Login.js';
 import EditControls from './components/EditControls.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { setVideoID } from './actions';
 
-function App(props) {
-  const loggedIn = () => {
-    if (props.googleUser) {
-      return props.googleUser.isSignedIn();
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.videoIDRef = React.createRef();
+  }
+
+  loggedIn = () => {
+    if (this.props.googleUser) {
+      return this.props.googleUser.isSignedIn();
     }
     return false;
   };
 
-  const authCheck = (Component, DefaultComponent) => {
-    return loggedIn() ? <Component /> : <DefaultComponent />;
+  authCheck = (Component, DefaultComponent) => {
+    return this.loggedIn() ? <Component /> : <DefaultComponent />;
   };
 
-  return (
-    <Router>
-      <div className="App">
-        <form>
-          <label>
-            Your Youtube Video:
-            <input type="text" name="videoUrl" value={props.videoID} />
-          </label>
-        </form>
+  render()
+  {
+    return (
+      <Router>
+        <div className="App">
+          <form>
+            <label>
+              Your Youtube Video:
+              <input type="text" defaultValue={ this.props.videoID } ref={ this.videoIDRef } />
+              <button type="button" onClick={ e => { this.props.setVideoID( this.videoIDRef.current.value ); } }>Change Video</button>
+            </label>
+          </form>
 
-        <YouTubeVideo />
+          <YouTubeVideo />
 
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={authCheck.bind(this, EditControls, Login)}
-          />
-        </Switch>
-      </div>
-    </Router>
-  );
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={ this.authCheck.bind(this, EditControls, Login) }
+            />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 const mapStateToProps = state => (
@@ -49,7 +59,12 @@ const mapStateToProps = state => (
   }
 );
 
+const mapDispatchToProps =
+  {
+    setVideoID
+  };
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(App);

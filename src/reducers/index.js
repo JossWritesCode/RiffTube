@@ -1,5 +1,6 @@
 import
 {
+    SET_VIDEO_ID,
     GOOGLE_USER_SIGNIN,
     SAVE_RIFF,
     CREATE_TEMP_AUDIO_RIFF,
@@ -21,11 +22,11 @@ from '../actions';
 
 let initialState =
     {
+        videoID: "8N_tupPBtWQ",
         googleUser: null,
         riffs: [],
         tempRiff: null,
         mode: PAUSE_MODE,
-        videoID: "8N_tupPBtWQ",
         riffsPlaying: {}
     };
 
@@ -33,6 +34,17 @@ export default (state = initialState, action) =>
     {
         switch (action.type)
         {
+            case SET_VIDEO_ID:
+                return (
+                    {
+                        videoID: action.payload,
+                        googleUser: state.googleUser,
+                        riffs: [],
+                        tempRiff: null,
+                        mode: PAUSE_MODE,
+                        riffsPlaying: {}
+                    }
+                );
             case GOOGLE_USER_SIGNIN:
                 return (
                     {
@@ -76,14 +88,13 @@ export default (state = initialState, action) =>
                 return (
                     {
                         ...state,
-                        tempAudio: action.payload
+                        tempRiff: { ...state.tempRiff, duration: action.duration, payload: action.payload }
                     }
                 );
             case CANCEL_EDIT:
                 return (
                     {
                         ...state,
-                        tempAudio: null,
                         tempRiff: null,
                         editIndex: null,
                         mode: PAUSE_MODE

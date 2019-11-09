@@ -39,7 +39,11 @@ class YouTubeVideo extends React.Component {
   };
 
   loadVideo = () => {
+
     const { id } = this.props;
+
+    if ( window.rifftubePlayer )
+        window.rifftubePlayer.destroy();
 
     this.player = new window.YT.Player('rifftube-player',
         {
@@ -77,11 +81,14 @@ class YouTubeVideo extends React.Component {
 
         if ( data == 1 ) // playing
         {
-            this.curRiff = {};
+            // needed I think... for pausing during a riff
+            this.curRiff = this.props.riffsPlaying;
 
             // this timer is responsible for showing and hiding riffs
             this.riffInterval = setInterval( () =>
             {
+                //console.log( "interval", this.curRiff, this.props.riffsPlaying );
+
                 let t = window.rifftubePlayer.getCurrentTime();
 
                 // first stop any zombie riffs
@@ -92,6 +99,9 @@ class YouTubeVideo extends React.Component {
                             this.props.setRiffPlaying( index, false );
                             this.curRiff[ index ] = false;
                             //document.querySelector( '#riff-content' ).innerHTML = '';
+
+                            if ( riff.type == 'audio' )
+                                window.rifftubePlayer.setVolume( this.vol );
                         }
                     }
                 );
@@ -105,8 +115,16 @@ class YouTubeVideo extends React.Component {
                             this.props.setRiffPlaying( index, true );
                             this.curRiff[ index ] = true;
 
-                            /*if ( riff.type == 'text' )
-                                document.querySelector( '#riff-content' ).innerHTML = riff.payload;*/
+                            if ( riff.type == 'audio' )
+                            {
+                                this.vol = window.rifftubePlayer.getVolume();
+                                window.rifftubePlayer.setVolume( this.vol * 0.5 );
+
+                                let audio = document.createElement('audio');
+                                audio.controls = false;
+                                audio.src = riff.payload;
+                                audio.play();
+                            }
                         }
                     }
                 );
@@ -138,6 +156,9 @@ class YouTubeVideo extends React.Component {
 
 componentDidUpdate = prevProps =>
 {
+    if ( this.props.id != prevProps.id )
+        this.loadVideo();
+
     if ( this.props.mode != prevProps.mode )
     {
         if

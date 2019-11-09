@@ -22,14 +22,14 @@ class EditRiff extends React.Component
                             <br />
                             <Record saveTempAudio={this.props.saveTempAudio} />
                             {
-                                this.props.tempAudio
+                                this.props.tempRiff.payload
                                 ?
                                     <button
                                         onClick={ () =>
                                             {
                                                 var audio = document.createElement('audio');
                                                 audio.controls = false;
-                                                audio.src = this.props.tempAudio;
+                                                audio.src = this.props.tempRiff.payload;
                                                 audio.play();
                                             }
                                         }>Play</button>
@@ -38,12 +38,12 @@ class EditRiff extends React.Component
                             }
                             <br />
                             <button
-                                disabled={ !this.props.tempAudio }
+                                disabled={ !this.props.tempRiff.payload }
                                 onClick={ () =>
                                     {
                                         this.props.saveRiff(
                                             {
-                                                payload: this.props.tempAudio
+                                                payload: this.props.tempRiff.payload
                                             }
                                         );
                                     }
@@ -87,8 +87,7 @@ class EditRiff extends React.Component
 const mapStateToProps = state => (
     {
         mode: state.mode,
-        tempRiff: state.tempRiff,
-        tempAudio: state.tempAudio
+        tempRiff: state.tempRiff
     }
 );
 
