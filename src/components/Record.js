@@ -55,7 +55,7 @@ class Record extends React.Component {
       } else {
         ret = (
           <button
-            id="recordBtn"
+            id="stopBtn"
             onClick={() => {
               this.setState({ recordingState: false });
               this.duration = (Date.now() - this.startTime) / 1000;
