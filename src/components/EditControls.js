@@ -5,14 +5,7 @@ import TestButton from './TestButton.js';
 import RiffList from './RiffList.js';
 import EditRiff from './EditRiff.js';
 import RiffButton from './RiffButton.js';
-import
-{
-    EDIT_MODE,
-    EDIT_NEW_MODE,
-    PLAY_MODE,
-    PAUSE_MODE
-}
-from '../actions';
+import { EDIT_MODE, EDIT_NEW_MODE, PLAY_MODE, PAUSE_MODE } from '../actions';
 
 function EditControls(props) {
   return (
@@ -22,11 +15,9 @@ function EditControls(props) {
         <RiffButton type="text" />
         ||
         <TestButton />
-        {
-          props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE ?
-          <EditRiff /> :
-          null
-        }
+        {props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE ? (
+          <EditRiff />
+        ) : null}
       </div>
       <div>
         <RiffList />
