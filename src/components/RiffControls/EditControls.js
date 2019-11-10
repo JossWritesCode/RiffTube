@@ -12,6 +12,7 @@ import {
   PAUSE_MODE
 } from '../../actions/index.js';
 
+/*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
   return (
     <div>
