@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login-component';
 import { setGoogleUser } from '../actions';
 
-class Login extends React.Component
-{
+class Login extends React.Component {
   render() {
     return (
       <div>
@@ -21,10 +20,9 @@ class Login extends React.Component
   }
 }
 
-const mapDispatchToProps =
-  {
-    setGoogleUser
-  };
+const mapDispatchToProps = {
+  setGoogleUser
+};
 
 export default connect(
   null,

@@ -69,7 +69,7 @@ class YouTubeVideo extends React.Component {
     console.log('state change', data);
     console.log('cur mode', this.props.mode);
 
-    if (data == 1) {
+    if (data === 1) {
       // playing
       // needed I think... for pausing during a riff
       this.curRiff = this.props.riffsPlaying;
@@ -114,7 +114,7 @@ class YouTubeVideo extends React.Component {
         });
       }, 100); // 100/1000 = 1/10 s
 
-      if (this.props.mode == PAUSE_MODE) {
+      if (this.props.mode === PAUSE_MODE) {
         // change mode state
         this.props.setPlayerMode(PLAY_MODE);
 
@@ -125,7 +125,7 @@ class YouTubeVideo extends React.Component {
       // stop riff-check interval when not playing
       clearInterval(this.riffInterval);
 
-      if (this.props.mode == PLAY_MODE) {
+      if (this.props.mode === PLAY_MODE) {
         // cahnge mode state
         this.props.setPlayerMode(PAUSE_MODE);
 
@@ -135,20 +135,20 @@ class YouTubeVideo extends React.Component {
   };
 
   componentDidUpdate = prevProps => {
-    if (this.props.id != prevProps.id) this.loadVideo();
+    if (this.props.id !== prevProps.id) this.loadVideo();
 
-    if (this.props.mode != prevProps.mode) {
+    if (this.props.mode !== prevProps.mode) {
       if (
-        (this.props.mode == EDIT_MODE ||
-          this.props.mode == EDIT_NEW_MODE ||
-          this.props.mode == PAUSE_MODE) &&
-        this.player.getPlayerState() == 1
+        (this.props.mode === EDIT_MODE ||
+          this.props.mode === EDIT_NEW_MODE ||
+          this.props.mode === PAUSE_MODE) &&
+        this.player.getPlayerState() === 1
       ) {
         console.log('pauseVideo');
         this.player.pauseVideo();
       } else if (
-        this.props.mode == PLAY_MODE &&
-        this.player.getPlayerState() != 1
+        this.props.mode === PLAY_MODE &&
+        this.player.getPlayerState() !== 1
       ) {
         console.log('playVideo');
         this.player.playVideo();
@@ -184,7 +184,7 @@ class YouTubeVideo extends React.Component {
                   backgroundColor: 'rgba(255,255,255,33%'
                 }}
               >
-                {this.props.riffs[key].type == 'text'
+                {this.props.riffs[key].type === 'text'
                   ? this.props.riffs[key].payload
                   : null}
               </div>
