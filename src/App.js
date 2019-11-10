@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './App.css';
-import YouTubeVideo from './components/YouTubeVideo.js';
+import YouTubeVideo from './components/YouTubeVideo/YouTubeVideo.js/index.js';
 import Login from './components/Login.js';
-import EditControls from './components/EditControls.js';
+import EditControls from './components/RiffControls/EditControls.js/index.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { setVideoID } from './actions';
 
