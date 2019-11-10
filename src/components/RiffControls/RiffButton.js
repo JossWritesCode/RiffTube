@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createTempRiff } from '../actions';
+import { createTempRiff } from '../../actions/index.js';
 
 class RiffButton extends React.Component {
   render() {

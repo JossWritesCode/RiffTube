@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login-component';
-import { setGoogleUser } from '../actions';
+import { setGoogleUser } from '../../actions/index.js';
 
 class Login extends React.Component {
   render() {

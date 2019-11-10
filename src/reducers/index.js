@@ -15,7 +15,7 @@ import {
   PLAY_MODE,
   PAUSE_MODE,
   TOGGLE_PLAYER_MODE
-} from '../actions';
+} from '../actions/index.js';
 
 let initialState = {
   videoID: '8N_tupPBtWQ',

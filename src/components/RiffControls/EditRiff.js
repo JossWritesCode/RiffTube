@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Record from './Record.js';
-import { saveRiff, setPlayerMode, saveTempAudio, cancelEdit } from '../actions';
+import {
+  saveRiff,
+  setPlayerMode,
+  saveTempAudio,
+  cancelEdit
+} from '../../actions/index.js';
 
 class EditRiff extends React.Component {
   render() {

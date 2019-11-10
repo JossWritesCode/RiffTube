@@ -8,7 +8,7 @@ import {
   EDIT_NEW_MODE,
   PLAY_MODE,
   PAUSE_MODE
-} from '../actions';
+} from '../../actions/index.js';
 
 // based on https://stackoverflow.com/questions/54017100/how-to-integrate-youtube-iframe-api-in-reactjs-solution
 

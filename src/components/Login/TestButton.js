@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sendGoogleToken } from '../actions';
+import { sendGoogleToken } from '../../actions/index.js';
 
 class TestButton extends React.Component {
   render() {
