@@ -27,7 +27,7 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <form>
+          <form onSubmit={ e => { this.props.setVideoID( this.videoIDRef.current.value ); e.preventDefault(); } }>
             <label>
               Your Youtube Video:
               <input
