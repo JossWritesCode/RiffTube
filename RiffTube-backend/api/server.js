@@ -1,7 +1,9 @@
+const multer  = require('multer');  
 const express = require('express');
-var cors = require('cors')
+const cors = require('cors')
 
 const server = express();
+const upload  = multer({ storage: multer.memoryStorage() });
 
 server.use(express.json());
 
@@ -11,9 +13,13 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
 
-server.post('/verify-token', (req, res) => {
-  let body = req.body;
-  res.status(200).json(body);
+server.post('/verify-token', upload.single('blob'), (req, res) => {  
+  const body = req.body;
+  
+  console.log( 'verify token' );
+  console.log( req.file );
+  
+  res.status(200).json({'status': 'ok'});
 });
 
 module.exports = server;

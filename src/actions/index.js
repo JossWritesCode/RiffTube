@@ -84,10 +84,17 @@ export const cancelEdit = () => (
 );
 
 export const sendGoogleToken = token => {
+    let fd = new FormData();
+    fd.append( 'token', token );
+    fd.append( 'blob', new Blob(["This is my blob content"], {type : "text/plain"}), 'blobby.blob' );
     return dispatch => {
         dispatch({ type: SEND_ACCESS_TOKEN });
-        axios
-            .post( `http://localhost:3300/verify-token`, { token } )
+        axios( {
+            method: 'post',
+            url: 'http://localhost:3300/verify-token',
+            data: fd,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            } )
             .then(res => {
                 // res.data.data
                 dispatch({ type: SEND_ACCESS_TOKEN_SUCCESS, payload: res.data });
