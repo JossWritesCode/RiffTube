@@ -33,7 +33,7 @@ export const setVideoID = payload => (
         type: SET_VIDEO_ID,
         payload
     }
-)
+);
 
 export const setGoogleUser = googleUser => (
     {

@@ -6,7 +6,7 @@ import { setGoogleUser } from '../../actions/index.js';
 class Login extends React.Component {
   render() {
     return (
-      <div>
+      <div style={ { position: 'absolute', top: '1em', right: '1em' } }>
         <GoogleLogin
           socialId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
           className="google-login"

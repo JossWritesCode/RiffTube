@@ -27,9 +27,12 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <form onSubmit={ e => { this.props.setVideoID( this.videoIDRef.current.value ); e.preventDefault(); } }>
-            <label>
-              Your Youtube Video:
+          <div style={ { backgroundColor: '#A41320', color: 'white', padding: '1em' } }>
+            <h1 style={ { textAlign: 'center', fontFamily: "'Limelight'", margin: 0 } }>RiffTube</h1>
+            <form onSubmit={ e => { this.props.setVideoID( this.videoIDRef.current.value ); e.preventDefault(); } }>
+              <label>
+                YouTube URL/ID:&nbsp;&nbsp;
+              </label>
               <input
                 type="text"
                 defaultValue={this.props.videoID}
@@ -43,10 +46,12 @@ class App extends React.Component {
               >
                 Change Video
               </button>
-            </label>
-          </form>
+            </form>
+          </div>
 
-          <YouTubeVideo />
+          <div style={ { backgroundColor: '#A41320' } }>
+            <YouTubeVideo />
+          </div>
 
           <Switch>
             <Route
