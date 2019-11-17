@@ -107,12 +107,12 @@ export default (state = initialState, action) => {
     case TOGGLE_PLAYER_MODE:
       return {
         ...state,
-        mode: state.mode == PLAY_MODE ? PAUSE_MODE : PLAY_MODE
+        mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
       };
     case SAVE_RIFF:
       let riff = { ...state.tempRiff, ...action.payload };
       let riffs;
-      if (state.mode == EDIT_NEW_MODE) riffs = [...state.riffs, riff];
+      if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
       // EDIT_MODE
       else {
         riffs = [...state.riffs];

@@ -28,88 +28,76 @@ export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
 export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 
-export const setVideoID = payload => (
-    {
-        type: SET_VIDEO_ID,
-        payload
-    }
-);
+export const setVideoID = payload => ({
+  type: SET_VIDEO_ID,
+  payload
+});
 
-export const setGoogleUser = googleUser => (
-    {
-        type: GOOGLE_USER_SIGNIN,
-        payload: googleUser
-    }
-);
+export const setGoogleUser = googleUser => ({
+  type: GOOGLE_USER_SIGNIN,
+  payload: googleUser
+});
 
-export const setPlayerMode = mode => (
-    {
-        type: SET_PLAYER_MODE,
-        payload: mode
-    }
-);
+export const setPlayerMode = mode => ({
+  type: SET_PLAYER_MODE,
+  payload: mode
+});
 
-export const togglePlayerMode = mode => (
-    {
-        type: TOGGLE_PLAYER_MODE
-    }
-);
+export const togglePlayerMode = mode => ({
+  type: TOGGLE_PLAYER_MODE
+});
 
-export const saveRiff = payload => (
-    {
-        type: SAVE_RIFF,
-        payload
-    }
-);
+export const saveRiff = payload => ({
+  type: SAVE_RIFF,
+  payload
+});
 
-export const saveTempAudio = (payload, duration) => (
-    {
-        type: SAVE_TEMP_AUDIO,
-        payload,
-        duration
-    }
-);
+export const saveTempAudio = (payload, duration) => ({
+  type: SAVE_TEMP_AUDIO,
+  payload,
+  duration
+});
 
-export const editRiff = payload => (
-    {
-        type: EDIT_RIFF,
-        payload
-    }
-);
+export const editRiff = payload => ({
+  type: EDIT_RIFF,
+  payload
+});
 
-export const cancelEdit = () => (
-    {
-        type: CANCEL_EDIT
-    }
-);
+export const cancelEdit = () => ({
+  type: CANCEL_EDIT
+});
 
 export const sendGoogleToken = token => {
-    let fd = new FormData();
-    fd.append( 'token', token );
-    fd.append( 'blob', new Blob(["This is my blob content"], {type : "text/plain"}), 'blobby.blob' );
-    return dispatch => {
-        dispatch({ type: SEND_ACCESS_TOKEN });
-        axios( {
-            method: 'post',
-            url: 'http://localhost:3300/verify-token',
-            data: fd,
-            config: { headers: {'Content-Type': 'multipart/form-data' }}
-            } )
-            .then(res => {
-                // res.data.data
-                dispatch({ type: SEND_ACCESS_TOKEN_SUCCESS, payload: res.data });
-            })
-            .catch(err => {
-                dispatch({ type: SEND_ACCESS_TOKEN_FAILURE, payload: err.response });
-            });
-        };
-    };
+  let fd = new FormData();
+  fd.append('token', token);
+  fd.append(
+    'blob',
+    new Blob(['This is my blob content'], { type: 'text/plain' }),
+    'blobby.blob'
+  );
+  return dispatch => {
+    dispatch({ type: SEND_ACCESS_TOKEN });
+    axios({
+      method: 'post',
+      url: 'http://localhost:3300/verify-token',
+      data: fd,
+      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+    })
+      .then(res => {
+        // res.data.data
+        dispatch({ type: SEND_ACCESS_TOKEN_SUCCESS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: SEND_ACCESS_TOKEN_FAILURE, payload: err.response });
+      });
+  };
+};
 
 export const createTempRiff = type => ({
-    type: type == 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
+  type: type == 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
 });
 
 export const setRiffPlaying = (index, playing) => ({
-    type: playing ? SET_RIFF_PLAYING : SET_RIFF_NOT_PLAYING,
-    payload: index
+  type: playing ? SET_RIFF_PLAYING : SET_RIFF_NOT_PLAYING,
+  payload: index
 });
