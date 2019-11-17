@@ -28,6 +28,7 @@ export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
 export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 
+<<<<<<< HEAD
 export const setVideoID = payload => ({
   type: SET_VIDEO_ID,
   payload
@@ -66,8 +67,120 @@ export const editRiff = payload => ({
 export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
+||||||| merged common ancestors
+export const setVideoID = payload => (
+    {
+        type: SET_VIDEO_ID,
+        payload
+    }
+)
+
+export const setGoogleUser = googleUser => (
+    {
+        type: GOOGLE_USER_SIGNIN,
+        payload: googleUser
+    }
+);
+
+export const setPlayerMode = mode => (
+    {
+        type: SET_PLAYER_MODE,
+        payload: mode
+    }
+);
+
+export const togglePlayerMode = mode => (
+    {
+        type: TOGGLE_PLAYER_MODE
+    }
+);
+
+export const saveRiff = payload => (
+    {
+        type: SAVE_RIFF,
+        payload
+    }
+);
+
+export const saveTempAudio = (payload, duration) => (
+    {
+        type: SAVE_TEMP_AUDIO,
+        payload,
+        duration
+    }
+);
+
+export const editRiff = payload => (
+    {
+        type: EDIT_RIFF,
+        payload
+    }
+);
+
+export const cancelEdit = () => (
+    {
+        type: CANCEL_EDIT
+    }
+);
+=======
+export const setVideoID = payload => (
+    {
+        type: SET_VIDEO_ID,
+        payload
+    }
+);
+
+export const setGoogleUser = googleUser => (
+    {
+        type: GOOGLE_USER_SIGNIN,
+        payload: googleUser
+    }
+);
+
+export const setPlayerMode = mode => (
+    {
+        type: SET_PLAYER_MODE,
+        payload: mode
+    }
+);
+
+export const togglePlayerMode = mode => (
+    {
+        type: TOGGLE_PLAYER_MODE
+    }
+);
+
+export const saveRiff = payload => (
+    {
+        type: SAVE_RIFF,
+        payload
+    }
+);
+
+export const saveTempAudio = (payload, duration) => (
+    {
+        type: SAVE_TEMP_AUDIO,
+        payload,
+        duration
+    }
+);
+
+export const editRiff = payload => (
+    {
+        type: EDIT_RIFF,
+        payload
+    }
+);
+
+export const cancelEdit = () => (
+    {
+        type: CANCEL_EDIT
+    }
+);
+>>>>>>> c167f5efce10fddc4fd316d33b2754f595536c4a
 
 export const sendGoogleToken = token => {
+<<<<<<< HEAD
   return dispatch => {
     dispatch({ type: SEND_ACCESS_TOKEN });
     axios
@@ -81,6 +194,42 @@ export const sendGoogleToken = token => {
       });
   };
 };
+||||||| merged common ancestors
+    return dispatch => {
+        dispatch({ type: SEND_ACCESS_TOKEN });
+        axios
+            .post( `http://localhost:3300/verify-token`, { token } )
+            .then(res => {
+                // res.data.data
+                dispatch({ type: SEND_ACCESS_TOKEN_SUCCESS, payload: res.data });
+            })
+            .catch(err => {
+                dispatch({ type: SEND_ACCESS_TOKEN_FAILURE, payload: err.response });
+            });
+        };
+    };
+=======
+    let fd = new FormData();
+    fd.append( 'token', token );
+    fd.append( 'blob', new Blob(["This is my blob content"], {type : "text/plain"}), 'blobby.blob' );
+    return dispatch => {
+        dispatch({ type: SEND_ACCESS_TOKEN });
+        axios( {
+            method: 'post',
+            url: 'http://localhost:3300/verify-token',
+            data: fd,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            } )
+            .then(res => {
+                // res.data.data
+                dispatch({ type: SEND_ACCESS_TOKEN_SUCCESS, payload: res.data });
+            })
+            .catch(err => {
+                dispatch({ type: SEND_ACCESS_TOKEN_FAILURE, payload: err.response });
+            });
+        };
+    };
+>>>>>>> c167f5efce10fddc4fd316d33b2754f595536c4a
 
 export const createTempRiff = type => ({
   type: type == 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
