@@ -107,7 +107,8 @@ class YouTubeVideo extends React.Component {
 
               let audio = document.createElement('audio');
               audio.controls = false;
-              audio.src = riff.payload;
+              var audioURL = URL.createObjectURL(riff.payload);
+              audio.src = audioURL;
               audio.play();
             }
           }

@@ -14,14 +14,14 @@ class EditRiff extends React.Component {
       <div style={{ border: '1px solid black', padding: '1em' }}>
         {this.props.tempRiff.type == 'audio' ? (
           <React.Fragment>
-            <br />
             <Record saveTempAudio={this.props.saveTempAudio} />
             {this.props.tempRiff.payload ? (
               <button
                 onClick={() => {
                   var audio = document.createElement('audio');
                   audio.controls = false;
-                  audio.src = this.props.tempRiff.payload;
+                  var audioURL = URL.createObjectURL(this.props.tempRiff.payload);
+                  audio.src = audioURL;
                   audio.play();
                 }}
               >
@@ -32,9 +32,13 @@ class EditRiff extends React.Component {
             <button
               disabled={!this.props.tempRiff.payload}
               onClick={() => {
-                this.props.saveRiff({
-                  payload: this.props.tempRiff.payload
-                });
+                this.props.saveRiff
+                (
+                  this.props.googleUser.getAuthResponse().id_token,
+                  {
+                    payload: this.props.tempRiff.payload
+                  }
+                );
               }}
             >
               Save
@@ -55,12 +59,16 @@ class EditRiff extends React.Component {
             </div>
             <button
               onClick={() => {
-                this.props.saveRiff({
-                  payload: document.querySelector('#riff-edit-field').value,
-                  duration: Number(
-                    document.querySelector('#riff-duration-field').value
-                  )
-                });
+                this.props.saveRiff
+                (
+                  this.props.googleUser.getAuthResponse().id_token,
+                  {
+                    payload: document.querySelector('#riff-edit-field').value,
+                    duration: Number(
+                      document.querySelector('#riff-duration-field').value
+                    )
+                  }
+                );
               }}
             >
               Save
@@ -82,7 +90,8 @@ class EditRiff extends React.Component {
 
 const mapStateToProps = state => ({
   mode: state.mode,
-  tempRiff: state.tempRiff
+  tempRiff: state.tempRiff,
+  googleUser: state.googleUser
 });
 
 const mapDispatchToProps = {

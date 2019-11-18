@@ -10,7 +10,7 @@ class Login extends React.Component {
         <GoogleLogin
           socialId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
           className="google-login"
-          scope="profile"
+          scope="profile email"
           fetchBasicProfile={false}
           responseHandler={this.props.setGoogleUser}
           buttonText="Login With Google"

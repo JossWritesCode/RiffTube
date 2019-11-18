@@ -19,6 +19,7 @@ exports.up = function(knex) {
         .notNullable()
         .unique();
       tbl.float('duration');
+      tbl.float('start_time');
       tbl
         .integer('user_id')
         .unsigned()
