@@ -25,8 +25,6 @@ server.post('/get-riffs', (req, res) => {
 
   res.status(200).json({'status': 'ok'});
 } );
-  
-
 
 server.post('/add-riff', upload.single('blob'), (req, res) => {  
   const body = req.body;
@@ -37,9 +35,10 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
 
   const {OAuth2Client} = require('google-auth-library');
   const client = new OAuth2Client(CLIENT_ID);
-  async function verify()
+  function verify()
   {
-    const ticket = await client.verifyIdToken(
+    console.log( "verify" );
+    return client.verifyIdToken(
       {
         idToken: body.token,
         audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
@@ -47,51 +46,60 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
       }
     );
-    const payload = ticket.getPayload();
-    console.log( "payday!" );
-    console.log( payload );
-    const userid = payload['sub'];
-    // If request specified a G Suite domain:
-    //const domain = payload['hd'];
+  }
 
-    db( 'users' )
-      .select()
-      .where( 'email', payload.email )
-      .then( userList  => {
-        if ( userList.length === 0 )
-        {
-          return db( 'users' )
-            .insert( {
-              name: 'all are bob',
-              email: payload.email
-            }, 'id' )
-            .then( newUserId =>
-              console.log( 'inserted user', newUserId )
-            );
-        }
-        else
-          console.log('not inserting user');
-        return;
-      });
-
-    db( 'videos' )
-      .select()
-      .where( 'url', body.video_id )
-      .then( vidList  => {
-        if ( vidList.length === 0 )
-        {
-          return db( 'videos' )
-            .insert( {
-              url: body.video_id
-            }, 'id' )
-            .then( newVidId =>
-              console.log( 'inserted video', newVidId )
-            );
-        }
-        else
-          console.log('not inserting video');
-        return;
-      });
+  verify()
+    .then( ticket => {
+      const payload = ticket.getPayload();
+      console.log( "payday!" );
+      console.log( payload );
+      // If request specified a G Suite domain:
+      //const domain = payload['hd'];
+      return payload;
+    } )
+    .then( payload => {
+      console.log( "then1", payload );
+      return db( 'users' )
+        .select()
+        .where( 'email', payload.email )
+        .then( userList  => {
+          if ( userList.length === 0 )
+          {
+            return db( 'users' )
+              .insert( {
+                name: 'all are bob',
+                email: payload.email
+              }, 'id' )
+              .then( newUserId => {
+                console.log( 'inserted user', newUserId )
+                return payload;
+              } );
+          }
+          else
+            console.log('not inserting user');
+          return payload;
+        }); } )
+    .then( payload => {
+      console.log( "then2" );
+      return db( 'videos' )
+        .select()
+        .where( 'url', body.video_id )
+        .then( vidList  => {
+          if ( vidList.length === 0 )
+          {
+            return db( 'videos' )
+              .insert( {
+                url: body.video_id
+              }, 'id' )
+              .then( newVidId =>
+                console.log( 'inserted video', newVidId )
+              );
+          }
+          else
+            console.log('not inserting video');
+          return payload;
+        }); } )
+    .then( payload => {
 
       console.log( "EML\n", payload.email );
       console.log( "DAT\n", data_model );
@@ -112,12 +120,10 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
               } )
             .then( () => res.status(200).json({'status': 'ok'}) );
             //.catch(err => res.status(500).json({'insert error': err}) );
-        } );
-    } );
-  }
-  verify().catch(err => res.status(500).json({'error': err}) );
-  
-  
+          } );
+      } );
+    } )
+    .catch(err => res.status(500).json({'error': err}) );
 });
 
 module.exports = server;
