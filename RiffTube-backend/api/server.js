@@ -109,7 +109,6 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
       console.log( "EML\n", payload.email );
       console.log( "DAT\n", data_model );
       console.log( "FIL\n", req.file );
-      console.log( "BOD\n", body );
 
       // get the IDs of the user and video, then insert the data
       data_model.getIdFromEmail( payload.email ).then( idin => {
@@ -124,7 +123,6 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
                 'duration': body.duration,
                 'user_id': idin[0].id,
                 'video_id': vidid[0].id,
-                'start_time': body.time
               } )
             .then( () => res.status(200).json({'status': 'ok'}) );
           } );
