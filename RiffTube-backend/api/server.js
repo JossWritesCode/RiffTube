@@ -18,6 +18,16 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
 
+server.post('/get-riffs', (req, res) => {  
+  const body = req.body;
+
+  console.log( 'get riffs request', body );
+
+  res.status(200).json({'status': 'ok'});
+} );
+  
+
+
 server.post('/add-riff', upload.single('blob'), (req, res) => {  
   const body = req.body;
   

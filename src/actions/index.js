@@ -32,15 +32,35 @@ export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
 export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 
+export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
+
 export const setVideoID = payload => ({
   type: SET_VIDEO_ID,
   payload
 });
 
-export const setGoogleUser = googleUser => ({
+/*export const setGoogleUser = googleUser => ({
   type: GOOGLE_USER_SIGNIN,
   payload: googleUser
-});
+});*/
+
+export const setGoogleUser = googleUser => {
+  return dispatch => {
+    dispatch( {
+      type: GOOGLE_USER_SIGNIN,
+      payload: googleUser
+    } );
+    axios({
+      method: 'post',
+      url: 'http://localhost:3300/get-riffs',
+      data: { token: googleUser.getAuthResponse().id_token }
+    })
+      .then(res => {
+        console.log( 'SGU', res.data );
+        dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+      } );
+  }
+};
 
 export const setPlayerMode = mode => ({
   type: SET_PLAYER_MODE,

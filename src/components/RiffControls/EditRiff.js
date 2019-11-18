@@ -14,7 +14,6 @@ class EditRiff extends React.Component {
       <div style={{ border: '1px solid black', padding: '1em' }}>
         {this.props.tempRiff.type == 'audio' ? (
           <React.Fragment>
-            <br />
             <Record saveTempAudio={this.props.saveTempAudio} />
             {this.props.tempRiff.payload ? (
               <button
