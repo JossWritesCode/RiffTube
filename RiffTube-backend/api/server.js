@@ -35,6 +35,8 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
 
   const {OAuth2Client} = require('google-auth-library');
   const client = new OAuth2Client(CLIENT_ID);
+
+  // function to verify the google token
   function verify()
   {
     console.log( "verify" );
@@ -49,14 +51,14 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
   }
 
   verify()
+    // once verified, get and pass on payload
     .then( ticket => {
       const payload = ticket.getPayload();
       console.log( "payday!" );
       console.log( payload );
-      // If request specified a G Suite domain:
-      //const domain = payload['hd'];
       return payload;
     } )
+    // make sure that the user exists in the db, or else insert them
     .then( payload => {
       console.log( "then1", payload );
       return db( 'users' )
@@ -79,6 +81,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
             console.log('not inserting user');
           return payload;
         }); } )
+    // make sure that the video exists in the db, or else insert it
     .then( payload => {
       console.log( "then2" );
       return db( 'videos' )
@@ -99,12 +102,16 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
             console.log('not inserting video');
           return payload;
         }); } )
+    
+    // once we know the user and video exist, insert the riff
     .then( payload => {
 
       console.log( "EML\n", payload.email );
       console.log( "DAT\n", data_model );
       console.log( "FIL\n", req.file );
+      console.log( "BOD\n", body );
 
+      // get the IDs of the user and video, then insert the data
       data_model.getIdFromEmail( payload.email ).then( idin => {
         console.log( "UID!", idin[0].id );
 
@@ -116,10 +123,10 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
                 'audio_datum': req.file.buffer,
                 'duration': body.duration,
                 'user_id': idin[0].id,
-                'video_id': vidid[0].id
+                'video_id': vidid[0].id,
+                'start_time': body.time
               } )
             .then( () => res.status(200).json({'status': 'ok'}) );
-            //.catch(err => res.status(500).json({'insert error': err}) );
           } );
       } );
     } )
