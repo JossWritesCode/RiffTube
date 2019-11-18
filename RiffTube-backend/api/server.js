@@ -73,7 +73,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
                 email: payload.email
               }, 'id' )
               .then( newUserId => {
-                console.log( 'inserted user', newUserId )
+                console.log( 'inserted user', newUserId );
                 return payload;
               } );
           }
@@ -94,9 +94,10 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
               .insert( {
                 url: body.video_id
               }, 'id' )
-              .then( newVidId =>
-                console.log( 'inserted video', newVidId )
-              );
+              .then( newVidId => {
+                console.log( 'inserted video', newVidId );
+                return payload;
+              } );
           }
           else
             console.log('not inserting video');
