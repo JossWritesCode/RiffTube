@@ -15,3 +15,8 @@ function getIdFromVideoId(url) {
             .where({ url })
     );
 }
+
+module.exports = {
+    getIdFromEmail,
+    getIdFromVideoId
+  };

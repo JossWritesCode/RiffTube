@@ -38,7 +38,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
       }
     );
     const payload = ticket.getPayload();
-    console.log( "payday!");
+    console.log( "payday!" );
     console.log( payload );
     const userid = payload['sub'];
     // If request specified a G Suite domain:
@@ -46,7 +46,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
 
     db( 'users' )
       .select()
-      .where( 'email', payload.email)
+      .where( 'email', payload.email )
       .then( userList  => {
         if ( userList.length === 0 )
         {
@@ -64,15 +64,46 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
         return;
       });
 
-      debugger;
-    db( 'riffs' )
-      .insert( {
-          'audio_datum': req.file,
-          'duration': body.duration,
-          'user_id': data_model.getIdFromEmail( payload.email ),
-          'video_id': 'temp'
-        } )
-      .then( () => res.status(200).json({'status': 'ok'}) );
+    db( 'videos' )
+      .select()
+      .where( 'url', body.video_id )
+      .then( vidList  => {
+        if ( vidList.length === 0 )
+        {
+          return db( 'videos' )
+            .insert( {
+              url: body.video_id
+            }, 'id' )
+            .then( newVidId =>
+              console.log( 'inserted video', newVidId )
+            );
+        }
+        else
+          console.log('not inserting video');
+        return;
+      });
+
+      console.log( "EML\n", payload.email );
+      console.log( "DAT\n", data_model );
+      console.log( "FIL\n", req.file );
+
+      data_model.getIdFromEmail( payload.email ).then( idin => {
+        console.log( "UID!", idin[0].id );
+
+        data_model.getIdFromVideoId( body.video_id ).then( vidid => {
+          console.log( "VID!", vidid[0].id );
+
+          db( 'riffs' )
+            .insert( {
+                'audio_datum': req.file.buffer,
+                'duration': body.duration,
+                'user_id': idin[0].id,
+                'video_id': vidid[0].id
+              } )
+            .then( () => res.status(200).json({'status': 'ok'}) );
+            //.catch(err => res.status(500).json({'insert error': err}) );
+        } );
+    } );
   }
   verify().catch(err => res.status(500).json({'error': err}) );
   

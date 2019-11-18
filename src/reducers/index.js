@@ -47,7 +47,8 @@ export default (state = initialState, action) => {
         ...state,
         tempRiff: {
           type: 'audio',
-          time: window.rifftubePlayer.getCurrentTime()
+          time: window.rifftubePlayer.getCurrentTime(),
+          video_id: state.videoID
         },
         mode: EDIT_NEW_MODE
       };
