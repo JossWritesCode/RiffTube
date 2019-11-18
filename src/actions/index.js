@@ -6,6 +6,10 @@ export const SEND_ACCESS_TOKEN = 'SEND_ACCESS_TOKEN';
 export const SEND_ACCESS_TOKEN_SUCCESS = 'SEND_ACCESS_TOKEN_SUCCESS';
 export const SEND_ACCESS_TOKEN_FAILURE = 'SEND_ACCESS_TOKEN_FAILURE';
 
+export const SEND_ADD_RIFF = 'SEND_ADD_RIFF';
+export const SEND_ADD_RIFF_SUCCESS = 'SEND_ADD_RIFF_SUCCESS';
+export const SEND_ADD_RIFF_FAILURE = 'SEND_ADD_RIFF_FAILURE';
+
 export const CREATE_TEMP_AUDIO_RIFF = 'CREATE_TEMP_AUDIO_RIFF';
 export const CREATE_TEMP_TEXT_RIFF = 'CREATE_TEMP_TEXT_RIFF';
 
@@ -47,10 +51,10 @@ export const togglePlayerMode = mode => ({
   type: TOGGLE_PLAYER_MODE
 });
 
-export const saveRiff = payload => ({
+/*export const saveRiff = payload => ({
   type: SAVE_RIFF,
   payload
-});
+});*/
 
 export const saveTempAudio = (payload, duration) => ({
   type: SAVE_TEMP_AUDIO,
@@ -66,6 +70,32 @@ export const editRiff = payload => ({
 export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
+
+export const saveRiff = (token, payload) => {
+  let fd = new FormData();
+  //debugger;
+  fd.append( 'token', token );
+  fd.append( 'blob', payload.payload );
+  fd.append( 'duration', payload.duration );
+  fd.append( 'start', payload.start );
+  fd.append( 'video_id', payload.video_id );
+  return dispatch => {
+    dispatch( { type: SAVE_RIFF, payload } );
+    axios({
+      method: 'post',
+      url: 'http://localhost:3300/add-riff',
+      data: fd,
+      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+    })
+      .then(res => {
+        // res.data.data
+        dispatch({ type: SEND_ADD_RIFF_SUCCESS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: SEND_ADD_RIFF_FAILURE, payload: err.response });
+      });
+  };
+};
 
 export const sendGoogleToken = token => {
   let fd = new FormData();

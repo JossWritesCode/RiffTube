@@ -23,9 +23,7 @@ class Record extends React.Component {
 
           mr.onstop = e => {
             var blob = new Blob(this.chunks, { type: 'audio/webm' }); // was 'audio/webm;codecs=opus'
-            var audioURL = URL.createObjectURL(blob);
-
-            this.props.saveTempAudio(audioURL, this.duration);
+            this.props.saveTempAudio(blob, this.duration);
           };
 
           this.setState({ mediaRecorder: mr });
