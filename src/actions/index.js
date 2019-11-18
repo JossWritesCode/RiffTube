@@ -91,14 +91,13 @@ export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
 
-export const saveRiff = (token, payload) => {
+export const saveRiff = (token, payload, riff) => {
   let fd = new FormData();
-  //debugger;
   fd.append( 'token', token );
   fd.append( 'blob', payload.payload );
-  fd.append( 'duration', payload.duration );
-  fd.append( 'start', payload.start );
-  fd.append( 'video_id', payload.video_id );
+  fd.append( 'duration', riff.duration );
+  fd.append( 'start_time', riff.time );
+  fd.append( 'video_id', riff.video_id );
   return dispatch => {
     dispatch( { type: SAVE_RIFF, payload } );
     axios({

@@ -37,7 +37,8 @@ class EditRiff extends React.Component {
                   this.props.googleUser.getAuthResponse().id_token,
                   {
                     payload: this.props.tempRiff.payload
-                  }
+                  },
+                  this.props.tempRiff
                 );
               }}
             >
@@ -67,7 +68,8 @@ class EditRiff extends React.Component {
                     duration: Number(
                       document.querySelector('#riff-duration-field').value
                     )
-                  }
+                  },
+                  this.props.tempRiff
                 );
               }}
             >
