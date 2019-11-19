@@ -18,7 +18,7 @@ import {
 } from '../actions/index.js';
 
 let initialState = {
-  videoID: '8N_tupPBtWQ',
+  videoID: 'lYIRO97dhII',
   googleUser: null,
   riffs: [],
   tempRiff: null,
