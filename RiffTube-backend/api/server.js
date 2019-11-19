@@ -18,12 +18,55 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
 
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(CLIENT_ID);
+
+// function to verify the google token
+function verify( token )
+{
+  console.log( "verify" );
+  return client.verifyIdToken(
+    {
+      idToken: token,
+      audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    }
+  );
+}
+
 server.post('/get-riffs', (req, res) => {  
   const body = req.body;
 
   console.log( 'get riffs request', body );
 
-  res.status(200).json({'status': 'ok'});
+  // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
+
+  verify( body.token )
+    // once verified, get and pass on payload
+    .then( ticket => {
+      const payload = ticket.getPayload();
+      console.log( "payday!" );
+      console.log( payload );
+      return payload;
+    } )
+    //.then( payload => data_model.getIdFromEmail( payload.email ) )
+    .then( payload => Promise.all( [ payload, data_model.getIdFromEmail( payload.email ) ] ) )
+    .then( ([payload, [ { id: uID } ] ]) => {
+      console.log( "pp", uID );
+      return Promise.all( [payload, uID, data_model.getIdFromVideoId( body.videoID )] );
+    } )
+    .then( ([ payload, uID, [ { id: vID } ] ]) => {
+        console.log( "IDs!", vID, uID );
+        console.log( "get riff payload", payload );
+        return db( 'riffs' )
+          .select( 'id' ) // 'id', 'duration', 'start_time' 
+          .where( { 'user_id': uID, 'video_id': vID } )
+    } )
+    .then( riffList  => {
+      res.status(200).json({status: 'ok', body: riffList});
+    } )
+    .catch(err => res.status(500).json({'error': err}) );
 } );
 
 server.post('/add-riff', upload.single('blob'), (req, res) => {  
@@ -33,24 +76,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
   console.log( "incoming blob:" );
   console.log( req.file );
 
-  const {OAuth2Client} = require('google-auth-library');
-  const client = new OAuth2Client(CLIENT_ID);
-
-  // function to verify the google token
-  function verify()
-  {
-    console.log( "verify" );
-    return client.verifyIdToken(
-      {
-        idToken: body.token,
-        audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-        // Or, if multiple clients access the backend:
-        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-      }
-    );
-  }
-
-  verify()
+  verify( body.token )
     // once verified, get and pass on payload
     .then( ticket => {
       const payload = ticket.getPayload();
@@ -125,8 +151,8 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
                 'duration': body.duration,
                 'user_id': idin[0].id,
                 'video_id': vidid[0].id,
-              } )
-            .then( () => res.status(200).json({'status': 'ok'}) );
+              }, 'id' )
+            .then( newRiffId => res.status(200).json({ status: 'ok', id: newRiffId }) );
           } );
       } );
     } )

@@ -44,7 +44,7 @@ export const setVideoID = payload => ({
   payload: googleUser
 });*/
 
-export const setGoogleUser = googleUser => {
+export const setGoogleUser = (googleUser, videoID) => {
   return dispatch => {
     dispatch( {
       type: GOOGLE_USER_SIGNIN,
@@ -53,7 +53,7 @@ export const setGoogleUser = googleUser => {
     axios({
       method: 'post',
       url: 'http://localhost:3300/get-riffs',
-      data: { token: googleUser.getAuthResponse().id_token }
+      data: { token: googleUser.getAuthResponse().id_token, videoID }
     })
       .then(res => {
         console.log( 'SGU', res.data );
