@@ -14,7 +14,8 @@ import {
   EDIT_NEW_MODE,
   PLAY_MODE,
   PAUSE_MODE,
-  TOGGLE_PLAYER_MODE
+  TOGGLE_PLAYER_MODE,
+  RECEIVE_RIFF_LIST
 } from '../actions/index.js';
 
 let initialState = {
@@ -111,6 +112,11 @@ export default (state = initialState, action) => {
         ...state,
         mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
       };
+    case RECEIVE_RIFF_LIST:
+      return {
+        ...state,
+        riffs: [ ...state.riffs, ...action.payload.body.map( el => ({ ...el, time: el.start_time, payload: el.isText ? el.text : null, type: el.isText ? 'text' : 'audio' }) ) ]
+      }
     case SAVE_RIFF:
       let riff = { ...state.tempRiff, ...action.payload };
       let riffs;

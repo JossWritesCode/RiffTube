@@ -74,6 +74,7 @@ class YouTubeVideo extends React.Component {
       // needed I think... for pausing during a riff
       this.curRiff = this.props.riffsPlaying;
 
+      /*******************************************************/
       // this timer is responsible for showing and hiding riffs
       this.riffInterval = setInterval(() => {
         //console.log( "interval", this.curRiff, this.props.riffsPlaying );
@@ -107,6 +108,7 @@ class YouTubeVideo extends React.Component {
 
               let audio = document.createElement('audio');
               audio.controls = false;
+              if ( ! riff.payload ) return; // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(riff.payload);
               audio.src = audioURL;
               audio.play();
@@ -136,6 +138,8 @@ class YouTubeVideo extends React.Component {
   };
 
   componentDidUpdate = prevProps => {
+    //console.log( "youtube vid component upate" );
+
     if (this.props.id !== prevProps.id) this.loadVideo();
 
     if (this.props.mode !== prevProps.mode) {
