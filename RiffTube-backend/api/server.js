@@ -52,7 +52,7 @@ server.post('/load-riff', (req, res) => {
     } )
     .then( ([aud]) => {
       console.log( 'datum', aud );
-      res.status(200).send(aud);
+      res.status(200).send(aud.audio_datum);
     } )
     .catch(err => res.status(500).json({'error': err}) );
 } );

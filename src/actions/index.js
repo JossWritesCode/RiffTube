@@ -165,11 +165,12 @@ export const loadRiff = (id, guser) =>
     axios({
       method: 'post',
       url: 'http://localhost:3300/load-riff',
+      responseType: 'arraybuffer',
       data: { token: guser.getAuthResponse().id_token, id }
     })
       .then(res => {
         console.log( 'SGU', res.data );
-        dispatch({ type: RIFF_LOADED, payload: res.data });
+        dispatch({ type: RIFF_LOADED, payload: res.data, id });
       } );
   }
 }

@@ -103,10 +103,6 @@ export default (state = initialState, action) => {
           [action.payload]: false
         }
       };
-    case LOAD_RIFF:
-      let ret = state;
-      ret.riffs[ action.payload ] = true;
-      return ret;
     case TOGGLE_PLAYER_MODE:
       return {
         ...state,
@@ -150,7 +146,17 @@ export default (state = initialState, action) => {
           mode: PLAY_MODE // should be an option
         };
       }
+    case LOAD_RIFF:
+      let ret = { ...state };
+      ret.riffs[ action.payload ].loading = true;
+      return ret;
     case RIFF_LOADED:
+      {
+        let riffs = [ ...state.riffs ];
+        riffs.forEach( el => { if ( el.id == action.id ) el.payload = new Blob( new Array( action.payload ), { type: 'audio/webm' } ); })
+        let ret = { ...state, riffs };
+        return ret;
+      }
     default:
       console.log('uncaught action!');
       return state;
