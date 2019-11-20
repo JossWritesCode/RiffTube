@@ -35,6 +35,28 @@ function verify( token )
   );
 }
 
+server.post('/load-riff', (req, res) => {  
+  const body = req.body;
+
+  console.log( 'load riff request', body );
+
+  verify( body.token )
+    // once verified, get and pass on payload
+    .then( ticket => {
+      const payload = ticket.getPayload();
+      console.log( "payday!" );
+      console.log( payload );
+      return db( 'riffs' )
+          .select( 'audio_datum' )
+          .where( { 'id': body.id } )
+    } )
+    .then( ([aud]) => {
+      console.log( 'datum', aud );
+      res.status(200).send(aud.audio_datum);
+    } )
+    .catch(err => res.status(500).json({'error': err}) );
+} );
+
 server.post('/get-riffs', (req, res) => {  
   const body = req.body;
 
@@ -60,7 +82,7 @@ server.post('/get-riffs', (req, res) => {
         console.log( "IDs!", vID, uID );
         console.log( "get riff payload", payload );
         return db( 'riffs' )
-          .select( 'id' ) // 'id', 'duration', 'start_time' 
+          .select( 'id', 'duration', 'start_time', 'isText', 'text', 'user_id' )
           .where( { 'user_id': uID, 'video_id': vID } )
     } )
     .then( riffList  => {
@@ -78,14 +100,16 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
 
   verify( body.token )
     // once verified, get and pass on payload
-    .then( ticket => {
+    .then( ticket =>
+    {
       const payload = ticket.getPayload();
       console.log( "payday!" );
       console.log( payload );
       return payload;
     } )
     // make sure that the user exists in the db, or else insert them
-    .then( payload => {
+    .then( payload =>
+    {
       console.log( "then1", payload );
       return db( 'users' )
         .select()
@@ -106,9 +130,11 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
           else
             console.log('not inserting user');
           return payload;
-        }); } )
+        });
+    } )
     // make sure that the video exists in the db, or else insert it
-    .then( payload => {
+    .then( payload =>
+    {
       console.log( "then2" );
       return db( 'videos' )
         .select()
@@ -128,10 +154,11 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
           else
             console.log('not inserting video');
           return payload;
-        }); } )
-    
+        });
+    } )
     // once we know the user and video exist, insert the riff
-    .then( payload => {
+    .then( payload =>
+    {
 
       console.log( "EML\n", payload.email );
       console.log( "DAT\n", data_model );
@@ -147,12 +174,15 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
 
           db( 'riffs' )
             .insert( {
-                'audio_datum': req.file.buffer,
+                'audio_datum': body.type == 'text' ? null : req.file.buffer,
+                'text': body.type == 'text' ? body.text : null,
+                'isText': body.type == 'text',
+                'start_time': body.start_time,
                 'duration': body.duration,
                 'user_id': idin[0].id,
                 'video_id': vidid[0].id,
               }, 'id' )
-            .then( newRiffId => res.status(200).json({ status: 'ok', id: newRiffId }) );
+            .then( ([newRiffId]) => res.status(200).json({ status: 'ok', tempId: body.tempId, id: newRiffId }) );
           } );
       } );
     } )
