@@ -160,7 +160,7 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
                 'user_id': idin[0].id,
                 'video_id': vidid[0].id,
               }, 'id' )
-            .then( newRiffId => res.status(200).json({ status: 'ok', id: newRiffId }) );
+            .then( ([newRiffId]) => res.status(200).json({ status: 'ok', tempId: body.tempId, id: newRiffId }) );
           } );
       } );
     } )

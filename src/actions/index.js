@@ -23,6 +23,8 @@ export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
 export const SET_RIFF_PLAYING = 'SET_RIFF_PLAYING';
 export const SET_RIFF_NOT_PLAYING = 'SET_RIFF_NOT_PLAYING';
 
+export const LOAD_RIFF = 'LOAD_RIFF';
+
 export const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
 export const EDIT_MODE = 'EDIT_MODE';
 export const EDIT_NEW_MODE = 'EDIT_NEW_MODE';
@@ -102,6 +104,7 @@ export const saveRiff = (token, payload, riff) => {
   fd.append( 'duration', riff.type == 'text' ? payload.duration : riff.duration );
   fd.append( 'start_time', riff.time );
   fd.append( 'video_id', riff.video_id );
+  fd.append( 'tempId', riff.tempId );
   return dispatch => {
     dispatch( { type: SAVE_RIFF, payload } );
     axios({
@@ -154,3 +157,19 @@ export const setRiffPlaying = (index, playing) => ({
   type: playing ? SET_RIFF_PLAYING : SET_RIFF_NOT_PLAYING,
   payload: index
 });
+
+export const loadRiff = (gid, guser) =>
+{
+  return dispatch =>
+  {
+    axios({
+      method: 'post',
+      url: 'http://localhost:3300/load-riff',
+      data: { token: guser.getAuthResponse().id_token, gid }
+    })
+      .then(res => {
+        console.log( 'SGU', res.data );
+        dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+      } );
+  }
+}

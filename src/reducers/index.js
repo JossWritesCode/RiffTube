@@ -10,12 +10,14 @@ import {
   EDIT_RIFF,
   SET_RIFF_NOT_PLAYING,
   SET_RIFF_PLAYING,
+  LOAD_RIFF,
   EDIT_MODE,
   EDIT_NEW_MODE,
   PLAY_MODE,
   PAUSE_MODE,
   TOGGLE_PLAYER_MODE,
-  RECEIVE_RIFF_LIST
+  RECEIVE_RIFF_LIST,
+  SEND_ADD_RIFF_SUCCESS
 } from '../actions/index.js';
 
 let initialState = {
@@ -44,25 +46,18 @@ export default (state = initialState, action) => {
         googleUser: action.payload
       };
     case CREATE_TEMP_AUDIO_RIFF:
-      return {
-        ...state,
-        tempRiff: {
-          type: 'audio',
-          time: window.rifftubePlayer.getCurrentTime(),
-          video_id: state.videoID
-        },
-        mode: EDIT_NEW_MODE
-      };
     case CREATE_TEMP_TEXT_RIFF:
       return {
         ...state,
         tempRiff: {
-          type: 'text',
+          type: action.type == CREATE_TEMP_AUDIO_RIFF ? 'audio' : 'text',
           time: window.rifftubePlayer.getCurrentTime(),
-          video_id: state.videoID
+          video_id: state.videoID,
+          tempId: new Date().getUTCMilliseconds() // used to get perm id from server
         },
         mode: EDIT_NEW_MODE
       };
+
     case EDIT_RIFF:
       return {
         ...state,
@@ -107,6 +102,10 @@ export default (state = initialState, action) => {
           [action.payload]: false
         }
       };
+    case LOAD_RIFF:
+      let ret = state;
+      ret.riffs[ action.payload ] = true;
+      return ret;
     case TOGGLE_PLAYER_MODE:
       return {
         ...state,
@@ -115,24 +114,40 @@ export default (state = initialState, action) => {
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
-        riffs: [ ...state.riffs, ...action.payload.body.map( el => ({ ...el, time: el.start_time, payload: el.isText ? el.text : null, type: el.isText ? 'text' : 'audio' }) ) ]
+        riffs: [
+          ...state.riffs,
+          ...action.payload.body.map( el => ({
+            ...el,
+            time: el.start_time, 
+            payload: el.isText ? el.text : null,
+            type: el.isText ? 'text' : 'audio' })
+        ) ]
+      };
+    case SEND_ADD_RIFF_SUCCESS:
+      {
+        let riffs = [ ...state.riffs ];
+        riffs.forEach( el => { if ( el.tempId == action.payload.tempId ) el.id = action.payload.id; })
+        let ret = { ...state, riffs };
+        return ret;
       }
     case SAVE_RIFF:
-      let riff = { ...state.tempRiff, ...action.payload };
-      let riffs;
-      if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
-      // EDIT_MODE
-      else {
-        riffs = [...state.riffs];
-        riffs[state.editIndex] = riff;
-      }
+      {
+        let riff = { ...state.tempRiff, ...action.payload };
+        let riffs;
+        if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
+        // EDIT_MODE
+        else {
+          riffs = [...state.riffs];
+          riffs[state.editIndex] = riff;
+        }
 
-      return {
-        ...state,
-        riffs,
-        tempRiff: null,
-        mode: PLAY_MODE // should be an option
-      };
+        return {
+          ...state,
+          riffs,
+          tempRiff: null,
+          mode: PLAY_MODE // should be an option
+        };
+      }
     default:
       console.log('uncaught action!');
       return state;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   setPlayerMode,
   setRiffPlaying,
+  loadRiff,
   togglePlayerMode,
   EDIT_MODE,
   EDIT_NEW_MODE,
@@ -53,6 +54,15 @@ class YouTubeVideo extends React.Component {
   onPlayerReady = event => {
     //event.target.playVideo();
   };
+
+  checkForRiffsToLoad = t =>
+  {
+    this.props.riffs.forEach( riff =>
+    {
+      if ( riff.type == 'audio' && !riff.payload && !riff.loading && riff.time >= t && riff.time < t + 10 )
+        this.props.loadRiff( riff.id, this.props.googleUser );
+    });
+  }
 
   onPlayerStateChange = ({ data }) => {
     /*
@@ -140,6 +150,8 @@ class YouTubeVideo extends React.Component {
   componentDidUpdate = prevProps => {
     //console.log( "youtube vid component upate" );
 
+    this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
+
     if (this.props.id !== prevProps.id) this.loadVideo();
 
     if (this.props.mode !== prevProps.mode) {
@@ -204,13 +216,15 @@ const mapStateToProps = state => ({
   id: state.videoID,
   mode: state.mode,
   riffs: state.riffs,
-  riffsPlaying: state.riffsPlaying
+  riffsPlaying: state.riffsPlaying,
+  googleUser: state.googleUser
 });
 
 const mapDispatchToProps = {
   setPlayerMode,
   setRiffPlaying,
-  togglePlayerMode
+  togglePlayerMode,
+  loadRiff
 };
 
 export default connect(
