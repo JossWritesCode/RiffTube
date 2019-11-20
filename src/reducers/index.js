@@ -109,7 +109,6 @@ export default (state = initialState, action) => {
         mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
       };
     case RECEIVE_RIFF_LIST:
-      debugger;
       return {
         ...state,
         riffs: [
