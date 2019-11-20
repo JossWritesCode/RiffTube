@@ -60,7 +60,7 @@ server.post('/get-riffs', (req, res) => {
         console.log( "IDs!", vID, uID );
         console.log( "get riff payload", payload );
         return db( 'riffs' )
-          .select( 'id' ) // 'id', 'duration', 'start_time' 
+          .select( 'id', 'duration', 'start_time', 'isText', 'text', 'user_id' )
           .where( { 'user_id': uID, 'video_id': vID } )
     } )
     .then( riffList  => {

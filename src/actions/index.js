@@ -99,7 +99,7 @@ export const saveRiff = (token, payload, riff) => {
   else
     fd.append( 'blob', payload.payload );
   fd.append( 'type', riff.type );
-  fd.append( 'duration', riff.duration );
+  fd.append( 'duration', riff.type == 'text' ? payload.duration : riff.duration );
   fd.append( 'start_time', riff.time );
   fd.append( 'video_id', riff.video_id );
   return dispatch => {
