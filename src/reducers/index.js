@@ -11,6 +11,7 @@ import {
   SET_RIFF_NOT_PLAYING,
   SET_RIFF_PLAYING,
   LOAD_RIFF,
+  RIFF_LOADED,
   EDIT_MODE,
   EDIT_NEW_MODE,
   PLAY_MODE,
@@ -112,6 +113,7 @@ export default (state = initialState, action) => {
         mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
       };
     case RECEIVE_RIFF_LIST:
+      debugger;
       return {
         ...state,
         riffs: [
@@ -148,6 +150,7 @@ export default (state = initialState, action) => {
           mode: PLAY_MODE // should be an option
         };
       }
+    case RIFF_LOADED:
     default:
       console.log('uncaught action!');
       return state;

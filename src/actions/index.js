@@ -24,6 +24,7 @@ export const SET_RIFF_PLAYING = 'SET_RIFF_PLAYING';
 export const SET_RIFF_NOT_PLAYING = 'SET_RIFF_NOT_PLAYING';
 
 export const LOAD_RIFF = 'LOAD_RIFF';
+export const RIFF_LOADED = 'RIFF_LOADED';
 
 export const SET_PLAYER_MODE = 'SET_PLAYER_MODE';
 export const EDIT_MODE = 'EDIT_MODE';
@@ -94,19 +95,18 @@ export const cancelEdit = () => ({
 });
 
 export const saveRiff = (token, payload, riff) => {
-  let fd = new FormData();
-  fd.append( 'token', token );
-  if ( riff.type == 'text' )
-    fd.append( 'text', payload.payload );
-  else
-    fd.append( 'blob', payload.payload );
-  fd.append( 'type', riff.type );
-  fd.append( 'duration', riff.type == 'text' ? payload.duration : riff.duration );
-  fd.append( 'start_time', riff.time );
-  fd.append( 'video_id', riff.video_id );
-  fd.append( 'tempId', riff.tempId );
   return dispatch => {
     dispatch( { type: SAVE_RIFF, payload } );
+
+    let fd = new FormData();
+    fd.append( 'token', token );
+    fd.append( riff.type == 'text' ? 'text' : 'blob', payload.payload );
+    fd.append( 'type', riff.type );
+    fd.append( 'duration', riff.type == 'text' ? payload.duration : riff.duration );
+    fd.append( 'start_time', riff.time );
+    fd.append( 'video_id', riff.video_id );
+    fd.append( 'tempId', riff.tempId );
+
     axios({
       method: 'post',
       url: 'http://localhost:3300/add-riff',
@@ -158,18 +158,18 @@ export const setRiffPlaying = (index, playing) => ({
   payload: index
 });
 
-export const loadRiff = (gid, guser) =>
+export const loadRiff = (id, guser) =>
 {
   return dispatch =>
   {
     axios({
       method: 'post',
       url: 'http://localhost:3300/load-riff',
-      data: { token: guser.getAuthResponse().id_token, gid }
+      data: { token: guser.getAuthResponse().id_token, id }
     })
       .then(res => {
         console.log( 'SGU', res.data );
-        dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+        dispatch({ type: RIFF_LOADED, payload: res.data });
       } );
   }
 }

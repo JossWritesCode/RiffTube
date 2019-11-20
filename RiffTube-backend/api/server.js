@@ -35,6 +35,28 @@ function verify( token )
   );
 }
 
+server.post('/load-riff', (req, res) => {  
+  const body = req.body;
+
+  console.log( 'load riff request', body );
+
+  verify( body.token )
+    // once verified, get and pass on payload
+    .then( ticket => {
+      const payload = ticket.getPayload();
+      console.log( "payday!" );
+      console.log( payload );
+      return db( 'riffs' )
+          .select( 'audio_datum' )
+          .where( { 'id': body.id } )
+    } )
+    .then( ([aud]) => {
+      console.log( 'datum', aud );
+      res.status(200).send(aud);
+    } )
+    .catch(err => res.status(500).json({'error': err}) );
+} );
+
 server.post('/get-riffs', (req, res) => {  
   const body = req.body;
 
