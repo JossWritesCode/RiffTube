@@ -94,7 +94,11 @@ export const cancelEdit = () => ({
 export const saveRiff = (token, payload, riff) => {
   let fd = new FormData();
   fd.append( 'token', token );
-  fd.append( 'blob', payload.payload );
+  if ( riff.type == 'text' )
+    fd.append( 'text', payload.payload );
+  else
+    fd.append( 'blob', payload.payload );
+  fd.append( 'type', riff.type );
   fd.append( 'duration', riff.duration );
   fd.append( 'start_time', riff.time );
   fd.append( 'video_id', riff.video_id );
