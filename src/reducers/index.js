@@ -18,7 +18,7 @@ import {
   PAUSE_MODE,
   TOGGLE_PLAYER_MODE,
   RECEIVE_RIFF_LIST,
-  SEND_ADD_RIFF_SUCCESS
+  SAVE_RIFF_SUCCESS
 } from '../actions/index.js';
 
 let initialState = {
@@ -31,6 +31,8 @@ let initialState = {
 };
 
 export default (state = initialState, action) => {
+  console.log( "dispatch", action, state);
+
   switch (action.type) {
     case SET_VIDEO_ID:
       return {
@@ -103,7 +105,7 @@ export default (state = initialState, action) => {
           [action.payload]: false
         }
       };
-    case TOGGLE_PLAYER_MODE:
+    case TOGGLE_PLAYER_MODE: // not needed at the moment
       return {
         ...state,
         mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
@@ -120,19 +122,23 @@ export default (state = initialState, action) => {
             type: el.isText ? 'text' : 'audio' })
         ) ]
       };
-    case SEND_ADD_RIFF_SUCCESS:
+    case SAVE_RIFF_SUCCESS:
+      if ( action.payload.type === 'add' )
       {
         let riffs = [ ...state.riffs ];
         riffs.forEach( el => { if ( el.tempId == action.payload.tempId ) el.id = action.payload.id; })
         let ret = { ...state, riffs };
         return ret;
       }
+      else
+        return state;
     case SAVE_RIFF:
       {
         let riff = { ...state.tempRiff, ...action.payload };
         let riffs;
+        // editing a new riff:
         if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
-        // EDIT_MODE
+        // EDIT_MODE (existing riff):
         else {
           riffs = [...state.riffs];
           riffs[state.editIndex] = riff;
@@ -152,7 +158,7 @@ export default (state = initialState, action) => {
     case RIFF_LOADED:
       {
         let riffs = [ ...state.riffs ];
-        riffs.forEach( el => { if ( el.id == action.id ) el.payload = new Blob( new Array( action.payload ), { type: 'audio/webm' } ); })
+        riffs.forEach( el => { if ( el.id == action.id ) { el.payload = new Blob( new Array( action.payload ), { type: 'audio/webm' } ); el.loading = false; } })
         let ret = { ...state, riffs };
         return ret;
       }

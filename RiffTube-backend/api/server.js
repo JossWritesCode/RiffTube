@@ -84,18 +84,19 @@ server.post('/get-riffs', (req, res) => {
     })
     .then(([payload, uID, [{ id: vID }]]) => {
       console.log('IDs!', vID, uID);
-      console.log('get riff payload', payload);
+      console.log('get riffs');
       return db('riffs')
-        .select('id', 'duration', 'start_time', 'isText', 'text', 'user_id')
+        .select('id', 'duration', 'start_time', 'isText', 'text')
         .where({ user_id: uID, video_id: vID });
     })
     .then(riffList => {
-      res.status(200).json({ status: 'ok', body: riffList });
+      console.log( riffList );
+      res.status(200).json({ status: 'ok', body: riffList.map( el => ({ ...el, video_id: body.videoID }) ) });
     })
     .catch(err => res.status(500).json({ error: err, body: [] }));
 });
 
-server.post('/add-riff', upload.single('blob'), (req, res) => {
+server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
   //console.log( 'verify token' );
@@ -171,24 +172,39 @@ server.post('/add-riff', upload.single('blob'), (req, res) => {
         data_model.getIdFromVideoId(body.video_id).then(vidid => {
           console.log('VID!', vidid[0].id);
 
-          db('riffs')
-            .insert(
-              {
-                audio_datum: body.type == 'text' ? null : req.file.buffer,
-                text: body.type == 'text' ? body.text : null,
-                isText: body.type == 'text',
-                start_time: body.start_time,
-                duration: body.duration,
-                user_id: idin[0].id,
-                video_id: vidid[0].id
-              },
-              'id'
-            )
-            .then(([newRiffId]) =>
-              res
-                .status(200)
-                .json({ status: 'ok', tempId: body.tempId, id: newRiffId })
-            );
+          dbpayload =
+          {
+            audio_datum: body.type == 'text' ? null : req.file.buffer,
+            text: body.type == 'text' ? body.text : null,
+            isText: body.type == 'text',
+            start_time: body.start_time,
+            duration: body.duration,
+            user_id: idin[0].id,
+            video_id: vidid[0].id
+          };
+
+          if ( body.id === 'undefined' )
+          {
+            db('riffs')
+              .insert( dbpayload, 'id' )
+              .then(([newRiffId]) =>
+                res
+                  .status(200)
+                  .json({ status: 'ok', type: 'add', tempId: body.tempId, id: newRiffId })
+              );
+          }
+          else
+          {
+
+            db('riffs')
+              .where( 'id', body.id )
+              .update( dbpayload )
+              .then( () =>
+                res
+                  .status(200)
+                  .json({ status: 'ok', type: 'edit' })
+              );
+          }
         });
       });
     })

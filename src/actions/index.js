@@ -2,12 +2,6 @@ import axios from 'axios';
 
 export const GOOGLE_USER_SIGNIN = 'GOOGLE_USER_SIGNIN';
 
-
-
-export const SEND_ADD_RIFF = 'SEND_ADD_RIFF';
-export const SEND_ADD_RIFF_SUCCESS = 'SEND_ADD_RIFF_SUCCESS';
-export const SEND_ADD_RIFF_FAILURE = 'SEND_ADD_RIFF_FAILURE';
-
 export const CREATE_TEMP_AUDIO_RIFF = 'CREATE_TEMP_AUDIO_RIFF';
 export const CREATE_TEMP_TEXT_RIFF = 'CREATE_TEMP_TEXT_RIFF';
 
@@ -15,6 +9,9 @@ export const EDIT_RIFF = 'EDIT_RIFF';
 
 export const CANCEL_EDIT = 'CANCEL_EDIT';
 export const SAVE_RIFF = 'SAVE_RIFF';
+
+export const SAVE_RIFF_SUCCESS = 'SAVE_RIFF_SUCCESS';
+export const SAVE_RIFF_FAILURE = 'SAVE_RIFF_FAILURE';
 
 export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
 
@@ -92,7 +89,8 @@ export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
 
-export const saveRiff = (token, payload, riff) => {
+export const saveRiff = (token, payload, riff) =>
+{
   return dispatch => {
     dispatch( { type: SAVE_RIFF, payload } );
 
@@ -105,18 +103,21 @@ export const saveRiff = (token, payload, riff) => {
     fd.append( 'video_id', riff.video_id );
     fd.append( 'tempId', riff.tempId );
 
+    // this may be null, and that's ok
+    fd.append( 'id', riff.id );
+
     axios({
       method: 'post',
-      url: 'http://localhost:3300/add-riff',
+      url: 'http://localhost:3300/save-riff',
       data: fd,
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
     })
       .then(res => {
         // res.data.data
-        dispatch({ type: SEND_ADD_RIFF_SUCCESS, payload: res.data });
+        dispatch({ type: SAVE_RIFF_SUCCESS, payload: res.data });
       })
       .catch(err => {
-        dispatch({ type: SEND_ADD_RIFF_FAILURE, payload: err.response });
+        dispatch({ type: SAVE_RIFF_FAILURE, payload: err.response });
       });
   };
 };

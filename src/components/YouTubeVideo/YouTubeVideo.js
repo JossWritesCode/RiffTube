@@ -182,6 +182,7 @@ class YouTubeVideo extends React.Component {
           .filter(i => this.props.riffsPlaying[i])
           .map(key => (
             <div
+              key={key}
               style={{
                 position: 'absolute',
                 width: '100%',
