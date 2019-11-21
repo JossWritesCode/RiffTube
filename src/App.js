@@ -27,32 +27,48 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <div style={ { backgroundColor: '#A41320', color: 'white', padding: '1em' } }>
-            <h1 style={ { textAlign: 'center', fontFamily: "'Limelight'", margin: 0 } }>RiffTube</h1>
-            <form onSubmit={ e => { this.props.setVideoID( this.videoIDRef.current.value ); e.preventDefault(); } }>
-              <label>
-                YouTube URL/ID:&nbsp;&nbsp;
-              </label>
-              <input
-                type="text"
-                defaultValue={this.props.videoID}
-                ref={this.videoIDRef}
-              />
-              <button
-                type="button"
-                onClick={e => {
-                  this.props.setVideoID(this.videoIDRef.current.value);
+          <div               style={{
+                backgroundColor: '#A41320',
+                color: 'white',
+                padding: '1em'
+              }}className="top-section">
+            <div>
+              <h1
+                style={{
+                  textAlign: 'center',
+                  fontFamily: "'Limelight'",
+                  margin: 0
                 }}
               >
-                Change Video
-              </button>
-            </form>
-          </div>
+                RiffTube
+              </h1>
+              <form
+                onSubmit={e => {
+                  this.props.setVideoID(this.videoIDRef.current.value);
+                  e.preventDefault();
+                }}
+              >
+                <label>YouTube URL/ID:&nbsp;&nbsp;</label>
+                <input
+                  type="text"
+                  defaultValue={this.props.videoID}
+                  ref={this.videoIDRef}
+                />
+                <button
+                  type="button"
+                  onClick={e => {
+                    this.props.setVideoID(this.videoIDRef.current.value);
+                  }}
+                >
+                  Change Video
+                </button>
+              </form>
+            </div>
 
-          <div style={ { backgroundColor: '#A41320' } }>
-            <YouTubeVideo />
+            <div style={{ backgroundColor: '#A41320' }}>
+              <YouTubeVideo />
+            </div>
           </div>
-
           <Switch>
             <Route
               exact
@@ -75,7 +91,4 @@ const mapDispatchToProps = {
   setVideoID
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -7,9 +7,14 @@ function RiffDetail(props) {
   console.log(props, 'RiffDetail props');
   return (
     <div className="riff-detail">
-      <div style={{ backgroundColor: props.selected ? 'lightpink' : 'white' }}>
+      <div style={{ backgroundColor: props.selected ? '#A41320' : '#202020', border: '2px solid white', margin: '10px', width: '150px' }}>
+        <ul className="riff-detail-list">
+          <li>No. {props.id}</li>
+          <li>start time: {props.start_time.toFixed(2)}</li>
+          <li>type: {props.type}</li>
+          <li>duration: {props.duration.toFixed(2)}</li>
+        </ul>
         <button onClick={() => props.editRiff(props.index)}>Edit</button>
-        <span>Riff info: {JSON.stringify(props)}</span>
       </div>
     </div>
   );
@@ -19,7 +24,4 @@ const mapDispatchToProps = {
   editRiff
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(RiffDetail);
+export default connect(null, mapDispatchToProps)(RiffDetail);
