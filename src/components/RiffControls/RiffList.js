@@ -5,7 +5,8 @@ import RiffDetail from './RiffDetail.js';
 /* this component maps over all of the user's riffs for this video */
 function RiffList(props) {
   return (
-    <div>
+    <div className="list-of-riffs">
+      <h2 className="riff-list-title">Control Panel</h2>
       {props.riffs
         ? props.riffs.map((riff, index) => (
             <RiffDetail

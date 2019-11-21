@@ -15,8 +15,9 @@ import {
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
   return (
-    <div>
+    <div className="control-panel">
       <div>
+        <h2 className="add-riff-title">Add New Riff</h2>
         <RiffButton type="audio" />
         <RiffButton type="text" />
   
@@ -25,9 +26,9 @@ function EditControls(props) {
           <EditRiff />
         ) : null}
       </div>
-      <div>
+
         <RiffList />
-      </div>
+
     </div>
   );
 }

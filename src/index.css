@@ -14,9 +14,19 @@ code {
     monospace;
 }
 
+html, body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
   font-size: 200%;
+  display: flex;
+  height: 100%;
 }
 
 .App-logo {
@@ -36,4 +46,54 @@ code {
 
 .App-link {
   color: #09d3ac;
+}
+
+.riff-detail {
+  color: white;
+}
+
+.control-panel {
+  height: 100%;
+  width: 20vw;
+}
+.riff-detail-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  list-style-type: none;
+  padding: 2px;
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+.riff-list-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: white;
+}
+.add-riff-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: white;
+}
+
+.list-of-riffs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.riff-detail-list li {
+  padding-left: 20px;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 80vw;
 }
