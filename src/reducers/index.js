@@ -30,7 +30,8 @@ let initialState = {
   riffsPlaying: {}
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action) =>
+{
   console.log( "dispatch", action, state);
 
   switch (action.type) {
@@ -157,9 +158,15 @@ export default (state = initialState, action) => {
       return ret;
     case RIFF_LOADED:
       {
+        const b = new Blob( new Array( action.payload ), { type: 'audio/webm' } );
         let riffs = [ ...state.riffs ];
-        riffs.forEach( el => { if ( el.id == action.id ) { el.payload = new Blob( new Array( action.payload ), { type: 'audio/webm' } ); el.loading = false; } })
+        riffs.forEach( el => { if ( el.id === action.id ) { el.payload = b; el.loading = false; } })
         let ret = { ...state, riffs };
+
+        // if this is being edited currently, tempRiff needs to be updated as well
+        if ( state.mode === EDIT_MODE && state.tempRiff.id === action.id )
+          ret.tempRiff.payload = b;
+
         return ret;
       }
     default:

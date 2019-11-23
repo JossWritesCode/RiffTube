@@ -5,15 +5,20 @@ import {
   saveRiff,
   setPlayerMode,
   saveTempAudio,
-  cancelEdit
+  cancelEdit,
+  EDIT_MODE
 } from '../../actions/index.js';
 
 class EditRiff extends React.Component {
   render() {
+    console.log( "ed rif red" );
     return (
       <div style={{ border: '1px solid black', padding: '1em' }}>
         {this.props.tempRiff.type == 'audio' ? (
           <React.Fragment>
+            {this.props.mode == EDIT_MODE && !this.props.tempRiff.payload ? (
+              <span>Loading...</span>
+            ) : null}
             <Record saveTempAudio={this.props.saveTempAudio} />
             {this.props.tempRiff.payload ? (
               <button
@@ -93,6 +98,7 @@ class EditRiff extends React.Component {
 const mapStateToProps = state => ({
   mode: state.mode,
   tempRiff: state.tempRiff,
+  riffs: state.riffs, // needed for prop of blah blah blah
   googleUser: state.googleUser
 });
 
