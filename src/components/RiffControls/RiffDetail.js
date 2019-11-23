@@ -14,14 +14,21 @@ function RiffDetail(props) {
           <li>type: {props.type}</li>
           <li>duration: {props.duration ? props.duration.toFixed(2) : null}</li>
         </ul>
-        <button onClick={() => props.editRiff(props.index)}>Edit</button>
+        <button onClick={() => props.editRiff(props.index, props.type === 'audio' && !props.payload ? props.id : null, props.googleUser)}>
+          Edit
+        </button>
+        
       </div>
     </div>
   );
 }
 
+const mapStateToProps = state => ({
+  googleUser: state.googleUser
+});
+
 const mapDispatchToProps = {
   editRiff
 };
 
-export default connect(null, mapDispatchToProps)(RiffDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(RiffDetail);

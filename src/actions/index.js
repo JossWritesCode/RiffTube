@@ -80,10 +80,19 @@ export const saveTempAudio = (payload, duration) => ({
   duration
 });
 
-export const editRiff = payload => ({
-  type: EDIT_RIFF,
-  payload
-});
+export const editRiff = (payload, id, gus) =>
+{
+  return dispatch =>
+  {
+    dispatch( {
+        type: EDIT_RIFF,
+        payload
+      } );
+
+    if ( id )
+      rawLoadAxios( dispatch, id, gus );
+  }
+}
 
 export const cancelEdit = () => ({
   type: CANCEL_EDIT
@@ -135,7 +144,14 @@ export const setRiffPlaying = (index, playing) => ({
 
 export const loadRiff = (id, guser) =>
 {
+  console.log( "load", id);
   return dispatch =>
+  {
+    rawLoadAxios( dispatch, id, guser)
+  }
+}
+
+const rawLoadAxios = (dispatch, id, guser) =>
   {
     axios({
       method: 'post',
@@ -144,8 +160,7 @@ export const loadRiff = (id, guser) =>
       data: { token: guser.getAuthResponse().id_token, id }
     })
       .then(res => {
-        console.log( 'SGU', res.data );
+        console.log( 'riffloaded', res.data );
         dispatch({ type: RIFF_LOADED, payload: res.data, id });
       } );
   }
-}
