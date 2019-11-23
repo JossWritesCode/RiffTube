@@ -14,7 +14,8 @@ code {
     monospace;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -70,12 +71,12 @@ html, body {
 }
 
 .riff-list-title {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Limelight';
   font-size: 18px;
   color: white;
 }
 .add-riff-title {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Limelight';
   font-size: 18px;
   color: white;
 }
