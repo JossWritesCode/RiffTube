@@ -135,6 +135,7 @@ export const setRiffPlaying = (index, playing) => ({
 
 export const loadRiff = (id, guser) =>
 {
+  console.log( "load", id);
   return dispatch =>
   {
     axios({

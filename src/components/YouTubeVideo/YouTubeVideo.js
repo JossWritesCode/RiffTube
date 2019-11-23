@@ -91,6 +91,8 @@ class YouTubeVideo extends React.Component {
 
         let t = window.rifftubePlayer.getCurrentTime();
 
+        this.checkForRiffsToLoad(t);
+
         // first stop any zombie riffs
         this.props.riffs.forEach((riff, index) => {
           if (
