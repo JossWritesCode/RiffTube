@@ -165,7 +165,7 @@ export default (state = initialState, action) =>
 
         // if this is being edited currently, tempRiff needs to be updated as well
         if ( state.mode === EDIT_MODE && state.tempRiff.id === action.id )
-          ret.tempRiff.payload = b;
+          ret.tempRiff = { ...ret.tempRiff, payload: b };
 
         return ret;
       }
