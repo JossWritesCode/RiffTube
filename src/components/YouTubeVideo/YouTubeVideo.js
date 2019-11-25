@@ -178,31 +178,17 @@ class YouTubeVideo extends React.Component {
   render = () => {
     console.log('render vid', this.props.riffsPlaying);
     return (
-      <div style={{ position: 'relative' }}>
+      <div >
         <div id="rifftube-player" />
         {Object.keys(this.props.riffsPlaying)
           .filter(i => this.props.riffsPlaying[i])
           .map(key => (
             <div
               key={key}
-              style={{
-                position: 'absolute',
-                width: '100%',
-                height: '390px',
-                lineHeight: '390px',
-                top: 0,
-                textAlign: 'center',
-                pointerEvents: 'none'
-              }}
+   
             >
               <div
-                style={{
-                  display: 'inline-block',
-                  verticalAlign: 'middle',
-                  width: '640px',
-                  font: '36pt serif',
-                  backgroundColor: 'rgba(255,255,255,33%'
-                }}
+ 
               >
                 {this.props.riffs[key].type === 'text'
                   ? this.props.riffs[key].payload

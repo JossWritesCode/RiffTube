@@ -11,12 +11,12 @@ import {
 
 class EditRiff extends React.Component {
   render() {
-    console.log( "ed rif red" );
+    console.log('ed rif red');
     return (
       <div style={{ border: '1px solid black', padding: '1em' }}>
-        {this.props.tempRiff.type == 'audio' ? (
+        {this.props.tempRiff.type === 'audio' ? (
           <React.Fragment>
-            {this.props.mode == EDIT_MODE && !this.props.tempRiff.payload ? (
+            {this.props.mode === EDIT_MODE && !this.props.tempRiff.payload ? (
               <span>Loading...</span>
             ) : null}
             <Record saveTempAudio={this.props.saveTempAudio} />
@@ -25,7 +25,9 @@ class EditRiff extends React.Component {
                 onClick={() => {
                   var audio = document.createElement('audio');
                   audio.controls = false;
-                  var audioURL = URL.createObjectURL(this.props.tempRiff.payload);
+                  var audioURL = URL.createObjectURL(
+                    this.props.tempRiff.payload
+                  );
                   audio.src = audioURL;
                   audio.play();
                 }}
@@ -37,8 +39,7 @@ class EditRiff extends React.Component {
             <button
               disabled={!this.props.tempRiff.payload}
               onClick={() => {
-                this.props.saveRiff
-                (
+                this.props.saveRiff(
                   this.props.googleUser.getAuthResponse().id_token,
                   {
                     payload: this.props.tempRiff.payload
@@ -65,8 +66,7 @@ class EditRiff extends React.Component {
             </div>
             <button
               onClick={() => {
-                this.props.saveRiff
-                (
+                this.props.saveRiff(
                   this.props.googleUser.getAuthResponse().id_token,
                   {
                     payload: document.querySelector('#riff-edit-field').value,
@@ -108,7 +108,4 @@ const mapDispatchToProps = {
   cancelEdit
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditRiff);
+export default connect(mapStateToProps, mapDispatchToProps)(EditRiff);

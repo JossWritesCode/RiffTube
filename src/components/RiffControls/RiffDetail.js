@@ -7,7 +7,7 @@ function RiffDetail(props) {
   console.log(props, 'RiffDetail props');
   return (
     <div className="riff-detail">
-      <div style={{ backgroundColor: props.selected ? '#A41320' : '#202020', border: '2px solid white', margin: '10px', width: '150px' }}>
+      <div >
         <ul className="riff-detail-list">
           <li>No. {props.id}</li>
           <li>start time: {props.start_time ? props.start_time.toFixed(2) : null}</li>

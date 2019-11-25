@@ -27,21 +27,9 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <div               style={{
-                backgroundColor: '#A41320',
-                color: 'white',
-                padding: '1em'
-              }}className="top-section">
+          <div className="top-section">
             <div>
-              <h1
-                style={{
-                  textAlign: 'center',
-                  fontFamily: "'Limelight'",
-                  margin: 0
-                }}
-              >
-                RiffTube
-              </h1>
+              <h1>RiffTube</h1>
               <form
                 onSubmit={e => {
                   this.props.setVideoID(this.videoIDRef.current.value);
@@ -65,7 +53,7 @@ class App extends React.Component {
               </form>
             </div>
 
-            <div style={{ backgroundColor: '#A41320' }}>
+            <div>
               <YouTubeVideo />
             </div>
           </div>
