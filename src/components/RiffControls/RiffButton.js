@@ -16,7 +16,4 @@ const mapDispatchToProps = {
   createTempRiff
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(RiffButton);
+export default connect(null, mapDispatchToProps)(RiffButton);

@@ -30,9 +30,8 @@ let initialState = {
   riffsPlaying: {}
 };
 
-export default (state = initialState, action) =>
-{
-  console.log( "dispatch", action, state);
+export default (state = initialState, action) => {
+  console.log('dispatch', action, state);
 
   switch (action.type) {
     case SET_VIDEO_ID:
@@ -116,59 +115,62 @@ export default (state = initialState, action) =>
         ...state,
         riffs: [
           ...state.riffs,
-          ...action.payload.body.map( el => ({
+          ...action.payload.body.map(el => ({
             ...el,
-            time: el.start_time, 
+            time: el.start_time,
             payload: el.isText ? el.text : null,
-            type: el.isText ? 'text' : 'audio' })
-        ) ]
+            type: el.isText ? 'text' : 'audio'
+          }))
+        ]
       };
     case SAVE_RIFF_SUCCESS:
-      if ( action.payload.type === 'add' )
-      {
-        let riffs = [ ...state.riffs ];
-        riffs.forEach( el => { if ( el.tempId == action.payload.tempId ) el.id = action.payload.id; })
+      if (action.payload.type === 'add') {
+        let riffs = [...state.riffs];
+        riffs.forEach(el => {
+          if (el.tempId == action.payload.tempId) el.id = action.payload.id;
+        });
         let ret = { ...state, riffs };
         return ret;
+      } else return state;
+    case SAVE_RIFF: {
+      let riff = { ...state.tempRiff, ...action.payload };
+      let riffs;
+      // editing a new riff:
+      if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
+      // EDIT_MODE (existing riff):
+      else {
+        riffs = [...state.riffs];
+        riffs[state.editIndex] = riff;
       }
-      else
-        return state;
-    case SAVE_RIFF:
-      {
-        let riff = { ...state.tempRiff, ...action.payload };
-        let riffs;
-        // editing a new riff:
-        if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
-        // EDIT_MODE (existing riff):
-        else {
-          riffs = [...state.riffs];
-          riffs[state.editIndex] = riff;
-        }
 
-        return {
-          ...state,
-          riffs,
-          tempRiff: null,
-          mode: PLAY_MODE // should be an option
-        };
-      }
+      return {
+        ...state,
+        riffs,
+        tempRiff: null,
+        mode: PLAY_MODE // should be an option
+      };
+    }
     case LOAD_RIFF:
       let ret = { ...state };
-      ret.riffs[ action.payload ].loading = true;
+      ret.riffs[action.payload].loading = true;
       return ret;
-    case RIFF_LOADED:
-      {
-        const b = new Blob( new Array( action.payload ), { type: 'audio/webm' } );
-        let riffs = [ ...state.riffs ];
-        riffs.forEach( el => { if ( el.id === action.id ) { el.payload = b; el.loading = false; } })
-        let ret = { ...state, riffs };
+    case RIFF_LOADED: {
+      const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
+      let riffs = [...state.riffs];
+      riffs.forEach(el => {
+        if (el.id === action.id) {
+          el.payload = b;
+          el.loading = false;
+        }
+      });
+      let ret = { ...state, riffs };
 
-        // if this is being edited currently, tempRiff needs to be updated as well
-        if ( state.mode === EDIT_MODE && state.tempRiff.id === action.id )
-          ret.tempRiff = { ...ret.tempRiff, payload: b };
+      // if this is being edited currently, tempRiff needs to be updated as well
+      if (state.mode === EDIT_MODE && state.tempRiff.id === action.id)
+        ret.tempRiff = { ...ret.tempRiff, payload: b };
 
-        return ret;
-      }
+      return ret;
+    }
     default:
       console.log('uncaught action!');
       return state;
