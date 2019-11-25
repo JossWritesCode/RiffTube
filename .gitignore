@@ -86,7 +86,6 @@ typings/
 # gatsby files
 .cache/
 
-
 # vuepress build output
 .vuepress/dist
 
@@ -101,3 +100,6 @@ typings/
 
 # TernJS port file
 .tern-port
+
+# RiffTube database
+RiffTube-backend/data/db.db3

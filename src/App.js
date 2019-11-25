@@ -1,43 +1,80 @@
-import React, { useState } from 'react';
-import './App.css';
+import React from 'react';
+import { connect } from 'react-redux';
+import YouTubeVideo from './components/YouTubeVideo/YouTubeVideo.js';
+import Login from './components/Login/Login.js';
+import EditControls from './components/RiffControls/EditControls.js';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { setVideoID } from './actions';
 
-function App() {
-  const [videoUrl, setVideoUrl] = useState('tgbNymZ7vqY');
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.videoIDRef = React.createRef();
+  }
 
-  /* comment */
-
-  const handleChange = event => {
-    setVideoUrl(event.target.value);
+  loggedIn = () => {
+    if (this.props.googleUser) {
+      return this.props.googleUser.isSignedIn();
+    }
+    return false;
   };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    console.log('hello');
+  authCheck = (Component, DefaultComponent) => {
+    return this.loggedIn() ? <Component /> : <DefaultComponent />;
   };
 
-  return (
-    <div className="App">
-      <form onSubmit={event => handleSubmit(event)}>
-        <label>
-          Your Youtube Video:
-          <input
-            type="text"
-            name="videoUrl"
-            value={videoUrl}
-            onChange={event => handleChange(event)}
-          />
-        </label>
-        <button>Submit!</button>
-      </form>
-      <iframe
-        title="video"
-        width="420"
-        height="315"
-        src={`https://www.youtube.com/embed/${videoUrl}`}
-      ></iframe>
- 
-    </div>
-  );
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <div className="top-section">
+            <div className="title-and-url">
+              <h1>RiffTube</h1>
+              <form
+                onSubmit={e => {
+                  this.props.setVideoID(this.videoIDRef.current.value);
+                  e.preventDefault();
+                }}
+              >
+                <label>YouTube URL/ID:&nbsp;&nbsp;</label>
+                <input
+                  type="text"
+                  defaultValue={this.props.videoID}
+                  ref={this.videoIDRef}
+                />
+                <button
+                  type="button"
+                  onClick={e => {
+                    this.props.setVideoID(this.videoIDRef.current.value);
+                  }}
+                >
+                  Change Video
+                </button>
+              </form>
+            </div>
+
+            <YouTubeVideo />
+          </div>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={this.authCheck.bind(this, EditControls, Login)}
+            />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  videoID: state.videoID,
+  googleUser: state.googleUser
+});
+
+const mapDispatchToProps = {
+  setVideoID
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
