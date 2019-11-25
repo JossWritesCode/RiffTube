@@ -20,15 +20,13 @@ function EditControls(props) {
         <h2 className="add-riff-title">Add New Riff</h2>
         <RiffButton type="audio" />
         <RiffButton type="text" />
-  
 
         {props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE ? (
           <EditRiff />
         ) : null}
       </div>
 
-        <RiffList />
-
+      <RiffList />
     </div>
   );
 }
@@ -37,7 +35,4 @@ let mapStateToProps = state => ({
   mode: state.mode
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(EditControls);
+export default connect(mapStateToProps, null)(EditControls);

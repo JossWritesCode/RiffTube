@@ -7,17 +7,26 @@ function RiffDetail(props) {
   console.log(props, 'RiffDetail props');
   return (
     <div className="riff-detail">
-      <div >
+      <div>
         <ul className="riff-detail-list">
           <li>No. {props.id}</li>
-          <li>start time: {props.start_time ? props.start_time.toFixed(2) : null}</li>
+          <li>
+            start time: {props.start_time ? props.start_time.toFixed(2) : null}
+          </li>
           <li>type: {props.type}</li>
           <li>duration: {props.duration ? props.duration.toFixed(2) : null}</li>
         </ul>
-        <button onClick={() => props.editRiff(props.index, props.type === 'audio' && !props.payload ? props.id : null, props.googleUser)}>
+        <button
+          onClick={() =>
+            props.editRiff(
+              props.index,
+              props.type === 'audio' && !props.payload ? props.id : null,
+              props.googleUser
+            )
+          }
+        >
           Edit
         </button>
-        
       </div>
     </div>
   );

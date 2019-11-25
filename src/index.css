@@ -1,0 +1,36 @@
+body,
+html {
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #a41320;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+}
+
+.ytp-cued-thumbnail-overlay {
+  max-width: 100%;
+}
+
+#rifftube-player {
+  max-width: 95vw;
+}
+
+.rifftube-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-and-url {
+  text-align: center;
+}
+
+button {
+  background-color: #202020;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+}

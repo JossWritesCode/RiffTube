@@ -44,20 +44,19 @@ export const setVideoID = payload => ({
 
 export const setGoogleUser = (googleUser, videoID) => {
   return dispatch => {
-    dispatch( {
+    dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser
-    } );
+    });
     axios({
       method: 'post',
       url: 'http://localhost:3300/get-riffs',
       data: { token: googleUser.getAuthResponse().id_token, videoID }
-    })
-      .then(res => {
-        console.log( 'SGU', res.data );
-        dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-      } );
-  }
+    }).then(res => {
+      console.log('SGU', res.data);
+      dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+    });
+  };
 };
 
 export const setPlayerMode = mode => ({
@@ -80,40 +79,39 @@ export const saveTempAudio = (payload, duration) => ({
   duration
 });
 
-export const editRiff = (payload, id, gus) =>
-{
-  return dispatch =>
-  {
-    dispatch( {
-        type: EDIT_RIFF,
-        payload
-      } );
+export const editRiff = (payload, id, gus) => {
+  return dispatch => {
+    dispatch({
+      type: EDIT_RIFF,
+      payload
+    });
 
-    if ( id )
-      rawLoadAxios( dispatch, id, gus );
-  }
-}
+    if (id) rawLoadAxios(dispatch, id, gus);
+  };
+};
 
 export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
 
-export const saveRiff = (token, payload, riff) =>
-{
+export const saveRiff = (token, payload, riff) => {
   return dispatch => {
-    dispatch( { type: SAVE_RIFF, payload } );
+    dispatch({ type: SAVE_RIFF, payload });
 
     let fd = new FormData();
-    fd.append( 'token', token );
-    fd.append( riff.type == 'text' ? 'text' : 'blob', payload.payload );
-    fd.append( 'type', riff.type );
-    fd.append( 'duration', riff.type == 'text' ? payload.duration : riff.duration );
-    fd.append( 'start_time', riff.time );
-    fd.append( 'video_id', riff.video_id );
-    fd.append( 'tempId', riff.tempId );
+    fd.append('token', token);
+    fd.append(riff.type === 'text' ? 'text' : 'blob', payload.payload);
+    fd.append('type', riff.type);
+    fd.append(
+      'duration',
+      riff.type === 'text' ? payload.duration : riff.duration
+    );
+    fd.append('start_time', riff.time);
+    fd.append('video_id', riff.video_id);
+    fd.append('tempId', riff.tempId);
 
     // this may be null, and that's ok
-    fd.append( 'id', riff.id );
+    fd.append('id', riff.id);
 
     axios({
       method: 'post',
@@ -131,10 +129,8 @@ export const saveRiff = (token, payload, riff) =>
   };
 };
 
-
-
 export const createTempRiff = type => ({
-  type: type == 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
+  type: type === 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
 });
 
 export const setRiffPlaying = (index, playing) => ({
@@ -142,25 +138,21 @@ export const setRiffPlaying = (index, playing) => ({
   payload: index
 });
 
-export const loadRiff = (id, guser) =>
-{
-  console.log( "load", id);
-  return dispatch =>
-  {
-    rawLoadAxios( dispatch, id, guser)
-  }
-}
+export const loadRiff = (id, guser) => {
+  console.log('load', id);
+  return dispatch => {
+    rawLoadAxios(dispatch, id, guser);
+  };
+};
 
-const rawLoadAxios = (dispatch, id, guser) =>
-  {
-    axios({
-      method: 'post',
-      url: 'http://localhost:3300/load-riff',
-      responseType: 'arraybuffer',
-      data: { token: guser.getAuthResponse().id_token, id }
-    })
-      .then(res => {
-        console.log( 'riffloaded', res.data );
-        dispatch({ type: RIFF_LOADED, payload: res.data, id });
-      } );
-  }
+const rawLoadAxios = (dispatch, id, guser) => {
+  axios({
+    method: 'post',
+    url: 'http://localhost:3300/load-riff',
+    responseType: 'arraybuffer',
+    data: { token: guser.getAuthResponse().id_token, id }
+  }).then(res => {
+    console.log('riffloaded', res.data);
+    dispatch({ type: RIFF_LOADED, payload: res.data, id });
+  });
+};

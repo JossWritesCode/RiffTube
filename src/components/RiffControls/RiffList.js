@@ -4,7 +4,7 @@ import RiffDetail from './RiffDetail.js';
 
 /* this component maps over all of the user's riffs for this video */
 function RiffList(props) {
-  console.log( "display", props.riffs );
+  console.log('display', props.riffs);
   return (
     <div className="list-of-riffs">
       <h2 className="riff-list-title">Control Panel</h2>
@@ -27,7 +27,4 @@ const mapStateToProps = state => ({
   riffsPlaying: state.riffsPlaying
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(RiffList);
+export default connect(mapStateToProps, null)(RiffList);

@@ -28,7 +28,7 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <div className="top-section">
-            <div>
+            <div className="title-and-url">
               <h1>RiffTube</h1>
               <form
                 onSubmit={e => {
@@ -52,10 +52,7 @@ class App extends React.Component {
                 </button>
               </form>
             </div>
-
-            <div>
-              <YouTubeVideo />
-            </div>
+            <YouTubeVideo />
           </div>
           <Switch>
             <Route

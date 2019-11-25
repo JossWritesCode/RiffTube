@@ -13,7 +13,7 @@ class EditRiff extends React.Component {
   render() {
     console.log('ed rif red');
     return (
-      <div style={{ border: '1px solid black', padding: '1em' }}>
+      <div>
         {this.props.tempRiff.type === 'audio' ? (
           <React.Fragment>
             {this.props.mode === EDIT_MODE && !this.props.tempRiff.payload ? (
