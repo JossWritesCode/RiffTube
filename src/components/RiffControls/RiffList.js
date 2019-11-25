@@ -7,7 +7,6 @@ function RiffList(props) {
   console.log('display', props.riffs);
   return (
     <div className="list-of-riffs">
-      <h2 className="riff-list-title">Control Panel</h2>
       {props.riffs
         ? props.riffs.map((riff, index) => (
             <RiffDetail

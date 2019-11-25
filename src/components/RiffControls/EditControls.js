@@ -25,7 +25,7 @@ function EditControls(props) {
           <EditRiff />
         ) : null}
       </div>
-
+      <h2 className="riff-list-title">Control Panel</h2>
       <RiffList />
     </div>
   );

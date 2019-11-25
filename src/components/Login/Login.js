@@ -6,18 +6,16 @@ import { setGoogleUser } from '../../actions/index.js';
 class Login extends React.Component {
   render() {
     return (
-      <div>
-        <GoogleLogin
-          socialId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
-          className="google-login"
-          scope="profile email"
-          fetchBasicProfile={false}
-          responseHandler={gus => {
-            this.props.setGoogleUser(gus, this.props.videoID);
-          }}
-          buttonText="Login With Google"
-        />
-      </div>
+      <GoogleLogin
+        socialId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
+        className="google-login"
+        scope="profile email"
+        fetchBasicProfile={false}
+        responseHandler={gus => {
+          this.props.setGoogleUser(gus, this.props.videoID);
+        }}
+        buttonText="Login With Google"
+      />
     );
   }
 }
