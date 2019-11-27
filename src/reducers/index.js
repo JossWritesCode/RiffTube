@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         tempRiff: {
-          type: action.type == CREATE_TEMP_AUDIO_RIFF ? 'audio' : 'text',
+          type: action.type === CREATE_TEMP_AUDIO_RIFF ? 'audio' : 'text',
           time: window.rifftubePlayer.getCurrentTime(),
           video_id: state.videoID,
           tempId: new Date().getUTCMilliseconds() // used to get perm id from server
@@ -127,7 +127,7 @@ export default (state = initialState, action) => {
       if (action.payload.type === 'add') {
         let riffs = [...state.riffs];
         riffs.forEach(el => {
-          if (el.tempId == action.payload.tempId) el.id = action.payload.id;
+          if (el.tempId === action.payload.tempId) el.id = action.payload.id;
         });
         let ret = { ...state, riffs };
         return ret;

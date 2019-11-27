@@ -58,7 +58,7 @@ class YouTubeVideo extends React.Component {
   checkForRiffsToLoad = t => {
     this.props.riffs.forEach(riff => {
       if (
-        riff.type == 'audio' &&
+        riff.type === 'audio' &&
         !riff.payload &&
         !riff.loading &&
         riff.time >= t &&
@@ -107,7 +107,8 @@ class YouTubeVideo extends React.Component {
             this.curRiff[index] = false;
             //document.querySelector( '#riff-content' ).innerHTML = '';
 
-            if (riff.type == 'audio') window.rifftubePlayer.setVolume(this.vol);
+            if (riff.type === 'audio')
+              window.rifftubePlayer.setVolume(this.vol);
           }
         });
 
@@ -118,7 +119,7 @@ class YouTubeVideo extends React.Component {
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true;
 
-            if (riff.type == 'audio') {
+            if (riff.type === 'audio') {
               this.vol = window.rifftubePlayer.getVolume();
               window.rifftubePlayer.setVolume(this.vol * 0.5);
 
