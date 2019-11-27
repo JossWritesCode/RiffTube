@@ -172,7 +172,6 @@ export default (state = initialState, action) => {
       return ret;
     }
     default:
-      console.log('uncaught action!');
       return state;
   }
 };
