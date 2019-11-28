@@ -24,7 +24,6 @@ const client = new OAuth2Client(CLIENT_ID);
 
 // function to verify the google token
 function verify(token) {
-  console.log('verify');
   return client.verifyIdToken({
     idToken: token,
     audience: CLIENT_ID // Specify the CLIENT_ID of the app that accesses the backend
@@ -35,21 +34,16 @@ function verify(token) {
 
 server.post('/load-riff', (req, res) => {
   const body = req.body;
-
-  console.log('load riff request', body);
-
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
       const payload = ticket.getPayload();
-      console.log('payday!');
-      console.log(payload);
+
       return db('riffs')
         .select('audio_datum')
         .where({ id: body.id });
     })
     .then(([aud]) => {
-      console.log('datum', aud);
       res.status(200).send(aud.audio_datum);
     })
     .catch(err => res.status(500).json({ error: err }));
@@ -58,16 +52,13 @@ server.post('/load-riff', (req, res) => {
 server.post('/get-riffs', (req, res) => {
   const body = req.body;
 
-  console.log('get riffs request', body);
-
   // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
 
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
       const payload = ticket.getPayload();
-      console.log('payday!');
-      console.log(payload);
+
       return payload;
     })
     //.then( payload => data_model.getIdFromEmail( payload.email ) )
@@ -75,7 +66,6 @@ server.post('/get-riffs', (req, res) => {
       Promise.all([payload, data_model.getIdFromEmail(payload.email)])
     )
     .then(([payload, [{ id: uID }]]) => {
-      console.log('pp', uID);
       return Promise.all([
         payload,
         uID,
@@ -83,15 +73,17 @@ server.post('/get-riffs', (req, res) => {
       ]);
     })
     .then(([payload, uID, [{ id: vID }]]) => {
-      console.log('IDs!', vID, uID);
-      console.log('get riffs');
       return db('riffs')
         .select('id', 'duration', 'start_time', 'isText', 'text')
         .where({ user_id: uID, video_id: vID });
     })
     .then(riffList => {
-      console.log( riffList );
-      res.status(200).json({ status: 'ok', body: riffList.map( el => ({ ...el, video_id: body.videoID }) ) });
+      res
+        .status(200)
+        .json({
+          status: 'ok',
+          body: riffList.map(el => ({ ...el, video_id: body.videoID }))
+        });
     })
     .catch(err => res.status(500).json({ error: err, body: [] }));
 });
@@ -100,20 +92,16 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
   //console.log( 'verify token' );
-  console.log('incoming blob:');
-  console.log(req.file);
 
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
       const payload = ticket.getPayload();
-      console.log('payday!');
-      console.log(payload);
+
       return payload;
     })
     // make sure that the user exists in the db, or else insert them
     .then(payload => {
-      console.log('then1', payload);
       return db('users')
         .select()
         .where('email', payload.email)
@@ -128,7 +116,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 'id'
               )
               .then(newUserId => {
-                console.log('inserted user', newUserId);
                 return payload;
               });
           } else console.log('not inserting user');
@@ -137,7 +124,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
     })
     // make sure that the video exists in the db, or else insert it
     .then(payload => {
-      console.log('then2');
       return db('videos')
         .select()
         .where('url', body.video_id)
@@ -151,7 +137,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 'id'
               )
               .then(newVidId => {
-                console.log('inserted video', newVidId);
                 return payload;
               });
           } else console.log('not inserting video');
@@ -160,11 +145,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
     })
     // once we know the user and video exist, insert the riff
     .then(payload => {
-      console.log('EML\n', payload.email);
-      console.log('DAT\n', data_model);
-      console.log('FIL\n', req.file);
-      console.log('BOD\n', body);
-
       // get the IDs of the user and video, then insert the data
       data_model.getIdFromEmail(payload.email).then(idin => {
         console.log('UID!', idin[0].id);
@@ -172,8 +152,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
         data_model.getIdFromVideoId(body.video_id).then(vidid => {
           console.log('VID!', vidid[0].id);
 
-          dbpayload =
-          {
+          let dbpayload = {
             audio_datum: body.type == 'text' ? null : req.file.buffer,
             text: body.type == 'text' ? body.text : null,
             isText: body.type == 'text',
@@ -183,27 +162,24 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             video_id: vidid[0].id
           };
 
-          if ( body.id === 'undefined' )
-          {
+          if (body.id === 'undefined') {
             db('riffs')
-              .insert( dbpayload, 'id' )
+              .insert(dbpayload, 'id')
               .then(([newRiffId]) =>
                 res
                   .status(200)
-                  .json({ status: 'ok', type: 'add', tempId: body.tempId, id: newRiffId })
+                  .json({
+                    status: 'ok',
+                    type: 'add',
+                    tempId: body.tempId,
+                    id: newRiffId
+                  })
               );
-          }
-          else
-          {
-
+          } else {
             db('riffs')
-              .where( 'id', body.id )
-              .update( dbpayload )
-              .then( () =>
-                res
-                  .status(200)
-                  .json({ status: 'ok', type: 'edit' })
-              );
+              .where('id', body.id)
+              .update(dbpayload)
+              .then(() => res.status(200).json({ status: 'ok', type: 'edit' }));
           }
         });
       });

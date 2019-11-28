@@ -53,7 +53,6 @@ export const setGoogleUser = (googleUser, videoID) => {
       url: 'http://localhost:3300/get-riffs',
       data: { token: googleUser.getAuthResponse().id_token, videoID }
     }).then(res => {
-      console.log('SGU', res.data);
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
   };
@@ -139,7 +138,6 @@ export const setRiffPlaying = (index, playing) => ({
 });
 
 export const loadRiff = (id, guser) => {
-  console.log('load', id);
   return dispatch => {
     rawLoadAxios(dispatch, id, guser);
   };
@@ -152,7 +150,6 @@ const rawLoadAxios = (dispatch, id, guser) => {
     responseType: 'arraybuffer',
     data: { token: guser.getAuthResponse().id_token, id }
   }).then(res => {
-    console.log('riffloaded', res.data);
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
   });
 };

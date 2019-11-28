@@ -58,7 +58,7 @@ class YouTubeVideo extends React.Component {
   checkForRiffsToLoad = t => {
     this.props.riffs.forEach(riff => {
       if (
-        riff.type == 'audio' &&
+        riff.type === 'audio' &&
         !riff.payload &&
         !riff.loading &&
         riff.time >= t &&
@@ -79,9 +79,6 @@ class YouTubeVideo extends React.Component {
         */
 
     // the following conditional leaves out some 'else's that should never occur
-
-    console.log('state change', data);
-    console.log('cur mode', this.props.mode);
 
     if (data === 1) {
       // playing
@@ -107,7 +104,8 @@ class YouTubeVideo extends React.Component {
             this.curRiff[index] = false;
             //document.querySelector( '#riff-content' ).innerHTML = '';
 
-            if (riff.type == 'audio') window.rifftubePlayer.setVolume(this.vol);
+            if (riff.type === 'audio')
+              window.rifftubePlayer.setVolume(this.vol);
           }
         });
 
@@ -118,7 +116,7 @@ class YouTubeVideo extends React.Component {
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true;
 
-            if (riff.type == 'audio') {
+            if (riff.type === 'audio') {
               this.vol = window.rifftubePlayer.getVolume();
               window.rifftubePlayer.setVolume(this.vol * 0.5);
 
@@ -136,8 +134,6 @@ class YouTubeVideo extends React.Component {
       if (this.props.mode === PAUSE_MODE) {
         // change mode state
         this.props.setPlayerMode(PLAY_MODE);
-
-        console.log('paused to play');
       }
     } // not playing
     else {
@@ -145,10 +141,8 @@ class YouTubeVideo extends React.Component {
       clearInterval(this.riffInterval);
 
       if (this.props.mode === PLAY_MODE) {
-        // cahnge mode state
+        // change mode state
         this.props.setPlayerMode(PAUSE_MODE);
-
-        console.log('play to paused');
       }
     }
   };
@@ -167,20 +161,17 @@ class YouTubeVideo extends React.Component {
           this.props.mode === PAUSE_MODE) &&
         this.player.getPlayerState() === 1
       ) {
-        console.log('pauseVideo');
         this.player.pauseVideo();
       } else if (
         this.props.mode === PLAY_MODE &&
         this.player.getPlayerState() !== 1
       ) {
-        console.log('playVideo');
         this.player.playVideo();
       }
     }
   };
 
   render = () => {
-    console.log('render vid', this.props.riffsPlaying);
     return (
       <div className="rifftube-container">
         <div id="rifftube-player" />

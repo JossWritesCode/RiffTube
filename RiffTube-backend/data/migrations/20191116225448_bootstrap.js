@@ -16,14 +16,16 @@ exports.up = function(knex) {
       tbl.increments();
       tbl
         .binary('audio_datum')
-        .unique().defaultTo(null);
+        .unique()
+        .defaultTo(null);
       tbl.float('duration');
       tbl.float('start_time');
       tbl.text('text');
+      tbl.integer('rating');
       tbl
-      .boolean('isText')
-      .defaultTo(false)
-      .notNullable();
+        .boolean('isText')
+        .defaultTo(false)
+        .notNullable();
       tbl
         .integer('user_id')
         .unsigned()
