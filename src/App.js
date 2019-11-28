@@ -23,6 +23,17 @@ class App extends React.Component {
     return this.loggedIn() ? <Component /> : <DefaultComponent />;
   };
 
+  /* extracts the youtube id from a url. got help from: https://ctrlq.org/code/19797-regex-youtube-id */
+  extractVideoID = url => {
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[7].length === 11) {
+      return match[7];
+    } else {
+      alert('Could not extract video ID.');
+    }
+  };
+
   render() {
     return (
       <Router>
@@ -32,7 +43,9 @@ class App extends React.Component {
               <h1>RiffTube</h1>
               <form
                 onSubmit={e => {
-                  this.props.setVideoID(this.videoIDRef.current.value);
+                  this.props.setVideoID(
+                    this.extractVideoID(this.videoIDRef.current.value)
+                  );
                   e.preventDefault();
                 }}
               >
@@ -45,7 +58,9 @@ class App extends React.Component {
                 <button
                   type="button"
                   onClick={e => {
-                    this.props.setVideoID(this.videoIDRef.current.value);
+                    this.props.setVideoID(
+                      this.extractVideoID(this.videoIDRef.current.value)
+                    );
                   }}
                 >
                   Change Video
