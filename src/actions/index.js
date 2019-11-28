@@ -116,7 +116,7 @@ export const saveRiff = (token, payload, riff) => {
       method: 'post',
       url: 'http://localhost:3300/save-riff',
       data: fd,
-      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
       .then(res => {
         // res.data.data
