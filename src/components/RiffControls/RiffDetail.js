@@ -4,7 +4,6 @@ import { editRiff } from '../../actions/index.js';
 
 /* this component is where a user can edit their riff */
 function RiffDetail(props) {
-  console.log(props, 'RiffDetail props');
   return (
     <div className="riff-detail">
       <div>
