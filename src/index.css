@@ -67,15 +67,16 @@ button {
   height: 100%;
   background-color: #202020CC;
   text-align: center;
+  color: #202020;
 }
 
 .edit-riff-inner {
   margin: 20% auto;
   padding: 1em;
-  background-color: white;
-  border: 0.3em solid black;
+  background-color: rgb(145, 145, 145);
   width: 50%;
   font-size: 2em;
+  box-shadow: 0 0 1em red;
 }
 
 .list-of-riffs {
