@@ -79,6 +79,10 @@ button {
   box-shadow: 0 0 1em red;
 }
 
+.edit-riff button {
+  font-size: 1em;
+}
+
 .list-of-riffs {
   width: 80%;
   display: flex;
