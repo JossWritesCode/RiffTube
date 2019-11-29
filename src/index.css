@@ -18,6 +18,18 @@ button {
   padding: 5px;
 }
 
+button:disabled{
+  background-color: #868686;
+  color: rgb(70, 70, 70);
+}
+
+button:active{
+  position: relative;
+  top: 0.1em;
+  left: 0.1em;
+}
+
+
 #rifftube-player {
   max-width: 95vw;
 }
