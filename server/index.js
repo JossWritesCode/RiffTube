@@ -80,11 +80,17 @@ server.post('/get-riffs', (req, res) => {
       ]);
     })
     .then(([payload, uID, [{ id: vID }]]) => {
+
+      console.log( "GF then 2" );
+
       return db('riffs')
         .select('id', 'duration', 'start_time', 'isText', 'text')
         .where({ user_id: uID, video_id: vID });
     })
     .then(riffList => {
+
+      console.log( "GF then 3" );
+
       res
         .status(200)
         .json({
