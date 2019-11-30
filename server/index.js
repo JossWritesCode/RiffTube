@@ -57,10 +57,14 @@ server.post('/get-riffs', (req, res) => {
 
   // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
 
+  console.log( "get riffs" );
+
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
       const payload = ticket.getPayload();
+
+      console.log( "GF then 1" );
 
       return payload;
     })
