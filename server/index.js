@@ -17,11 +17,11 @@ server.use(express.json());
 // might not be needed
 server.use(cors());
 
-console.log( __dirname + ':react-ui/build' )
+console.log( __dirname + '/../react-ui/build' )
 
-server.use(express.static(path.join(__dirname, 'react-ui/build')));
+server.use(express.static(path.join(__dirname, '../react-ui/build')));
 server.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'react-ui/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
 
 
