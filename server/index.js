@@ -120,6 +120,10 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       console.log( "VT then 2" );
 
+      console.log( "SR", db('users')
+      .select()
+      .where('email', payload.email).toSQL() );)
+
       return db('users')
         .select()
         .where('email', payload.email)
