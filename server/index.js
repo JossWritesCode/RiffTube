@@ -120,10 +120,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       console.log( "VT then 2" );
 
-      console.log( "SR", db('users')
-      .select()
-      .where('email', payload.email).toSQL() );
-
       return db('users')
         .select()
         .where('email', payload.email)
@@ -145,7 +141,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               });
           } else console.log('not inserting user');
           return payload;
-        });
+        })
+        .catch(err => res.status(500).json({ SR_error: err }));
     })
     // make sure that the video exists in the db, or else insert it
     .then(payload => {
