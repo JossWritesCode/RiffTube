@@ -1,6 +1,7 @@
 const multer = require('multer');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -13,9 +14,16 @@ const CLIENT_ID =
 
 server.use(express.json());
 
+// might not be needed
 server.use(cors());
 
-server.get('/', (req, res) => {
+server.use(express.static(path.join(__dirname, 'build')));
+server.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
+server.get('/api-status', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
 

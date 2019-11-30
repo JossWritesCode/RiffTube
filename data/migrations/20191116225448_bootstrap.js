@@ -16,7 +16,6 @@ exports.up = function(knex) {
       tbl.increments();
       tbl
         .binary('audio_datum')
-        .unique()
         .defaultTo(null);
       tbl.float('duration');
       tbl.float('start_time');
