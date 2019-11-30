@@ -40,7 +40,7 @@ class App extends React.Component {
         <div className="App">
           <div className="top-section">
             <div className="title-and-url">
-              <h1>RiffTube</h1>
+              <h1>RiffTub</h1>
               <form
                 onSubmit={e => {
                   this.props.setVideoID(
