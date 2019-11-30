@@ -124,6 +124,9 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
         .select()
         .where('email', payload.email)
         .then(userList => {
+
+          console.log( "SR get email" );
+
           if (userList.length === 0) {
             return db('users')
               .insert(
