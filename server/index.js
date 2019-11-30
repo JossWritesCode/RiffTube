@@ -17,13 +17,6 @@ server.use(express.json());
 // might not be needed
 server.use(cors());
 
-console.log( __dirname + '/../react-ui/build' )
-
-server.use(express.static(path.join(__dirname, '../react-ui/build')));
-server.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
-});
-
 
 server.get('/api-status', (req, res) => {
   res.status(200).json({ api: 'up' });
@@ -195,6 +188,13 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       });
     })
     .catch(err => res.status(500).json({ error: err }));
+});
+
+console.log( __dirname + '/../react-ui/build' )
+
+server.use(express.static(path.join(__dirname, '../react-ui/build')));
+server.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
 
 module.exports = server;
