@@ -64,7 +64,7 @@ server.post('/get-riffs', (req, res) => {
     .then(ticket => {
       const payload = ticket.getPayload();
 
-      console.log( "GF then 1" );
+      console.log( "GR then 1" );
 
       return payload;
     })
@@ -81,7 +81,7 @@ server.post('/get-riffs', (req, res) => {
     })
     .then(([payload, uID, [{ id: vID }]]) => {
 
-      console.log( "GF then 2" );
+      console.log( "GR then 2" );
 
       return db('riffs')
         .select('id', 'duration', 'start_time', 'isText', 'text')
@@ -104,17 +104,22 @@ server.post('/get-riffs', (req, res) => {
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
-  //console.log( 'verify token' );
+  console.log( 'verify token' );
 
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
       const payload = ticket.getPayload();
 
+      console.log( "VT then 1" );
+
       return payload;
     })
     // make sure that the user exists in the db, or else insert them
     .then(payload => {
+
+      console.log( "VT then 2" );
+
       return db('users')
         .select()
         .where('email', payload.email)
