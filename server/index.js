@@ -142,7 +142,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           } else console.log('not inserting user');
           return payload;
         })
-        .catch(err => res.status(500).json({ SR_error: err }));
+        .catch(err => res.status(200).json({ SR_error: err }));
     })
     // make sure that the video exists in the db, or else insert it
     .then(payload => {
