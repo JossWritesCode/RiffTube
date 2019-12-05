@@ -36,19 +36,15 @@ function verify(token) {
 
 server.post('/load-riff', (req, res) => {
   const body = req.body;
-  verify(body.token)
-    // once verified, get and pass on payload
-    .then(ticket => {
-      const payload = ticket.getPayload();
-
-      return db('riffs')
-        .select('audio_datum')
-        .where({ id: body.id });
-    })
-    .then(([aud]) => {
-      res.status(200).send(aud.audio_datum);
-    })
-    .catch(err => res.status(500).json({ error: err }));
+  return (
+    db('riffs')
+      .select('audio_datum')
+      .where({ id: body.id })
+      .then(([aud]) => {
+        res.status(200).send(aud.audio_datum);
+      })
+      .catch(err => res.status(500).json({ error: err }))
+  );
 });
 
 server.post('/get-riffs', (req, res) => {
@@ -221,7 +217,7 @@ server.post('/get-view-riffs', (req, res) => {
   const body = req.body;
 
   console.log( "get view riffs", body.videoID );
-  
+
   data_model.getIdFromVideoId(body.videoID)
   .then( ([{id:vID}]) => {
 

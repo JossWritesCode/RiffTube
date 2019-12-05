@@ -169,7 +169,7 @@ const rawLoadAxios = (dispatch, id, guser) => {
     method: 'post',
     url: `${baseURL}/load-riff`,
     responseType: 'arraybuffer',
-    data: { token: guser.getAuthResponse().id_token, id }
+    data: { token: guser ? guser.getAuthResponse().id_token : null, id } // modified to make guser optional
   }).then(res => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
   });
