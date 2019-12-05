@@ -103,10 +103,15 @@ class YouTubeVideo extends React.Component {
             this.props.setRiffPlaying(index, false);
             this.curRiff[index] = false;
             //document.querySelector( '#riff-content' ).innerHTML = '';
-
+            
             if (riff.type === 'audio')
-              window.rifftubePlayer.setVolume(this.vol);
-              delete this.vol;
+              // make sure all audio clips have stopped
+              this.audLock--;
+              if ( !audLock )
+              {
+                window.rifftubePlayer.setVolume(this.vol ? this.vol : 100); // hopefully unnecessary volume failsafe
+                delete this.vol;
+              }
           }
         });
 
@@ -123,6 +128,12 @@ class YouTubeVideo extends React.Component {
                 this.vol = window.rifftubePlayer.getVolume();
                 window.rifftubePlayer.setVolume(this.vol * 0.5);
               }
+
+              // keeps track of how many audio tracks need to end before volume should be restored
+              if ( !this.audLock )
+                this.audLock = 1;
+              else
+                this.audLock++;
 
               let audio = document.createElement('audio');
               audio.controls = false;
