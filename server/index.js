@@ -217,7 +217,35 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-console.log( __dirname + '/../react-ui/build' )
+server.post('/get-view-riffs', (req, res) => {
+  const body = req.body;
+
+  console.log( "get view riffs", body.videoID );
+  
+  data_model.getIdFromVideoId(body.videoID)
+  .then( ([{id:vID}]) => {
+
+    console.log( vID );
+
+    console.log( "GVR then 1" );
+
+    return db('riffs')
+      .select('id', 'duration', 'start_time', 'isText', 'text')
+      .where({ video_id: vID });
+  })
+  .then(riffList =>
+  {
+    console.log( "GVR then 2" );
+
+    res
+      .status(200)
+      .json({
+        status: 'ok',
+        body: riffList.map(el => ({ ...el, video_id: body.videoID }))
+      });
+  })
+  .catch(err => res.status(500).json({ error: err }));
+});
 
 server.use(express.static(path.join(__dirname, '../react-ui/build')));
 server.get('/*', function(req, res) {

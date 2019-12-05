@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
-import { setVideoID } from '../../actions';
+import { setVideoID, getViewRiffs } from '../../actions';
 
 class ViewInterface extends React.Component {
     componentDidMount = () =>
     {
         this.props.setVideoID( this.props.match.params.videoID );
+
+        this.props.getViewRiffs( this.props.match.params.videoID );
     };
 
     render = () =>
@@ -20,11 +22,12 @@ class ViewInterface extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-  });
+/*const mapStateToProps = state => ({
+  });*/
   
   const mapDispatchToProps = {
-    setVideoID
+    setVideoID,
+    getViewRiffs
   };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewInterface);
+export default connect(null, mapDispatchToProps)(ViewInterface);

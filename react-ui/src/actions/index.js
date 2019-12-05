@@ -60,6 +60,23 @@ export const setGoogleUser = (googleUser, videoID) => {
   };
 };
 
+export const getViewRiffs = (videoID) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    //console.log( "get url", `${baseURL}/get-riffs` );
+    /*dispatch({
+      type: null
+    });*/
+    axios({
+      method: 'post',
+      url: `${baseURL}/get-view-riffs`,
+      data: { videoID }
+    }).then(res => {
+      dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+    });
+  };
+};
+
 export const setPlayerMode = mode => ({
   type: SET_PLAYER_MODE,
   payload: mode
