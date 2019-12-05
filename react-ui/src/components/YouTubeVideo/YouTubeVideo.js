@@ -176,13 +176,11 @@ class YouTubeVideo extends React.Component {
       <div className="rifftube-container">
         <div id="rifftube-player" />
         {Object.keys(this.props.riffsPlaying)
-          .filter(i => this.props.riffsPlaying[i])
+          .filter(i => this.props.riffsPlaying[i] && this.props.riffs[i].type === 'text')
           .map(key => (
-            <div key={key}>
+            <div key={this.props.riffs[key].id}>
               <div>
-                {this.props.riffs[key].type === 'text'
-                  ? this.props.riffs[key].payload
-                  : null}
+                {this.props.riffs[key].payload}
               </div>
             </div>
           ))}

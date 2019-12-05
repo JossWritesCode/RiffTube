@@ -61,7 +61,7 @@ class EditRiff extends React.Component {
                     this.props.googleUser.getAuthResponse().id_token,
                     {
                       payload: this.props.tempRiff.payload,
-                      time: this.startTimeField.current.value
+                      time: Number(this.startTimeField.current.value)
                     },
                     this.props.tempRiff
                   );
@@ -74,6 +74,7 @@ class EditRiff extends React.Component {
             <React.Fragment>
               <div>HTML payload:</div>
               <textarea id="riff-edit-field" ref={this.htmlPayloadField} defaultValue={this.props.tempRiff.payload} />
+
               <div>
                 Duration:{' '}
                 <input
@@ -99,7 +100,7 @@ class EditRiff extends React.Component {
                       duration: Number(
                         this.durationField.current.value
                       ),
-                      time: this.startTimeField.current.value
+                      time: Number(this.startTimeField.current.value)
                     },
                     this.props.tempRiff
                   );
