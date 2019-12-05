@@ -44,14 +44,14 @@ export const setVideoID = payload => ({
 
 export const setGoogleUser = (googleUser, videoID) => {
   return dispatch => {
-    //console.log( "get url", process.env.REACT_APP_BASE_URL );
+    console.log( "get url", `${process.env.REACT_APP_BASE_URL}/get-riffs` );
     dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser
     });
     axios({
       method: 'post',
-      url: `${process.env.process.env.REACT_APP_BASE_URL}/get-riffs`,
+      url: `${process.env.REACT_APP_BASE_URL}/get-riffs`,
       data: { token: googleUser.getAuthResponse().id_token, videoID }
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
@@ -115,7 +115,7 @@ export const saveRiff = (token, payload, riff) => {
 
     axios({
       method: 'post',
-      url: `${process.env.process.env.REACT_APP_BASE_URL}/save-riff`,
+      url: `${process.env.REACT_APP_BASE_URL}/save-riff`,
       data: fd,
       headers: { 'Content-Type': 'multipart/form-data' }
     })
@@ -147,7 +147,7 @@ export const loadRiff = (id, guser) => {
 const rawLoadAxios = (dispatch, id, guser) => {
   axios({
     method: 'post',
-    url: `${process.env.process.env.REACT_APP_BASE_URL}/load-riff`,
+    url: `${process.env.REACT_APP_BASE_URL}/load-riff`,
     responseType: 'arraybuffer',
     data: { token: guser.getAuthResponse().id_token, id }
   }).then(res => {
