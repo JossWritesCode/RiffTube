@@ -106,7 +106,7 @@ export const saveRiff = (token, payload, riff) => {
       'duration',
       riff.type === 'text' ? payload.duration : riff.duration
     );
-    fd.append('start_time', riff.time);
+    fd.append('start_time', payload.time);
     fd.append('video_id', riff.video_id);
     fd.append('tempId', riff.tempId);
 

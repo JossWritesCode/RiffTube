@@ -192,7 +192,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                   .json({
                     status: 'ok',
                     type: 'add',
-                    tempId: body.tempId,
+                    tempId: Number( body.tempId ),
                     id: newRiffId
                   })
               );

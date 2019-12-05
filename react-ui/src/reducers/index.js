@@ -126,8 +126,10 @@ export default (state = initialState, action) => {
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
         let riffs = [...state.riffs];
-        riffs.forEach(el => {
-          if (el.tempId === action.payload.tempId) el.id = action.payload.id;
+        riffs.forEach((el, ind, arr) => {
+          if (el.tempId === action.payload.tempId)
+            arr[ind] = { ...el, id: action.payload.id };
+            //el.id = action.payload.id;
         });
         let ret = { ...state, riffs };
         return ret;
@@ -136,7 +138,8 @@ export default (state = initialState, action) => {
       let riff = { ...state.tempRiff, ...action.payload };
       let riffs;
       // editing a new riff:
-      if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
+      if (state.mode === EDIT_NEW_MODE)
+        riffs = [...state.riffs, riff];
       // EDIT_MODE (existing riff):
       else {
         riffs = [...state.riffs];
