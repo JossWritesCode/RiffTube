@@ -42,9 +42,8 @@ export const setVideoID = payload => ({
   payload: googleUser
 });*/
 
-var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
-
 export const setGoogleUser = (googleUser, videoID) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   return dispatch => {
     console.log( "get url", `${baseURL}/get-riffs` );
     dispatch({
@@ -97,6 +96,7 @@ export const cancelEdit = () => ({
 });
 
 export const saveRiff = (token, payload, riff) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   return dispatch => {
     dispatch({ type: SAVE_RIFF, payload });
 
@@ -147,6 +147,7 @@ export const loadRiff = (id, guser) => {
 };
 
 const rawLoadAxios = (dispatch, id, guser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   axios({
     method: 'post',
     url: `${baseURL}/load-riff`,
