@@ -73,9 +73,7 @@ class EditRiff extends React.Component {
           ) : (
             <React.Fragment>
               <div>HTML payload:</div>
-              <textarea id="riff-edit-field" ref={this.htmlPayloadField}>
-                {this.props.tempRiff.payload}
-              </textarea>
+              <textarea id="riff-edit-field" ref={this.htmlPayloadField} defaultValue={this.props.tempRiff.payload} />
               <div>
                 Duration:{' '}
                 <input
@@ -99,7 +97,7 @@ class EditRiff extends React.Component {
                     {
                       payload: this.htmlPayloadField.current.value,
                       duration: Number(
-                        this.videoIDRef.current.value
+                        this.durationField.current.value
                       ),
                       time: this.startTimeField.current.value
                     },
