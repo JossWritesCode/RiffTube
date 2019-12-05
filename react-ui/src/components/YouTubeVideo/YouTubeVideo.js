@@ -190,7 +190,6 @@ class YouTubeVideo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  id: state.videoID,
   mode: state.mode,
   riffs: state.riffs,
   riffsPlaying: state.riffsPlaying,
