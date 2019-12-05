@@ -8,12 +8,12 @@ function RiffDetail(props) {
     <div className="riff-detail">
       <div>
         <ul className="riff-detail-list">
-          <li>No. {props.id}</li>
           <li>
             start time: { props.time.toFixed ? props.time.toFixed(2) : null }
           </li>
-          <li>type: {props.type}</li>
           <li>duration: {props.duration.toFixed(2)}</li>
+          <li>type: {props.type}</li>
+          <li>No. {props.id}</li>
         </ul>
         <button
           onClick={() =>
