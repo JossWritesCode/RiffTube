@@ -103,11 +103,11 @@ class YouTubeVideo extends React.Component {
             this.props.setRiffPlaying(index, false);
             this.curRiff[index] = false;
             //document.querySelector( '#riff-content' ).innerHTML = '';
-            
+
             if (riff.type === 'audio')
               // make sure all audio clips have stopped
               this.audLock--;
-              if ( !audLock )
+              if ( !this.audLock )
               {
                 window.rifftubePlayer.setVolume(this.vol ? this.vol : 100); // hopefully unnecessary volume failsafe
                 delete this.vol;
