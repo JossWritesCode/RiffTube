@@ -106,6 +106,7 @@ class YouTubeVideo extends React.Component {
 
             if (riff.type === 'audio')
               window.rifftubePlayer.setVolume(this.vol);
+              delete this.vol;
           }
         });
 
@@ -117,8 +118,11 @@ class YouTubeVideo extends React.Component {
             this.curRiff[index] = true;
 
             if (riff.type === 'audio') {
-              this.vol = window.rifftubePlayer.getVolume();
-              window.rifftubePlayer.setVolume(this.vol * 0.5);
+              if ( !this.vol )
+              {
+                this.vol = window.rifftubePlayer.getVolume();
+                window.rifftubePlayer.setVolume(this.vol * 0.5);
+              }
 
               let audio = document.createElement('audio');
               audio.controls = false;
