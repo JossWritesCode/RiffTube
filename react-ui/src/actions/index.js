@@ -53,7 +53,7 @@ export const setGoogleUser = (googleUser, videoID) => {
     });
     axios({
       method: 'post',
-      url: `${process.env.REACT_APP_BASE_URL}/get-riffs`,
+      url: `${baseURL}/get-riffs`,
       data: { token: googleUser.getAuthResponse().id_token, videoID }
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
@@ -117,7 +117,7 @@ export const saveRiff = (token, payload, riff) => {
 
     axios({
       method: 'post',
-      url: `${process.env.REACT_APP_BASE_URL}/save-riff`,
+      url: `${baseURL}/save-riff`,
       data: fd,
       headers: { 'Content-Type': 'multipart/form-data' }
     })
@@ -149,7 +149,7 @@ export const loadRiff = (id, guser) => {
 const rawLoadAxios = (dispatch, id, guser) => {
   axios({
     method: 'post',
-    url: `${process.env.REACT_APP_BASE_URL}/load-riff`,
+    url: `${baseURL}/load-riff`,
     responseType: 'arraybuffer',
     data: { token: guser.getAuthResponse().id_token, id }
   }).then(res => {
