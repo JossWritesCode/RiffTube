@@ -21,7 +21,7 @@ class App extends React.Component {
               component={EditInterface}
             />
             <Route
-              path="/edit"
+              path="/view/:videoID"
               component={ViewInterface}
             />
           </div>

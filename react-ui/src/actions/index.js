@@ -45,7 +45,7 @@ export const setVideoID = payload => ({
 export const setGoogleUser = (googleUser, videoID) => {
   var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   return dispatch => {
-    console.log( "get url", `${baseURL}/get-riffs` );
+    //console.log( "get url", `${baseURL}/get-riffs` );
     dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser

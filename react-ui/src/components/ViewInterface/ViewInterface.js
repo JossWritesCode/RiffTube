@@ -1,9 +1,16 @@
 import React from 'react';
 
-function ViewInterface(props) {
-  return (
-    <h1>View</h1>
-  );
+class ViewInterface extends React.Component {
+    componentDidMount = () =>
+    {
+    };
+
+    render = () =>
+    {
+        return (
+            <h1>View {this.props.match.params.videoID}</h1>
+        );
+    }
 }
 
 export default ViewInterface;
