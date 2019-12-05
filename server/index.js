@@ -9,7 +9,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const db = require('../data/db.js');
 const data_model = require('../data-model.js');
 
-const CLIENT_ID = process.env.JD_CLIENT_ID; // compile time var
+const CLIENT_ID = '941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com';
 
 server.use(express.json());
 

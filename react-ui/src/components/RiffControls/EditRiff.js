@@ -10,6 +10,15 @@ import {
 } from '../../actions/index.js';
 
 class EditRiff extends React.Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.durationField = React.createRef();
+    this.htmlPayloadField = React.createRef();
+    this.startTimeField = React.createRef();
+  }
+
   render() {
     console.log('ed rif red');
     return (
@@ -37,13 +46,22 @@ class EditRiff extends React.Component {
                 </button>
               ) : null}
               <br />
+              <div>
+                Start:{' '}
+                <input
+                  id="riff-start-field"
+                  defaultValue={this.props.tempRiff.time}
+                  ref={this.startTimeField}
+                />
+              </div>
               <button
                 disabled={!this.props.tempRiff.payload}
                 onClick={() => {
                   this.props.saveRiff(
                     this.props.googleUser.getAuthResponse().id_token,
                     {
-                      payload: this.props.tempRiff.payload
+                      payload: this.props.tempRiff.payload,
+                      time: this.startTimeField.current.value
                     },
                     this.props.tempRiff
                   );
@@ -55,7 +73,7 @@ class EditRiff extends React.Component {
           ) : (
             <React.Fragment>
               <div>HTML payload:</div>
-              <textarea id="riff-edit-field">
+              <textarea id="riff-edit-field" ref={this.htmlPayloadField}>
                 {this.props.tempRiff.payload}
               </textarea>
               <div>
@@ -63,6 +81,15 @@ class EditRiff extends React.Component {
                 <input
                   id="riff-duration-field"
                   defaultValue={this.props.tempRiff.duration || 2}
+                  ref={this.durationField}
+                />
+              </div>
+              <div>
+                Start:{' '}
+                <input
+                  id="riff-start-field"
+                  defaultValue={this.props.tempRiff.time}
+                  ref={this.startTimeField}
                 />
               </div>
               <button
@@ -70,10 +97,11 @@ class EditRiff extends React.Component {
                   this.props.saveRiff(
                     this.props.googleUser.getAuthResponse().id_token,
                     {
-                      payload: document.querySelector('#riff-edit-field').value,
+                      payload: this.htmlPayloadField.current.value,
                       duration: Number(
-                        document.querySelector('#riff-duration-field').value
-                      )
+                        this.videoIDRef.current.value
+                      ),
+                      time: this.startTimeField.current.value
                     },
                     this.props.tempRiff
                   );

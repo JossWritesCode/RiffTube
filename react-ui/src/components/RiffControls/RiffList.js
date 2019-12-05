@@ -8,7 +8,7 @@ function RiffList(props) {
   return (
     <div className="list-of-riffs">
       {props.riffs
-        ? props.riffs.map((riff, index) => (
+        ? props.riffs.sort( (e1,e2) => e1.time < e2.time ).map((riff, index) => (
             <RiffDetail
               key={riff.id}
               {...riff}

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "start": "node index.js"
+    "start": "PORT=3300 node index.js"
   },
   "repository": {
     "type": "git",
