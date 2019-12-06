@@ -61,14 +61,16 @@ server.post('/get-riffs', (req, res) => {
 
       console.log( "GR then 1" );
 
+      console.log( payload.email );
+
       return payload;
     })
-    //.then( payload => data_model.getIdFromEmail( payload.email ) )
     .then(payload =>
       Promise.all([payload, data_model.getIdFromEmail(payload.email)])
     )
     .then(([payload, email]) =>
     {
+      console.log( "GR then again", email )
       if ( email.length === 0 )
       {
         res.status(200).json({ info: "no riffs yet", body: [] })

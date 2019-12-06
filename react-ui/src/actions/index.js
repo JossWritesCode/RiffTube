@@ -32,16 +32,38 @@ export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 
 export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 
-export const setVideoID = payload => ({
+export const setVideoID = (videoID, googleUser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    //console.log( "get url", `${baseURL}/get-riffs` );
+    dispatch({
+      type: SET_VIDEO_ID,
+      payload: videoID
+    });
+    if ( googleUser && googleUser.getAuthResponse )
+    {
+      axios({
+        method: 'post',
+        url: `${baseURL}/get-riffs`,
+        data: { token: googleUser.getAuthResponse().id_token, videoID }
+      }).then(res => {
+        dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+      });
+    }
+  };
+};
+
+/*export const setVideoID = payload => ({
   type: SET_VIDEO_ID,
   payload
-});
+});*/
 
 /*export const setGoogleUser = googleUser => ({
   type: GOOGLE_USER_SIGNIN,
   payload: googleUser
 });*/
 
+// perhaps this action should somehow call the above action (setVideoID)?
 export const setGoogleUser = (googleUser, videoID) => {
   var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   return dispatch => {

@@ -46,8 +46,10 @@ class EditInterface extends React.Component
         <div>
           <form
             onSubmit={e => {
+              // this and the below code should be considolidated
               this.props.setVideoID(
-                this.extractVideoID(this.videoIDRef.current.value)
+                this.extractVideoID(this.videoIDRef.current.value),
+                this.props.googleUser
               );
               e.preventDefault();
             }}
@@ -62,7 +64,8 @@ class EditInterface extends React.Component
               type="button"
               onClick={e => {
                 this.props.setVideoID(
-                  this.extractVideoID(this.videoIDRef.current.value)
+                  this.extractVideoID(this.videoIDRef.current.value),
+                  this.props.googleUser
                 );
               }}
             >
