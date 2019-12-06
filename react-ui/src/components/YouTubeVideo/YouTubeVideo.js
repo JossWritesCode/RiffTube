@@ -42,6 +42,9 @@ class YouTubeVideo extends React.Component {
       videoId: id,
       height: 390,
       width: 640,
+      playerVars: {
+        playsinline: 1 // allows it to play inline on iOS
+      },
       events: {
         onReady: this.onPlayerReady,
         onStateChange: this.onPlayerStateChange
