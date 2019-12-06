@@ -76,7 +76,7 @@ class EditInterface extends React.Component
           <YouTubeVideo id={this.props.videoID} />
 
           <div>
-            <a href={"/view/" + this.props.videoID}>View video</a>
+            <a href={"/view/" + this.props.videoID} target="_blank">View video</a>
           </div>
         </div>
 
