@@ -104,21 +104,22 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
   console.log( 'verify token' );
 
+  var payload;
+
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
-      const payload = ticket.getPayload();
+      payload = ticket.getPayload();
 
       console.log( "VT then 1" );
 
-      return payload;
-    })
-    // make sure that the user exists in the db, or else insert them
-    .then(payload => {
+      // make sure that the user exists in the db, or else insert them
+      // and 
+      // make sure that the video exists in the db, or else insert it
 
-      console.log( "VT then 2" );
+      return Promise.all(
 
-      return db('users')
+        db('users')
         .select()
         .where('email', payload.email)
         .then(userList => {
@@ -133,21 +134,19 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                   email: payload.email
                 },
                 'id'
-              )
-              .then(newUserId => {
-                return payload;
-              });
+              );
           } else console.log('not inserting user');
-          return payload;
-        })
-        .catch(err => res.status(500).json({ SR_error: err }));
-    })
-    // make sure that the video exists in the db, or else insert it
-    .then(payload => {
-      return db('videos')
+
+          return Promise.resolve();
+        }),
+
+        db('videos')
         .select()
         .where('url', body.video_id)
         .then(vidList => {
+
+          console.log( "SR get vidlist" );
+
           if (vidList.length === 0) {
             return db('videos')
               .insert(
@@ -155,54 +154,53 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                   url: body.video_id
                 },
                 'id'
-              )
-              .then(newVidId => {
-                return payload;
-              });
+              );
           } else console.log('not inserting video');
-          return payload;
-        });
+
+          return Promise.resolve();
+        })
+
+      );
     })
     // once we know the user and video exist, insert the riff
-    .then(payload => {
+    .then(() => {
       // get the IDs of the user and video, then insert the data
-      data_model.getIdFromEmail(payload.email).then(idin => {
-        console.log('UID!', idin[0].id);
+      return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
+    })
+    .then( ([idin, vidid]) => {
 
-        data_model.getIdFromVideoId(body.video_id).then(vidid => {
-          console.log('VID!', vidid[0].id);
+      console.log('UID!', idin[0].id);
+      console.log('VID!', vidid[0].id);
 
-          let dbpayload = {
-            audio_datum: body.type == 'text' ? null : req.file.buffer,
-            text: body.type == 'text' ? body.text : null,
-            isText: body.type == 'text',
-            start_time: body.start_time,
-            duration: body.duration,
-            user_id: idin[0].id,
-            video_id: vidid[0].id
-          };
+      let dbpayload = {
+        audio_datum: body.type == 'text' ? null : req.file.buffer,
+        text: body.type == 'text' ? body.text : null,
+        isText: body.type == 'text',
+        start_time: body.start_time,
+        duration: body.duration,
+        user_id: idin[0].id,
+        video_id: vidid[0].id
+      };
 
-          if (body.id === 'undefined') {
-            db('riffs')
-              .insert(dbpayload, 'id')
-              .then(([newRiffId]) =>
-                res
-                  .status(200)
-                  .json({
-                    status: 'ok',
-                    type: 'add',
-                    tempId: Number( body.tempId ),
-                    id: newRiffId
-                  })
-              );
-          } else {
-            db('riffs')
-              .where('id', body.id)
-              .update(dbpayload)
-              .then(() => res.status(200).json({ status: 'ok', type: 'edit' }));
-          }
-        });
-      });
+      if (body.id === 'undefined') {
+        db('riffs')
+          .insert(dbpayload, 'id')
+          .then(([newRiffId]) =>
+            res
+              .status(200)
+              .json({
+                status: 'ok',
+                type: 'add',
+                tempId: Number( body.tempId ),
+                id: newRiffId
+              })
+          );
+      } else {
+        db('riffs')
+          .where('id', body.id)
+          .update(dbpayload)
+          .then(() => res.status(200).json({ status: 'ok', type: 'edit' }));
+      }
     })
     .catch(err => res.status(500).json({ error: err }));
 });
