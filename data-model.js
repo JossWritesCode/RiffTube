@@ -11,21 +11,21 @@ function getIdFromEmail(email) {
 function getIdFromVideoId(url) {
     return (
         db('videos')
-            .select('name')
-            .where({ id })
+            .select('id')
+            .where({ url })
     );
 }
 
-function getNameFromId(id) {
+function getNameFromID(id) {
     return (
-        db('users')
-            .select('id')
-            .where({ url })
+        db('videos')
+            .select('name')
+            .where({ id })
     );
 }
 
 module.exports = {
     getIdFromEmail,
     getIdFromVideoId,
-    getNameFromId
+    getNameFromID
   };

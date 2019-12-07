@@ -81,7 +81,8 @@ server.post('/get-riffs', (req, res) => {
           console.log( "GR then 2" );
 
           return db('riffs')
-            .select('id', 'user_id', 'video_id', 'duration', 'start_time', 'isText', 'text')
+            .join('users', 'riffs.user_id', 'users.id')
+            .select('riffs.id', 'riffs.user_id', 'riffs.video_id', 'riffs.duration', 'riffs.start_time', 'riffs.isText', 'riffs.text', 'users.name')
             .where({ user_id: uID, video_id: vID })
             .then(riffList => {
 
