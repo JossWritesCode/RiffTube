@@ -32,6 +32,13 @@ export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 
 export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 
+export const TOGGLE_VIEW_USERID_MUTED = 'TOGGLE_VIEW_USERID_MUTED';
+
+export const toggleViewUserIdMuted = (uID) => ({
+  type: TOGGLE_VIEW_USERID_MUTED,
+  id: uID,
+});
+
 export const setVideoID = (videoID, googleUser) => {
   var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
   return dispatch => {
@@ -52,16 +59,6 @@ export const setVideoID = (videoID, googleUser) => {
     }
   };
 };
-
-/*export const setVideoID = payload => ({
-  type: SET_VIDEO_ID,
-  payload
-});*/
-
-/*export const setGoogleUser = googleUser => ({
-  type: GOOGLE_USER_SIGNIN,
-  payload: googleUser
-});*/
 
 // perhaps this action should somehow call the above action (setVideoID)?
 export const setGoogleUser = (googleUser, videoID) => {

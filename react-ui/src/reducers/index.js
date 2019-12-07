@@ -18,7 +18,8 @@ import {
   PAUSE_MODE,
   TOGGLE_PLAYER_MODE,
   RECEIVE_RIFF_LIST,
-  SAVE_RIFF_SUCCESS
+  SAVE_RIFF_SUCCESS,
+  TOGGLE_VIEW_USERID_MUTED
 } from '../actions/index.js';
 
 let initialState = {
@@ -27,12 +28,12 @@ let initialState = {
   riffs: [],
   tempRiff: null,
   mode: PAUSE_MODE,
-  riffsPlaying: {}
+  riffsPlaying: {},
+  viewMutedUserIDs: {}
 };
 
 export default (state = initialState, action) => {
-  console.log('dispatch', action, state);
-
+  console.log( "dispatch", state, action );
   switch (action.type) {
     case SET_VIDEO_ID:
       return {
@@ -41,7 +42,13 @@ export default (state = initialState, action) => {
         riffs: [],
         tempRiff: null,
         mode: PAUSE_MODE,
-        riffsPlaying: {}
+        riffsPlaying: {},
+        viewMutedUserIDs: {}
+      };
+    case TOGGLE_VIEW_USERID_MUTED:
+      return {
+        ...state,
+        viewMutedUserIDs: { ...state.viewMutedUserIDs, [action.id]: ! state.viewMutedUserIDs[ action.id ] }
       };
     case GOOGLE_USER_SIGNIN:
       return {

@@ -1,31 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
-import { setVideoID, getViewRiffs } from '../../actions';
+import { toggleViewUserIdMuted } from '../../actions';
 
 class AuthorSelector extends React.Component
 {
     constructor(props)
     {
         super(props);
-        this.state =
-            {
-                selected: {}
-            };
     }
 
     renderNames()
     {
         var names = [];
+        const containsReducer = id => (ac, cur) => cur.id === id ? ac || true : ac || false;
+        const includes = ( arr, id ) => arr.reduce( containsReducer( id ), false );
+
         this.props.riffs.forEach( el =>
             {
-                console.log( "name", el.name, names.includes( el.name ) )
-                if ( ! names.includes( el.name ) )
-                    names.push( el.name );
+                console.log( "name", el.name, includes( names, el.user_id ) );
+                if ( ! includes( names, el.user_id ) )
+                    names.push( { name: el.name, id: el.user_id } );
             });
         return names.map( el => (
-            <div>
-                { el }
+            <div key={el.id} onClick={ () => this.props.toggleViewUserIdMuted( el.id ) } style={ { backgroundColor: this.props.selectedIDs[el.id] ? 'gray' : 'red' } }>
+                { el.name }
             </div>
         ));
     }
@@ -43,14 +41,12 @@ class AuthorSelector extends React.Component
 }
 
 const mapStateToProps = state => ({
-    riffs: state.riffs  
+    riffs: state.riffs,
+    selectedIDs: state.viewMutedUserIDs
   });
   
-/*
   const mapDispatchToProps = {
-    setVideoID,
-    getViewRiffs
+    toggleViewUserIdMuted
   };
-  */
 
-export default connect(mapStateToProps, null)(AuthorSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorSelector);
