@@ -118,10 +118,13 @@ class YouTubeVideo extends React.Component {
           }
         });
 
+        var riffMuted = ind => this.props.mutedIDs[ this.props.riffs[ind].user_id ];
+
         // next start any that should be playing
         this.props.riffs.forEach((riff, index) => {
           // the riff will start playing within half a second, or will be skipped
-          if (!this.curRiff[index] && t > riff.time && t < riff.time + 0.5) {
+          if ( !riffMuted(index) && !this.curRiff[index] && t > riff.time && t < riff.time + 0.5 ) {
+            
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true;
 
@@ -211,7 +214,8 @@ const mapStateToProps = state => ({
   mode: state.mode,
   riffs: state.riffs,
   riffsPlaying: state.riffsPlaying,
-  googleUser: state.googleUser
+  googleUser: state.googleUser,
+  mutedIDs: state.viewMutedUserIDs
 });
 
 const mapDispatchToProps = {

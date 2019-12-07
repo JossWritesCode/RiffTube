@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
@@ -78,7 +78,6 @@ class EditInterface extends React.Component
             <a href={"/view/" + this.props.videoID} target="_blank">View video</a>
           </div>
         </div>
-
         <Route
           exact
           path="/"

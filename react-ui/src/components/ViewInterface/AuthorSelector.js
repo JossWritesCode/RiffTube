@@ -4,11 +4,6 @@ import { toggleViewUserIdMuted } from '../../actions';
 
 class AuthorSelector extends React.Component
 {
-    constructor(props)
-    {
-        super(props);
-    }
-
     renderNames()
     {
         var names = [];
@@ -22,7 +17,7 @@ class AuthorSelector extends React.Component
                     names.push( { name: el.name, id: el.user_id } );
             });
         return names.map( el => (
-            <div key={el.id} onClick={ () => this.props.toggleViewUserIdMuted( el.id ) } style={ { backgroundColor: this.props.selectedIDs[el.id] ? 'gray' : 'red' } }>
+            <div key={el.id} onClick={ () => this.props.toggleViewUserIdMuted( el.id ) } style={ { backgroundColor: this.props.mutedIDs[el.id] ? 'gray' : 'blue' } }>
                 { el.name }
             </div>
         ));
@@ -42,7 +37,7 @@ class AuthorSelector extends React.Component
 
 const mapStateToProps = state => ({
     riffs: state.riffs,
-    selectedIDs: state.viewMutedUserIDs
+    mutedIDs: state.viewMutedUserIDs
   });
   
   const mapDispatchToProps = {
