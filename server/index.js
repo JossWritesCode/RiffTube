@@ -54,58 +54,50 @@ server.post('/get-riffs', (req, res) => {
 
   console.log( "get riffs" );
 
+  var payload;
+
   verify(body.token)
     // once verified, get and pass on payload
     .then(ticket => {
-      const payload = ticket.getPayload();
+      payload = ticket.getPayload();
 
       console.log( "GR then 1" );
 
       console.log( payload.email );
 
-      return payload;
+      return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.videoID)]);
     })
-    .then(payload =>
-      Promise.all([payload, data_model.getIdFromEmail(payload.email)])
-    )
-    .then(([payload, email]) =>
-    {
-      console.log( "GR then again", email )
-      if ( email.length === 0 )
+    .then( ([emailArr, vIDArr]) => {
+      console.log( "GR then again", emailArr, vIDArr )
+      if ( emailArr.length === 0 || vIDArr.length === 0 )
       {
         res.status(200).json({ info: "no riffs yet", body: [] })
       }
       else
       {
-        var [{ id: uID }] = email;
-        return Promise.all([
-          payload,
-          uID,
-          data_model.getIdFromVideoId(body.videoID)
-        ])
-        .then(([payload, uID, [{ id: vID }]]) => {
-
+        var [{ id: uID }] = emailArr;
+        var [{ id: vID }] = vIDArr;
+        
           console.log( "GR then 2" );
 
           return db('riffs')
-            .select('id', 'duration', 'start_time', 'isText', 'text')
-            .where({ user_id: uID, video_id: vID });
-        })
-        .then(riffList => {
+            .select('id', 'user_id', 'video_id', 'duration', 'start_time', 'isText', 'text')
+            .where({ user_id: uID, video_id: vID })
+            .then(riffList => {
 
-          console.log( "GF then 3" );
-
-          res
-            .status(200)
-            .json({
-              status: 'ok',
-              body: riffList.map(el => ({ ...el, video_id: body.videoID }))
-            });
-        })
-        .catch(err => res.status(500).json({ error: err }));;
-      }
+              console.log( "GF then 3" );
+          
+              res
+                .status(200)
+                .json({
+                  status: 'ok',
+                  body: riffList
+                });
+              })
+              .catch(err => res.status(500).json({ error: err }));
+        }
+      })
     });
-});
 
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
@@ -228,7 +220,7 @@ server.post('/get-view-riffs', (req, res) => {
     console.log( "GVR then 1" );
 
     return db('riffs')
-      .select('id', 'duration', 'start_time', 'isText', 'text')
+      .select('id', 'user_id', 'video_id', 'duration', 'start_time', 'isText', 'text')
       .where({ video_id: vID });
   })
   .then(riffList =>
