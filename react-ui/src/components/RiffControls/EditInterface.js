@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import RiffList from './RiffList.js';
+import { BrowserRouter as Route } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';

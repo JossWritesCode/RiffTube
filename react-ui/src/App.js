@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import EditInterface from './components/RiffControls/EditInterface';
 import ViewInterface from './components/ViewInterface/ViewInterface';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends React.Component {
 

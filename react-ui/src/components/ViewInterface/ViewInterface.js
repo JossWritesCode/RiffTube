@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
+import AuthorSelector from './AuthorSelector';
 import { setVideoID, getViewRiffs } from '../../actions';
 
 class ViewInterface extends React.Component {
@@ -17,6 +18,7 @@ class ViewInterface extends React.Component {
             <div>
                 <h1>View {this.props.match.params.videoID}</h1>
                 <YouTubeVideo id={this.props.match.params.videoID} />
+                <AuthorSelector />
             </div>
         );
     }
