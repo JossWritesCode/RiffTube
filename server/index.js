@@ -117,60 +117,60 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // and 
       // make sure that the video exists in the db, or else insert it
 
-      return Promise.all(
+      return Promise.all([
 
         db('users')
-        .select()
-        .where('email', payload.email)
-        .then(userList => {
+          .select()
+          .where('email', payload.email)
+          .then(userList => {
 
-          console.log( "SR get email" );
+            console.log( "SR get email", userList );
 
-          if (userList.length === 0) {
-            return db('users')
-              .insert(
-                {
-                  name: 'all are bob',
-                  email: payload.email
-                },
-                'id'
-              );
-          } else console.log('not inserting user');
+            if (userList.length === 0) {
+              return db('users')
+                .insert(
+                  {
+                    name: 'all are bob',
+                    email: payload.email
+                  },
+                  ['id']
+                );
+            } else console.log('not inserting user');
 
-          return Promise.resolve();
-        }),
+            return Promise.resolve( userList[0].id );
+          }),
 
         db('videos')
-        .select()
-        .where('url', body.video_id)
-        .then(vidList => {
+          .select()
+          .where('url', body.video_id)
+          .then(vidList => {
 
-          console.log( "SR get vidlist" );
+            console.log( "SR get vidlist", vidList );
 
-          if (vidList.length === 0) {
-            return db('videos')
-              .insert(
-                {
-                  url: body.video_id
-                },
-                'id'
-              );
-          } else console.log('not inserting video');
+            if (vidList.length === 0) {
+              return db('videos')
+                .insert(
+                  {
+                    url: body.video_id
+                  },
+                  ['id']
+                );
+            } else console.log('not inserting video');
 
-          return Promise.resolve();
-        })
+            return Promise.resolve( vidList[0].id );
+          })
 
-      );
+      ]);
     })
     // once we know the user and video exist, insert the riff
-    .then(() => {
+    /*.then(() => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
-    })
+    })*/
     .then( ([idin, vidid]) => {
 
-      console.log('UID!', idin[0].id);
-      console.log('VID!', vidid[0].id);
+      console.log('UID!', idin);
+      console.log('VID!', vidid);
 
       let dbpayload = {
         audio_datum: body.type == 'text' ? null : req.file.buffer,
@@ -178,8 +178,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
         isText: body.type == 'text',
         start_time: body.start_time,
         duration: body.duration,
-        user_id: idin[0].id,
-        video_id: vidid[0].id
+        user_id: idin,
+        video_id: vidid
       };
 
       if (body.id === 'undefined') {
