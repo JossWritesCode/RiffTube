@@ -5,7 +5,7 @@ import { editRiff } from '../../actions/index.js';
 /* this component is where a user can edit their riff */
 function RiffDetail(props) {
   return (
-    <div className="riff-detail">
+    <div className={`riff-detail${ props.selected ? ' riff-detail-selected' : '' }`}>
       <div>
         <ul className="riff-detail-list">
           <li>
