@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID } from '../../actions';
+import { setVideoID, setRifferName } from '../../actions';
 
 class EditInterface extends React.Component
 {
@@ -74,6 +74,29 @@ class EditInterface extends React.Component
 
           <YouTubeVideo id={this.props.videoID} />
 
+          {
+            this.props.name
+            ?
+              <div>
+                Riffer Name:{' '}
+                {
+                  this.props.name
+                }
+                <button
+                  type="button"
+                  onClick={ () => {
+                    var n = prompt();
+                    if ( n )
+                      this.props.setRifferName( n, this.props.googleUser );
+                  } }
+                >
+                  Update Name
+                </button>
+              </div>
+            :
+              null
+          }
+
           <div>
             <a href={"/view/" + this.props.videoID} target="_blank">View video</a>
           </div>
@@ -90,11 +113,13 @@ class EditInterface extends React.Component
 
 const mapStateToProps = state => ({
   videoID: state.videoID,
-  googleUser: state.googleUser
+  googleUser: state.googleUser,
+  name: state.name
 });
 
 const mapDispatchToProps = {
-  setVideoID
+  setVideoID,
+  setRifferName
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);

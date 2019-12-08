@@ -29,6 +29,7 @@ export const PAUSE_MODE = 'PAUSE_MODE';
 export const TOGGLE_PLAYER_MODE = 'TOGGLE_PLAYER_MODE';
 
 export const SET_VIDEO_ID = 'SET_VIDEO_ID';
+export const RECEIVE_NAME_UPDATE = 'RECEIVE_NAME_UPDATE';
 
 export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 
@@ -38,6 +39,19 @@ export const toggleViewUserIdMuted = (uID) => ({
   type: TOGGLE_VIEW_USERID_MUTED,
   id: uID,
 });
+
+export const setRifferName = (newName, googleUser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/set-name`,
+      data: { token: googleUser.getAuthResponse().id_token, newName }
+    }).then(res => {
+      dispatch({ type: RECEIVE_NAME_UPDATE, payload: res.data });
+    });
+  };
+};
 
 export const setVideoID = (videoID, googleUser) => {
   var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';

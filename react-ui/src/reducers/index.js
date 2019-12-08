@@ -19,7 +19,8 @@ import {
   TOGGLE_PLAYER_MODE,
   RECEIVE_RIFF_LIST,
   SAVE_RIFF_SUCCESS,
-  TOGGLE_VIEW_USERID_MUTED
+  TOGGLE_VIEW_USERID_MUTED,
+  RECEIVE_NAME_UPDATE
 } from '../actions/index.js';
 
 let initialState = {
@@ -117,9 +118,15 @@ export default (state = initialState, action) => {
         ...state,
         mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
       };
+    case RECEIVE_NAME_UPDATE:
+      return {
+        ...state,
+        name: action.payload.name
+      }
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
+        name: action.payload.name,
         riffs: [
           ...state.riffs,
           ...action.payload.body.map(el => ({

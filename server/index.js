@@ -47,6 +47,43 @@ server.post('/load-riff', (req, res) => {
   );
 });
 
+server.post('/set-name', (req, res) => {
+  const body = req.body;
+
+  // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
+
+  console.log( "set name", body );
+
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      payload = ticket.getPayload();
+
+      console.log( "SN then", body.newName );
+
+      console.log( payload.email );
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then( emailArr => {
+
+      var [{ id: uID }] = emailArr;
+      console.log( "SN then again", uID, emailArr );
+
+      let dbpayload = {
+        name: body.newName
+      };
+
+      db('users')
+        .where('id', uID)
+        .update(dbpayload)
+        .then(() => res.status(200).json({ status: 'ok', name: body.newName }))
+    })
+    .catch(err => res.status(500).json({ error: err }));
+  });
+
 server.post('/get-riffs', (req, res) => {
   const body = req.body;
 
@@ -65,17 +102,20 @@ server.post('/get-riffs', (req, res) => {
 
       console.log( payload.email );
 
-      return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.videoID)]);
+      return Promise.all([
+        data_model.getIdAndNameFromEmail(payload.email),
+        data_model.getIdFromVideoId(body.videoID)
+      ]);
     })
     .then( ([emailArr, vIDArr]) => {
-      console.log( "GR then again", emailArr, vIDArr )
+      console.log( "GR then again", emailArr, vIDArr );
       if ( emailArr.length === 0 || vIDArr.length === 0 )
       {
         res.status(200).json({ info: "no riffs yet", body: [] })
       }
       else
       {
-        var [{ id: uID }] = emailArr;
+        var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
         
           console.log( "GR then 2" );
@@ -91,7 +131,8 @@ server.post('/get-riffs', (req, res) => {
                 .status(200)
                 .json({
                   status: 'ok',
-                  body: riffList
+                  body: riffList,
+                  name
                 });
               })
               .catch(err => res.status(500).json({ error: err }));

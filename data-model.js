@@ -1,9 +1,9 @@
 const db = require('./data/db.js');
 
-function getIdFromEmail(email) {
+function getIdAndNameFromEmail(email) {
     return (
         db('users')
-            .select('id')
+            .select('id', 'name')
             .where({ email })
     );
 }
@@ -25,7 +25,7 @@ function getNameFromID(id) {
 }
 
 module.exports = {
-    getIdFromEmail,
+    getIdAndNameFromEmail,
     getIdFromVideoId,
     getNameFromID
   };
