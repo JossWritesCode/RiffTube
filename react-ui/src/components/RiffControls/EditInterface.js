@@ -34,7 +34,7 @@ class EditInterface extends React.Component
     if (match && match[7].length === 11) {
       return match[7];
     } else {
-      alert('Could not extract video ID.');
+      return url; // if extraction fails, fallback on assuming they gave an ID
     }
   };
 
@@ -45,7 +45,6 @@ class EditInterface extends React.Component
         <div>
           <form
             onSubmit={e => {
-              // this and the below code should be considolidated
               this.props.setVideoID(
                 this.extractVideoID(this.videoIDRef.current.value),
                 this.props.googleUser
@@ -59,15 +58,7 @@ class EditInterface extends React.Component
               defaultValue={this.props.videoID}
               ref={this.videoIDRef}
             />
-            <button
-              type="button"
-              onClick={e => {
-                this.props.setVideoID(
-                  this.extractVideoID(this.videoIDRef.current.value),
-                  this.props.googleUser
-                );
-              }}
-            >
+            <button type="submit">
               Change Video
             </button>
           </form>
