@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
+const WebSocket = require('ws');
+
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -277,9 +279,36 @@ server.post('/get-view-riffs', (req, res) => {
   .catch(err => res.status(500).json({ error: err }));
 });
 
-server.use(express.static(path.join(__dirname, '../react-ui/build')));
+//server.use(express.static(path.join(__dirname, '../react-ui/build')));
+
 server.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
 
-module.exports = server;
+/***********************************************************
+ * WEB SOCKET SHIT
+ */
+const url = require('url');
+const http = require('http');
+
+const websockhttp = http.createServer(server);
+
+const wss1 = new WebSocket.Server({ noServer: true });
+
+websockhttp.on('upgrade', function upgrade(request, socket, head) {
+  const pathname = url.parse(request.url).pathname;
+
+  console.log( "upgrade" );
+
+  if (pathname === '/foo') {
+    wss1.handleUpgrade(request, socket, head, function done(ws) {
+      wss1.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
+/************************************************************ */
+
+module.exports = websockhttp; // was: server;
