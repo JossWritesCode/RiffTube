@@ -102,4 +102,4 @@ typings/
 .tern-port
 
 # RiffTube database
-RiffTube-backend/data/db.db3
+data/db.db3
