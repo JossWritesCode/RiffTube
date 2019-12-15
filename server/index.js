@@ -1,8 +1,11 @@
 const multer = require('multer');
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // may ultimately not be needed
 const path = require('path');
 
+// for web sockets:
+const url = require('url');
+const http = require('http');
 const WebSocket = require('ws');
 
 const server = express();
@@ -145,7 +148,7 @@ server.post('/get-riffs', (req, res) => {
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
-  console.log( 'verify token' );
+  console.log( 'save riff' );
 
   var payload;
 
@@ -279,17 +282,88 @@ server.post('/get-view-riffs', (req, res) => {
   .catch(err => res.status(500).json({ error: err }));
 });
 
+// start collaboration (and create websocket)
+server.post('/collaboration/start', (req, res) => {
+  const body = req.body;
+
+  console.log( "collaboration start" );
+
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      payload = ticket.getPayload();
+
+      console.log( "VT then 1" );
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then( emailArr => {
+
+      var [{ id: uID }] = emailArr;
+      console.log( "CS then again", uID, emailArr );
+
+      return db('collaborations')
+        .insert(
+          {
+            owner_id: uID
+          },
+          ['id']
+        );
+    })
+    .then( collabArr => {
+
+      var [{ id: cID }] = collabArr;
+      console.log( "CS then again", cID, collabArr );
+
+      res.status(200).json({status: 'ok', id: cID});
+    })
+    .catch(err => res.status(500).json({ error: err }));
+/*
+
+      let dbpayload = {
+        audio_datum: body.type == 'text' ? null : req.file.buffer,
+        text: body.type == 'text' ? body.text : null,
+        isText: body.type == 'text',
+        start_time: body.start_time,
+        duration: body.duration,
+        user_id: idin,
+        video_id: vidid
+      };
+
+      db('riffs')
+        .insert(dbpayload, 'id')
+        .then(([newRiffId]) =>
+          res
+            .status(200)
+            .json({
+              status: 'ok',
+              type: 'add',
+              tempId: Number( body.tempId ),
+              id: newRiffId
+            })
+        );*/
+    })
+    .catch(err => res.status(500).json({ error: err }));
+  });
+
+// I'm not sure if this is useful but it seems not.
+// I think instead we have the code below,
+// in addition to our special API endpoints
 //server.use(express.static(path.join(__dirname, '../react-ui/build')));
 
 server.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
 
+
+
 /***********************************************************
  * WEB SOCKET SHIT
  */
-const url = require('url');
-const http = require('http');
+
+const websockmap = new Map();
 
 const websockhttp = http.createServer(server);
 
