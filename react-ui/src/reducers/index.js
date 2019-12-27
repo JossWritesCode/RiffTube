@@ -173,7 +173,7 @@ export default (state = initialState, action) => {
       let ret = { ...state }; // will this work?
       ret.riffs[action.payload].loading = true; 
       return ret;
-    case RIFF_LOADED:
+    case RIFF_LOADED: {
       const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
       let riffs = [...state.riffs];
       riffs.forEach(el => {
@@ -189,6 +189,7 @@ export default (state = initialState, action) => {
         ret.tempRiff = { ...ret.tempRiff, payload: b };
 
       return ret;
+    }
     default:
       return state;
   }
