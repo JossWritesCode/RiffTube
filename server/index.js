@@ -183,7 +183,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 );
             } else console.log('not inserting user');
 
-            return Promise.resolve( userList[0].id );
+            return Promise.resolve( userList );
           }),
 
         db('videos')
@@ -203,7 +203,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 );
             } else console.log('not inserting video');
 
-            return Promise.resolve( vidList[0].id );
+            return Promise.resolve( vidList );
           })
 
       ]);
@@ -213,7 +213,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
-    .then( ([idin, vidid]) => {
+    .then( ([ [{ id: idin }], [{ id: vidid }] ]) => {
 
       console.log('UID!', idin);
       console.log('VID!', vidid);
@@ -309,48 +309,66 @@ server.post('/collaboration/start', (req, res) => {
           {
             owner_id: uID
           },
-          ['id']
+          'id'
         );
     })
     .then( collabArr => {
 
-      var [{ id: cID }] = collabArr;
+      var [  cID ] = collabArr;
       console.log( "CS then again", cID, collabArr );
 
       res.status(200).json({status: 'ok', id: cID});
     })
     .catch(err => res.status(500).json({ error: err }));
-/*
+  });
 
-      let dbpayload = {
-        audio_datum: body.type == 'text' ? null : req.file.buffer,
-        text: body.type == 'text' ? body.text : null,
-        isText: body.type == 'text',
-        start_time: body.start_time,
-        duration: body.duration,
-        user_id: idin,
-        video_id: vidid
-      };
+// check if collaboration exists
+server.post('/collaboration/status', (req, res) => {
+  const body = req.body;
 
-      db('riffs')
-        .insert(dbpayload, 'id')
-        .then(([newRiffId]) =>
-          res
-            .status(200)
-            .json({
-              status: 'ok',
-              type: 'add',
-              tempId: Number( body.tempId ),
-              id: newRiffId
-            })
-        );*/
+  console.log( "collaboration status check" );
+
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      payload = ticket.getPayload();
+
+      console.log( "VT then 1" );
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then( emailArr => {
+
+      var [{ id: uID }] = emailArr;
+      console.log( "CE then again", uID, emailArr );
+      
+      return Promise.all([
+        db('collaborations')
+          .select()
+          .where('owner_id', uID),
+        db('collaborators')
+          .join('collaborations', 'collaborators.user_id', 'collaborations.owner_id')
+          .join('users', 'collaborations.owner_id', 'users.name')
+          .select()
+          .where('collaboration_id', uID)
+      ])
+    })
+    .then( ([colationsList, colatorsList]) =>
+    {
+      res.status(200).json( {
+        status: 'ok',
+        collaboration: colationsList.length > 0 ? colationsList[0].id : null,
+        collaborators: colatorsList
+      } );
     })
     .catch(err => res.status(500).json({ error: err }));
   });
 
-// I'm not sure if this is useful but it seems not.
+// I'm not sure if this next (commented-out) part is useful, but it seems not.
 // I think instead we have the code below,
-// in addition to our special API endpoints
+// in addition to our special API endpoints above
 //server.use(express.static(path.join(__dirname, '../react-ui/build')));
 
 server.get('/*', function(req, res) {

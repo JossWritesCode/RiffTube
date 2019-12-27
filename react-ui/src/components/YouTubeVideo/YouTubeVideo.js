@@ -85,7 +85,11 @@ class YouTubeVideo extends React.Component {
 
     if (data === 1) {
       // playing
-      // needed I think... for pausing during a riff
+
+      // the following code is
+      // needed I think... for pausing during a riff.
+      // so that (subsiquent) 'zombie' riffs can be killed,
+      // I think.
       this.curRiff = this.props.riffsPlaying;
 
       /*******************************************************/
