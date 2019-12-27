@@ -99,7 +99,7 @@ export default (state = initialState, action) => {
         editIndex: null,
         mode: PAUSE_MODE
       };
-    case SET_RIFF_PLAYING:
+    case SET_RIFF_PLAYING: // this and next one could be combined
       return {
         ...state,
         riffsPlaying: {
@@ -170,10 +170,10 @@ export default (state = initialState, action) => {
       };
     }
     case LOAD_RIFF:
-      let ret = { ...state };
-      ret.riffs[action.payload].loading = true;
+      let ret = { ...state }; // will this work?
+      ret.riffs[action.payload].loading = true; 
       return ret;
-    case RIFF_LOADED: {
+    case RIFF_LOADED:
       const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
       let riffs = [...state.riffs];
       riffs.forEach(el => {
@@ -189,7 +189,6 @@ export default (state = initialState, action) => {
         ret.tempRiff = { ...ret.tempRiff, payload: b };
 
       return ret;
-    }
     default:
       return state;
   }

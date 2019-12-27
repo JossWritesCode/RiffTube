@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Joscelyn1/RiffTube/blob/master/README.md",
   "dependencies": {
     "axios": "^0.19.0",
+    "bufferutil": "^4.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "google-auth-library": "^5.5.1",
@@ -28,7 +29,9 @@
     "multer": "^1.4.2",
     "path": "^0.12.7",
     "pg": "^7.14.0",
-    "sqlite3": "^4.1.0"
+    "sqlite3": "^4.1.0",
+    "utf-8-validate": "^5.0.2",
+    "ws": "^7.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

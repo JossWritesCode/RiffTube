@@ -105,6 +105,7 @@ button:active{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  overflow-y: auto;
 }
 
 .riff-detail {
@@ -121,6 +122,10 @@ button:active{
 
 .riff-list-title {
   text-align: center;
+}
+
+.riff-detail-selected {
+  background-color: lightskyblue;
 }
 
 @media (min-width: 1020px) {
@@ -143,7 +148,6 @@ button:active{
     max-height: 100vh;
     width: 30%;
     margin: 0;
-    overflow-y: scroll;
     scrollbar-color: white;
   }
 }

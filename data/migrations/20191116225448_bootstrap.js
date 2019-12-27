@@ -59,6 +59,40 @@ exports.up = function(knex) {
         .inTable('videos')
         .onDelete('SET NULL')
         .onUpdate('CASCADE');
+    })
+    .createTable('collaborations', tbl => {
+      tbl.increments();
+      tbl
+        .integer('owner_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE')
+        .unique();
+    })
+    .createTable('collaborators', tbl => {
+      tbl.increments();
+      tbl
+        .integer('collaboration_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('collaborations')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+      tbl
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+    })
+    .createTable('playlists', tbl => {
+      tbl.increments();
     });
 };
 

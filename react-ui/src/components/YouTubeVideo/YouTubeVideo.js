@@ -85,7 +85,11 @@ class YouTubeVideo extends React.Component {
 
     if (data === 1) {
       // playing
-      // needed I think... for pausing during a riff
+
+      // the following code is
+      // needed I think... for pausing during a riff.
+      // so that (subsiquent) 'zombie' riffs can be killed,
+      // I think.
       this.curRiff = this.props.riffsPlaying;
 
       /*******************************************************/
@@ -124,7 +128,7 @@ class YouTubeVideo extends React.Component {
         this.props.riffs.forEach((riff, index) => {
           // the riff will start playing within half a second, or will be skipped
           if ( !riffMuted(index) && !this.curRiff[index] && t > riff.time && t < riff.time + 0.5 ) {
-            
+
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true;
 
@@ -152,7 +156,7 @@ class YouTubeVideo extends React.Component {
         });
       }, 100); // 100/1000 = 1/10 s
 
-      if (this.props.mode === PAUSE_MODE) {
+      if (this.props.mode !== PLAY_MODE) {
         // change mode state
         this.props.setPlayerMode(PLAY_MODE);
       }

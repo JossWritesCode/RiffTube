@@ -35,10 +35,100 @@ export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 
 export const TOGGLE_VIEW_USERID_MUTED = 'TOGGLE_VIEW_USERID_MUTED';
 
+export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
+export const START_COLLABORATION_SUCCESS = 'START_COLLABORATION_SUCCESS';
+export const START_COLLABORATION_FAILURE = 'START_COLLABORATION_FAILURE';
+
+/******* Used in View Interface */
+
 export const toggleViewUserIdMuted = (uID) => ({
   type: TOGGLE_VIEW_USERID_MUTED,
   id: uID,
 });
+
+/****** Collaboration */
+
+export const startCollaboration = googleUser => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/collaboration/start`,
+      data: { token: googleUser.getAuthResponse().id_token }
+    }).then(res => {
+      dispatch({ type: START_COLLABORATION_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: START_COLLABORATION_FAILURE, payload: err.response });
+    });;
+  };
+};
+
+export const getCollaborationStatus = googleUser => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/collaboration/status`,
+      data: { token: googleUser.getAuthResponse().id_token }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+export const joinCollaboration = (colID, googleUser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/collaboration/join`,
+      data:
+        {
+          token: googleUser.getAuthResponse().id_token,
+          collaboration_id: colID
+        }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+export const addCollaborator = (colID, googleUser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/collaboration/add`,
+      data:
+        {
+          token: googleUser.getAuthResponse().id_token,
+          collaborator_id: colID
+        }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+export const removeCollaborator = (colID, googleUser) => {
+  var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/collaboration/remove`,
+      data:
+        {
+          token: googleUser.getAuthResponse().id_token,
+          collaborator_id: colID
+        }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+/******** Editing Interface */
 
 export const setRifferName = (newName, googleUser) => {
   var baseURL = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : '';

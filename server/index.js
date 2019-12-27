@@ -1,7 +1,12 @@
 const multer = require('multer');
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // may ultimately not be needed
 const path = require('path');
+
+// for web sockets:
+const url = require('url');
+const http = require('http');
+const WebSocket = require('ws');
 
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -142,7 +147,7 @@ server.post('/get-riffs', (req, res) => {
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
-  console.log('verify token');
+  console.log( 'save riff' );
 
   var payload;
 
@@ -175,7 +180,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               );
             } else console.log('not inserting user');
 
-            return Promise.resolve(userList[0].id);
+            return Promise.resolve( userList );
           }),
 
         db('videos')
@@ -193,7 +198,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               );
             } else console.log('not inserting video');
 
-            return Promise.resolve(vidList[0].id);
+            return Promise.resolve( vidList );
           })
       ]);
     })
@@ -202,7 +207,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
-    .then(([idin, vidid]) => {
+    .then( ([ [{ id: idin }], [{ id: vidid }] ]) => {
+
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
@@ -274,9 +280,125 @@ server.post('/get-view-riffs', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-server.use(express.static(path.join(__dirname, '../react-ui/build')));
+// start collaboration (and create websocket)
+server.post('/collaboration/start', (req, res) => {
+  const body = req.body;
+
+  console.log( "collaboration start" );
+
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      payload = ticket.getPayload();
+
+      console.log( "VT then 1" );
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then( emailArr => {
+
+      var [{ id: uID }] = emailArr;
+      console.log( "CS then again", uID, emailArr );
+
+      return db('collaborations')
+        .insert(
+          {
+            owner_id: uID
+          },
+          'id'
+        );
+    })
+    .then( collabArr => {
+
+      var [  cID ] = collabArr;
+      console.log( "CS then again", cID, collabArr );
+
+      res.status(200).json({status: 'ok', id: cID});
+    })
+    .catch(err => res.status(500).json({ error: err }));
+  });
+
+// check if collaboration exists
+server.post('/collaboration/status', (req, res) => {
+  const body = req.body;
+
+  console.log( "collaboration status check" );
+
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      payload = ticket.getPayload();
+
+      console.log( "VT then 1" );
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then( emailArr => {
+
+      var [{ id: uID }] = emailArr;
+      console.log( "CE then again", uID, emailArr );
+      
+      return Promise.all([
+        db('collaborations')
+          .select()
+          .where('owner_id', uID),
+        db('collaborators')
+          .join('collaborations', 'collaborators.user_id', 'collaborations.owner_id')
+          .join('users', 'collaborations.owner_id', 'users.name')
+          .select()
+          .where('collaboration_id', uID)
+      ])
+    })
+    .then( ([colationsList, colatorsList]) =>
+    {
+      res.status(200).json( {
+        status: 'ok',
+        collaboration: colationsList.length > 0 ? colationsList[0].id : null,
+        collaborators: colatorsList
+      } );
+    })
+    .catch(err => res.status(500).json({ error: err }));
+  });
+
+// I'm not sure if this next (commented-out) part is useful, but it seems not.
+// I think instead we have the code below,
+// in addition to our special API endpoints above
+//server.use(express.static(path.join(__dirname, '../react-ui/build')));
+
 server.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
 
-module.exports = server;
+
+
+/***********************************************************
+ * WEB SOCKET SHIT
+ */
+
+const websockmap = new Map();
+
+const websockhttp = http.createServer(server);
+
+const wss1 = new WebSocket.Server({ noServer: true });
+
+websockhttp.on('upgrade', function upgrade(request, socket, head) {
+  const pathname = url.parse(request.url).pathname;
+
+  console.log( "upgrade" );
+
+  if (pathname === '/foo') {
+    wss1.handleUpgrade(request, socket, head, function done(ws) {
+      wss1.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
+/************************************************************ */
+
+module.exports = websockhttp; // was: server;

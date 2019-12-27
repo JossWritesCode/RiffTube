@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID, setRifferName } from '../../actions';
+import { setVideoID } from '../../actions';
 
 class EditInterface extends React.Component
 {
@@ -34,7 +34,7 @@ class EditInterface extends React.Component
     if (match && match[7].length === 11) {
       return match[7];
     } else {
-      alert('Could not extract video ID.');
+      return url; // if extraction fails, fallback on assuming they gave an ID
     }
   };
 
@@ -45,7 +45,6 @@ class EditInterface extends React.Component
         <div>
           <form
             onSubmit={e => {
-              // this and the below code should be considolidated
               this.props.setVideoID(
                 this.extractVideoID(this.videoIDRef.current.value),
                 this.props.googleUser
@@ -59,43 +58,12 @@ class EditInterface extends React.Component
               defaultValue={this.props.videoID}
               ref={this.videoIDRef}
             />
-            <button
-              type="button"
-              onClick={e => {
-                this.props.setVideoID(
-                  this.extractVideoID(this.videoIDRef.current.value),
-                  this.props.googleUser
-                );
-              }}
-            >
+            <button type="submit">
               Change Video
             </button>
           </form>
 
           <YouTubeVideo id={this.props.videoID} />
-
-          {
-            this.props.name
-            ?
-              <div>
-                Riffer Name:{' '}
-                {
-                  this.props.name
-                }
-                <button
-                  type="button"
-                  onClick={ () => {
-                    var n = prompt();
-                    if ( n )
-                      this.props.setRifferName( n, this.props.googleUser );
-                  } }
-                >
-                  Update Name
-                </button>
-              </div>
-            :
-              null
-          }
 
           <div>
             <a href={"/view/" + this.props.videoID} target="_blank">View video</a>
@@ -113,13 +81,11 @@ class EditInterface extends React.Component
 
 const mapStateToProps = state => ({
   videoID: state.videoID,
-  googleUser: state.googleUser,
-  name: state.name
+  googleUser: state.googleUser
 });
 
 const mapDispatchToProps = {
-  setVideoID,
-  setRifferName
+  setVideoID
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);
