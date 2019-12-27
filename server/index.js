@@ -148,10 +148,14 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   console.log( 'save riff' );
 =======
   console.log('verify token');
 >>>>>>> caafbef6457ea568ea9647251b9d18299eea1bd8
+=======
+  console.log( 'save riff' );
+>>>>>>> 9b3850dfdb69d44c9f649a911d94e1aaaccc31c9
 
   var payload;
 
@@ -185,10 +189,14 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             } else console.log('not inserting user');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             return Promise.resolve( userList );
 =======
             return Promise.resolve(userList[0].id);
 >>>>>>> caafbef6457ea568ea9647251b9d18299eea1bd8
+=======
+            return Promise.resolve( userList );
+>>>>>>> 9b3850dfdb69d44c9f649a911d94e1aaaccc31c9
           }),
 
         db('videos')
@@ -207,10 +215,14 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             } else console.log('not inserting video');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             return Promise.resolve( vidList );
 =======
             return Promise.resolve(vidList[0].id);
 >>>>>>> caafbef6457ea568ea9647251b9d18299eea1bd8
+=======
+            return Promise.resolve( vidList );
+>>>>>>> 9b3850dfdb69d44c9f649a911d94e1aaaccc31c9
           })
       ]);
     })
@@ -220,11 +232,16 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
 <<<<<<< HEAD
+<<<<<<< HEAD
     .then( ([ [{ id: idin }], [{ id: vidid }] ]) => {
 
 =======
     .then(([idin, vidid]) => {
 >>>>>>> caafbef6457ea568ea9647251b9d18299eea1bd8
+=======
+    .then( ([ [{ id: idin }], [{ id: vidid }] ]) => {
+
+>>>>>>> 9b3850dfdb69d44c9f649a911d94e1aaaccc31c9
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
