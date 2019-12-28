@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { riffReducer } from './riff-reducer';
+import { riffsReducer } from './riffs-reducer';
 import { modeReducer } from './mode-reducer';
 import { googleUserReducer } from './googleUser-reducer';
 import { riffsPlayingReducer } from './riffsPlaying-reducer';
@@ -9,7 +9,7 @@ import { nameReducer } from './name-reducer';
 import { videoIDReducer } from './videoID-reducer';
 
 export default combineReducers({
-  riffReducer,
+  riffsReducer,
   modeReducer,
   googleUserReducer,
   riffsPlayingReducer,
