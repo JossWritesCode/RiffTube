@@ -3,7 +3,7 @@ import {
   RECEIVE_NAME_UPDATE
 } from '../actions/index.js';
 
-export const riffReducer = (state = "", action) => {
+const nameReducer = (state = "", action) => {
   switch (action.type) {
     case RECEIVE_NAME_UPDATE:
     case RECEIVE_RIFF_LIST:
@@ -12,3 +12,5 @@ export const riffReducer = (state = "", action) => {
       return state;
   }
 };
+
+export default nameReducer;
