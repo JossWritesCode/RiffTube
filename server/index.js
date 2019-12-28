@@ -147,7 +147,7 @@ server.post('/get-riffs', (req, res) => {
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
-  console.log( 'save riff' );
+  console.log('save riff');
 
   var payload;
 
@@ -182,7 +182,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               );
             } else console.log('not inserting user');
 
-            return Promise.resolve( userList );
+            return Promise.resolve(userList);
           }),
 
         db('videos')
@@ -199,7 +199,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 ['id']
               );
             } else console.log('not inserting video');
-            return Promise.resolve( vidList );
+            return Promise.resolve(vidList);
           })
       ]);
     })
@@ -208,7 +208,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
-    .then( ([ [{ id: idin }], [{ id: vidid }] ]) => {
+    .then(([[{ id: idin }], [{ id: vidid }]]) => {
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
@@ -284,7 +284,7 @@ server.post('/get-view-riffs', (req, res) => {
 server.post('/collaboration/start', (req, res) => {
   const body = req.body;
 
-  console.log( "collaboration start" );
+  console.log('collaboration start');
 
   var payload;
 
@@ -293,38 +293,35 @@ server.post('/collaboration/start', (req, res) => {
     .then(ticket => {
       payload = ticket.getPayload();
 
-      console.log( "VT then 1" );
+      console.log('VT then 1');
 
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then( emailArr => {
-
+    .then(emailArr => {
       var [{ id: uID }] = emailArr;
-      console.log( "CS then again", uID, emailArr );
+      console.log('CS then again', uID, emailArr);
 
-      return db('collaborations')
-        .insert(
-          {
-            owner_id: uID
-          },
-          'id'
-        );
+      return db('collaborations').insert(
+        {
+          owner_id: uID
+        },
+        'id'
+      );
     })
-    .then( collabArr => {
+    .then(collabArr => {
+      var [cID] = collabArr;
+      console.log('CS then again', cID, collabArr);
 
-      var [  cID ] = collabArr;
-      console.log( "CS then again", cID, collabArr );
-
-      res.status(200).json({status: 'ok', id: cID});
+      res.status(200).json({ status: 'ok', id: cID });
     })
     .catch(err => res.status(500).json({ error: err }));
-  });
+});
 
 // check if collaboration exists
 server.post('/collaboration/status', (req, res) => {
   const body = req.body;
 
-  console.log( "collaboration status check" );
+  console.log('collaboration status check');
 
   var payload;
 
@@ -333,36 +330,38 @@ server.post('/collaboration/status', (req, res) => {
     .then(ticket => {
       payload = ticket.getPayload();
 
-      console.log( "VT then 1" );
+      console.log('VT then 1');
 
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then( emailArr => {
-
+    .then(emailArr => {
       var [{ id: uID }] = emailArr;
-      console.log( "CE then again", uID, emailArr );
-      
+      console.log('CE then again', uID, emailArr);
+
       return Promise.all([
         db('collaborations')
           .select()
           .where('owner_id', uID),
         db('collaborators')
-          .join('collaborations', 'collaborators.user_id', 'collaborations.owner_id')
+          .join(
+            'collaborations',
+            'collaborators.user_id',
+            'collaborations.owner_id'
+          )
           .join('users', 'collaborations.owner_id', 'users.name')
           .select()
           .where('collaboration_id', uID)
-      ])
+      ]);
     })
-    .then( ([colationsList, colatorsList]) =>
-    {
-      res.status(200).json( {
+    .then(([colationsList, colatorsList]) => {
+      res.status(200).json({
         status: 'ok',
         collaboration: colationsList.length > 0 ? colationsList[0].id : null,
         collaborators: colatorsList
-      } );
+      });
     })
     .catch(err => res.status(500).json({ error: err }));
-  });
+});
 
 // I'm not sure if this next (commented-out) part is useful, but it seems not.
 // I think instead we have the code below,
@@ -372,8 +371,6 @@ server.post('/collaboration/status', (req, res) => {
 server.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
 });
-
-
 
 /***********************************************************
  * WEB SOCKET SHIT
@@ -388,7 +385,7 @@ const wss1 = new WebSocket.Server({ noServer: true });
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
   const pathname = url.parse(request.url).pathname;
 
-  console.log( "upgrade" );
+  console.log('upgrade');
 
   if (pathname === '/foo') {
     wss1.handleUpgrade(request, socket, head, function done(ws) {
