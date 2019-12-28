@@ -226,7 +226,8 @@ export const editRiff = (payload, id, gus) => {
       type: EDIT_RIFF,
       payload
     });
-
+    
+    // id is only passed when the audio riff needs loading
     if (id) rawLoadAxios(dispatch, id, gus);
   };
 };

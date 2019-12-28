@@ -5,7 +5,7 @@ import { createTempRiff } from '../../actions/index.js';
 class RiffButton extends React.Component {
   render() {
     return (
-      <button onClick={() => this.props.createTempRiff(this.props.type, this.props.videoID)}>
+      <button onClick={() => { this.props.createTempRiff(this.props.type, this.props.videoID); }}>
         {this.props.type}
       </button>
     );

@@ -158,6 +158,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       console.log('VT then 1');
 
+      console.log( `SR `);
+
       // make sure that the user exists in the db, or else insert them
       // and
       // make sure that the video exists in the db, or else insert it

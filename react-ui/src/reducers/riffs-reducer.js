@@ -91,7 +91,7 @@ const riffsReducer = (state = initialState, action) => {
         riffs = [...state.all, riff];
       // EDIT_MODE (existing riff):
       else {
-        riffs = [...state.riffs];
+        riffs = [...state.all];
         riffs[state.editIndex] = riff;
       }
 
