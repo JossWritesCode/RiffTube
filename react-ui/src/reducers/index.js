@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 
-import { riffReducer } from './riff-reducer.js';
-import { modeReducer } from './mode-reducer.js';
-import { googleUserReducer } from './googleUser-reducer.js';
+import { riffReducer } from './riff-reducer';
+import { modeReducer } from './mode-reducer';
+import { googleUserReducer } from './googleUser-reducer';
+import { riffsPlayingReducer } from './riffsPlaying-reducer';
+import { viewMutedUserIDsReducer } from './viewMutedUserIDs-reducer';
 
 export default combineReducers({
   riffReducer,
   modeReducer,
-  googleUserReducer
+  googleUserReducer,
+  riffsPlayingReducer,
+  viewMutedUserIDsReducer
 });
 
 
