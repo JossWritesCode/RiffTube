@@ -22,7 +22,7 @@ function RiffList(props) {
 }
 
 const mapStateToProps = state => ({
-  riffs: state.riffs,
+  riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying
 });
 

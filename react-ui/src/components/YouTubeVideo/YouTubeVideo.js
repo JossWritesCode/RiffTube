@@ -216,7 +216,7 @@ class YouTubeVideo extends React.Component {
 
 const mapStateToProps = state => ({
   mode: state.mode,
-  riffs: state.riffs,
+  riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying,
   googleUser: state.googleUser,
   mutedIDs: state.viewMutedUserIDs
