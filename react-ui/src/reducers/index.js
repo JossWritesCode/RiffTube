@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-export { riffReducer } from './riff-reducer.js';
-export { modeReducer } from './mode-reducer.js';
-export { googleUserReducer } from './googleUser-reducer.js';
+import { riffReducer } from './riff-reducer.js';
+import { modeReducer } from './mode-reducer.js';
+import { googleUserReducer } from './googleUser-reducer.js';
 
 export default combineReducers({
   riffReducer,

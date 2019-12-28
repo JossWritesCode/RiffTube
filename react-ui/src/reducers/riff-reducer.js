@@ -18,7 +18,7 @@ let initialState = {
   editIndex: null
 };
 
-export const riffReducer = (state = initialState, action) => {
+const riffReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_VIDEO_ID:
       return initialState;
@@ -127,3 +127,5 @@ export const riffReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default riffReducer;

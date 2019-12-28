@@ -2,7 +2,7 @@ import {
   GOOGLE_USER_SIGNIN
 } from '../actions/index.js';
 
-export const riffReducer = (state = null, action) => {
+const googleUserReducer = (state = null, action) => {
   switch (action.type) {
     case GOOGLE_USER_SIGNIN:
       return action.payload;
@@ -10,3 +10,5 @@ export const riffReducer = (state = null, action) => {
       return state;
   }
 };
+
+export default googleUserReducer;
