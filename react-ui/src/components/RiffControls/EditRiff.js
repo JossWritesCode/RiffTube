@@ -126,7 +126,7 @@ class EditRiff extends React.Component {
 
 const mapStateToProps = state => ({
   mode: state.mode,
-  tempRiff: state.tempRiff,
+  tempRiff: state.riffs.temp,
   googleUser: state.googleUser
 });
 

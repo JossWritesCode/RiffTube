@@ -117,7 +117,7 @@ server.post('/get-riffs', (req, res) => {
         var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
 
-        console.log('GR then 2');
+        console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
         return db('riffs')
           .select(

@@ -27,11 +27,12 @@ const riffsReducer = (state = initialState, action) => {
       return {
         ...state,
         temp: {
+          ...state.temp,
           type: action.type === CREATE_TEMP_AUDIO_RIFF ? 'audio' : 'text',
           // @ts-ignore
           // rifftubePlayer isn't normally on the window object so this throws an error but it works.
           time: window.rifftubePlayer.getCurrentTime(),
-          video_id: state.videoID,
+          video_id: action.videoID,
           tempId: new Date().getUTCMilliseconds() // used to get perm id from server
         },
         editIndex: null
