@@ -117,7 +117,7 @@ server.post('/get-riffs', (req, res) => {
         var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
 
-        console.log('GR then 2');
+        console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
         return db('riffs')
           .select(
@@ -157,6 +157,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       payload = ticket.getPayload();
 
       console.log('VT then 1');
+
+      console.log( `SR `);
 
       // make sure that the user exists in the db, or else insert them
       // and

@@ -36,7 +36,7 @@ class AuthorSelector extends React.Component
 }
 
 const mapStateToProps = state => ({
-    riffs: state.riffs,
+    riffs: state.riffs.all,
     mutedIDs: state.viewMutedUserIDs
   });
   

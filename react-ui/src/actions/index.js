@@ -226,7 +226,8 @@ export const editRiff = (payload, id, gus) => {
       type: EDIT_RIFF,
       payload
     });
-
+    
+    // id is only passed when the audio riff needs loading
     if (id) rawLoadAxios(dispatch, id, gus);
   };
 };
@@ -271,8 +272,9 @@ export const saveRiff = (token, payload, riff) => {
   };
 };
 
-export const createTempRiff = type => ({
-  type: type === 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF
+export const createTempRiff = (type, videoID) => ({
+  type: type === 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF,
+  videoID
 });
 
 export const setRiffPlaying = (index, playing) => ({

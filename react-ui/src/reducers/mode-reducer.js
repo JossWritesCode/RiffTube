@@ -3,13 +3,16 @@ import {
   CREATE_TEMP_AUDIO_RIFF,
   CREATE_TEMP_TEXT_RIFF,
   EDIT_RIFF,
+  EDIT_MODE,
+  CANCEL_EDIT,
+  SAVE_RIFF,
   SET_PLAYER_MODE,
   PLAY_MODE,
   PAUSE_MODE,
   TOGGLE_PLAYER_MODE
 } from '../actions/index.js';
 
-export const modeReducer = (state = PAUSE_MODE, action) => {
+const modeReducer = (state = PAUSE_MODE, action) => {
   switch (action.type) {
     case SET_VIDEO_ID:
       return PAUSE_MODE;
@@ -29,3 +32,5 @@ export const modeReducer = (state = PAUSE_MODE, action) => {
       return state;
   }
 };
+
+export default modeReducer;
