@@ -24,46 +24,20 @@ import {
 } from '../actions/index.js';
 
 let initialState = {
-  videoID: 'lYIRO97dhII',
-  googleUser: null,
-  riffs: [],
-  tempRiff: null,
-  mode: PAUSE_MODE,
-  riffsPlaying: {},
-  viewMutedUserIDs: {}
+  all: [],
+  temp: null,
+  editIndex: null
 };
 
 export const riffReducer = (state = initialState, action) => {
-  console.log('dispatch', state, action);
   switch (action.type) {
     case SET_VIDEO_ID:
-      return {
-        videoID: action.payload,
-        googleUser: state.googleUser,
-        riffs: [],
-        tempRiff: null,
-        mode: PAUSE_MODE,
-        riffsPlaying: {},
-        viewMutedUserIDs: {}
-      };
-    case TOGGLE_VIEW_USERID_MUTED:
-      return {
-        ...state,
-        viewMutedUserIDs: {
-          ...state.viewMutedUserIDs,
-          [action.id]: !state.viewMutedUserIDs[action.id]
-        }
-      };
-    case GOOGLE_USER_SIGNIN:
-      return {
-        ...state,
-        googleUser: action.payload
-      };
+      return initialState;
     case CREATE_TEMP_AUDIO_RIFF:
     case CREATE_TEMP_TEXT_RIFF:
       return {
         ...state,
-        tempRiff: {
+        temp: {
           type: action.type === CREATE_TEMP_AUDIO_RIFF ? 'audio' : 'text',
           // @ts-ignore
           // rifftubePlayer isn't normally on the window object so this throws an error but it works.
@@ -71,26 +45,19 @@ export const riffReducer = (state = initialState, action) => {
           video_id: state.videoID,
           tempId: new Date().getUTCMilliseconds() // used to get perm id from server
         },
-        mode: EDIT_NEW_MODE
+        editIndex: null
       };
-
     case EDIT_RIFF:
       return {
         ...state,
-        tempRiff: { ...state.riffs[action.payload] }, // copy specified riff to tempRiff
-        editIndex: action.payload,
-        mode: EDIT_MODE
-      };
-    case SET_PLAYER_MODE:
-      return {
-        ...state,
-        mode: action.payload
+        temp: { ...state.all[action.payload] }, // copy specified riff to tempRiff
+        editIndex: action.payload
       };
     case SAVE_TEMP_AUDIO:
       return {
         ...state,
-        tempRiff: {
-          ...state.tempRiff,
+        temp: {
+          ...state.temp,
           duration: action.duration,
           payload: action.payload
         }
@@ -98,42 +65,14 @@ export const riffReducer = (state = initialState, action) => {
     case CANCEL_EDIT:
       return {
         ...state,
-        tempRiff: null,
-        editIndex: null,
-        mode: PAUSE_MODE
-      };
-    case SET_RIFF_PLAYING: // this and next one could be combined
-      return {
-        ...state,
-        riffsPlaying: {
-          ...state.riffsPlaying,
-          [action.payload]: true
-        }
-      };
-    case SET_RIFF_NOT_PLAYING:
-      return {
-        ...state,
-        riffsPlaying: {
-          ...state.riffsPlaying,
-          [action.payload]: false
-        }
-      };
-    case TOGGLE_PLAYER_MODE: // not needed at the moment
-      return {
-        ...state,
-        mode: state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE
-      };
-    case RECEIVE_NAME_UPDATE:
-      return {
-        ...state,
-        name: action.payload.name
+        temp: null,
+        editIndex: null
       };
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
-        name: action.payload.name,
-        riffs: [
-          ...state.riffs,
+        all: [
+          ...state.all,
           ...action.payload.body.map(el => ({
             ...el,
             time: el.start_time,
@@ -144,20 +83,21 @@ export const riffReducer = (state = initialState, action) => {
       };
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
-        let riffs = [...state.riffs];
+        let riffs = [...state.all];
         riffs.forEach((el, ind, arr) => {
           if (el.tempId === action.payload.tempId)
             arr[ind] = { ...el, id: action.payload.id };
           //el.id = action.payload.id;
         });
-        let ret = { ...state, riffs };
+        let ret = { ...state, all: riffs };
         return ret;
       } else return state;
     case SAVE_RIFF: {
-      let riff = { ...state.tempRiff, ...action.payload };
+      let riff = { ...state.temp, ...action.payload };
       let riffs;
-      // editing a new riff:
-      if (state.mode === EDIT_NEW_MODE) riffs = [...state.riffs, riff];
+
+      // adding a new riff:
+      if (state.editIndex === null) riffs = [...state.all, riff];
       // EDIT_MODE (existing riff):
       else {
         riffs = [...state.riffs];
@@ -165,30 +105,31 @@ export const riffReducer = (state = initialState, action) => {
       }
 
       return {
-        ...state,
-        riffs,
-        tempRiff: null,
-        mode: PLAY_MODE // should be an option
+//        ...state, // not needed because the state is fully specified
+        all: riffs,
+        temp: null,
+        editIndex: null
       };
     }
     case LOAD_RIFF:
       let ret = { ...state }; // will this work?
-      ret.riffs[action.payload].loading = true;
+      ret.all[action.payload].loading = true;
       return ret;
     case RIFF_LOADED: {
       const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
-      let riffs = [...state.riffs];
+      let riffs = [...state.all];
       riffs.forEach(el => {
         if (el.id === action.id) {
           el.payload = b;
           el.loading = false;
         }
       });
-      let ret = { ...state, riffs };
+      let ret = { ...state, all: riffs };
 
       // if this is being edited currently, tempRiff needs to be updated as well
-      if (state.mode === EDIT_MODE && state.tempRiff.id === action.id)
-        ret.tempRiff = { ...ret.tempRiff, payload: b };
+      // editIndex != null simply means that something is being edited
+      if (state.editIndex !== null && state.temp.id === action.id)
+        ret.temp = { ...ret.temp, payload: b };
 
       return ret;
     }
