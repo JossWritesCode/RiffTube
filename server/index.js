@@ -274,7 +274,7 @@ server.post('/get-view-riffs', (req, res) => {
         .select(
           'riffs.id',
           'riffs.user_id',
-          'riffs.video_id',
+          //'riffs.video_id', // unneeded?
           'riffs.duration',
           'riffs.start_time',
           'riffs.isText',
