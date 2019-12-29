@@ -120,6 +120,19 @@ server.post('/get-riffs', (req, res) => {
         console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
         return db('riffs')
+          .join('videos', 'riffs.video_id', 'videos.id')
+          .select(
+            'riffs.id as id',
+            'riffs.user_id as user_id',
+            //'riffs.video_id',
+            'videos.url as video_id',
+            'riffs.duration as duration',
+            'riffs.start_time as start_time',
+            'riffs.isText as isText',
+            'riffs.text as text'
+          )
+        /*
+        return db('riffs')
           .select(
             'id',
             'user_id',
@@ -129,6 +142,7 @@ server.post('/get-riffs', (req, res) => {
             'isText',
             'text'
           )
+          */
           .where({ user_id: uID, video_id: vID })
           .then(riffList => {
             console.log('GF then 3');
