@@ -26,7 +26,7 @@ class EditRiff extends React.Component {
         <div className="edit-riff-inner">
           {this.props.tempRiff.type === 'audio' ? (
             <React.Fragment>
-              {this.props.mode === EDIT_MODE && !this.props.tempRiff.payload ? (
+              {this.props.mode === EDIT_MODE && this.props.editIndex && !this.props.tempRiff.payload ? (
                 <span>Loading...</span>
               ) : null}
               <Record saveTempAudio={this.props.saveTempAudio} />
@@ -127,6 +127,7 @@ class EditRiff extends React.Component {
 const mapStateToProps = state => ({
   mode: state.mode,
   tempRiff: state.riffs.temp,
+  editIndex: state.riffs.editIndex,
   googleUser: state.googleUser
 });
 
