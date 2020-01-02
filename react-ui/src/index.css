@@ -31,6 +31,11 @@ button:active {
 
 #rifftube-player {
   max-width: 95vw;
+
+  /*
+  width: 70vw;
+  height: 42.5vw;
+  */
 }
 
 .ytp-cued-thumbnail-overlay {
@@ -141,7 +146,7 @@ button:active {
     justify-content: center;
   }
   .youtube-section {
-    width: 640px;
+    /*width: 70%;*/
     margin: 0 auto;
   }
   .control-panel {
