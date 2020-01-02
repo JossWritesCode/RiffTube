@@ -145,7 +145,6 @@ button:active {
     min-height: 100vh;
     max-height: 100vh;
     width: 30%;
-    margin-left: 10rem;
     margin-top: 0;
     scrollbar-color: white;
   }
