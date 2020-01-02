@@ -377,10 +377,8 @@ server.post('/collaboration/status', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-// I'm not sure if this next (commented-out) part is useful, but it seems not.
-// I think instead we have the code below,
-// in addition to our special API endpoints above
-//server.use(express.static(path.join(__dirname, '../react-ui/build')));
+// this seems to be necessary! even with the .get below
+server.use(express.static(path.join(__dirname, '../react-ui/build')));
 
 server.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../react-ui/build', 'index.html'));
