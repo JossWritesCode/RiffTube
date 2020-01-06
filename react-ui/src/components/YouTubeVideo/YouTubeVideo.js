@@ -10,6 +10,7 @@ import {
   PLAY_MODE,
   PAUSE_MODE
 } from '../../actions/index.js';
+import AllowPlayback from './AllowPlayback.js';
 
 // based on https://stackoverflow.com/questions/54017100/how-to-integrate-youtube-iframe-api-in-reactjs-solution
 
@@ -145,7 +146,7 @@ class YouTubeVideo extends React.Component {
               else
                 this.audLock++;
 
-              let audio = document.createElement('audio');
+              let audio = new Audio(); // should be identical behavior to: document.createElement('audio');
               audio.controls = false;
               if (!riff.payload) return; // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(riff.payload);
@@ -198,18 +199,23 @@ class YouTubeVideo extends React.Component {
 
   render = () => {
     return (
-      <div className="rifftube-container">
-        <div id="rifftube-player" />
-        {Object.keys(this.props.riffsPlaying)
-          .filter(i => this.props.riffsPlaying[i] && this.props.riffs[i].type === 'text')
-          .map(key => (
-            <div key={this.props.riffs[key].id}>
-              <div>
-                {this.props.riffs[key].payload}
-              </div>
+      <React.Fragment>
+        <AllowPlayback />
+        <div className="rifftube-container">
+          <div className="rifftube-overlay">
+            <div className="rifftube-riffs-container">
+              {Object.keys(this.props.riffsPlaying)
+                .filter(i => this.props.riffsPlaying[i] && this.props.riffs[i].type === 'text')
+                .map(key => (
+                  <div key={this.props.riffs[key].id} className="rifftube-textriff">
+                    {this.props.riffs[key].payload}
+                  </div>
+                ))}
             </div>
-          ))}
-      </div>
+          </div>
+          <div id="rifftube-player" />
+        </div>
+      </React.Fragment>
     );
   };
 }
