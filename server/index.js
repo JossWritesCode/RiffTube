@@ -50,6 +50,30 @@ server.post('/load-riff', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// delete riff
+server.delete('/riff-remove/:id', (req, res) => {
+  const { token } = req.body;
+  const id = req.params.id;
+
+  console.log('deleting riff 1');
+
+  verify(req.body.token)
+    // once verified, get and pass on payload
+    .then(ticket => {
+      return db('riffs')
+        .where('id', id)
+        .del();
+    })
+
+    .then(() => {
+      res.status(204).end();
+      console.log('deleting riff 2');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 server.post('/set-name', (req, res) => {
   const body = req.body;
 
@@ -119,19 +143,20 @@ server.post('/get-riffs', (req, res) => {
 
         console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
-        return db('riffs')
-          .join('videos', 'riffs.video_id', 'videos.id')
-          .select(
-            'riffs.id as id',
-            'riffs.user_id as user_id',
-            //'riffs.video_id',
-            'videos.url as video_id',
-            'riffs.duration as duration',
-            'riffs.start_time as start_time',
-            'riffs.isText as isText',
-            'riffs.text as text'
-          )
-        /*
+        return (
+          db('riffs')
+            .join('videos', 'riffs.video_id', 'videos.id')
+            .select(
+              'riffs.id as id',
+              'riffs.user_id as user_id',
+              //'riffs.video_id',
+              'videos.url as video_id',
+              'riffs.duration as duration',
+              'riffs.start_time as start_time',
+              'riffs.isText as isText',
+              'riffs.text as text'
+            )
+            /*
         return db('riffs')
           .select(
             'id',
@@ -143,17 +168,18 @@ server.post('/get-riffs', (req, res) => {
             'text'
           )
           */
-          .where({ user_id: uID, video_id: vID })
-          .then(riffList => {
-            console.log('GF then 3');
+            .where({ user_id: uID, video_id: vID })
+            .then(riffList => {
+              console.log('GF then 3');
 
-            res.status(200).json({
-              status: 'ok',
-              body: riffList,
-              name
-            });
-          })
-          .catch(err => res.status(500).json({ error: err }));
+              res.status(200).json({
+                status: 'ok',
+                body: riffList,
+                name
+              });
+            })
+            .catch(err => res.status(500).json({ error: err }))
+        );
       }
     });
 });
@@ -172,7 +198,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       console.log('VT then 1');
 
-      console.log( `SR `);
+      console.log(`SR `);
 
       // make sure that the user exists in the db, or else insert them
       // and
