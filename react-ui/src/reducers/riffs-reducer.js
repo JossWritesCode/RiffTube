@@ -46,9 +46,16 @@ const riffsReducer = (state = initialState, action) => {
       };
     case DELETE_RIFF: {
       let ret = { ...state };
-      let index = ret.all.findIndex(el => el.id === action.id);
 
-      ret.all.splice(index, 1);
+      ret.all = ret.all.filter( el => el.id !== action.id );
+
+      /*let index = ret.all.findIndex(el => el.id === action.id);
+
+      console.log( "delete riff reducer", index );
+
+      console.log( ret );
+
+      ret.all.splice(index, 1);*/
 
       return ret;
     }
