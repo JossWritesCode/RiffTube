@@ -49,6 +49,8 @@ const riffsReducer = (state = initialState, action) => {
 
       ret.all = ret.all.filter( el => el.id !== action.id );
 
+      // silly change
+
       /*let index = ret.all.findIndex(el => el.id === action.id);
 
       console.log( "delete riff reducer", index );
