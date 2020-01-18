@@ -1,5 +1,6 @@
 import {
   SET_VIDEO_ID,
+  DELETE_RIFF,
   SAVE_RIFF,
   CREATE_TEMP_AUDIO_RIFF,
   CREATE_TEMP_TEXT_RIFF,
@@ -43,6 +44,21 @@ const riffsReducer = (state = initialState, action) => {
         temp: { ...state.all[action.payload] }, // copy specified riff to tempRiff
         editIndex: action.payload
       };
+    case DELETE_RIFF: {
+      let ret = { ...state };
+
+      ret.all = ret.all.filter( el => el.id !== action.id );
+
+      /*let index = ret.all.findIndex(el => el.id === action.id);
+
+      console.log( "delete riff reducer", index );
+
+      console.log( ret );
+
+      ret.all.splice(index, 1);*/
+
+      return ret;
+    }
     case SAVE_TEMP_AUDIO:
       return {
         ...state,
@@ -87,8 +103,7 @@ const riffsReducer = (state = initialState, action) => {
       let riffs;
 
       // adding a new riff:
-      if (state.editIndex === null)
-        riffs = [...state.all, riff];
+      if (state.editIndex === null) riffs = [...state.all, riff];
       // EDIT_MODE (existing riff):
       else {
         riffs = [...state.all];
@@ -96,7 +111,7 @@ const riffsReducer = (state = initialState, action) => {
       }
 
       return {
-//        ...state, // not needed because the state is fully specified
+        //        ...state, // not needed because the state is fully specified
         all: riffs,
         temp: null,
         editIndex: null
