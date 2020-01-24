@@ -38,8 +38,8 @@ export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 export const TOGGLE_VIEW_USERID_MUTED = 'TOGGLE_VIEW_USERID_MUTED';
 
 export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
-export const START_COLLABORATION_SUCCESS = 'START_COLLABORATION_SUCCESS';
-export const START_COLLABORATION_FAILURE = 'START_COLLABORATION_FAILURE';
+export const CREATE_PLAYLIST_SUCCESS = 'START_COLLABORATION_SUCCESS';
+export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 
 /******* Used in View Interface */
 
@@ -50,33 +50,52 @@ export const toggleViewUserIdMuted = uID => ({
 
 /****** Collaboration */
 
-export const startCollaboration = googleUser => {
+export const createPlaylist = (googleUser, name) => {
   var baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
     : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/collaboration/start`,
+      url: `${baseURL}/create-playlist`,
       data: { token: googleUser.getAuthResponse().id_token }
     })
       .then(res => {
-        dispatch({ type: START_COLLABORATION_SUCCESS, payload: res.data });
+        dispatch({ type: CREATE_PLAYLIST_SUCCESS, payload: res.data });
       })
       .catch(err => {
-        dispatch({ type: START_COLLABORATION_FAILURE, payload: err.response });
+        dispatch({ type: CREATE_PLAYLIST_FAILURE, payload: err.response });
       });
   };
 };
 
-export const getCollaborationStatus = googleUser => {
+export const deletePlaylist = (googleUser, id) => {
   var baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
     : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/collaboration/status`,
+      url: `${baseURL}/create-playlist`,
+      data: { token: googleUser.getAuthResponse().id_token }
+    })
+      .then(res => {
+        dispatch({ type: CREATE_PLAYLIST_SUCCESS, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: CREATE_PLAYLIST_FAILURE, payload: err.response });
+      });
+  };
+};
+
+export const getPlaylists = googleUser => {
+  var baseURL = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/get-playlists`,
       data: { token: googleUser.getAuthResponse().id_token }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
@@ -84,32 +103,14 @@ export const getCollaborationStatus = googleUser => {
   };
 };
 
-export const joinCollaboration = (colID, googleUser) => {
+export const addCollaborator = (googleUser, playlistID, collaboratorID) => {
   var baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
     : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/collaboration/join`,
-      data: {
-        token: googleUser.getAuthResponse().id_token,
-        collaboration_id: colID
-      }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
-
-export const addCollaborator = (colID, googleUser) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `${baseURL}/collaboration/add`,
+      url: `${baseURL}/add-collaborator`,
       data: {
         token: googleUser.getAuthResponse().id_token,
         collaborator_id: colID
@@ -120,14 +121,50 @@ export const addCollaborator = (colID, googleUser) => {
   };
 };
 
-export const removeCollaborator = (colID, googleUser) => {
+export const removeCollaborator = (googleUser, playlistID, collaboratorID) => {
   var baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
     : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/collaboration/remove`,
+      url: `${baseURL}/remove-collaborator`,
+      data: {
+        token: googleUser.getAuthResponse().id_token,
+        collaborator_id: colID
+      }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+export const startCollaboration = (googleUser, playlistID) => {
+  var baseURL = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/start-collaboration`,
+      data: {
+        token: googleUser.getAuthResponse().id_token,
+        collaborator_id: colID
+      }
+    }).then(res => {
+      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
+    });
+  };
+};
+
+export const endCollaboration = (googleUser, playlistID) => {
+  var baseURL = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : '';
+  return dispatch => {
+    axios({
+      method: 'post',
+      url: `${baseURL}/end-collaboration`,
       data: {
         token: googleUser.getAuthResponse().id_token,
         collaborator_id: colID
