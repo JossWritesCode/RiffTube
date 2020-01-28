@@ -22,6 +22,17 @@ server.use(express.json());
 // might not be needed
 server.use(cors());
 
+// enforce HTTPS
+
+if(process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`)
+    else
+      next()
+  })
+}
+
 server.get('/api-status', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
