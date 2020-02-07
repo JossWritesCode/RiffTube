@@ -23,7 +23,7 @@ class EditInterface extends React.Component {
   };
   /* extracts the youtube id from a url. got help from: https://ctrlq.org/code/19797-regex-youtube-id */
   extractVideoID = url => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
     if (match && match[7].length === 11) {
       return match[7];
@@ -62,7 +62,7 @@ class EditInterface extends React.Component {
           <YouTubeVideo id={this.props.videoID} />
 
           <div>
-            <a href={'/view/' + this.props.videoID} target="_blank">
+            <a href={'/view/' + this.props.videoID} target="_blank" rel="noopener noreferrer">
               View video
             </a>
           </div>
