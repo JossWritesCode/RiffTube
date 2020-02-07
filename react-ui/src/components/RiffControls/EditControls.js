@@ -36,7 +36,7 @@ function EditControls(props) {
           null
       }
 
-      <Collaboration />
+      { /* to add back later <Collaboration /> */ }
 
       <div>
         <h2 className="add-riff-title">Add New Riff</h2>

@@ -113,7 +113,7 @@ export const addCollaborator = (googleUser, playlistID, collaboratorID) => {
       url: `${baseURL}/add-collaborator`,
       data: {
         token: googleUser.getAuthResponse().id_token,
-        collaborator_id: colID
+        collaborator_id: collaboratorID
       }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
@@ -131,7 +131,7 @@ export const removeCollaborator = (googleUser, playlistID, collaboratorID) => {
       url: `${baseURL}/remove-collaborator`,
       data: {
         token: googleUser.getAuthResponse().id_token,
-        collaborator_id: colID
+        collaborator_id: collaboratorID
       }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
@@ -148,8 +148,7 @@ export const startCollaboration = (googleUser, playlistID) => {
       method: 'post',
       url: `${baseURL}/start-collaboration`,
       data: {
-        token: googleUser.getAuthResponse().id_token,
-        collaborator_id: colID
+        token: googleUser.getAuthResponse().id_token
       }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
@@ -157,7 +156,7 @@ export const startCollaboration = (googleUser, playlistID) => {
   };
 };
 
-export const endCollaboration = (googleUser, playlistID) => {
+export const endCollaboration = (googleUser, playlistID, collaboratorID) => {
   var baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
     : '';
@@ -167,7 +166,7 @@ export const endCollaboration = (googleUser, playlistID) => {
       url: `${baseURL}/end-collaboration`,
       data: {
         token: googleUser.getAuthResponse().id_token,
-        collaborator_id: colID
+        collaborator_id: collaboratorID
       }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
