@@ -60,7 +60,7 @@ exports.up = function(knex) {
         .onDelete('SET NULL')
         .onUpdate('CASCADE');
     })
-    .createTable('collaborations', tbl => {
+    .createTable('playlists', tbl => {
       tbl.increments();
       tbl
         .integer('owner_id')
@@ -69,17 +69,17 @@ exports.up = function(knex) {
         .references('id')
         .inTable('users')
         .onDelete('CASCADE')
-        .onUpdate('CASCADE')
-        .unique();
+        .onUpdate('CASCADE');
+      tbl.text('text');
     })
     .createTable('collaborators', tbl => {
       tbl.increments();
       tbl
-        .integer('collaboration_id')
+        .integer('playlist_id')
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('collaborations')
+        .inTable('playlists')
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
       tbl
@@ -91,9 +91,17 @@ exports.up = function(knex) {
         .onDelete('CASCADE')
         .onUpdate('CASCADE');
     })
-    .createTable('playlists', tbl => {
+    .createTable('collaborations', tbl => {
       tbl.increments();
-    });
+      tbl
+        .integer('playlist_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('playlists')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
+    })
 };
 
 exports.down = function(knex) {
