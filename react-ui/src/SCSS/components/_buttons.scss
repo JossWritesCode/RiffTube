@@ -17,3 +17,18 @@ button:active {
   top: 0.1em;
   left: 0.1em;
 }
+
+.btn {
+  background-color: #202020;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+}
+
+.btn:hover {
+  background-color: white;
+  border: 1px solid #202020;
+  color: black;
+}

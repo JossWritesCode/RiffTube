@@ -9,6 +9,12 @@ html {
   padding: 0;
 }
 
+p,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
 button {
   background-color: #202020;
   border-radius: 5px;
@@ -27,6 +33,21 @@ button:active {
   position: relative;
   top: 0.1em;
   left: 0.1em;
+}
+
+.btn {
+  background-color: #202020;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+}
+
+.btn:hover {
+  background-color: white;
+  border: 1px solid #202020;
+  color: black;
 }
 
 #rifftube-player {
@@ -180,10 +201,81 @@ button:active {
     scrollbar-color: white;
   }
 }
+nav {
+  margin: 1rem;
+}
+nav a {
+  margin: 1rem;
+}
+
 .top-part {
   background-color: #a41320;
   width: 100vw;
-  height: 100vh;
+  height: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+.top-part .heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.top-part .heading .heading-primary-main {
+  font-size: 2rem;
+  color: #fff;
+}
+.top-part .heading .heading-primary-sub {
+  width: 15rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.middle-part {
+  width: 100vw;
+  height: 50rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #202020;
+}
+.middle-part .features {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+}
+@media (min-width: 1000px) {
+  .middle-part .features {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+.middle-part .features .feature {
+  width: 15rem;
+  text-align: center;
+  margin: 2rem;
+}
+.middle-part .features .feature h3 {
+  color: #a41320;
+}
+.middle-part .middle-text {
+  text-align: left;
+  width: 250px;
+}
+.middle-part .middle-text h3 {
+  color: #a41320;
+  text-align: left;
+}
+
+.movie-image {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 10rem;
 }
 
 /*# sourceMappingURL=index.css.map */
