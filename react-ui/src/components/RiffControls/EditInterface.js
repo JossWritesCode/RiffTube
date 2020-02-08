@@ -78,7 +78,7 @@ class EditInterface extends React.Component {
         </div>
         <Route
           exact
-          path="/"
+          path="/riff"
           render={this.authCheck.bind(this, EditControls, Login)}
         />
       </React.Fragment>
