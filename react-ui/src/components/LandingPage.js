@@ -16,7 +16,9 @@ function LandingPage() {
         <div className="heading">
           <span className="heading-primary-main">RiffTube</span>
           <span className="heading-primary-sub">Make Your Voice Heard</span>
-          <a className="get-started-btn btn">Get Started &#8594;</a>
+          <NavLink to="/riff" className="get-started-btn btn">
+            Get Started &#8594;
+          </NavLink>
         </div>
       </section>
       <section className="middle-part">
@@ -29,23 +31,23 @@ function LandingPage() {
         </div>
         <div className="features">
           <div className="feature feature-one">
-            <MaterialIcon icon="mic" color="white" />
-            <h3>Record</h3>
+            <MaterialIcon icon="mic" color="#a41320" size="medium" />
+
             <p>Add your voice to any video on Youtube.</p>
           </div>
           <div className="feature feature-two">
-            <MaterialIcon icon="edit" color="white" />
-            <h3>Edit</h3>
+            <MaterialIcon icon="edit" color="#a41320" size="medium" />
+
             <p>Edit your recordings until they're just right</p>
           </div>
           <div className="feature feature-three">
-            <MaterialIcon icon="people" color="white" />
-            <h3>Collaborate</h3>
+            <MaterialIcon icon="people" color="#a41320" size="medium" />
+
             <p>Add your friends' voices to the recording</p>
           </div>
           <div className="feature feature-three">
-            <MaterialIcon icon="share" color="white" />
-            <h3>Share</h3>
+            <MaterialIcon icon="share" color="#a41320" size="medium" />
+
             <p>
               Simply copy paste a link to share your annotated youtube video
               with anybody

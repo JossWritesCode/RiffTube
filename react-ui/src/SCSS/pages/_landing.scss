@@ -72,8 +72,9 @@ nav {
 
   .middle-text {
     h3 {
-      color: $color-primary;
+      font-weight: bold;
       text-align: left;
+      padding-bottom: 1rem;
     }
     text-align: left;
     width: 250px;

@@ -15,6 +15,15 @@ h3 {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: #202020;
+}
+
 button {
   background-color: #202020;
   border-radius: 5px;
@@ -268,8 +277,9 @@ nav a {
   width: 250px;
 }
 .middle-part .middle-text h3 {
-  color: #a41320;
+  font-weight: bold;
   text-align: left;
+  padding-bottom: 1rem;
 }
 
 .movie-image {
