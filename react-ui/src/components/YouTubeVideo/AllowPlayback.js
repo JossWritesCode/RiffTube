@@ -11,6 +11,7 @@ class AllowPlayback extends React.Component {
     var test = new Audio();
     test.controls = false;
     test.src = '/dingdong.wav';
+    debugger;
     test.play()
       .then( () => { console.log( "playback ok" ); this.setupAudioPlayers(); } )
       .catch( () => { console.log( "playback not allowed" ); } );
