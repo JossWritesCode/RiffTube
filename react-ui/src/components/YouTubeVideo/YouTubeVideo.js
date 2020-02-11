@@ -108,9 +108,12 @@ class YouTubeVideo extends React.Component {
             this.curRiff[index] &&
             (t < riff.time || t > riff.time + riff.duration)
           ) {
+            if ( this.curRiff[index].inUse ) 
+              this.curRiff[index].inUse = false;
+
+            // by setting this to false, text riffs will be hidden
             this.props.setRiffPlaying(index, false);
-            this.curRiff[index] = false;
-            //document.querySelector( '#riff-content' ).innerHTML = '';
+            this.curRiff[index] = null;
 
             if (riff.type === 'audio')
               // make sure all audio clips have stopped
@@ -131,7 +134,7 @@ class YouTubeVideo extends React.Component {
           if ( !riffMuted(index) && !this.curRiff[index] && t > riff.time && t < riff.time + 0.5 ) {
 
             this.props.setRiffPlaying(index, true);
-            this.curRiff[index] = true;
+            this.curRiff[index] = true; // used for text only; overwritten for audio
 
             if (riff.type === 'audio') {
               if ( !this.vol )
@@ -146,12 +149,21 @@ class YouTubeVideo extends React.Component {
               else
                 this.audLock++;
 
-              let audio = new Audio(); // should be identical behavior to: document.createElement('audio');
-              audio.controls = false;
-              if (!riff.payload) return; // DEBUG - SHOULD BE REMOVED
+              if (!riff.payload) { console.log( "empty payload error" ); return; } // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(riff.payload);
-              audio.src = audioURL;
-              audio.play();
+              //debugger;
+              //console.log( "play riff!" );
+              for ( let i = 0; i < window.audioPlayersCount; i++ )
+              {
+                let audio = window.audioPlayers[i];
+                if ( audio.inUse ) continue;
+                audio.src = audioURL;
+                audio.play();
+                audio.inUse = true;
+
+                this.curRiff[index] = audio;
+                break;
+              }
             }
           }
         });
@@ -200,8 +212,8 @@ class YouTubeVideo extends React.Component {
   render = () => {
     return (
       <React.Fragment>
-        <AllowPlayback />
         <div className="rifftube-container">
+          <AllowPlayback />
           <div className="rifftube-overlay">
             <div className="rifftube-riffs-container">
               {Object.keys(this.props.riffsPlaying)

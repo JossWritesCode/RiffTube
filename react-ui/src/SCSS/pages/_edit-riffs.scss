@@ -19,6 +19,15 @@
   position: relative;
 }
 
+.audio-capture {
+  position: absolute;
+  width: 100%;
+  height: 390px;
+  line-height: 390px;
+  top: 0;
+  text-align: center;
+}
+
 .rifftube-overlay {
   position: absolute;
   width: 100%;
