@@ -32,3 +32,21 @@ button:active {
   border: 1px solid #202020;
   color: black;
 }
+
+.get-started-btn {
+  height: 1.5rem;
+  width: 7rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 700px) {
+    text-align: center;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

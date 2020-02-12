@@ -89,6 +89,10 @@ nav {
     }
     text-align: center;
     width: 250px;
+
+    @media (min-width: 1000px) {
+      width: 400px;
+    }
   }
 }
 

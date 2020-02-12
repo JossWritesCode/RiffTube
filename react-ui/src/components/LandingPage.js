@@ -33,7 +33,7 @@ function LandingPage() {
           <div className="feature feature-one">
             <MaterialIcon icon="mic" color="#a41320" size="medium" />
 
-            <p>Add your voice to any video on Youtube.</p>
+            <p>Add your voice to a video on YouTube.</p>
           </div>
           <div className="feature feature-two">
             <MaterialIcon icon="edit" color="#a41320" size="medium" />
@@ -48,10 +48,7 @@ function LandingPage() {
           <div className="feature feature-three">
             <MaterialIcon icon="share" color="#a41320" size="medium" />
 
-            <p>
-              Simply copy paste a link to share your annotated youtube video
-              with anybody
-            </p>
+            <p>Get a link to share your annotated YouTube video with anybody</p>
           </div>
         </div>
       </section>
