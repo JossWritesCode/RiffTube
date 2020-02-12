@@ -1,4 +1,5 @@
 nav {
+  color: $color-gray;
   margin: 1rem;
   a {
     margin: 1rem;
@@ -6,7 +7,7 @@ nav {
 }
 
 .top-part {
-  background-color: $color-primary;
+  background-color: $color-white;
   width: 100vw;
   height: 22rem;
   display: flex;
@@ -15,11 +16,11 @@ nav {
   margin-top: 10rem;
 
   @media (min-width: 700px) {
-    height: 35rem;
-    margin-top: 12rem;
+    height: 43rem;
   }
 
   @media (min-width: 1000px) {
+    margin-top: 5rem;
     height: 40rem;
   }
 
@@ -30,7 +31,8 @@ nav {
 
     .heading-primary-main {
       font-size: 2rem;
-      color: $color-white;
+      color: $color-gray;
+      font-weight: 700;
 
       @media (min-width: 700px) {
         font-size: 4rem;
@@ -40,7 +42,7 @@ nav {
       width: 15rem;
       text-align: center;
       font-size: 1.2rem;
-      color: $color-white;
+      color: $color-gray;
       @media (min-width: 700px) {
         font-size: 1.8rem;
         width: 19rem;
@@ -57,7 +59,9 @@ nav {
   font-size: 1.2rem;
   align-items: center;
   flex-direction: column;
-  background-color: #202020;
+  background-color: $color-dark-gray;
+  color: $color-white;
+  padding-top: 5rem;
 
   .features {
     margin: 2rem;
@@ -76,7 +80,8 @@ nav {
       text-align: center;
       margin: 2rem;
       h3 {
-        color: $color-primary;
+        color: $color-gray;
+        font-weight: bold;
       }
     }
   }
@@ -89,15 +94,50 @@ nav {
     }
     text-align: center;
     width: 250px;
+
+    @media (min-width: 1000px) {
+      width: 400px;
+    }
   }
 }
 
 .movie-image {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  width: 10rem;
+  width: 14rem;
 
   @media (min-width: 700px) {
-    width: 14rem;
+    width: 35rem;
+  }
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  @media (min-width: 1000px) {
+    flex-direction: row;
+  }
+
+  .about-text {
+    width: 18rem;
+    h2 {
+      text-align: center;
+    }
+
+    @media (min-width: 1000px) {
+      width: 30rem;
+      margin: 1rem;
+    }
+  }
+}
+
+.horror-movie-image {
+  margin: 1rem;
+  width: 15rem;
+  @media (min-width: 1000px) {
+    width: 17rem;
   }
 }

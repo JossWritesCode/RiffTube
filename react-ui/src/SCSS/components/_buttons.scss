@@ -19,16 +19,34 @@ button:active {
 }
 
 .btn {
-  background-color: #202020;
+  background-color: $color-primary;
   border-radius: 5px;
-  color: white;
+  color: $color-white;
   border: none;
   margin: 5px;
   padding: 5px;
 }
 
 .btn:hover {
-  background-color: white;
-  border: 1px solid #202020;
-  color: black;
+  background-color: $color-white;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+}
+
+.get-started-btn {
+  height: 1.5rem;
+  width: 7rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 700px) {
+    text-align: center;
+    height: 2rem;
+    width: 8rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
