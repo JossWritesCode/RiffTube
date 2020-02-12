@@ -16,7 +16,7 @@ function LandingPage() {
       <section className="top-part">
         <div className="heading">
           <span className="heading-primary-main">RiffTube</span>
-          <span className="heading-primary-sub">Make Your Voice Heard</span>
+          <span className="heading-primary-sub">Make Your Voice Heard!</span>
           <NavLink to="/riff" className="get-started-btn btn">
             Get Started &#8594;
           </NavLink>

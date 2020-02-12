@@ -66,13 +66,13 @@ class EditInterface extends React.Component {
 
           <YouTubeVideo id={this.props.videoID} />
 
-          <div>
+          <div className="view-share-riff-link">
             <a
               href={'/view/' + this.props.videoID}
               target="_blank"
               rel="noopener noreferrer"
             >
-              View video
+              View &amp; Share Riffed Video
             </a>
           </div>
         </div>
