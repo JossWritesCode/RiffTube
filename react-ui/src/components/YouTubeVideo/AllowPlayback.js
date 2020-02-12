@@ -1,5 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  setPlayerMode,
+  PLAY_MODE
+} from '../../actions/index.js';
 
 class AllowPlayback extends React.Component {
   constructor(props) {
@@ -31,12 +35,11 @@ class AllowPlayback extends React.Component {
   }
 
   render = () => {
-    debugger;
     if ( ! this.state ) return null;
 
     return !this.state.allowed
       ?
-        <div className="audio-capture" onClick={ () => { this.setupAudioPlayers(); } }>Click to allow</div>
+        <div className="audio-capture" onClick={ () => { this.setupAudioPlayers(); this.props.setPlayerMode( PLAY_MODE ); } } />
       :
         null;
   };
@@ -46,7 +49,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-
+  setPlayerMode
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllowPlayback);
