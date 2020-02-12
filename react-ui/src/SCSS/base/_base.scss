@@ -2,9 +2,9 @@ body,
 html {
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #a41320;
+  background-color: $color-white;
   font-family: 'Roboto', sans-serif;
-  color: white;
+  color: $color-black;
   margin: 0;
   padding: 0;
 }

@@ -4,6 +4,7 @@ import Icon from '@material-ui/core/Icon';
 import MicIcon from '@material-ui/icons/Mic';
 import MaterialIcon, { colorPalette } from 'material-icons-react';
 import { NavLink } from 'react-router-dom';
+import HorrorMovie from '../images/undraw_horror_movie_3988.svg';
 
 function LandingPage() {
   return (
@@ -20,9 +21,9 @@ function LandingPage() {
             Get Started &#8594;
           </NavLink>
         </div>
+        <img className="movie-image" src={MovieImage}></img>
       </section>
       <section className="middle-part">
-        <img className="movie-image" src={MovieImage}></img>
         <div className="middle-text">
           <h3>Easy Audio Commentary</h3>
           <p>
@@ -49,6 +50,20 @@ function LandingPage() {
             <MaterialIcon icon="share" color="#a41320" size="medium" />
 
             <p>Get a link to share your annotated YouTube video with anybody</p>
+          </div>
+        </div>
+        <div className="about">
+          <div className="about-text">
+            <h2>About RiffTube</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+          <div>
+            <img className="horror-movie-image" src={HorrorMovie} />
           </div>
         </div>
       </section>

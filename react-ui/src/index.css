@@ -2,9 +2,9 @@ body,
 html {
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #a41320;
+  background-color: #fff;
   font-family: "Roboto", sans-serif;
-  color: white;
+  color: #000;
   margin: 0;
   padding: 0;
 }
@@ -45,18 +45,18 @@ button:active {
 }
 
 .btn {
-  background-color: #202020;
+  background-color: #a41320;
   border-radius: 5px;
-  color: white;
+  color: #fff;
   border: none;
   margin: 5px;
   padding: 5px;
 }
 
 .btn:hover {
-  background-color: white;
-  border: 1px solid #202020;
-  color: black;
+  background-color: #fff;
+  border: 1px solid #a41320;
+  color: #a41320;
 }
 
 .get-started-btn {
@@ -247,7 +247,7 @@ nav a {
 }
 
 .top-part {
-  background-color: #a41320;
+  background-color: #fff;
   width: 100vw;
   height: 22rem;
   display: flex;
@@ -263,7 +263,7 @@ nav a {
 }
 @media (min-width: 1000px) {
   .top-part {
-    height: 40rem;
+    height: 38rem;
   }
 }
 .top-part .heading {
@@ -273,7 +273,8 @@ nav a {
 }
 .top-part .heading .heading-primary-main {
   font-size: 2rem;
-  color: #fff;
+  color: #55596d;
+  font-weight: 700;
 }
 @media (min-width: 700px) {
   .top-part .heading .heading-primary-main {
@@ -284,7 +285,7 @@ nav a {
   width: 15rem;
   text-align: center;
   font-size: 1.2rem;
-  color: #fff;
+  color: #55596d;
 }
 @media (min-width: 700px) {
   .top-part .heading .heading-primary-sub {
@@ -301,7 +302,9 @@ nav a {
   font-size: 1.2rem;
   align-items: center;
   flex-direction: column;
-  background-color: #202020;
+  background-color: #121212;
+  color: #fff;
+  padding-top: 5rem;
 }
 .middle-part .features {
   margin: 2rem;
@@ -323,7 +326,8 @@ nav a {
   margin: 2rem;
 }
 .middle-part .features .feature h3 {
-  color: #a41320;
+  color: #55596d;
+  font-weight: bold;
 }
 .middle-part .middle-text {
   text-align: center;
@@ -348,6 +352,41 @@ nav a {
 @media (min-width: 700px) {
   .movie-image {
     width: 14rem;
+  }
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+@media (min-width: 1000px) {
+  .about {
+    flex-direction: row;
+  }
+}
+.about .about-text {
+  width: 18rem;
+}
+.about .about-text h2 {
+  text-align: center;
+}
+@media (min-width: 1000px) {
+  .about .about-text {
+    width: 30rem;
+    margin: 1rem;
+  }
+}
+
+.horror-movie-image {
+  margin: 1rem;
+  width: 15rem;
+}
+@media (min-width: 1000px) {
+  .horror-movie-image {
+    width: 17rem;
   }
 }
 

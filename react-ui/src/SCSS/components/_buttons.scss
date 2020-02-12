@@ -19,18 +19,18 @@ button:active {
 }
 
 .btn {
-  background-color: #202020;
+  background-color: $color-primary;
   border-radius: 5px;
-  color: white;
+  color: $color-white;
   border: none;
   margin: 5px;
   padding: 5px;
 }
 
 .btn:hover {
-  background-color: white;
-  border: 1px solid #202020;
-  color: black;
+  background-color: $color-white;
+  border: 1px solid $color-primary;
+  color: $color-primary;
 }
 
 .get-started-btn {
