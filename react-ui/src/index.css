@@ -307,6 +307,11 @@ nav a {
   color: #fff;
   padding-top: 5rem;
 }
+@media (min-width: 1000px) {
+  .middle-part {
+    height: 50rem;
+  }
+}
 .middle-part .features {
   margin: 2rem;
   display: flex;
@@ -389,6 +394,13 @@ nav a {
   .horror-movie-image {
     width: 17rem;
   }
+}
+
+.landing-footer {
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
 }
 
 /*# sourceMappingURL=index.css.map */
