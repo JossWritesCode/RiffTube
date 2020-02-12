@@ -67,6 +67,11 @@ function LandingPage() {
           </div>
         </div>
       </section>
+      <section className="bottom-part">
+        <footer className="landing-footer">
+          Copyright © 2020 - All rights reserved
+        </footer>
+      </section>
     </div>
   );
 }

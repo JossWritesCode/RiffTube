@@ -63,6 +63,10 @@ nav {
   color: $color-white;
   padding-top: 5rem;
 
+  @media (min-width: 1000px) {
+    height: 50rem;
+  }
+
   .features {
     margin: 2rem;
     display: flex;
@@ -140,4 +144,11 @@ nav {
   @media (min-width: 1000px) {
     width: 17rem;
   }
+}
+
+.landing-footer {
+  background-color: $color-black;
+  color: $color-white;
+  display: flex;
+  justify-content: center;
 }
