@@ -59,6 +59,15 @@ button:active {
   color: black;
 }
 
+.navbar-landing {
+  font-size: 1.2rem;
+}
+@media (min-width: 700px) {
+  .navbar-landing {
+    font-size: 1.6rem;
+  }
+}
+
 #rifftube-player {
   max-width: 95vw;
   /*

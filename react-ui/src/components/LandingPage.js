@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 function LandingPage() {
   return (
     <div className="landing-page">
-      <nav>
+      <nav className="navbar-landing">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/riff">Start Riffing</NavLink>
       </nav>
