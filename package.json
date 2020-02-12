@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "cd react-ui/ && npm install && npm run build"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Joscelyn1/RiffTube.git"
