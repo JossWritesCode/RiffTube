@@ -51,6 +51,7 @@ button:active {
   border: none;
   margin: 5px;
   padding: 5px;
+  border: 1px solid #a41320;
 }
 
 .btn:hover {
@@ -81,6 +82,12 @@ button:active {
 
 .navbar {
   font-size: 1.2rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 50rem;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 @media (min-width: 700px) {
   .navbar {
@@ -137,15 +144,6 @@ button:active {
 
 .title-and-url {
   text-align: center;
-}
-
-.navbar {
-  display: flex;
-  justify-content: flex-start;
-  width: 50rem;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .App {
