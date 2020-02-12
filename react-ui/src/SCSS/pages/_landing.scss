@@ -15,12 +15,12 @@ nav {
   margin-top: 10rem;
 
   @media (min-width: 700px) {
-    height: 35rem;
-    margin-top: 12rem;
+    height: 43rem;
   }
 
   @media (min-width: 1000px) {
-    height: 38rem;
+    margin-top: 5rem;
+    height: 40rem;
   }
 
   .heading {
@@ -103,10 +103,10 @@ nav {
 .movie-image {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  width: 10rem;
+  width: 14rem;
 
   @media (min-width: 700px) {
-    width: 14rem;
+    width: 35rem;
   }
 }
 

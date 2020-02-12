@@ -257,13 +257,13 @@ nav a {
 }
 @media (min-width: 700px) {
   .top-part {
-    height: 35rem;
-    margin-top: 12rem;
+    height: 43rem;
   }
 }
 @media (min-width: 1000px) {
   .top-part {
-    height: 38rem;
+    margin-top: 5rem;
+    height: 40rem;
   }
 }
 .top-part .heading {
@@ -347,11 +347,11 @@ nav a {
 .movie-image {
   margin-top: 2rem;
   margin-bottom: 2rem;
-  width: 10rem;
+  width: 14rem;
 }
 @media (min-width: 700px) {
   .movie-image {
-    width: 14rem;
+    width: 35rem;
   }
 }
 
