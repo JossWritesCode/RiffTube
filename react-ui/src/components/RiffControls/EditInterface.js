@@ -6,6 +6,7 @@ import Login from '../Login/Login';
 import EditControls from './EditControls';
 import { setVideoID } from '../../actions';
 import { NavLink } from 'react-router-dom';
+import NavBar from '../NavBar.js'
 
 class EditInterface extends React.Component {
   constructor(props) {
@@ -38,10 +39,6 @@ class EditInterface extends React.Component {
       <React.Fragment>
         <div className="youtube-section">
           <div className="top-section">
-            <nav>
-              <NavLink to="/">Home</NavLink>
-              <NavLink to="/riff">Start Riffing</NavLink>
-            </nav>
             <div className="title-and-url">
               <h1>RiffTube</h1>
             </div>
@@ -66,13 +63,13 @@ class EditInterface extends React.Component {
 
           <YouTubeVideo id={this.props.videoID} />
 
-          <div>
+          <div className="view-share-riff-link">
             <a
               href={'/view/' + this.props.videoID}
               target="_blank"
               rel="noopener noreferrer"
             >
-              View video
+              View &amp; Share Riffed Video
             </a>
           </div>
         </div>

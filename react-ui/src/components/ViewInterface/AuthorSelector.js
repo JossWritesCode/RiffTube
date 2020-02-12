@@ -12,7 +12,7 @@ class AuthorSelector extends React.Component
 
         this.props.riffs.forEach( el =>
             {
-                console.log( "name", el.name, includes( names, el.user_id ) );
+                //console.log( "name", el.name, includes( names, el.user_id ) );
                 if ( ! includes( names, el.user_id ) )
                     names.push( { name: el.name, id: el.user_id } );
             });

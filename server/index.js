@@ -20,7 +20,7 @@ const CLIENT_ID =
 server.use(express.json());
 
 // might not be needed
-server.use(cors());
+//server.use(cors());
 
 // enforce HTTPS
 
