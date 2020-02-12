@@ -275,9 +275,10 @@ nav a {
 
 .middle-part {
   width: 100vw;
-  height: 50rem;
+  height: 90rem;
   text-align: center;
   display: flex;
+  font-size: 1.2rem;
   align-items: center;
   flex-direction: column;
   background-color: #202020;
@@ -288,6 +289,7 @@ nav a {
   flex-direction: column;
   align-items: center;
   width: 95%;
+  font-size: 1.2rem;
 }
 @media (min-width: 1000px) {
   .middle-part .features {
@@ -304,12 +306,12 @@ nav a {
   color: #a41320;
 }
 .middle-part .middle-text {
-  text-align: left;
+  text-align: center;
   width: 250px;
 }
 .middle-part .middle-text h3 {
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   padding-bottom: 1rem;
 }
 
@@ -317,6 +319,11 @@ nav a {
   margin-top: 2rem;
   margin-bottom: 2rem;
   width: 10rem;
+}
+@media (min-width: 700px) {
+  .movie-image {
+    width: 14rem;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */
