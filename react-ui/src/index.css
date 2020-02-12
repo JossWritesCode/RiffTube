@@ -220,11 +220,22 @@ nav a {
 .top-part {
   background-color: #a41320;
   width: 100vw;
-  height: 15rem;
+  height: 22rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 10rem;
+}
+@media (min-width: 700px) {
+  .top-part {
+    height: 35rem;
+    margin-top: 12rem;
+  }
+}
+@media (min-width: 1000px) {
+  .top-part {
+    height: 40rem;
+  }
 }
 .top-part .heading {
   display: flex;
@@ -235,11 +246,22 @@ nav a {
   font-size: 2rem;
   color: #fff;
 }
+@media (min-width: 700px) {
+  .top-part .heading .heading-primary-main {
+    font-size: 4rem;
+  }
+}
 .top-part .heading .heading-primary-sub {
   width: 15rem;
   text-align: center;
   font-size: 1.2rem;
   color: #fff;
+}
+@media (min-width: 700px) {
+  .top-part .heading .heading-primary-sub {
+    font-size: 1.8rem;
+    width: 19rem;
+  }
 }
 
 .middle-part {
