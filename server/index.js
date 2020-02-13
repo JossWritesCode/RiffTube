@@ -248,7 +248,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
             if (vidList.length === 0)
             {
-              return SimpleYouTubeAPI.getVideo(body.video)
+              return ytapi.getVideoByID(body.video_id)
                 .then(video => {
                     console.log(`The video's title is ${video.title}`);
                     
