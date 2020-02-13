@@ -5,7 +5,6 @@ import MicIcon from '@material-ui/icons/Mic';
 import MaterialIcon, { colorPalette } from 'material-icons-react';
 import { NavLink } from 'react-router-dom';
 import HorrorMovie from '../images/undraw_horror_movie_3988.svg';
-import NavBar from './NavBar.js'
 
 function LandingPage() {
   return (
@@ -53,7 +52,8 @@ function LandingPage() {
           <div className="about-text">
             <h2>About RiffTube</h2>
             <p>
-              In the glorious tradition of Mystery Science Theater 3000, The Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
+              In the glorious tradition of Mystery Science Theater 3000, The
+              Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
               <br />
               Now presenting: <em>you!</em>
             </p>
