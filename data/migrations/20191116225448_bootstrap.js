@@ -11,6 +11,9 @@ exports.up = function(knex) {
         .string('url')
         .notNullable()
         .unique();
+      tbl
+        .string('title')
+        .notNullable();
     })
     .createTable('riffs', tbl => {
       tbl.increments();

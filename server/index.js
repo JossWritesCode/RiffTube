@@ -8,6 +8,10 @@ const url = require('url');
 const http = require('http');
 const WebSocket = require('ws');
 
+// to get youtube video names
+const SimpleYouTubeAPI = require('simple-youtube-api');
+const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
+
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -242,13 +246,22 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           .then(vidList => {
             console.log('SR get vidlist', vidList);
 
-            if (vidList.length === 0) {
-              return db('videos').insert(
-                {
-                  url: body.video_id
-                },
-                ['id']
-              );
+            if (vidList.length === 0)
+            {
+              return SimpleYouTubeAPI.getVideo(body.video)
+                .then(video => {
+                    console.log(`The video's title is ${video.title}`);
+                    
+                    return db('videos').insert(
+                      {
+                        url: body.video_id,
+                        title: video.title
+                      },
+                      ['id']
+                    );
+                })
+                .catch(console.log);
+              
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           })
