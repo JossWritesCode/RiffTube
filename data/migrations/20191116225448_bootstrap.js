@@ -109,8 +109,11 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
+    .dropTableIfExists('riffs')
+    .dropTableIfExists('playlists')
+    .dropTableIfExists('collaborations')
+    .dropTableIfExists('collaborators')
+    .dropTableIfExists('videos_users')
     .dropTableIfExists('users')
     .dropTableIfExists('videos')
-    .dropTableIfExists('riffs')
-    .dropTableIfExists('videos_users');
 };
