@@ -23,8 +23,8 @@ const CLIENT_ID =
 
 server.use(express.json());
 
-// might not be needed
-//server.use(cors());
+// needed only for localhost (remove for production)
+server.use(cors());
 
 // enforce HTTPS
 

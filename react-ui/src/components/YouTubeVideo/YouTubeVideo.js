@@ -160,12 +160,10 @@ class YouTubeVideo extends React.Component {
               for ( let i = 0; i < window.audioPlayersCount; i++ )
               {
                 let audio = window.audioPlayers[i];
-                console.log( "try at ", i );
                 if ( audio.inUse ) continue;
+                audio.inUse = true;
                 audio.src = audioURL;
                 audio.play();
-                audio.inUse = i;
-
                 console.log( "play riff! at ", i );
                 this.curRiff[index] = audio;
                 break;

@@ -30,7 +30,7 @@ class AllowPlayback extends React.Component {
     {
       window.audioPlayers[i] = new Audio(); // should be identical behavior to: document.createElement('audio');
       window.audioPlayers[i].controls = false;
-      window.audioPlayerUse[i] = false;
+      window.audioPlayers[i].addEventListener( "ended", function () { this.inUse = false; console.log( "riff finished" ); } )
     }
   }
 
