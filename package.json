@@ -36,10 +36,12 @@
     "path": "^0.12.7",
     "pg": "^7.18.1",
     "sqlite3": "^4.1.1",
+    "styled-components": "^5.0.1",
     "utf-8-validate": "^5.0.2",
     "ws": "^7.2.1"
   },
   "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.7",
     "nodemon": "^2.0.2"
   }
 }

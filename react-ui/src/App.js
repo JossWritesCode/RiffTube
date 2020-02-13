@@ -4,14 +4,14 @@ import ViewInterface from './components/ViewInterface/ViewInterface';
 import LandingPage from './components/LandingPage.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import About from './components/About';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar.js';
 
 class App extends React.Component {
   render() {
     return (
       <Router>
+        <NavBar style={{ color: 'yellow' }} />
         <div className="App">
-          <NavBar />
           <div className="main-section">
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/riff" component={EditInterface} />
