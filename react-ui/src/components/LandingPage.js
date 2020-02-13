@@ -9,14 +9,10 @@ import HorrorMovie from '../images/undraw_horror_movie_3988.svg';
 function LandingPage() {
   return (
     <div className="landing-page">
-      <nav className="navbar-landing">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/riff">Start Riffing</NavLink>
-      </nav>
       <section className="top-part">
         <div className="heading">
           <span className="heading-primary-main">RiffTube</span>
-          <span className="heading-primary-sub">Make Your Voice Heard!</span>
+          <span className="heading-primary-sub">Riffing for the Riff-Raff</span>
           <NavLink to="/riff" className="get-started-btn btn">
             Get Started &#8594;
           </NavLink>
@@ -34,7 +30,7 @@ function LandingPage() {
           <div className="feature feature-one">
             <MaterialIcon icon="mic" color="#a41320" size="medium" />
 
-            <p>Add your voice to a video on YouTube.</p>
+            <p>Add your voice to a video on YouTube</p>
           </div>
           <div className="feature feature-two">
             <MaterialIcon icon="edit" color="#a41320" size="medium" />
@@ -56,16 +52,24 @@ function LandingPage() {
           <div className="about-text">
             <h2>About RiffTube</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              In the glorious tradition of Mystery Science Theater 3000, The
+              Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
+              <br />
+              Now presenting: <em>you!</em>
+            </p>
+            <p>
+              RiffTube allows you to add your own riffs to any video on YouTube.
             </p>
           </div>
           <div>
             <img className="horror-movie-image" src={HorrorMovie} />
           </div>
         </div>
+      </section>
+      <section className="bottom-part">
+        <footer className="landing-footer">
+          Copyright © 2020 - All rights reserved
+        </footer>
       </section>
     </div>
   );
