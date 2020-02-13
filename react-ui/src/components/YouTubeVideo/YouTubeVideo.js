@@ -152,6 +152,11 @@ class YouTubeVideo extends React.Component {
               if (!riff.payload) { console.log( "empty payload error" ); return; } // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(riff.payload);
               //debugger;
+
+              window.lastRiff = riff.payload;
+
+              // FIX THIS:
+
               for ( let i = 0; i < window.audioPlayersCount; i++ )
               {
                 let audio = window.audioPlayers[i];
