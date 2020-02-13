@@ -250,12 +250,13 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             {
               return ytapi.getVideoByID(body.video_id)
                 .then(video => {
-                    console.log(`The video's title is ${video.title}`);
+                    console.log(`The video's title is ${video.title}, duration: ${video.durationSeconds}`);
                     
                     return db('videos').insert(
                       {
                         url: body.video_id,
-                        title: video.title
+                        title: video.title,
+                        duration: video.durationSeconds
                       },
                       ['id']
                     );
