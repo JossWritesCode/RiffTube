@@ -1,6 +1,6 @@
 import { SET_VIDEO_ID } from '../actions/index.js';
 
-const videoIDReducer = (state = 'R8XAlSp838Y', action) => {
+const videoIDReducer = (state = 'UvJU-raTesU', action) => {
   switch (action.type) {
     case SET_VIDEO_ID:
       return action.payload;
