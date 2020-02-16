@@ -18,6 +18,26 @@ button:active {
   left: 0.1em;
 }
 
+.riff-button {
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: 10px;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.riff-button-delete {
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: 10px;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
 .btn {
   background-color: $color-primary;
   border-radius: 5px;

@@ -13,11 +13,12 @@ function RiffDetail(props) {
           <li>
             start time: {props.time.toFixed ? props.time.toFixed(2) : null}
           </li>
-          <li>duration: {props.duration.toFixed(2)}</li>
+          <li>duration: {props.duration.toFixed(2)} seconds</li>
           <li>type: {props.type}</li>
           <li>No. {props.id}</li>
         </ul>
         <button
+          className="riff-button"
           onClick={() =>
             props.editRiff(
               props.index,
@@ -28,7 +29,10 @@ function RiffDetail(props) {
         >
           Edit
         </button>
-        <button onClick={() => props.deleteRiff(props.id, props.googleUser)}>
+        <button
+          className="riff-button-delete"
+          onClick={() => props.deleteRiff(props.id, props.googleUser)}
+        >
           X
         </button>
       </div>

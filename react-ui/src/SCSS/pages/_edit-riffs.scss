@@ -1,3 +1,7 @@
+.youtube-section {
+  margin-top: 5rem;
+}
+
 #rifftube-player {
   max-width: 95vw;
 
@@ -69,6 +73,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: $color-white;
 }
 
 .edit-riff {
@@ -139,7 +144,7 @@
   }
   .youtube-section {
     /*width: 70%;*/
-    margin: 0 auto;
+    margin: 5rem auto 0rem auto;
   }
   .control-panel {
     height: 100%;
