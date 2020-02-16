@@ -12,7 +12,7 @@ function About() {
         <div className="middle-text">
           <h3>About RiffTube</h3>
           <p>
-            or: How I Learned to Stopped Worrying and Love RiffTube
+            or: How I Learned to Stop Worrying and Love RiffTube
           </p>
         </div>
         <h2>Developers:</h2>
