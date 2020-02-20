@@ -9,11 +9,11 @@ nav {
 .top-part {
   background-color: $color-white;
   width: 100vw;
-  height: 22rem;
+  height: 28rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 8rem;
 
   @media (min-width: 700px) {
     height: 43rem;
@@ -21,30 +21,31 @@ nav {
 
   @media (min-width: 1000px) {
     margin-top: 5rem;
-    height: 40rem;
+    height: 44rem;
   }
 
   .heading {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 2rem 1rem 0rem 1rem;
 
     .heading-primary-main {
-      font-size: 2rem;
+      font-size: $medium;
       color: $color-gray;
       font-weight: 700;
 
       @media (min-width: 700px) {
-        font-size: 4rem;
+        font-size: $large;
       }
     }
     .heading-primary-sub {
-      width: 15rem;
+      width: 17rem;
       text-align: center;
-      font-size: 1.2rem;
+      font-size: $small;
       color: $color-gray;
       @media (min-width: 700px) {
-        font-size: 1.8rem;
+        font-size: $small;
         width: 19rem;
       }
     }
@@ -106,9 +107,8 @@ nav {
 }
 
 .movie-image {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
   width: 14rem;
+  margin-top: 2rem;
 
   @media (min-width: 700px) {
     width: 35rem;
@@ -130,9 +130,12 @@ nav {
     h2 {
       text-align: center;
     }
+    p {
+      padding: 1rem;
+    }
 
     @media (min-width: 1000px) {
-      width: 30rem;
+      width: 50rem;
       margin: 1rem;
     }
   }

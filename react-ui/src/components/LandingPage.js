@@ -30,22 +30,22 @@ function LandingPage() {
           <div className="feature feature-one">
             <MaterialIcon icon="mic" color="#a41320" size="medium" />
 
-            <p>Add your voice to a video on YouTube</p>
+            <p>Add your voice to a YouTube Video</p>
           </div>
           <div className="feature feature-two">
             <MaterialIcon icon="edit" color="#a41320" size="medium" />
 
-            <p>Edit your recordings until they're just right</p>
+            <p>Edit your recordings</p>
           </div>
           <div className="feature feature-three">
             <MaterialIcon icon="people" color="#a41320" size="medium" />
 
-            <p>Add your friends' voices to the recording</p>
+            <p>Add your friends' voices</p>
           </div>
           <div className="feature feature-three">
             <MaterialIcon icon="share" color="#a41320" size="medium" />
 
-            <p>Get a link to share your annotated YouTube video with anybody</p>
+            <p>Share with anybody</p>
           </div>
         </div>
         <div className="about">
@@ -54,16 +54,17 @@ function LandingPage() {
             <p>
               In the glorious tradition of Mystery Science Theater 3000, The
               Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
-              <br />
+            </p>
+            <p>
               Now presenting: <em>you!</em>
             </p>
             <p>
               RiffTube allows you to add your own riffs to any video on YouTube.
             </p>
           </div>
-          <div>
+          {/* <div>
             <img className="horror-movie-image" src={HorrorMovie} />
-          </div>
+          </div> */}
         </div>
       </section>
       <section className="bottom-part">
