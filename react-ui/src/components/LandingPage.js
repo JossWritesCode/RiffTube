@@ -21,16 +21,13 @@ function LandingPage() {
       </section>
       <section className="middle-part">
         <div className="middle-text">
-          <h3>Easy Audio Commentary</h3>
-          <p>
-            Add commentary to YouTube videos without bulky, expensive software.
-          </p>
+          <h3>Easy Audio Commentary for YouTube</h3>
         </div>
         <div className="features">
           <div className="feature feature-one">
             <MaterialIcon icon="mic" color="#a41320" size="medium" />
 
-            <p>Add your voice to a YouTube Video</p>
+            <p>Record your voice</p>
           </div>
           <div className="feature feature-two">
             <MaterialIcon icon="edit" color="#a41320" size="medium" />
@@ -55,6 +52,7 @@ function LandingPage() {
               In the glorious tradition of Mystery Science Theater 3000, The
               Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
             </p>
+
             <p>
               Now presenting: <em>you!</em>
             </p>
