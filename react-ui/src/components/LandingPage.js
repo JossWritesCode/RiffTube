@@ -2,7 +2,7 @@ import React from 'react';
 import MovieImage from '../images/undraw_movie_night_93wl.svg';
 
 import MaterialIcon, { colorPalette } from 'material-icons-react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function LandingPage() {
   return (
@@ -10,16 +10,18 @@ function LandingPage() {
       <section className="top-part">
         <div className="heading">
           <span className="heading-primary-main">RiffTube</span>
-          <span className="heading-primary-sub">Riffing for the Riff-Raff</span>
-          <NavLink to="/riff" className="get-started-btn btn">
+          <span className="heading-primary-sub">
+            Add Your Voice to YouTube Videos
+          </span>
+          <Link to="/riff" className="get-started-btn btn">
             Get Started &#8594;
-          </NavLink>
+          </Link>
         </div>
         <img className="movie-image" src={MovieImage}></img>
       </section>
       <section className="middle-part">
         <div className="middle-text">
-          <h3>Easy Audio Commentary for YouTube</h3>
+          <h3>Riffing for the Riff Raff</h3>
         </div>
         <div className="features">
           <div className="feature feature-one">

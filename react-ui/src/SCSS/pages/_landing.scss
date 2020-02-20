@@ -41,14 +41,13 @@ nav {
       }
     }
     .heading-primary-sub {
-      width: 17rem;
+      width: 25rem;
       text-align: center;
       font-size: $small;
       color: $color-gray;
       margin: 0 0 $small 0;
       @media (min-width: 700px) {
         font-size: $small;
-        width: 19rem;
       }
     }
   }
