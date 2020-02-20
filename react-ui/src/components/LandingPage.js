@@ -1,10 +1,8 @@
 import React from 'react';
 import MovieImage from '../images/undraw_movie_night_93wl.svg';
-import Icon from '@material-ui/core/Icon';
-import MicIcon from '@material-ui/icons/Mic';
+
 import MaterialIcon, { colorPalette } from 'material-icons-react';
 import { NavLink } from 'react-router-dom';
-import HorrorMovie from '../images/undraw_horror_movie_3988.svg';
 
 function LandingPage() {
   return (
