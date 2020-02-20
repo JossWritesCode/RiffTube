@@ -133,6 +133,13 @@
 .google-login {
   background-color: $color-primary;
   color: $color-white;
+  border: 1px solid $color-primary;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-primary;
+  }
 }
 
 .get-started-instructions {
