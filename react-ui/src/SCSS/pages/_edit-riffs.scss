@@ -130,6 +130,16 @@
   }
 }
 
+.google-login {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+.get-started-instructions {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 .edit-riff-buttons {
   display: flex;
   flex-direction: row;

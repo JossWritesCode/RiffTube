@@ -6,7 +6,7 @@ import Login from '../Login/Login';
 import EditControls from './EditControls';
 import { setVideoID } from '../../actions';
 import { NavLink } from 'react-router-dom';
-import NavBar from '../NavBar.js'
+import NavBar from '../NavBar.js';
 
 class EditInterface extends React.Component {
   constructor(props) {
@@ -43,6 +43,9 @@ class EditInterface extends React.Component {
               <h1>RiffTube</h1>
             </div>
           </div>
+          <h4 className="get-started-instructions">
+            <Login /> <p>to get started</p>
+          </h4>
           <form
             onSubmit={e => {
               this.props.setVideoID(
@@ -52,7 +55,7 @@ class EditInterface extends React.Component {
               e.preventDefault();
             }}
           >
-            <label>YouTube URL/ID:&nbsp;&nbsp;</label>
+            <label>Paste any YouTube URL here &#8594; </label>
             <input
               type="text"
               defaultValue={this.props.videoID}
@@ -60,9 +63,7 @@ class EditInterface extends React.Component {
             />
             <button type="submit">Change Video</button>
           </form>
-
           <YouTubeVideo id={this.props.videoID} />
-
           <div className="view-share-riff-link">
             <a
               href={'/view/' + this.props.videoID}
