@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { editRiff, deleteRiff } from '../../actions/index.js';
+import Delete from '../../images/delete-24px.svg';
+import Edit from '../../images/edit-24px.svg';
+import Audio from '../../images/settings_voice-24px.svg';
+import Text from '../../images/chat-24px.svg';
 
 /* this component is where a user can edit their riff */
 function RiffDetail(props) {
@@ -10,31 +14,41 @@ function RiffDetail(props) {
     >
       <div>
         <ul className="riff-detail-list">
+          {props.type === 'audio' ? (
+            <div className="audio-icon">
+              <img src={Audio} />
+            </div>
+          ) : (
+            <div className="text-icon">
+              <img src={Text} />
+            </div>
+          )}
           <li>
             start time: {props.time.toFixed ? props.time.toFixed(2) : null}
           </li>
-          <li>duration: {props.duration.toFixed(2)} seconds</li>
-          <li>type: {props.type}</li>
-          <li>No. {props.id}</li>
+          <li>duration: {props.duration.toFixed(2)}secs</li>
+          {/* <li>type: {props.type}</li> */}
         </ul>
-        <button
-          className="riff-button"
-          onClick={() =>
-            props.editRiff(
-              props.index,
-              props.type === 'audio' && !props.payload ? props.id : null,
-              props.googleUser
-            )
-          }
-        >
-          Edit
-        </button>
-        <button
-          className="riff-button-delete"
-          onClick={() => props.deleteRiff(props.id, props.googleUser)}
-        >
-          X
-        </button>
+        <div className="edit-riff-buttons">
+          <button
+            className="riff-button"
+            onClick={() =>
+              props.editRiff(
+                props.index,
+                props.type === 'audio' && !props.payload ? props.id : null,
+                props.googleUser
+              )
+            }
+          >
+            <img src={Edit} />
+          </button>
+          <button
+            className="riff-button-delete"
+            onClick={() => props.deleteRiff(props.id, props.googleUser)}
+          >
+            <img src={Delete} />
+          </button>
+        </div>
       </div>
     </div>
   );

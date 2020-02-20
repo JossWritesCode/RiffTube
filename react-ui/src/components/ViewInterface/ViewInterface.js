@@ -5,31 +5,30 @@ import AuthorSelector from './AuthorSelector';
 import { setVideoID, getViewRiffs } from '../../actions';
 
 class ViewInterface extends React.Component {
-    componentDidMount = () =>
-    {
-        this.props.setVideoID( this.props.match.params.videoID );
+  componentDidMount = () => {
+    this.props.setVideoID(this.props.match.params.videoID);
 
-        this.props.getViewRiffs( this.props.match.params.videoID );
-    };
+    this.props.getViewRiffs(this.props.match.params.videoID);
+  };
 
-    render = () =>
-    {
-        return (
-            <div>
-                <h1>View {this.props.match.params.videoID}</h1>
-                <YouTubeVideo id={this.props.match.params.videoID} />
-                <AuthorSelector />
-            </div>
-        );
-    }
+  render = () => {
+    return (
+      <div>
+        <h1>View {this.props.match.params.videoID}</h1>
+        {/*When to play riffs is all in this component below */}
+        <YouTubeVideo id={this.props.match.params.videoID} />
+        <AuthorSelector />
+      </div>
+    );
+  };
 }
 
 /*const mapStateToProps = state => ({
   });*/
-  
-  const mapDispatchToProps = {
-    setVideoID,
-    getViewRiffs
-  };
+
+const mapDispatchToProps = {
+  setVideoID,
+  getViewRiffs
+};
 
 export default connect(null, mapDispatchToProps)(ViewInterface);
