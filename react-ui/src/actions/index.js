@@ -51,13 +51,10 @@ export const toggleViewUserIdMuted = uID => ({
 /****** Collaboration */
 
 export const createPlaylist = (googleUser, name) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/create-playlist`,
+      url: `/create-playlist`,
       data: { token: googleUser.getAuthResponse().id_token }
     })
       .then(res => {
@@ -70,13 +67,10 @@ export const createPlaylist = (googleUser, name) => {
 };
 
 export const deletePlaylist = (googleUser, id) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/create-playlist`,
+      url: `/create-playlist`,
       data: { token: googleUser.getAuthResponse().id_token }
     })
       .then(res => {
@@ -89,13 +83,10 @@ export const deletePlaylist = (googleUser, id) => {
 };
 
 export const getPlaylists = googleUser => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/get-playlists`,
+      url: `/get-playlists`,
       data: { token: googleUser.getAuthResponse().id_token }
     }).then(res => {
       dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
@@ -104,13 +95,10 @@ export const getPlaylists = googleUser => {
 };
 
 export const addCollaborator = (googleUser, playlistID, collaboratorID) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/add-collaborator`,
+      url: `/add-collaborator`,
       data: {
         token: googleUser.getAuthResponse().id_token,
         collaborator_id: collaboratorID
@@ -122,13 +110,10 @@ export const addCollaborator = (googleUser, playlistID, collaboratorID) => {
 };
 
 export const removeCollaborator = (googleUser, playlistID, collaboratorID) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/remove-collaborator`,
+      url: `/remove-collaborator`,
       data: {
         token: googleUser.getAuthResponse().id_token,
         collaborator_id: collaboratorID
@@ -140,13 +125,10 @@ export const removeCollaborator = (googleUser, playlistID, collaboratorID) => {
 };
 
 export const startCollaboration = (googleUser, playlistID) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/start-collaboration`,
+      url: `/start-collaboration`,
       data: {
         token: googleUser.getAuthResponse().id_token
       }
@@ -157,13 +139,10 @@ export const startCollaboration = (googleUser, playlistID) => {
 };
 
 export const endCollaboration = (googleUser, playlistID, collaboratorID) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/end-collaboration`,
+      url: `/end-collaboration`,
       data: {
         token: googleUser.getAuthResponse().id_token,
         collaborator_id: collaboratorID
@@ -177,13 +156,10 @@ export const endCollaboration = (googleUser, playlistID, collaboratorID) => {
 /******** Editing Interface */
 
 export const setRifferName = (newName, googleUser) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'post',
-      url: `${baseURL}/set-name`,
+      url: `/set-name`,
       data: { token: googleUser.getAuthResponse().id_token, newName }
     }).then(res => {
       dispatch({ type: RECEIVE_NAME_UPDATE, payload: res.data });
@@ -192,11 +168,8 @@ export const setRifferName = (newName, googleUser) => {
 };
 
 export const setVideoID = (videoID, googleUser) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
-    //console.log( "get url", `${baseURL}/get-riffs` );
+    //console.log( "get url", `/get-riffs` );
     dispatch({
       type: SET_VIDEO_ID,
       payload: videoID
@@ -204,7 +177,7 @@ export const setVideoID = (videoID, googleUser) => {
     if (googleUser && googleUser.getAuthResponse) {
       axios({
         method: 'post',
-        url: `${baseURL}/get-riffs`,
+        url: `/get-riffs`,
         data: { token: googleUser.getAuthResponse().id_token, videoID }
       }).then(res => {
         dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
@@ -215,13 +188,10 @@ export const setVideoID = (videoID, googleUser) => {
 
 //Delete Riff
 export const deleteRiff = (riffID, googleUser) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     axios({
       method: 'delete',
-      url: `${baseURL}/riff-remove/${riffID}`,
+      url: `/riff-remove/${riffID}`,
       data: {
         token: googleUser.getAuthResponse().id_token
       }
@@ -233,18 +203,15 @@ export const deleteRiff = (riffID, googleUser) => {
 
 // perhaps this action should somehow call the above action (setVideoID)?
 export const setGoogleUser = (googleUser, videoID) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
-    //console.log( "get url", `${baseURL}/get-riffs` );
+    //console.log( "get url", `/get-riffs` );
     dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser
     });
     axios({
       method: 'post',
-      url: `${baseURL}/get-riffs`,
+      url: `/get-riffs`,
       data: { token: googleUser.getAuthResponse().id_token, videoID }
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
@@ -253,17 +220,14 @@ export const setGoogleUser = (googleUser, videoID) => {
 };
 
 export const getViewRiffs = videoID => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
-    //console.log( "get url", `${baseURL}/get-riffs` );
+    //console.log( "get url", `/get-riffs` );
     /*dispatch({
       type: null
     });*/
     axios({
       method: 'post',
-      url: `${baseURL}/get-view-riffs`,
+      url: `/get-view-riffs`,
       data: { videoID }
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
@@ -308,9 +272,6 @@ export const cancelEdit = () => ({
 });
 
 export const saveRiff = (token, payload, riff) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   return dispatch => {
     dispatch({ type: SAVE_RIFF, payload });
 
@@ -331,7 +292,7 @@ export const saveRiff = (token, payload, riff) => {
 
     axios({
       method: 'post',
-      url: `${baseURL}/save-riff`,
+      url: `/save-riff`,
       data: fd,
       headers: { 'Content-Type': 'multipart/form-data' }
     })
@@ -362,12 +323,9 @@ export const loadRiff = (id, guser) => {
 };
 
 const rawLoadAxios = (dispatch, id, guser) => {
-  var baseURL = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : '';
   axios({
     method: 'post',
-    url: `${baseURL}/load-riff`,
+    url: `/load-riff`,
     responseType: 'arraybuffer',
     data: { token: guser ? guser.getAuthResponse().id_token : null, id } // modified to make guser optional
   }).then(res => {
