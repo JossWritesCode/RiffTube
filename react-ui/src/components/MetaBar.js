@@ -4,7 +4,7 @@ function MetaBar() {
   return (
     <div>
       {props.riffsMeta
-        ? props.riffs
+        ? props.riffsMeta
             .sort((e1, e2) => e1.time - e2.time)
             .map((riff, index) => (
                 <div style={{  }}>

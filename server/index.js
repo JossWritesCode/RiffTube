@@ -144,7 +144,7 @@ server.post('/get-riffs', (req, res) => {
 
       return Promise.all([
         data_model.getIdAndNameFromEmail(payload.email),
-        data_model.getIdFromVideoId(body.videoID)
+        data_model.getIdAndDurationFromVideoId(body.videoID)
       ]);
     })
     .then(([emailArr, vIDArr]) => {
@@ -153,7 +153,7 @@ server.post('/get-riffs', (req, res) => {
         res.status(200).json({ info: 'no riffs yet', body: [] });
       } else {
         var [{ id: uID, name }] = emailArr;
-        var [{ id: vID }] = vIDArr;
+        var [{ id: vID, duration }] = vIDArr;
 
         console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
@@ -189,7 +189,8 @@ server.post('/get-riffs', (req, res) => {
               res.status(200).json({
                 status: 'ok',
                 body: riffList,
-                name
+                name,
+                duration
               });
             })
             .catch(err => res.status(500).json({ error: err }))
@@ -220,7 +221,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       return Promise.all([
         db('users')
-          .select()
+          .select('id')
           .where('email', payload.email)
           .then(userList => {
             /* TODO: fix this*/
@@ -240,7 +241,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           }),
 
         db('videos')
-          .select()
+          .select('id')
           .where('url', body.video_id)
           .then(vidList => {
             console.log('SR get vidlist', vidList);
@@ -259,7 +260,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                       title: video.title,
                       duration: video.durationSeconds
                     },
-                    ['id']
+                    ['id', 'duration']
                   );
                 })
                 .catch(console.log);
@@ -273,7 +274,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
-    .then(([[{ id: idin }], [{ id: vidid }]]) => {
+    .then(([[{ id: idin }], [{ id: vidid, duration }]]) => {
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
@@ -295,7 +296,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               status: 'ok',
               type: 'add',
               tempId: Number(body.tempId),
-              id: newRiffId
+              id: newRiffId,
+              video_duration: duration
             })
           );
       } else {
@@ -313,10 +315,14 @@ server.post('/get-view-riffs', (req, res) => {
 
   console.log('get view riffs', body.videoID);
 
+  let dur;
+
   data_model
-    .getIdFromVideoId(body.videoID)
-    .then(([{ id: vID }]) => {
+    .getIdAndDurationFromVideoId(body.videoID)
+    .then(([{ id: vID, duration }]) => {
       console.log(vID);
+
+      dur = duration;
 
       console.log('GVR then 1');
 
@@ -339,7 +345,8 @@ server.post('/get-view-riffs', (req, res) => {
 
       res.status(200).json({
         status: 'ok',
-        body: riffList.map(el => ({ ...el, video_id: body.videoID }))
+        body: riffList.map(el => ({ ...el, video_id: body.videoID })),
+        duration: dur
       });
     })
     .catch(err => res.status(500).json({ error: err }));

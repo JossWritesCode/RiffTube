@@ -222,10 +222,6 @@ export const setGoogleUser = (googleUser, videoID) => {
 
 export const getRiffsMeta = videoID => {
   return dispatch => {
-    //console.log( "get url", `/get-riffs` );
-    /*dispatch({
-      type: null
-    });*/
     axios({
       method: 'post',
       url: `/get-view-riffs`,
@@ -238,10 +234,6 @@ export const getRiffsMeta = videoID => {
 
 export const getViewRiffs = videoID => {
   return dispatch => {
-    //console.log( "get url", `/get-riffs` );
-    /*dispatch({
-      type: null
-    });*/
     axios({
       method: 'post',
       url: `/get-view-riffs`,

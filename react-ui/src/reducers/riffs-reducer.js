@@ -79,15 +79,22 @@ const riffsReducer = (state = initialState, action) => {
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
-        all: [
-          ...state.all,
+        all:
+          action.payload.body.map(el => ({
+            ...el,
+            time: el.start_time,
+            payload: el.isText ? el.text : null,
+            type: el.isText ? 'text' : 'audio'
+          }))
+        /*[
+          ...state.all, // !!! this seems like it shouldn't be here (hence the change)
           ...action.payload.body.map(el => ({
             ...el,
             time: el.start_time,
             payload: el.isText ? el.text : null,
             type: el.isText ? 'text' : 'audio'
           }))
-        ]
+        ]*/
       };
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
