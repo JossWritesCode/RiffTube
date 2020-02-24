@@ -28,13 +28,12 @@ server.use(cors());
 
 // enforce HTTPS
 
-if(process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   server.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
-      res.redirect(`https://${req.header('host')}${req.url}`)
-    else
-      next()
-  })
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
 }
 
 server.get('/api-status', (req, res) => {
@@ -246,23 +245,24 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           .then(vidList => {
             console.log('SR get vidlist', vidList);
 
-            if (vidList.length === 0)
-            {
-              return ytapi.getVideoByID(body.video_id)
+            if (vidList.length === 0) {
+              return ytapi
+                .getVideoByID(body.video_id)
                 .then(video => {
-                    console.log(`The video's title is ${video.title}, duration: ${video.durationSeconds}`);
-                    
-                    return db('videos').insert(
-                      {
-                        url: body.video_id,
-                        title: video.title,
-                        duration: video.durationSeconds
-                      },
-                      ['id']
-                    );
+                  console.log(
+                    `The video's title is ${video.title}, duration: ${video.durationSeconds}`
+                  );
+
+                  return db('videos').insert(
+                    {
+                      url: body.video_id,
+                      title: video.title,
+                      duration: video.durationSeconds
+                    },
+                    ['id']
+                  );
                 })
                 .catch(console.log);
-              
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           })

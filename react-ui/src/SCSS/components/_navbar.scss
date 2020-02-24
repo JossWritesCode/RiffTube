@@ -7,6 +7,12 @@
   top: 0;
   left: 0;
 
+  a {
+    &:hover {
+      color: $color-primary !important;
+    }
+  }
+
   @media (min-width: 700px) {
     font-size: 1.6rem;
   }

@@ -1,12 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function NavBar() {
+function NavBar({ color }) {
   return (
     <nav className="navbar">
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/riff">Start Riffing</NavLink>
-      <NavLink to="/about">About</NavLink>
+      <NavLink style={{ color }} to="/">
+        Home
+      </NavLink>
+      <NavLink style={{ color }} to="/riff">
+        Start Riffing
+      </NavLink>
+      <NavLink style={{ color }} to="/about">
+        About
+      </NavLink>
     </nav>
   );
 }
