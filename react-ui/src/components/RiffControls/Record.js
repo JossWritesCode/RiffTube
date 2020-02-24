@@ -47,7 +47,7 @@ class Record extends React.Component {
               this.state.mediaRecorder.start();
             }}
           >
-            record
+            Record
           </button>
         );
       } else {
