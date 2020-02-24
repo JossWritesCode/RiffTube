@@ -124,6 +124,7 @@ const riffsReducer = (state = initialState, action) => {
       ret.all[action.payload].loading = true;
       return ret;
     case RIFF_LOADED: {
+      debugger;
       const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
       let riffs = [...state.all];
       riffs.forEach(el => {

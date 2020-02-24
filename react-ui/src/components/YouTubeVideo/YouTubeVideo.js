@@ -59,6 +59,7 @@ class YouTubeVideo extends React.Component {
     //event.target.playVideo();
   };
 
+  // TODO: account for muted riffs!!!!
   checkForRiffsToLoad = t => {
     this.props.riffs.forEach(riff => {
       if (

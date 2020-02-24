@@ -13,7 +13,7 @@ class Record extends React.Component {
   componentDidMount() {
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ audio: true })
+        .getUserMedia({ audio: true, video: false })
         .then(stream => {
           const mr = new MediaRecorder(stream);
 
@@ -22,6 +22,7 @@ class Record extends React.Component {
           };
 
           mr.onstop = e => {
+            debugger;
             var blob = new Blob(this.chunks, { type: 'audio/webm' }); // was 'audio/webm;codecs=opus'
             this.props.saveTempAudio(blob, this.duration);
           };
