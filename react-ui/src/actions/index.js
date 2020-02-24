@@ -34,6 +34,7 @@ export const SET_VIDEO_ID = 'SET_VIDEO_ID';
 export const RECEIVE_NAME_UPDATE = 'RECEIVE_NAME_UPDATE';
 
 export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
+export const RECEIVE_RIFF_META = 'RECEIVE_RIFF_META';
 
 export const TOGGLE_VIEW_USERID_MUTED = 'TOGGLE_VIEW_USERID_MUTED';
 
@@ -215,6 +216,22 @@ export const setGoogleUser = (googleUser, videoID) => {
       data: { token: googleUser.getAuthResponse().id_token, videoID }
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+    });
+  };
+};
+
+export const getRiffsMeta = videoID => {
+  return dispatch => {
+    //console.log( "get url", `/get-riffs` );
+    /*dispatch({
+      type: null
+    });*/
+    axios({
+      method: 'post',
+      url: `/get-view-riffs`,
+      data: { videoID }
+    }).then(res => {
+      dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     });
   };
 };
