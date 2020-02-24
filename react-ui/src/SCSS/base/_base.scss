@@ -18,4 +18,13 @@ h3 {
 a {
   text-decoration: none;
   color: inherit;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+button {
+  &:hover {
+    cursor: pointer;
+  }
 }
