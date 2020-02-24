@@ -44,7 +44,17 @@ class EditInterface extends React.Component {
             </div>
           </div>
           <h4 className="get-started-instructions">
-            <Login /> <p>to get started</p>
+            <Route
+              exact
+              path="/riff"
+              render={() => {
+                return this.loggedIn() ? null : (
+                  <React.Fragment>
+                    <Login /> <p>to get started</p>
+                  </React.Fragment>
+                );
+              }}
+            />
           </h4>
           <form
             onSubmit={e => {
@@ -61,7 +71,9 @@ class EditInterface extends React.Component {
               defaultValue={this.props.videoID}
               ref={this.videoIDRef}
             />
-            <button type="submit">Change Video</button>
+            <button className="btn" id="change-video-btn" type="submit">
+              Change Video
+            </button>
           </form>
           <YouTubeVideo id={this.props.videoID} />
           <div className="view-share-riff-link">
@@ -77,7 +89,9 @@ class EditInterface extends React.Component {
         <Route
           exact
           path="/riff"
-          render={this.authCheck.bind(this, EditControls, Login)}
+          render={() => {
+            return this.loggedIn() ? <EditControls /> : null;
+          }}
         />
       </React.Fragment>
     );

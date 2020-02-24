@@ -14,15 +14,15 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joscelyn1/RiffTube.git"
+    "url": "git+https://github.com/JossWritesCode/RiffTube.git"
   },
   "keywords": [],
   "author": "Joscelyn and David",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Joscelyn1/RiffTube/issues"
+    "url": "https://github.com/JossWritesCode/RiffTube/issues"
   },
-  "homepage": "https://github.com/Joscelyn1/RiffTube/blob/master/README.md",
+  "homepage": "https://github.com/JossWritesCode/RiffTube/blob/master/README.md",
   "dependencies": {
     "axios": "^0.19.2",
     "bufferutil": "^4.0.1",
@@ -44,5 +44,6 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
     "nodemon": "^2.0.2"
-  }
+  },
+  "proxy": "http://localhost:3300"
 }
