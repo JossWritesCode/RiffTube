@@ -3,10 +3,12 @@ import MovieImage from '../images/undraw_movie_night_93wl.svg';
 
 import MaterialIcon, { colorPalette } from 'material-icons-react';
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar.js';
 
 function LandingPage() {
   return (
     <div className="landing-page">
+      <NavBar color="grey" />
       <section className="top-part">
         <div className="heading">
           <span className="heading-primary-main">RiffTube</span>
