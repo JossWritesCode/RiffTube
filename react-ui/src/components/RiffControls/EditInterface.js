@@ -71,7 +71,9 @@ class EditInterface extends React.Component {
               defaultValue={this.props.videoID}
               ref={this.videoIDRef}
             />
-            <button type="submit">Change Video</button>
+            <button className="btn" id="change-video-btn" type="submit">
+              Change Video
+            </button>
           </form>
           <YouTubeVideo id={this.props.videoID} />
           <div className="view-share-riff-link">
