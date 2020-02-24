@@ -23,11 +23,14 @@ class AllowPlayback extends React.Component {
   setupAudioPlayers = () =>
   {
     this.setState( { allowed: true } );
+    window.audioContexts = [];
     window.audioPlayers = [];
     window.audioPlayerUse = [];
     window.audioPlayersCount = 5;
     for ( let i = 0; i < 5; i++ )
     {
+      window.audioContexts[i] = new (window.AudioContext || window.webkitAudioContext);
+
       window.audioPlayers[i] = new Audio(); // should be identical behavior to: document.createElement('audio');
       window.audioPlayers[i].controls = false;
       window.audioPlayers[i].addEventListener( "ended", function () { this.inUse = false; console.log( "riff finished" ); } )

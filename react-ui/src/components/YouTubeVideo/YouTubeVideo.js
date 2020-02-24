@@ -160,13 +160,39 @@ class YouTubeVideo extends React.Component {
 
               for ( let i = 0; i < window.audioPlayersCount; i++ )
               {
+                let audioContext = window.audioContexts[i];
+                var blob = riff.payload;
+                new Response(blob).arrayBuffer().then(function(arrayBuffer) {
+                  audioContext.decodeAudioData(arrayBuffer, audioData => {
+                    var source = audioContext.createBufferSource();
+                    source.buffer = audioData;
+                    source.connect(audioContext.destination);
+                    source.start()
+                  })
+                });
+
+
+                /*
                 let audio = window.audioPlayers[i];
                 if ( audio.inUse ) continue;
                 audio.inUse = true;
+
+                // TEST:
+                /*var se = document.createElement('source');
+                audio.appendChild(se);
+                se.src = audioURL;
+                //se.type = 'audio/webm';
+                audio.load();
+                audio.play();
+                //
+
+                // ORIG:
                 audio.src = audioURL;
                 audio.play();
+                */
+
                 console.log( "play riff! at ", i );
-                this.curRiff[index] = audio;
+                this.curRiff[index] = audioContext; //audio;
                 break;
               }
             }
