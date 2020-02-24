@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import AuthorSelector from './AuthorSelector';
 import { setVideoID, getViewRiffs } from '../../actions';
+import NavBar from '../NavBar.js';
 
 class ViewInterface extends React.Component {
   componentDidMount = () => {
@@ -14,6 +15,7 @@ class ViewInterface extends React.Component {
   render = () => {
     return (
       <div>
+        <NavBar color="grey" />
         <h1>View {this.props.match.params.videoID}</h1>
         {/*When to play riffs is all in this component below */}
         <YouTubeVideo id={this.props.match.params.videoID} />

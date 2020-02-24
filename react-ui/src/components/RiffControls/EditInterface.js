@@ -37,6 +37,7 @@ class EditInterface extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <NavBar color="grey" />
         <div className="youtube-section">
           <div className="top-section">
             <div className="title-and-url">

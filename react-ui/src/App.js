@@ -10,7 +10,6 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <NavBar style={{ color: 'yellow' }} />
         <div className="App">
           <div className="main-section">
             <Route exact path="/" component={LandingPage} />
