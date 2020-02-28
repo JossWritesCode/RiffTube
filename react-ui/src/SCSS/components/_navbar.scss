@@ -8,6 +8,7 @@
   left: 0;
 
   a {
+    margin-left: $small;
     &:hover {
       color: $color-primary !important;
     }
