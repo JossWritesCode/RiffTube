@@ -160,6 +160,7 @@ class YouTubeVideo extends React.Component {
 
               for ( let i = 0; i < window.audioPlayersCount; i++ )
               {
+                /*
                 let audioContext = window.audioContexts[i];
                 var blob = riff.payload;
                 new Response(blob).arrayBuffer().then(function(arrayBuffer) {
@@ -170,9 +171,8 @@ class YouTubeVideo extends React.Component {
                     source.start()
                   })
                 });
-
-
-                /*
+                */
+                
                 let audio = window.audioPlayers[i];
                 if ( audio.inUse ) continue;
                 audio.inUse = true;
@@ -184,15 +184,14 @@ class YouTubeVideo extends React.Component {
                 //se.type = 'audio/webm';
                 audio.load();
                 audio.play();
-                //
+                */
 
                 // ORIG:
                 audio.src = audioURL;
                 audio.play();
-                */
 
                 console.log( "play riff! at ", i );
-                this.curRiff[index] = audioContext; //audio;
+                this.curRiff[index] = audio; // audioContext;
                 break;
               }
             }

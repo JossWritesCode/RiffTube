@@ -37,18 +37,20 @@ class EditRiff extends React.Component {
 
                     // https://stackoverflow.com/questions/43620594/audio-blob-not-working-in-ios-safari
                     // answer by scottmizo
-                    var blob = this.props.tempRiff.payload;
-                    var audioContext = new (window.AudioContext || window.webkitAudioContext);
-                    new Response(blob).arrayBuffer().then(function(arrayBuffer) {
-                      audioContext.decodeAudioData(arrayBuffer, audioData => {
-                        var source = audioContext.createBufferSource();
+                    /*
+                    ar blob = this.props.tempRiff.payload;
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    new Response(blob).arrayBuffer().then( arrayBuffer => {
+                      this.audioContext.decodeAudioData(arrayBuffer, audioData => {
+                        var source = this.audioContext.createBufferSource();
                         source.buffer = audioData;
-                        source.connect(audioContext.destination);
+                        source.connect(this.audioContext.destination);
                         source.start()
                       })
                     });
+                    */
 
-                    /*
+                    
                     var audio = document.createElement('audio');
                     var source = document.createElement('source');
                     audio.appendChild(source);
@@ -63,7 +65,7 @@ class EditRiff extends React.Component {
 
                     //audio.src = audioURL;
                     audio.play();
-                    */
+                    
                   }}
                 >
                   Play
