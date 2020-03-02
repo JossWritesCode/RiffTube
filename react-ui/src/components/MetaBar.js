@@ -1,10 +1,10 @@
 import React from 'react';
 
-function MetaBar() {
+function MetaBar({riffsMeta, riffsPlaying}) {
   return (
     <div>
-      {props.riffsMeta
-        ? props.riffs
+      {riffsMeta
+        ? riffsMeta
             .sort((e1, e2) => e1.time - e2.time)
             .map((riff, index) => (
                 <div style={{  }}>
@@ -12,7 +12,7 @@ function MetaBar() {
                 key={riff.id}
                 {...riff}
                 index={index}
-                selected={props.riffsPlaying[index] === true}
+                selected={riffsPlaying[index] === true}
               />
             ))
         : null}
