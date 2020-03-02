@@ -1,10 +1,10 @@
 import { RECEIVE_RIFF_LIST } from '../actions/index.js';
 
-const videoDurationReducer = (state = undefined, action) => {
+const videoDurationReducer = (state = null, action) => {
   switch (action.type) {
     case RECEIVE_RIFF_LIST:
-    case RECEIVE_RIFF_META:
-      return action.duration;
+      console.log( "video duration reducer", action);
+      return action.payload.duration;
     default:
       return state;
   }

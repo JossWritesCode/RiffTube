@@ -1,23 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function MetaBar() {
+function MetaBar(props) {
   return (
-    <div>
-      {props.riffsMeta
+    <div className="container-riff-meta">
+      {props.riffsMeta && props.duration
         ? props.riffsMeta
-            .sort((e1, e2) => e1.time - e2.time)
             .map((riff, index) => (
-                <div style={{  }}>
-              <RiffDetail
-                key={riff.id}
-                {...riff}
-                index={index}
-                selected={props.riffsPlaying[index] === true}
-              />
+              <div className="riff-meta" style={{ "left": (riff.time / props.duration) * 100 + "%", 
+                "width": (riff.duration / props.duration) * 100 + "%"}}></div>
             ))
-        : null}
+                : null}
     </div>
   );
 }
 
-export default MetaBar;
+
+
+const mapStateToProps = state => ({
+  duration: state.duration,
+  riffsMeta: state.riffsMeta
+});
+
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetaBar);

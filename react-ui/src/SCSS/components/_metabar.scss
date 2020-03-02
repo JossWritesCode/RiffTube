@@ -1,0 +1,13 @@
+
+.container-riff-meta {
+    display: flex;
+    height: $small;
+    background-color: $color-dark-gray;
+    position: relative;
+
+    .riff-meta {
+        background-color: $color-primary;
+        height: $small;
+        position: absolute;
+    }
+} 
