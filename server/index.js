@@ -150,7 +150,7 @@ server.post('/get-riffs', (req, res) => {
     .then(([emailArr, vIDArr]) => {
       console.log('GR then again', emailArr, vIDArr);
       if (emailArr.length === 0 || vIDArr.length === 0) {
-        res.status(200).json({ info: 'no riffs yet', body: [] });
+        res.status(200).json({ info: 'no riffs yet', body: [], duration: null });
       } else {
         var [{ id: uID, name }] = emailArr;
         var [{ id: vID, duration }] = vIDArr;
