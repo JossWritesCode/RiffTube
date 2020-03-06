@@ -132,7 +132,7 @@ const riffsReducer = (state = initialState, action) => {
       return ret;
     case RIFF_LOADED: {
       debugger;
-      const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
+      const b = new Blob(new Array(action.payload), { type: 'audio/mp3' });
       let riffs = [...state.all];
       riffs.forEach(el => {
         if (el.id === action.id) {

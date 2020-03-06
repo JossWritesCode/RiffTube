@@ -161,24 +161,34 @@ class YouTubeVideo extends React.Component {
               for ( let i = 0; i < window.audioPlayersCount; i++ )
               {
                 /*
+                if ( window.audioContexts[i].inUse ) continue;
                 let audioContext = window.audioContexts[i];
+                window.audioContexts[i].inUse = true;
                 var blob = riff.payload;
                 new Response(blob).arrayBuffer().then(function(arrayBuffer) {
-                  audioContext.decodeAudioData(arrayBuffer, audioData => {
-                    var source = audioContext.createBufferSource();
+                  window.audioContexts[0].decodeAudioData(arrayBuffer, audioData => {
+                    debugger;
+                    var source = window.audioContexts[i].createBufferSource();
                     source.buffer = audioData;
-                    source.connect(audioContext.destination);
+                    source.connect(window.audioContexts[i].destination);
                     source.start()
                   })
                 });
                 */
+                
                 
                 let audio = window.audioPlayers[i];
                 if ( audio.inUse ) continue;
                 audio.inUse = true;
 
                 // TEST:
-                /*var se = document.createElement('source');
+                audio.srcEl.src = audioURL;
+                audio.load();
+                audio.play();
+                
+
+                /*
+                var se = document.createElement('source');
                 audio.appendChild(se);
                 se.src = audioURL;
                 //se.type = 'audio/webm';
@@ -187,11 +197,13 @@ class YouTubeVideo extends React.Component {
                 */
 
                 // ORIG:
+                /*
                 audio.src = audioURL;
                 audio.play();
+                */
 
                 console.log( "play riff! at ", i );
-                this.curRiff[index] = audio; // audioContext;
+                this.curRiff[index] = audio; // audioContext; 
                 break;
               }
             }
