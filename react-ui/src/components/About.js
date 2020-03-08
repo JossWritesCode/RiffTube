@@ -45,12 +45,6 @@ function About() {
               <br />
               <br />
             </p>
-            <p>Q: Whither iOS support?</p>
-            <p>
-              A: Support for iOS (iPhones and iPads) is in development.
-              <br />
-              <br />
-            </p>
             <p>Q: How can I contact you with questions or issues?</p>
             <p>
               A: The best way to report technical issues is via the RiffTube
