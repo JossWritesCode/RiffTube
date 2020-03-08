@@ -16,7 +16,7 @@ class ViewInterface extends React.Component {
     return (
       <div>
         <NavBar color="grey" />
-        <h1>View {this.props.match.params.videoID}</h1>
+        <h1 style={{ marginTop: "2em" }}>View {this.props.match.params.videoID}</h1>
         {/*When to play riffs is all in this component below */}
         <YouTubeVideo id={this.props.match.params.videoID} />
         <AuthorSelector />
