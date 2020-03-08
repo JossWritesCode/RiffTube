@@ -1,7 +1,5 @@
 import React from 'react';
-import MovieImage from '../images/undraw_movie_night_93wl.svg';
-import MaterialIcon from 'material-icons-react';
-import { NavLink } from 'react-router-dom';
+
 import HorrorMovie from '../images/undraw_horror_movie_3988.svg';
 import NavBar from './NavBar.js';
 
@@ -76,7 +74,11 @@ function About() {
             </p>
           </div>
           <div>
-            <img className="horror-movie-image" src={HorrorMovie} />
+            <img
+              alt="people watching a movie"
+              className="horror-movie-image"
+              src={HorrorMovie}
+            />
           </div>
         </div>
       </section>

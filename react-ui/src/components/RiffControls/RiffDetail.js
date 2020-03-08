@@ -16,11 +16,11 @@ function RiffDetail(props) {
         <ul className="riff-detail-list">
           {props.type === 'audio' ? (
             <div className="audio-icon">
-              <img src={Audio} />
+              <img alt="audio" src={Audio} />
             </div>
           ) : (
             <div className="text-icon">
-              <img src={Text} />
+              <img alt="text" src={Text} />
             </div>
           )}
           <li>
@@ -40,13 +40,13 @@ function RiffDetail(props) {
               )
             }
           >
-            <img src={Edit} />
+            <img alt="edit button" src={Edit} />
           </button>
           <button
             className="riff-button-delete"
             onClick={() => props.deleteRiff(props.id, props.googleUser)}
           >
-            <img src={Delete} />
+            <img alt="delete button" src={Delete} />
           </button>
         </div>
       </div>

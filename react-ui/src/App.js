@@ -4,7 +4,6 @@ import ViewInterface from './components/ViewInterface/ViewInterface';
 import LandingPage from './components/LandingPage.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import About from './components/About';
-import NavBar from './components/NavBar.js';
 
 class App extends React.Component {
   render() {
