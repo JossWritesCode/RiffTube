@@ -33,6 +33,7 @@
     "helmet": "^3.21.2",
     "knex": "^0.20.8",
     "multer": "^1.4.2",
+    "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "pg": "^7.18.1",
     "simple-youtube-api": "^5.2.1",
@@ -44,6 +45,5 @@
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
     "nodemon": "^2.0.2"
-  },
-  "proxy": "http://localhost:3300"
+  }
 }

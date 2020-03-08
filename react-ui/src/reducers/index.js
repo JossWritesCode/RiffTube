@@ -1,21 +1,23 @@
 import { combineReducers } from 'redux';
 
 import riffsReducer from './riffs-reducer';
-// import riffsMeta from './riffs-meta';
+import riffsMetaReducer from './riffsMeta-reducer';
 import modeReducer from './mode-reducer';
 import googleUserReducer from './googleUser-reducer';
 import riffsPlayingReducer from './riffsPlaying-reducer';
 import viewMutedUserIDsReducer from './viewMutedUserIDs-reducer';
 import nameReducer from './name-reducer';
 import videoIDReducer from './videoID-reducer';
+import videoDurationReducer from './videoDuration-reducer';
 
 export default combineReducers({
   riffs: riffsReducer,
-  // riffsMeta: riffsMeta,
+  riffsMeta: riffsMetaReducer,
   mode: modeReducer,
   googleUser: googleUserReducer,
   riffsPlaying: riffsPlayingReducer,
   viewMutedUserIDs: viewMutedUserIDsReducer,
   name: nameReducer,
-  videoID: videoIDReducer
+  videoID: videoIDReducer,
+  duration: videoDurationReducer
 });

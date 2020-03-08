@@ -59,6 +59,7 @@ class YouTubeVideo extends React.Component {
     //event.target.playVideo();
   };
 
+  // TODO: account for muted riffs!!!!
   checkForRiffsToLoad = t => {
     this.props.riffs.forEach(riff => {
       if (
@@ -99,7 +100,10 @@ class YouTubeVideo extends React.Component {
         //console.log( "interval", this.curRiff, this.props.riffsPlaying );
 
         let t = window.rifftubePlayer.getCurrentTime();
-
+        if (window.metaPlayHead) {
+          window.metaPlayHead.current.style.left =
+            (t / this.props.duration) * 100 + '%';
+        }
         this.checkForRiffsToLoad(t);
 
         // first stop any zombie riffs
@@ -108,8 +112,7 @@ class YouTubeVideo extends React.Component {
             this.curRiff[index] &&
             (t < riff.time || t > riff.time + riff.duration)
           ) {
-            if ( this.curRiff[index].inUse ) 
-              this.curRiff[index].inUse = false;
+            if (this.curRiff[index].inUse) this.curRiff[index].inUse = false;
 
             // by setting this to false, text riffs will be hidden
             this.props.setRiffPlaying(index, false);
@@ -118,38 +121,42 @@ class YouTubeVideo extends React.Component {
             if (riff.type === 'audio')
               // make sure all audio clips have stopped
               this.audLock--;
-              if ( !this.audLock )
-              {
-                window.rifftubePlayer.setVolume(this.vol ? this.vol : 100); // hopefully unnecessary volume failsafe
-                delete this.vol;
-              }
+            if (!this.audLock) {
+              window.rifftubePlayer.setVolume(this.vol ? this.vol : 100); // hopefully unnecessary volume failsafe
+              delete this.vol;
+            }
           }
         });
 
-        var riffMuted = ind => this.props.mutedIDs[ this.props.riffs[ind].user_id ];
+        var riffMuted = ind =>
+          this.props.mutedIDs[this.props.riffs[ind].user_id];
 
         // next start any that should be playing
         this.props.riffs.forEach((riff, index) => {
           // the riff will start playing within half a second, or will be skipped
-          if ( !riffMuted(index) && !this.curRiff[index] && t > riff.time && t < riff.time + 0.5 ) {
-
+          if (
+            !riffMuted(index) &&
+            !this.curRiff[index] &&
+            t > riff.time &&
+            t < riff.time + 0.5
+          ) {
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true; // used for text only; overwritten for audio
 
             if (riff.type === 'audio') {
-              if ( !this.vol )
-              {
+              if (!this.vol) {
                 this.vol = window.rifftubePlayer.getVolume();
                 window.rifftubePlayer.setVolume(this.vol * 0.5);
               }
 
               // keeps track of how many audio tracks need to end before volume should be restored
-              if ( !this.audLock )
-                this.audLock = 1;
-              else
-                this.audLock++;
+              if (!this.audLock) this.audLock = 1;
+              else this.audLock++;
 
-              if (!riff.payload) { console.log( "empty payload error" ); return; } // DEBUG - SHOULD BE REMOVED
+              if (!riff.payload) {
+                console.log('empty payload error');
+                return;
+              } // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(riff.payload);
               //debugger;
 
@@ -157,15 +164,49 @@ class YouTubeVideo extends React.Component {
 
               // FIX THIS:
 
-              for ( let i = 0; i < window.audioPlayersCount; i++ )
-              {
+              for (let i = 0; i < window.audioPlayersCount; i++) {
+                /*
+                if ( window.audioContexts[i].inUse ) continue;
+                let audioContext = window.audioContexts[i];
+                window.audioContexts[i].inUse = true;
+                var blob = riff.payload;
+                new Response(blob).arrayBuffer().then(function(arrayBuffer) {
+                  window.audioContexts[0].decodeAudioData(arrayBuffer, audioData => {
+                    debugger;
+                    var source = window.audioContexts[i].createBufferSource();
+                    source.buffer = audioData;
+                    source.connect(window.audioContexts[i].destination);
+                    source.start()
+                  })
+                });
+                */
+
                 let audio = window.audioPlayers[i];
-                if ( audio.inUse ) continue;
+                if (audio.inUse) continue;
                 audio.inUse = true;
+
+                // TEST:
+                audio.srcEl.src = audioURL;
+                audio.load();
+                audio.play();
+
+                /*
+                var se = document.createElement('source');
+                audio.appendChild(se);
+                se.src = audioURL;
+                //se.type = 'audio/webm';
+                audio.load();
+                audio.play();
+                */
+
+                // ORIG:
+                /*
                 audio.src = audioURL;
                 audio.play();
-                console.log( "play riff! at ", i );
-                this.curRiff[index] = audio;
+                */
+
+                console.log('play riff! at ', i);
+                this.curRiff[index] = audio; // audioContext;
                 break;
               }
             }
@@ -221,9 +262,16 @@ class YouTubeVideo extends React.Component {
           <div className="rifftube-overlay">
             <div className="rifftube-riffs-container">
               {Object.keys(this.props.riffsPlaying)
-                .filter(i => this.props.riffsPlaying[i] && this.props.riffs[i].type === 'text')
+                .filter(
+                  i =>
+                    this.props.riffsPlaying[i] &&
+                    this.props.riffs[i].type === 'text'
+                )
                 .map(key => (
-                  <div key={this.props.riffs[key].id} className="rifftube-textriff">
+                  <div
+                    key={this.props.riffs[key].id}
+                    className="rifftube-textriff"
+                  >
                     {this.props.riffs[key].payload}
                   </div>
                 ))}
@@ -241,7 +289,8 @@ const mapStateToProps = state => ({
   riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying,
   googleUser: state.googleUser,
-  mutedIDs: state.viewMutedUserIDs
+  mutedIDs: state.viewMutedUserIDs,
+  duration: state.duration
 });
 
 const mapDispatchToProps = {

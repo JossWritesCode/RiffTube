@@ -1,0 +1,19 @@
+.container-riff-meta {
+  display: flex;
+  height: $small;
+  background-color: $color-dark-gray;
+  position: relative;
+
+  .riff-meta {
+    background-color: $color-primary;
+    height: $small;
+    position: absolute;
+  }
+}
+
+#meta-play-head {
+  height: $small;
+  background-color: yellow;
+  width: 1px;
+  position: absolute;
+}

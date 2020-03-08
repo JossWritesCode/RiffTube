@@ -5,7 +5,8 @@ class Record extends React.Component {
     super(props);
 
     this.state = {
-      mediaRecorder: null,
+      recorder: null,
+      gumStream: null,
       recordingState: false
     };
   }
@@ -13,38 +14,65 @@ class Record extends React.Component {
   componentDidMount() {
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ audio: true })
+        .getUserMedia({ audio: true, video: false })
         .then(stream => {
-          const mr = new MediaRecorder(stream);
-
-          mr.ondataavailable = e => {
-            this.chunks.push(e.data);
-          };
-
-          mr.onstop = e => {
-            var blob = new Blob(this.chunks, { type: 'audio/webm' }); // was 'audio/webm;codecs=opus'
-            this.props.saveTempAudio(blob, this.duration);
-          };
-
-          this.setState({ mediaRecorder: mr });
-        })
-        .catch(err => console.log('Error', err));
+          this.setState( { "gumStream": stream } );
+        }).catch(function(err) { //enable the record button if getUSerMedia() fails 
+          console.log( "oops, can't get stream", err );
+        });
     }
   }
 
   render() {
     var ret; // var for the value to be returned
 
-    if (navigator.mediaDevices && this.state.mediaRecorder) {
+    if (navigator.mediaDevices) {
       if (!this.state.recordingState) {
         ret = (
           <button
             id="recordBtn"
             onClick={() => {
               this.setState({ recordingState: true });
-              this.chunks = [];
               this.startTime = Date.now();
-              this.state.mediaRecorder.start();
+              //this.state.mediaRecorder.start();
+
+              var AudioContext = window.AudioContext          // Default
+                  || window.webkitAudioContext;  // Safari and old versions of Chrome
+              var audioContext = new AudioContext();
+              var input = audioContext.createMediaStreamSource(this.state.gumStream);
+
+              var recorder = new window.WebAudioRecorder(input, {
+                workerDir: "lib/",
+                encoding: 'mp3',
+                onEncoderLoading: (recorder, encoding) => {
+                    // show "loading encoder..." display 
+                    console.log("Loading " + encoding + " encoder...");
+                },
+                onEncoderLoaded: (recorder, encoding) => {
+                    // hide "loading encoder..." display
+                    console.log(encoding + " encoder loaded");
+                }
+              });
+
+              //this.setState( recorder );
+              this.recorder = recorder;
+
+              recorder.onComplete = (recorder, blob) => {
+                console.log("Encoding complete");
+                //createDownloadLink(blob, recorder.encoding);
+                this.props.saveTempAudio(blob, this.duration);
+              };
+              recorder.setOptions({
+                  timeLimit: 120,
+                  encodeAfterRecord: true,
+                  mp3: {
+                      bitRate: 160
+                  }
+              });
+
+              //start the recording process 
+              console.log("Recording started");
+              recorder.startRecording();
             }}
           >
             Record
@@ -57,18 +85,32 @@ class Record extends React.Component {
             onClick={() => {
               this.setState({ recordingState: false });
               this.duration = (Date.now() - this.startTime) / 1000;
-              this.state.mediaRecorder.stop();
+              //this.state.mediaRecorder.stop();
+
+              this.state.gumStream.getAudioTracks()[0].stop();
+              this.recorder.finishRecording();
+
+              // create new stream
+              navigator.mediaDevices
+                .getUserMedia({ audio: true, video: false })
+                .then(stream => {
+                  this.setState( { "gumStream": stream } );
+                }).catch(function(err) { //enable the record button if getUSerMedia() fails 
+                  console.log( "oops, can't get stream", err );
+                });
             }}
           >
             stop
           </button>
         );
       }
-    } else if (navigator.mediaDevices && !this.state.mediaRecorder)
-      ret = <span>mediaRecorder failed to initialize</span>;
-    else ret = <span>navigator.mediaDevices not supported. sorry.</span>;
+    } else ret = <span>navigator.mediaDevices not supported. sorry.</span>;
 
-    return ret;
+    return (
+      <React.Fragment>
+        {ret}
+      </React.Fragment>
+    );
   }
 }
 

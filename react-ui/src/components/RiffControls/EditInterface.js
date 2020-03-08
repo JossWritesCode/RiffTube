@@ -6,6 +6,7 @@ import Login from '../Login/Login';
 import EditControls from './EditControls';
 import { setVideoID } from '../../actions';
 import { NavLink } from 'react-router-dom';
+import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 
 class EditInterface extends React.Component {
@@ -77,6 +78,7 @@ class EditInterface extends React.Component {
             </button>
           </form>
           <YouTubeVideo id={this.props.videoID} />
+          <MetaBar />
           <div className="view-share-riff-link">
             <a
               href={'/view/' + this.props.videoID}

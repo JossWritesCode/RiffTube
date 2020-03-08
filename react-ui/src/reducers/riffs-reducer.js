@@ -79,15 +79,22 @@ const riffsReducer = (state = initialState, action) => {
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
-        all: [
-          ...state.all,
+        all:
+          action.payload.body.map(el => ({
+            ...el,
+            time: el.start_time,
+            payload: el.isText ? el.text : null,
+            type: el.isText ? 'text' : 'audio'
+          }))
+        /*[
+          ...state.all, // !!! this seems like it shouldn't be here (hence the change)
           ...action.payload.body.map(el => ({
             ...el,
             time: el.start_time,
             payload: el.isText ? el.text : null,
             type: el.isText ? 'text' : 'audio'
           }))
-        ]
+        ]*/
       };
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
@@ -124,7 +131,8 @@ const riffsReducer = (state = initialState, action) => {
       ret.all[action.payload].loading = true;
       return ret;
     case RIFF_LOADED: {
-      const b = new Blob(new Array(action.payload), { type: 'audio/webm' });
+      debugger;
+      const b = new Blob(new Array(action.payload), { type: 'audio/mp3' });
       let riffs = [...state.all];
       riffs.forEach(el => {
         if (el.id === action.id) {

@@ -21,13 +21,14 @@
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "web-audio-recorder-js": "0.0.2"
   },
   "prettier": {
     "singleQuote": true
   },
   "scripts": {
-    "start": "PORT=3300 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,5 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:3300"
 }

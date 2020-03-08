@@ -32,14 +32,41 @@ class EditRiff extends React.Component {
               <Record saveTempAudio={this.props.saveTempAudio} />
               {this.props.tempRiff.payload ? (
                 <button
-                  onClick={() => {
+                  onClick={async () => {
+                    debugger;
+
+                    // https://stackoverflow.com/questions/43620594/audio-blob-not-working-in-ios-safari
+                    // answer by scottmizo
+                    
+                    /*
+                    var blob = this.props.tempRiff.payload;
+                    var audioContext = new (window.webkitAudioContext || window.AudioContext)();
+                    var arrayBuffer = await (new Response(blob)).arrayBuffer();
+                    audioContext.decodeAudioData(arrayBuffer, audioData => {
+                      var source = audioContext.createBufferSource();
+                      source.buffer = audioData;
+                      source.connect(audioContext.destination);
+                      source.start()
+                    });
+                    */
+                    
+
+                    
                     var audio = document.createElement('audio');
+                    var source = document.createElement('source');
+                    audio.appendChild(source);
+
                     audio.controls = false;
                     var audioURL = URL.createObjectURL(
                       this.props.tempRiff.payload
                     );
-                    audio.src = audioURL;
+                    
+                    source.src = audioURL;
+                    audio.load();
+
+                    //audio.src = audioURL;
                     audio.play();
+                    
                   }}
                 >
                   Play

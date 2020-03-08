@@ -183,6 +183,13 @@ export const setVideoID = (videoID, googleUser) => {
       }).then(res => {
         dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
       });
+      axios({
+        method: 'post',
+        url: `/get-view-riffs`,
+        data: { videoID }
+      }).then(res => {
+        dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
+      });
     }
   };
 };
@@ -217,15 +224,6 @@ export const setGoogleUser = (googleUser, videoID) => {
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
-  };
-};
-
-export const getRiffsMeta = videoID => {
-  return dispatch => {
-    //console.log( "get url", `/get-riffs` );
-    /*dispatch({
-      type: null
-    });*/
     axios({
       method: 'post',
       url: `/get-view-riffs`,
@@ -238,10 +236,6 @@ export const getRiffsMeta = videoID => {
 
 export const getViewRiffs = videoID => {
   return dispatch => {
-    //console.log( "get url", `/get-riffs` );
-    /*dispatch({
-      type: null
-    });*/
     axios({
       method: 'post',
       url: `/get-view-riffs`,
