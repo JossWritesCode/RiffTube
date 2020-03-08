@@ -5,7 +5,6 @@ import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
 import { setVideoID } from '../../actions';
-import { NavLink } from 'react-router-dom';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 

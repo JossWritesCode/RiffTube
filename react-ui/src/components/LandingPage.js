@@ -1,7 +1,7 @@
 import React from 'react';
 import MovieImage from '../images/undraw_movie_night_93wl.svg';
 
-import MaterialIcon, { colorPalette } from 'material-icons-react';
+import MaterialIcon from 'material-icons-react';
 import { Link } from 'react-router-dom';
 import NavBar from './NavBar.js';
 
@@ -19,7 +19,7 @@ function LandingPage() {
             Get Started &#8594;
           </Link>
         </div>
-        <img className="movie-image" src={MovieImage}></img>
+        <img alt="movie theater" className="movie-image" src={MovieImage}></img>
       </section>
       <section className="middle-part">
         <div className="middle-text">
