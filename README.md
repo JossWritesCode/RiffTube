@@ -7,7 +7,7 @@ RiffTube allows you to add your own riffs to any video on YouTube.
 
 ## Getting Started
 
-Site deployed here:[https://rifftube.herokuapp.com/](https://rifftube.herokuapp.com/)
+Site deployed here: [https://rifftube.herokuapp.com/](https://rifftube.herokuapp.com/)
 
 
 ## Built With
