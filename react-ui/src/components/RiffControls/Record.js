@@ -42,7 +42,7 @@ class Record extends React.Component {
               var input = audioContext.createMediaStreamSource(this.state.gumStream);
 
               var recorder = new window.WebAudioRecorder(input, {
-                workerDir: "lib/",
+                workerDir: "/lib/",
                 encoding: 'mp3',
                 onEncoderLoading: (recorder, encoding) => {
                     // show "loading encoder..." display 
