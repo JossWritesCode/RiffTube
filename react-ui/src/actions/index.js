@@ -37,6 +37,7 @@ export const RECEIVE_RIFF_LIST = 'RECEIVE_RIFF_LIST';
 export const RECEIVE_RIFF_META = 'RECEIVE_RIFF_META';
 
 export const TOGGLE_VIEW_USERID_MUTED = 'TOGGLE_VIEW_USERID_MUTED';
+export const SET_VIEW_USERID_MUTED = 'SET_VIEW_USERID_MUTED';
 
 export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
 export const CREATE_PLAYLIST_SUCCESS = 'START_COLLABORATION_SUCCESS';
@@ -47,6 +48,12 @@ export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 export const toggleViewUserIdMuted = uID => ({
   type: TOGGLE_VIEW_USERID_MUTED,
   id: uID
+});
+
+export const setViewUserIdMuted = (uID, val) => ({
+  type: SET_VIEW_USERID_MUTED,
+  id: uID,
+  val
 });
 
 /****** Collaboration */

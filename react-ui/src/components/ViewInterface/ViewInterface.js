@@ -6,31 +6,45 @@ import { setVideoID, getViewRiffs } from '../../actions';
 import NavBar from '../NavBar.js';
 
 class ViewInterface extends React.Component {
-  componentDidMount = () => {
-    this.props.setVideoID(this.props.match.params.videoID);
+    constructor(props) {
+        super(props);
+        this.state = { riffs: this.props.riffs };
+      }
 
-    this.props.getViewRiffs(this.props.match.params.videoID);
-  };
+    componentDidMount = () =>
+    {
+        this.props.setVideoID( this.props.match.params.videoID );
 
-  render = () => {
-    return (
-      <div>
-        <NavBar color="grey" />
-        <h1 style={{ marginTop: "2em" }}>View {this.props.match.params.videoID}</h1>
-        {/*When to play riffs is all in this component below */}
-        <YouTubeVideo id={this.props.match.params.videoID} />
-        <AuthorSelector />
-      </div>
-    );
-  };
+        this.props.getViewRiffs( this.props.match.params.videoID );
+    };
+
+    componentDidUpdate() {
+        console.log( "filter" );
+    }    
+
+    render = () =>
+    {
+        return (
+            <React.Fragment>
+                <NavBar color="grey" />
+                <div style={ {marginTop: "4em"} }>
+                    <h1>View {this.props.match.params.videoID}</h1>
+                    <span>{ this.props.match.params.authorID }</span>
+                    <YouTubeVideo id={this.props.match.params.videoID} riffs={this.state.riffs} />
+                    <AuthorSelector riffers={ this.props.match.params.authorID } />
+                </div>
+            </React.Fragment>
+        );
+    }
 }
 
-/*const mapStateToProps = state => ({
-  });*/
+const mapStateToProps = state => ({
+    riffs: state.riffs.all
+  });
+  
+  const mapDispatchToProps = {
+    setVideoID,
+    getViewRiffs
+  };
 
-const mapDispatchToProps = {
-  setVideoID,
-  getViewRiffs
-};
-
-export default connect(null, mapDispatchToProps)(ViewInterface);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewInterface);
