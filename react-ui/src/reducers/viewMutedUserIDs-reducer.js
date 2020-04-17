@@ -1,6 +1,7 @@
 import {
   SET_VIDEO_ID,
-  TOGGLE_VIEW_USERID_MUTED
+  TOGGLE_VIEW_USERID_MUTED,
+  SET_VIEW_USERID_MUTED
 } from '../actions/index.js';
 
 const viewMutedUserIDsReducer = (state = {}, action) => {
@@ -12,6 +13,11 @@ const viewMutedUserIDsReducer = (state = {}, action) => {
             ...state,
             [action.id]: !state[action.id]
         };
+    case SET_VIEW_USERID_MUTED:
+        return {
+          ...state,
+          [action.id]: action.val
+        }
     default:
       return state;
   }

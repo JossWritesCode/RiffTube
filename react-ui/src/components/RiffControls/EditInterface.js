@@ -76,7 +76,7 @@ class EditInterface extends React.Component {
               Change Video
             </button>
           </form>
-          <YouTubeVideo id={this.props.videoID} />
+          <YouTubeVideo id={this.props.videoID} riffs={this.props.riffs} />
           <MetaBar />
           <div className="view-share-riff-link">
             <a
@@ -101,6 +101,7 @@ class EditInterface extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  riffs: state.riffs.all,
   videoID: state.videoID,
   googleUser: state.googleUser
 });

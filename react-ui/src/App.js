@@ -14,7 +14,7 @@ class App extends React.Component {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/riff" component={EditInterface} />
             <Route exact path="/about" component={About} />
-            <Route exact path="/view/:videoID" component={ViewInterface} />
+            <Route exact path="/view/:videoID/:authorID" component={ViewInterface} />
           </div>
         </div>
       </Router>
