@@ -68,6 +68,17 @@ function About() {
               <br />
               <br />
             </p>
+            <p>It's not working!</p>
+            <p>
+              Shoot! If you have a Mac, check your Security &amp; Privacy settings in System Preferences.
+              On newer systems, you need to make sure that your browser has permission to access to microphone.
+              <br />
+              <br />
+              If that doesn't help, please email us, or report the issue via github. Please include what kind of computer
+              you are using (Windows, Mac, Android, iOS, Linux, etc.), and what browser (Chrome, FireFox, Edge, etc).
+              <br />
+              <br />
+            </p>
             <p>Q: Why is Google sign in required?</p>
             <p>
               A: Simply as a way to track who owns (and can therefore edit or
@@ -75,16 +86,17 @@ function About() {
               <br />
               <br />
             </p>
-
-            <h2>Could you be more specific?</h2>
             <p>
               Q: What is this thing, again?
             </p>
             <p>
               A: RiffTube allows you to record riffs for YouTube videos.
+              In addition to audio riffs, you can add text riffs that appear over the video.
               Each video has a special RiffTube viewing URL.
-              When viewing a video on RiffTube, everyone's riffs are combined
-              into one giant communal riff.
+              <br />
+              <br />
+              When viewing a video on RiffTube, everyone's riffs are available
+              but the user can mute riffers at will.
               <br />
               <br />
             </p>
