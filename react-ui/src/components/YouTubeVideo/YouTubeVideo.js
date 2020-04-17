@@ -35,6 +35,8 @@ class YouTubeVideo extends React.Component {
   };
 
   loadVideo = () => {
+    if ( !window.YT ) return; // can be called by componentDidUpdate before window.YT has loaded
+
     const { id } = this.props;
 
     if (window.rifftubePlayer) window.rifftubePlayer.destroy();
