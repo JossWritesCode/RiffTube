@@ -18,7 +18,7 @@ class EditInterface extends React.Component {
   {
     if ( this.props.match.params.videoID )
     {
-      this.props.setVideoID( this.props.match.params.videoID );
+      this.props.setVideoID( this.props.match.params.videoID, this.props.googleUser );
       this.videoIDRef.current.value = this.props.match.params.videoID;
     }
   };
