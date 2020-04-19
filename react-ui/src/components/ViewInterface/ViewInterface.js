@@ -5,10 +5,13 @@ import AuthorSelector from './AuthorSelector';
 import { setVideoID, getViewRiffs } from '../../actions';
 import NavBar from '../NavBar.js';
 
+const queryString = require('query-string');
+
 class ViewInterface extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { riffs: this.props.riffs };
+        // copy passed in riffs
+        this.state = { riffs: [...this.props.riffs] };
       }
 
     componentDidMount = () =>
@@ -24,6 +27,10 @@ class ViewInterface extends React.Component {
 
     render = () =>
     {
+        const parsed = queryString.parse(this.props.location.search);
+
+        console.log( parsed );
+
         return (
             <React.Fragment>
                 <NavBar color="grey" />

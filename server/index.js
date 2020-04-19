@@ -190,6 +190,7 @@ server.post('/get-riffs', (req, res) => {
                 status: 'ok',
                 body: riffList,
                 name,
+                user_id: uID,
                 duration
               });
             })

@@ -7,6 +7,7 @@ import googleUserReducer from './googleUser-reducer';
 import riffsPlayingReducer from './riffsPlaying-reducer';
 import viewMutedUserIDsReducer from './viewMutedUserIDs-reducer';
 import nameReducer from './name-reducer';
+import useridReducer from './userid-reducer'
 import videoIDReducer from './videoID-reducer';
 import videoDurationReducer from './videoDuration-reducer';
 
@@ -18,6 +19,7 @@ export default combineReducers({
   riffsPlaying: riffsPlayingReducer,
   viewMutedUserIDs: viewMutedUserIDsReducer,
   name: nameReducer,
+  user_id: useridReducer,
   videoID: videoIDReducer,
   duration: videoDurationReducer
 });

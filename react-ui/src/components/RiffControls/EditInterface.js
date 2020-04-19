@@ -94,7 +94,7 @@ class EditInterface extends React.Component {
               <MetaBar />
               <div className="view-share-riff-link">
                 <a
-                  href={'/view/' + this.props.videoID}
+                  href={'/view/' + this.props.videoID + '?solo=' + this.props.user_id}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -119,7 +119,8 @@ class EditInterface extends React.Component {
 const mapStateToProps = state => ({
   riffs: state.riffs.all,
   videoID: state.videoID,
-  googleUser: state.googleUser
+  googleUser: state.googleUser,
+  user_id: state.user_id
 });
 
 const mapDispatchToProps = {
