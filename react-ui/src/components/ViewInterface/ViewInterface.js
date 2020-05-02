@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import AuthorSelector from './AuthorSelector';
 import { setVideoID, getViewRiffs } from '../../actions';
 import NavBar from '../NavBar.js';
@@ -8,11 +7,6 @@ import NavBar from '../NavBar.js';
 const queryString = require('query-string');
 
 class ViewInterface extends React.Component {
-    constructor(props) {
-        super(props);
-        // copy passed in riffs
-        this.state = { riffs: [...this.props.riffs] };
-      }
 
     componentDidMount = () =>
     {
@@ -20,10 +14,6 @@ class ViewInterface extends React.Component {
 
         this.props.getViewRiffs( this.props.match.params.videoID );
     };
-
-    componentDidUpdate() {
-        console.log( "filter" );
-    }    
 
     render = () =>
     {
@@ -36,9 +26,10 @@ class ViewInterface extends React.Component {
                 <NavBar color="grey" />
                 <div style={ {marginTop: "4em"} }>
                     <h1>View {this.props.match.params.videoID}</h1>
-                    <span>{ this.props.match.params.authorID }</span>
-                    <YouTubeVideo id={this.props.match.params.videoID} riffs={this.state.riffs} />
-                    <AuthorSelector riffers={ this.props.match.params.authorID } />
+                    <AuthorSelector
+                        videoID={this.props.match.params.videoID}
+                        riffers={ parsed.solo }
+                        riffs={this.props.riffs} />
                 </div>
             </React.Fragment>
         );

@@ -102,6 +102,8 @@ class YouTubeVideo extends React.Component {
         //console.log( "interval", this.curRiff, this.props.riffsPlaying );
 
         let t = window.rifftubePlayer.getCurrentTime();
+
+        // if the MetaBar component exists, update its playhead
         if (window.metaPlayHead) {
           window.metaPlayHead.current.style.left =
             (t / this.props.duration) * 100 + '%';
@@ -130,14 +132,10 @@ class YouTubeVideo extends React.Component {
           }
         });
 
-        var riffMuted = ind =>
-          this.props.mutedIDs[this.props.riffs[ind].user_id];
-
         // next start any that should be playing
         this.props.riffs.forEach((riff, index) => {
           // the riff will start playing within half a second, or will be skipped
           if (
-            !riffMuted(index) &&
             !this.curRiff[index] &&
             t > riff.time &&
             t < riff.time + 0.5
@@ -291,7 +289,6 @@ const mapStateToProps = state => ({
   //riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying,
   googleUser: state.googleUser,
-  mutedIDs: state.viewMutedUserIDs,
   duration: state.duration
 });
 

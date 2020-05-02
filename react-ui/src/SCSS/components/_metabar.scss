@@ -5,6 +5,12 @@
   position: relative;
 
   .riff-meta {
+    background-color: $color-light-gray;
+    height: $small;
+    position: absolute;
+  }
+
+  .riff-own-meta {
     background-color: $color-primary;
     height: $small;
     position: absolute;

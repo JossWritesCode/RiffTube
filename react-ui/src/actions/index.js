@@ -43,19 +43,6 @@ export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
 export const CREATE_PLAYLIST_SUCCESS = 'START_COLLABORATION_SUCCESS';
 export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 
-/******* Used in View Interface */
-
-export const toggleViewUserIdMuted = uID => ({
-  type: TOGGLE_VIEW_USERID_MUTED,
-  id: uID
-});
-
-export const setViewUserIdMuted = (uID, val) => ({
-  type: SET_VIEW_USERID_MUTED,
-  id: uID,
-  val
-});
-
 /****** Collaboration */
 
 export const createPlaylist = (googleUser, name) => {

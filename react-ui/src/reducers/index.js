@@ -5,7 +5,6 @@ import riffsMetaReducer from './riffsMeta-reducer';
 import modeReducer from './mode-reducer';
 import googleUserReducer from './googleUser-reducer';
 import riffsPlayingReducer from './riffsPlaying-reducer';
-import viewMutedUserIDsReducer from './viewMutedUserIDs-reducer';
 import nameReducer from './name-reducer';
 import useridReducer from './userid-reducer'
 import videoIDReducer from './videoID-reducer';
@@ -17,7 +16,6 @@ export default combineReducers({
   mode: modeReducer,
   googleUser: googleUserReducer,
   riffsPlaying: riffsPlayingReducer,
-  viewMutedUserIDs: viewMutedUserIDsReducer,
   name: nameReducer,
   user_id: useridReducer,
   videoID: videoIDReducer,

@@ -1,17 +1,49 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
+
+// TODO: remove
 import { toggleViewUserIdMuted, setViewUserIdMuted } from '../../actions';
 
-class AuthorSelector extends React.Component {
+class AuthorSelector extends React.Component
+{
 
-  state = { names: [] };
-
-  componentDidUpdate( prevProps )
+  constructor(props)
   {
-    const includes = (arr, id) => arr.some( el => el.id == id );
+    super(props);
+    this.state = { names: [], muted: {}, filteredRiffs: [] };
+  }
+
+
+  setMute = ( id, mute ) =>
+  {
+    const m = { ...this.state.muted, [id]: mute  };
+    this.setState({
+      muted: m,
+      filteredRiffs: this.props.riffs.filter( el => !m[ el.user_id ] )
+    } );
+  };
+
+  toggleMute = ( id ) =>
+  {
+    this.setMute( id, !this.state.muted[id] );
+  };
+
+  componentDidUpdate( prevProps, prevState )
+  {
+    console.log( this.state, this.props );
+
+    /*
+    if ( prevState.muted !== this.state.muted )
+    {
+      this.setState( { filteredRiffs: this.props.riffs.filter( el => !this.state.muted[ el.user_id ] ) } );
+    }
+    */
 
     if ( prevProps.riffs !== this.props.riffs )
     {
+      const includes = (arr, id) => arr.some( el => el.id == id );
+
       this.props.riffs.forEach(el => {
         //console.log( "name", el.name, includes( names, el.user_id ) );
         if (!includes(this.state.names, el.user_id))
@@ -21,46 +53,41 @@ class AuthorSelector extends React.Component {
 
           if ( this.props.riffers )
           {
-            this.props.setViewUserIdMuted( el.user_id, el.user_id !== Number(this.props.riffers) )
+            this.setMute( el.user_id, el.user_id !== Number(this.props.riffers) )
           }
         }
       });
     }
   }
 
-  renderNames() {
-    // this is nice, but there has to be a better way:
-    /*const containsReducer = id => (ac, cur) =>
-      cur.id === id ? ac || true : ac || false;
-    const includes = (arr, id) => arr.reduce(containsReducer(id), false);*/
-
-    // there is:
-    return this.state.names.map(el => (
-      <div
-        key={el.id}
-        onClick={() => this.props.toggleViewUserIdMuted(el.id)}
-        style={{
-          backgroundColor: this.props.mutedIDs[el.id] ? 'gray' : 'blue'
-        }}
-      >
-        {el.name}
-      </div>
-    ));
-  }
-
   render() {
-    return <div>{this.renderNames()}</div>;
+    return (
+      <React.Fragment>
+        <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
+        {
+          this.state.names.map(el => (
+            <div
+              key={el.id}
+              onClick={() => this.toggleMute(el.id)}
+              style={{
+                backgroundColor: this.state.muted[el.id] ? 'gray' : 'blue'
+              }}
+            >
+              {el.name}
+            </div>
+          ))
+        }
+     </React.Fragment>
+    );
   }
 }
 
-const mapStateToProps = state => ({
+//const mapDispatchToProps = {};
+
+/*const mapStateToProps = state => ({
   riffs: state.riffs.all,
   mutedIDs: state.viewMutedUserIDs
-});
+});*/
 
-const mapDispatchToProps = {
-  toggleViewUserIdMuted,
-  setViewUserIdMuted
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorSelector);
+export default connect(null, null)(AuthorSelector);
