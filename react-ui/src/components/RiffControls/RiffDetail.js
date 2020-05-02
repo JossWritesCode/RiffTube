@@ -44,7 +44,7 @@ function RiffDetail(props) {
           </button>
           <button
             className="riff-button-delete"
-            onClick={() => props.deleteRiff(props.id, props.googleUser)}
+            onClick={ () => { if (window.confirm("Delete?")) props.deleteRiff(props.id, props.googleUser); } }
           >
             <img alt="delete button" src={Delete} />
           </button>

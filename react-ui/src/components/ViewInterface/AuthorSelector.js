@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 
 // TODO: remove
@@ -7,13 +6,11 @@ import { toggleViewUserIdMuted, setViewUserIdMuted } from '../../actions';
 
 class AuthorSelector extends React.Component
 {
-
   constructor(props)
   {
     super(props);
     this.state = { names: [], muted: {}, filteredRiffs: [] };
   }
-
 
   setMute = ( id, mute ) =>
   {
@@ -29,9 +26,9 @@ class AuthorSelector extends React.Component
     this.setMute( id, !this.state.muted[id] );
   };
 
-  componentDidUpdate( prevProps, prevState )
+  componentDidUpdate( prevProps )
   {
-    console.log( this.state, this.props );
+    console.log( this.props );
 
     /*
     if ( prevState.muted !== this.state.muted )
@@ -82,12 +79,4 @@ class AuthorSelector extends React.Component
   }
 }
 
-//const mapDispatchToProps = {};
-
-/*const mapStateToProps = state => ({
-  riffs: state.riffs.all,
-  mutedIDs: state.viewMutedUserIDs
-});*/
-
-
-export default connect(null, null)(AuthorSelector);
+export default AuthorSelector;
