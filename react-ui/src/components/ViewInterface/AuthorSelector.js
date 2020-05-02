@@ -1,9 +1,6 @@
 import React from 'react';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 
-// TODO: remove
-import { toggleViewUserIdMuted, setViewUserIdMuted } from '../../actions';
-
 class AuthorSelector extends React.Component
 {
   constructor(props)
@@ -14,11 +11,30 @@ class AuthorSelector extends React.Component
 
   setMute = ( id, mute ) =>
   {
-    const m = { ...this.state.muted, [id]: mute  };
+    //const m = { ...this.state.muted, [id]: mute  };
+    this.setState( (state, props) =>
+    {
+      // new muted state
+      const m = { ...state.muted, [id]: mute  };
+
+      // not muted
+      /*
+      const nm2 = state.names.map( el => el.id );
+      const nm = nm2.filter( el => !m[el] );
+      const nmStr = '?solo=' + nm.join( ',' );
+      */
+
+      return {
+        muted: m,
+        filteredRiffs: props.riffs.filter( el => !m[ el.user_id ] )
+      };
+    });
+    /*
     this.setState({
       muted: m,
       filteredRiffs: this.props.riffs.filter( el => !m[ el.user_id ] )
     } );
+    */
   };
 
   toggleMute = ( id ) =>
@@ -26,9 +42,23 @@ class AuthorSelector extends React.Component
     this.setMute( id, !this.state.muted[id] );
   };
 
-  componentDidUpdate( prevProps )
+  componentDidUpdate( prevProps, prevState )
   {
+    debugger;
     console.log( this.props );
+
+    if ( prevState.muted != this.state.muted )
+    {
+        // new muted state
+      const m = { ...this.state.muted  };
+
+      // not muted
+      const nm2 = this.state.names.map( el => el.id );
+      const nm = nm2.filter( el => !m[el] );
+      const nmStr = '?solo=' + nm.join( ',' );
+      
+      this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
+    }
 
     /*
     if ( prevState.muted !== this.state.muted )
@@ -41,19 +71,25 @@ class AuthorSelector extends React.Component
     {
       const includes = (arr, id) => arr.some( el => el.id == id );
 
-      this.props.riffs.forEach(el => {
+      var names = [ ...this.state.names ];
+
+      const rifferList = this.props.riffers ? (this.props.riffers.indexOf( "," ) >= 0 ? this.props.riffers.split( "," ) : [ this.props.riffers ]) : [];
+
+      this.props.riffs.forEach( riff => {
         //console.log( "name", el.name, includes( names, el.user_id ) );
-        if (!includes(this.state.names, el.user_id))
+        if (!includes(this.state.names, riff.user_id))
         {
-          this.setState( state => ({ names: [ ...state.names, { name: el.name, id: el.user_id } ] }))
-          //this.state.names.push({ name: el.name, id: el.user_id });
+          //this.setState( state => ({ names: [ ...this.state.names, { name: el.name, id: el.user_id } ] }))
+          names.push( { name: riff.name, id: riff.user_id } );
 
           if ( this.props.riffers )
           {
-            this.setMute( el.user_id, el.user_id !== Number(this.props.riffers) )
+            this.setMute( riff.user_id, !rifferList.some( riffer => riff.user_id === Number(riffer) ) );
+            //this.setMute( riff.user_id, riff.user_id !== Number(this.props.riffers) )
           }
         }
       });
+      this.setState( { names } );
     }
   }
 

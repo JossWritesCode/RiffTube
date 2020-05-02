@@ -70,7 +70,7 @@ class EditInterface extends React.Component {
               </h4>
               <form
                 onSubmit={e => {
-                  this.props.history.push(`/riff/${this.videoIDRef.current.value}`)
+                  this.props.history.push(`/riff/${this.videoIDRef.current.value}`);
                   
                   this.props.setVideoID(
                     this.extractVideoID(this.videoIDRef.current.value),
@@ -94,7 +94,7 @@ class EditInterface extends React.Component {
               <MetaBar />
               <div className="view-share-riff-link">
                 <a
-                  href={'/view/' + this.props.videoID + '?solo=' + this.props.user_id}
+                  href={'/view/' + this.props.videoID + (this.props.user_id ? '?solo=' + this.props.user_id : '') }
                   target="_blank"
                   rel="noopener noreferrer"
                 >

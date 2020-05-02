@@ -19,7 +19,7 @@ class ViewInterface extends React.Component {
     {
         const parsed = queryString.parse(this.props.location.search);
 
-        console.log( parsed );
+        //console.log( parsed );
 
         return (
             <React.Fragment>
@@ -27,6 +27,7 @@ class ViewInterface extends React.Component {
                 <div style={ {marginTop: "4em"} }>
                     <h1>View {this.props.match.params.videoID}</h1>
                     <AuthorSelector
+                        history={this.props.history}
                         videoID={this.props.match.params.videoID}
                         riffers={ parsed.solo }
                         riffs={this.props.riffs} />
