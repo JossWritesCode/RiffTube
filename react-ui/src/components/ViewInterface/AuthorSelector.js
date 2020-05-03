@@ -24,6 +24,9 @@ class AuthorSelector extends React.Component
       const nmStr = '?solo=' + nm.join( ',' );
       */
 
+      debugger;
+      const temp = props.riffs.filter( el => !m[ el.user_id ] );
+
       return {
         muted: m,
         filteredRiffs: props.riffs.filter( el => !m[ el.user_id ] ),
@@ -97,7 +100,13 @@ class AuthorSelector extends React.Component
           }
         }
       });
-      this.setState( { names, all: this.props.riffers === undefined } );
+      this.setState(
+        {
+          names,
+          all: this.props.riffers === undefined,
+          filteredRiffs: this.props.riffs
+        }
+      );
     }
   }
 
