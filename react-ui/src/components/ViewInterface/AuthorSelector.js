@@ -77,7 +77,7 @@ class AuthorSelector extends React.Component
 
       this.props.riffs.forEach( riff => {
         //console.log( "name", el.name, includes( names, el.user_id ) );
-        if (!includes(this.state.names, riff.user_id))
+        if (!includes(names, riff.user_id))
         {
           //this.setState( state => ({ names: [ ...this.state.names, { name: el.name, id: el.user_id } ] }))
           names.push( { name: riff.name, id: riff.user_id } );
