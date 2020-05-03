@@ -115,7 +115,7 @@ class AuthorSelector extends React.Component
       <React.Fragment>
         <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
         <div
-          onClick={ () => this.setState( { muted: {}, all: !this.state.all } ) }
+          onClick={ () => this.setState( { muted: {}, all: !this.state.all, filteredRiffs: this.props.riffs } ) }
           style={{
             backgroundColor: this.state.all ? 'blue' : 'gray'
           }}
