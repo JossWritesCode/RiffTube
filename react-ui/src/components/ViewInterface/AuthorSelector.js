@@ -6,7 +6,7 @@ class AuthorSelector extends React.Component
   constructor(props)
   {
     super(props);
-    this.state = { names: [], muted: {}, filteredRiffs: [] };
+    this.state = { names: [], muted: {}, filteredRiffs: [], all: true };
   }
 
   setMute = ( id, mute ) =>
@@ -26,7 +26,8 @@ class AuthorSelector extends React.Component
 
       return {
         muted: m,
-        filteredRiffs: props.riffs.filter( el => !m[ el.user_id ] )
+        filteredRiffs: props.riffs.filter( el => !m[ el.user_id ] ),
+        all: false
       };
     });
     /*
@@ -47,17 +48,24 @@ class AuthorSelector extends React.Component
     debugger;
     console.log( this.props );
 
-    if ( prevState.muted != this.state.muted )
+    if ( prevState.muted != this.state.muted || prevState.all != this.state.all )
     {
+      if ( this.state.all )
+      {
+        this.props.history.push(`/view/${this.props.videoID}`);
+      }
+      else
+      {
         // new muted state
-      const m = { ...this.state.muted  };
+        const m = { ...this.state.muted  };
 
-      // not muted
-      const nm2 = this.state.names.map( el => el.id );
-      const nm = nm2.filter( el => !m[el] );
-      const nmStr = '?solo=' + nm.join( ',' );
-      
-      this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
+        // not muted
+        const nm2 = this.state.names.map( el => el.id );
+        const nm = nm2.filter( el => !m[el] );
+        const nmStr = '?solo=' + nm.join( ',' );
+        
+        this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
+      }
     }
 
     /*
@@ -89,7 +97,7 @@ class AuthorSelector extends React.Component
           }
         }
       });
-      this.setState( { names } );
+      this.setState( { names, all: !!this.props.riffers } );
     }
   }
 
@@ -97,6 +105,14 @@ class AuthorSelector extends React.Component
     return (
       <React.Fragment>
         <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
+        <div
+          onClick={ () => this.setState( { muted: {}, all: !this.state.all } ) }
+          style={{
+            backgroundColor: this.state.all ? 'blue' : 'gray'
+          }}
+        >
+          All
+        </div>
         {
           this.state.names.map(el => (
             <div
