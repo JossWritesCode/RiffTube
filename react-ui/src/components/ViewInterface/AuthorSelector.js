@@ -97,7 +97,7 @@ class AuthorSelector extends React.Component
           }
         }
       });
-      this.setState( { names, all: !!this.props.riffers } );
+      this.setState( { names, all: this.props.riffers === undefined } );
     }
   }
 
