@@ -85,7 +85,7 @@ class AuthorSelector extends React.Component
 
       const rifferList = this.props.riffers ? (this.props.riffers.indexOf( "," ) >= 0 ? this.props.riffers.split( "," ) : [ this.props.riffers ]) : [];
 
-      const m = {};
+      const m = { ...this.state.muted };
 
       this.props.riffs.forEach( riff => {
         //console.log( "name", el.name, includes( names, el.user_id ) );
