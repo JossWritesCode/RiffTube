@@ -265,6 +265,7 @@ class YouTubeVideo extends React.Component {
                 .filter(
                   i =>
                     this.props.riffsPlaying[i] &&
+                    this.props.riffs[i] &&
                     this.props.riffs[i].type === 'text'
                 )
                 .map(key => (
