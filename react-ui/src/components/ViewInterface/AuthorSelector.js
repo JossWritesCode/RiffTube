@@ -90,7 +90,7 @@ class AuthorSelector extends React.Component
           //this.setState( state => ({ names: [ ...this.state.names, { name: el.name, id: el.user_id } ] }))
           names.push( { name: riff.name, id: riff.user_id } );
 
-          if ( this.props.riffers )
+          if ( this.props.riffers !== undefined )
           {
             this.setMute( riff.user_id, !rifferList.some( riffer => riff.user_id === Number(riffer) ) );
             //this.setMute( riff.user_id, riff.user_id !== Number(this.props.riffers) )
