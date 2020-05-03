@@ -41,21 +41,26 @@ function About() {
             </p>
             <p>
               A: RiffTube is a tool that allows you to add your voice to YouTube videos.
-              <br />
+              Riffs are saved remotely, so your riffs can be shared with the world!
               <br />
             </p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
             <p>
               Q: How are you so smart that you came up with this and made it?
             </p>
             <p>
               A: Years spent watching MST3k, and learning to code.
               <br />
-              <br />
             </p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
             <p>Q: How can I contact you with questions or issues?</p>
             <p>
               A: The best way to report technical issues is via the RiffTube
-              github repository{' '}
+              {' '}
+              <a href="https://github.com/JossWritesCode/RiffTube/issues">
+                github repository
+              </a>
+              {' '}
               <a href="https://github.com/JossWritesCode/RiffTube/issues">
                 issue tracker
               </a>
@@ -66,45 +71,38 @@ function About() {
               </a>
               .
               <br />
-              <br />
             </p>
-            <p>It's not working!</p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
+            <p>Q: It's not working!</p>
             <p>
-              Shoot! If you have a Mac, check your Security &amp; Privacy settings in System Preferences.
-              On newer systems, you need to make sure that your browser has permission to access to microphone.
+              A: If you have a Mac, check your Security &amp; Privacy settings in System Preferences.
+              You need to make sure that your browser has permission to access to microphone.
               <br />
               <br />
-              If that doesn't help, please email us, or report the issue via github. Please include what kind of computer
+              If that doesn't help, please email us or report the issue via github. Please include what kind of computer
               you are using (Windows, Mac, Android, iOS, Linux, etc.), and what browser (Chrome, FireFox, Edge, etc).
               <br />
-              <br />
             </p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
             <p>Q: Why is Google sign in required?</p>
             <p>
-              A: Simply as a way to track who owns (and can therefore edit or
-              delete) riffs.
-              <br />
-              <br />
-            </p>
-            <p>
-              Q: What is this thing, again?
-            </p>
-            <p>
-              A: RiffTube allows you to record riffs for YouTube videos.
-              In addition to audio riffs, you can add text riffs that appear over the video.
-              Each video has a special RiffTube viewing URL.
-              <br />
-              <br />
-              When viewing a video on RiffTube, everyone's riffs are available
-              but the user can mute riffers at will.
-              <br />
+              A: To identify specific users, and prevent abuse of the system. Your email address or other information
+              will never be shared without your concept.
               <br />
             </p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
             <p>Q: Do any YouTube videos not work?</p>
             <p>
               A: Unfortunately, yes. Only videos that allow embedding
               currently work with RiffTube.
               <br />
+            </p>
+            <div style={ { height: "1px", background: "gray", width: "75%", margin: "auto" } } />
+
+            <p>Q: Any plans?</p>
+            <p>
+              A: So many. All the plans. If you have a feature you'd like to see, please submit a request.
+              It might already be in the works!
               <br />
             </p>
 
