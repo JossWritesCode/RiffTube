@@ -47,7 +47,6 @@ class AuthorSelector extends React.Component
 
   componentDidUpdate( prevProps, prevState )
   {
-    debugger;
     console.log( this.props );
 
     if ( prevState.muted != this.state.muted || prevState.all != this.state.all )

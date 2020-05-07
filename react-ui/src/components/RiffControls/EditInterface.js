@@ -70,10 +70,12 @@ class EditInterface extends React.Component {
               </h4>
               <form
                 onSubmit={e => {
-                  this.props.history.push(`/riff/${this.videoIDRef.current.value}`);
+                  const vID = this.extractVideoID(this.videoIDRef.current.value);
+
+                  this.props.history.push(`/riff/${vID}`);
                   
                   this.props.setVideoID(
-                    this.extractVideoID(this.videoIDRef.current.value),
+                    vID,
                     this.props.googleUser
                   );
                   
