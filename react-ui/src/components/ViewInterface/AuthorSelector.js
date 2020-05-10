@@ -1,5 +1,6 @@
 import React from 'react';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
+import ViewFilter from './ViewFilter';
 
 class AuthorSelector extends React.Component
 {
@@ -11,18 +12,10 @@ class AuthorSelector extends React.Component
 
   setMute = ( id, mute ) =>
   {
-    //const m = { ...this.state.muted, [id]: mute  };
     this.setState( (state, props) =>
     {
-      // new muted state
+      // new state
       const m = { ...state.muted, [id]: mute  };
-
-      // not muted
-      /*
-      const nm2 = state.names.map( el => el.id );
-      const nm = nm2.filter( el => !m[el] );
-      const nmStr = '?solo=' + nm.join( ',' );
-      */
 
       const temp = props.riffs.filter( el => !m[ el.user_id ] );
 
@@ -32,12 +25,6 @@ class AuthorSelector extends React.Component
         all: false
       };
     });
-    /*
-    this.setState({
-      muted: m,
-      filteredRiffs: this.props.riffs.filter( el => !m[ el.user_id ] )
-    } );
-    */
   };
 
   toggleMute = ( id ) =>
@@ -68,13 +55,6 @@ class AuthorSelector extends React.Component
         this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
       }
     }
-
-    /*
-    if ( prevState.muted !== this.state.muted )
-    {
-      this.setState( { filteredRiffs: this.props.riffs.filter( el => !this.state.muted[ el.user_id ] ) } );
-    }
-    */
 
     if ( prevProps.riffs !== this.props.riffs )
     {
@@ -114,6 +94,7 @@ class AuthorSelector extends React.Component
   render() {
     return (
       <React.Fragment>
+        <ViewFilter riffs={this.state.filteredRiffs} />
         <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
         <div
           onClick={ () => this.setState( { muted: {}, all: !this.state.all, filteredRiffs: this.props.riffs } ) }
