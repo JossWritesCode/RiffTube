@@ -94,8 +94,10 @@ class AuthorSelector extends React.Component
   render() {
     return (
       <React.Fragment>
-        <ViewFilter riffs={this.state.filteredRiffs} />
         <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
+        <ViewFilter
+          duration={this.props.duration}
+          riffs={this.state.filteredRiffs} />
         <div
           onClick={ () => this.setState( { muted: {}, all: !this.state.all, filteredRiffs: this.props.riffs } ) }
           style={{

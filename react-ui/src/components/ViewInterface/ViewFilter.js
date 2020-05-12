@@ -8,6 +8,7 @@ class ViewFilter extends React.Component
     super(props);
     // window.metaPlayhead gets updated by the youtube component
     window.metaPlayHead = React.createRef();
+
     this.state = { filteredRiffs: [], overlappingRiffs: [], nonOverlappingRiffs: null, selectedRiffs: null, tracks: [] };
     // filtered riffs is the final result
     // overlapping riffs is a list of sets [of ids] of overlapping riffs
@@ -50,7 +51,7 @@ class ViewFilter extends React.Component
       const trackPos = [ 0 ]; // time code where last riff on track ends
 
       // used to keep track of conflicting riffs
-      const runningSet = new Set();
+      const runningRiffs = [];
 
       // these will overwrite the current values after being built
       const overlappingRiffs = [];
@@ -58,7 +59,7 @@ class ViewFilter extends React.Component
 
       const nonOverlappingRiffs = new Set();
 
-      // slope basically means "was the last action to add or remove from the runningSet"
+      // slope basically means "was the last action to add or remove from the running list"
       var slope = 0;
       
       // sort riffs by starting time
@@ -68,24 +69,24 @@ class ViewFilter extends React.Component
       for ( const riff of this.props.riffs )
       {
         // check to see if any riffs end before this riff starts
-        if ( runningSet.size > 0 )
+        if ( runningRiffs.size > 0 )
         {
           // this could be optimized by first sorting running set
           const toDelete = [];
-          for ( const toCheck of runningSet )
+          for ( const toCheck of runningRiffs )
           {
             // (see above)
             if ( toCheck.time + toCheck.duration <= riff.time )
             {
                 // only add set if the prev action was an add,
                 // and there is more than 1 riff in the set
-                if ( slope > 0 && runningSet.size > 1 )
+                if ( slope > 0 && runningRiffs.size > 1 )
                 {
-                    overlappingRiffs.push( new Set( runningSet ) );
+                    overlappingRiffs.push( new Set( runningRiffs ) );
 
                     // when adding overlapping set, find if any are in track 0
                     // if so, they go into selectedRiffs
-                    for ( const candi of runningSet )
+                    for ( const candi of runningRiffs )
                     {
                       if ( tracks[0].includes( candi ) )
                       {
@@ -105,11 +106,14 @@ class ViewFilter extends React.Component
             }
           }
           for ( const el of toDelete )
-            runningSet.delete( el );
+            runningRiffs.splice( runningRiffs.indexOf( el ), 1 );
         }
         
-        // add this riff to running set
-        runningSet.add( riff );
+        // add this riff to running list
+        runningRiffs.push( riff );
+
+        // keep running list sorted by first ending
+        runningRiffs.sort( (e1,e2) => ((e1.time + e1.duration) - (e2.time + e2.duration)) )
 
         // last action was to add
         slope = 1;
@@ -139,11 +143,11 @@ class ViewFilter extends React.Component
       // cleanup after loop
       // check to see if running set has more than 1 riff
       // if so, add it etc.
-      if ( runningSet.size > 1 )
+      if ( runningRiffs.size > 1 )
       {
-        overlappingRiffs.push( new Set( runningSet ) );
+        overlappingRiffs.push( new Set( runningRiffs ) );
 
-        for ( const candi of runningSet )
+        for ( const candi of runningRiffs )
         {
           if ( tracks[0].includes( candi ) )
           {
@@ -153,7 +157,7 @@ class ViewFilter extends React.Component
         }
       }
       else
-        nonOverlappingRiffs.add( runningSet.values().next().value );
+        nonOverlappingRiffs.add( runningRiffs[0] );
 
       const filteredRiffs = [ ...tracks[0] ]; // or [ ...nonOverlappingRiffs, ...selectedRiffs ];
 
@@ -163,16 +167,28 @@ class ViewFilter extends React.Component
 
   render() {
     return (
-      <React.Fragment>
-        {
-          this.state.filteredRiffs.map(
-            el =>
-            <div>
-              {el.time}
-            </div>
-          )
-        }
-     </React.Fragment>
+      <div style={ { fontSize: "2em", overflowX: "auto", overflowY: "hidden", width: "640px" } }>
+        <div style={ { height: `${this.state.tracks.length * 2}em`, width: `${this.props.duration}em`, position: "relative" } }>
+          <div id="meta-play-head"
+            style={ { backgroundColor: "red", height: "inherit" } }
+            ref={window.metaPlayHead} />
+          {
+            this.state.tracks.map(
+              trackArray =>
+              <div style={ { width: `${this.props.duration}em`, height: "2em" }}>
+                {
+                  trackArray.map(
+                    riff =>
+                    <div style={ { position: "absolute", left: `${riff.time}em`, width: `${riff.duration}em`, backgroundColor: "lightgrey" }}>
+                      {riff.time}, 
+                    </div>
+                  )
+                }
+              </div>
+            )
+          }
+        </div>
+     </div>
     );
   }
 }
