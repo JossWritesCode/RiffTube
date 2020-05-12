@@ -6,7 +6,9 @@ class ViewFilter extends React.Component
   constructor(props)
   {
     super(props);
-    this.state = { filteredRiffs: [], overlappingRiffs: [], selectedRiffs: null, tracks: [] };
+    // window.metaPlayhead gets updated by the youtube component
+    window.metaPlayHead = React.createRef();
+    this.state = { filteredRiffs: [], overlappingRiffs: [], nonOverlappingRiffs: null, selectedRiffs: null, tracks: [] };
     // filtered riffs is the final result
     // overlapping riffs is a list of sets [of ids] of overlapping riffs
     // selected riffs is a set
@@ -15,22 +17,32 @@ class ViewFilter extends React.Component
 
   selectRiff = selected_id =>
   {
-    /*
-    const selectedRiffs = this.state.selectedRiffs.map(
-        id =>
-        {
-          const set = this.state.overlappingRiffs[ i ];
-          return set.has( selected_id ) ? selected_id : id;
-        } );
-    this.setState( { selectedRiffs } );
-    */
+    // use id to find riff in "master" list
+    const riff = this.props.riffs.find( r => r.id == selected_id );
+
+    const filteredSet = new Set( this.state.selectedRiffs );
+
+    // go through each set of overlapping riffs
+    for ( const set of this.state.overlappingRiffs )
+    {
+      // if that set contains the selected riff, remove all its values from the 
+      if ( set.has( riff ) )
+        set.forEach( el => filteredSet.delete( el ) );
+    }
+
+    const selectedRiffs = new Set( [ ...filteredSet, riff ] );
+
+    const filteredRiffs = [ ...selectedRiffs, ...this.state.nonOverlappingRiffs ];
+
+    this.setState( { filteredRiffs, selectedRiffs } );
   }
 
   componentDidUpdate( prevProps, prevState )
   {
-    debugger;
     if ( prevProps.riffs !== this.props.riffs )
     {
+      debugger;
+
       // if riffs have changed, we need to recalculate
 
       // multiple tracks are used to display overlapping riffs at the same time
@@ -44,8 +56,7 @@ class ViewFilter extends React.Component
       const overlappingRiffs = [];
       const selectedRiffs = new Set();
 
-      // map from riff to their overlap sets
-      const lapMap = new Map();
+      const nonOverlappingRiffs = new Set();
 
       // slope basically means "was the last action to add or remove from the runningSet"
       var slope = 0;
@@ -69,21 +80,39 @@ class ViewFilter extends React.Component
                 // only add set if the prev action was an add,
                 // and there is more than 1 riff in the set
                 if ( slope > 0 && runningSet.size > 1 )
+                {
                     overlappingRiffs.push( new Set( runningSet ) );
+
+                    // when adding overlapping set, find if any are in track 0
+                    // if so, they go into selectedRiffs
+                    for ( const candi of runningSet )
+                    {
+                      if ( tracks[0].includes( candi ) )
+                      {
+                        selectedRiffs.add( candi );
+                        break;
+                      }
+                    }
+                }
+                else if ( slope > 0 ) // 'if' part may be unnecessary
+                {
+                  nonOverlappingRiffs.add( toCheck );
+                }
+
                 // don't delete in place while looping
                 toDelete.push( toCheck );
                 slope = -1; // last action was to remove
             }
           }
-          for ( const el in toDelete )
+          for ( const el of toDelete )
             runningSet.delete( el );
-
-          if ( runningSet.size > 0 && trackPos[0] < riff.time )
-            selectedRiffs.add( riff );
         }
         
         // add this riff to running set
         runningSet.add( riff );
+
+        // last action was to add
+        slope = 1;
 
         // assign riff to a track
         var flag = true;
@@ -98,25 +127,37 @@ class ViewFilter extends React.Component
             break;
           }
         }
+
         // if no track was found, add one
         if ( flag )
         {
           tracks.push( [ riff ] );
           trackPos.push( riff.time + riff.duration );
         }
-
-        // last action was to add
-        slope = 1;
       }
 
       // cleanup after loop
-      // check to see if any riffs end before this riff starts
+      // check to see if running set has more than 1 riff
+      // if so, add it etc.
       if ( runningSet.size > 1 )
+      {
         overlappingRiffs.push( new Set( runningSet ) );
 
-      const filteredRiffs = [ ...tracks[0] ];
+        for ( const candi of runningSet )
+        {
+          if ( tracks[0].includes( candi ) )
+          {
+            selectedRiffs.add( candi );
+            break;
+          }
+        }
+      }
+      else
+        nonOverlappingRiffs.add( runningSet.values().next().value );
 
-      this.setState( { filteredRiffs, overlappingRiffs, selectedRiffs, tracks } );
+      const filteredRiffs = [ ...tracks[0] ]; // or [ ...nonOverlappingRiffs, ...selectedRiffs ];
+
+      this.setState( { filteredRiffs, overlappingRiffs, nonOverlappingRiffs, selectedRiffs, tracks } );
     }
   }
 
