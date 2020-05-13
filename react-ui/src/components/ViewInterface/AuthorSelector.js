@@ -94,8 +94,8 @@ class AuthorSelector extends React.Component
   render() {
     return (
       <React.Fragment>
-        <YouTubeVideo id={this.props.videoID} riffs={this.state.filteredRiffs} />
         <ViewFilter
+          id={this.props.videoID}
           duration={this.props.duration}
           riffs={this.state.filteredRiffs} />
         <div
