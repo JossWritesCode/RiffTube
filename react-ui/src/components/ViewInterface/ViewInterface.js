@@ -27,6 +27,7 @@ class ViewInterface extends React.Component {
                 <div style={ {marginTop: "4em"} }>
                     <h1>View {this.props.match.params.videoID}</h1>
                     <AuthorSelector
+                        duration={this.props.duration}
                         history={this.props.history}
                         videoID={this.props.match.params.videoID}
                         riffers={ parsed.solo }
@@ -38,7 +39,8 @@ class ViewInterface extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    riffs: state.riffs.all
+    riffs: state.riffs.all,
+    duration: state.duration
   });
   
   const mapDispatchToProps = {

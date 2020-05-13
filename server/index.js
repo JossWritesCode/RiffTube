@@ -298,7 +298,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               type: 'add',
               tempId: Number(body.tempId),
               id: newRiffId,
-              video_duration: duration
+              duration: duration
             })
           );
       } else {
