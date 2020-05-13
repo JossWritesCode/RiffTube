@@ -8,8 +8,10 @@ class ViewFilter extends React.Component
     super(props);
     // window.metaPlayhead gets updated by the youtube component
     window.metaPlayHead = React.createRef();
+    this.selectDiv = React.createRef();
+    window.metaUpdate = el => { console.log( el.offsetLeft ); this.selectDiv.current.scrollLeft = el.offsetLeft - (this.selectDiv.current.offsetWidth / 2); };
 
-    this.state = { filteredRiffs: [], overlappingRiffs: [], selectedRiffs: null, tracks: [] };
+    this.state = { filteredRiffs: [], overlappingRiffs: [], nonOverlappingRiffs: null, selectedRiffs: null, tracks: [] };
     // filtered riffs is the final result
     // overlapping riffs is a list of sets [of ids] of overlapping riffs
     // selected riffs is a set
@@ -20,6 +22,8 @@ class ViewFilter extends React.Component
   {
     // use id to find riff in "master" list
     //const riff = this.props.riffs.find( r => r.id == selected_id );
+
+    if ( this.state.nonOverlappingRiffs.has( riff ) ) return;
 
     const selectedSet = new Set( this.state.selectedRiffs );
 
@@ -56,6 +60,8 @@ class ViewFilter extends React.Component
       // multiple tracks are used to display overlapping riffs at the same time
       const tracks = [ [] ];
       const trackPos = [ 0 ]; // time code where last riff on track ends
+
+      const nonOverlappingRiffs = new Set();
 
       // used to keep track of conflicting riffs
       const runningRiffs = [];
@@ -99,6 +105,10 @@ class ViewFilter extends React.Component
                         break;
                       }
                     }
+                }
+                else if ( slope > 0 ) // 'if' part may be unnecessary
+                {
+                  nonOverlappingRiffs.add( toCheck );
                 }
 
                 // don't delete in place while looping
@@ -157,10 +167,12 @@ class ViewFilter extends React.Component
           }
         }
       }
+      else
+        nonOverlappingRiffs.add( runningRiffs[0] );
 
       const filteredRiffs = [ ...tracks[0] ];
 
-      this.setState( { filteredRiffs, overlappingRiffs, selectedRiffs, tracks } );
+      this.setState( { filteredRiffs, overlappingRiffs, nonOverlappingRiffs, selectedRiffs, tracks } );
     }
   }
 
@@ -168,21 +180,21 @@ class ViewFilter extends React.Component
     return (
       <React.Fragment>
         <YouTubeVideo id={this.props.id} riffs={this.state.filteredRiffs} />
-        <div style={ { fontSize: "2em", overflowX: "auto", overflowY: "hidden", width: "640px" } }>
-          <div style={ { height: `${this.state.tracks.length * 2}em`, width: `${this.props.duration}em`, position: "relative" } }>
+        <div ref={this.selectDiv} style={ { fontSize: "2em", overflow: "hidden", width: "640px" } }>
+          <div style={ { height: `${this.state.tracks.length}em`, width: `${this.props.duration}em`, position: "relative" } }>
             <div id="meta-play-head"
               style={ { backgroundColor: "red", height: "inherit" } }
               ref={window.metaPlayHead} />
             {
               this.state.tracks.map(
                 trackArray =>
-                <div style={ { width: `${this.props.duration}em`, height: "2em" }}>
+                <div style={ { width: `${this.props.duration}em`, height: "1em" }}>
                   {
                     trackArray.map(
                       riff =>
-                      <div style={ { position: "absolute", left: `${riff.time}em`, width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
+                      <div style={ { position: "absolute", left: `${riff.time}em`, height: "1em", width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
                         onClick={ () => this.selectRiff( riff ) }>
-                        {riff.time}, 
+                        &nbsp;
                       </div>
                     )
                   }

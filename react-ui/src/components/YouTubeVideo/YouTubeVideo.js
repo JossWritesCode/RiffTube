@@ -105,8 +105,9 @@ class YouTubeVideo extends React.Component {
 
         // if the MetaBar component exists, update its playhead
         if (window.metaPlayHead) {
-          window.metaPlayHead.current.style.left =
-            (t / this.props.duration) * 100 + '%';
+          window.metaPlayHead.current.style.left = `${(t / this.props.duration) * 100}%`;
+          if (window.metaUpdate)
+            window.metaUpdate(window.metaPlayHead.current);
         }
         this.checkForRiffsToLoad(t);
 
