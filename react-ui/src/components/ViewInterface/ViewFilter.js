@@ -21,19 +21,26 @@ class ViewFilter extends React.Component
     // use id to find riff in "master" list
     //const riff = this.props.riffs.find( r => r.id == selected_id );
 
-    const filteredSet = new Set( this.state.selectedRiffs );
+    const selectedSet = new Set( this.state.selectedRiffs );
+
+    const newFiltered = new Set( this.props.riffs );
 
     // go through each set of overlapping riffs
     for ( const set of this.state.overlappingRiffs )
     {
       // if that set contains the selected riff, remove all its values from the 
       if ( set.has( riff ) )
-        set.forEach( el => filteredSet.delete( el ) );
+        set.forEach(
+          el =>
+          {
+            selectedSet.delete( el );
+            newFiltered.delete( el );
+          }
+        );
     }
 
-    const selectedRiffs = new Set( [ ...filteredSet, riff ] );
-
-    const filteredRiffs = [ ...selectedRiffs, ...this.state.nonOverlappingRiffs ];
+    const selectedRiffs = new Set( [ ...selectedSet, riff ] );
+    const filteredRiffs = [ ...newFiltered, ...selectedRiffs ];
 
     this.setState( { filteredRiffs, selectedRiffs } );
   }
