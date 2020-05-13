@@ -25,46 +25,43 @@ class ViewFilter extends React.Component
 
     if ( this.state.nonOverlappingRiffs.has( riff ) ) return;
 
-    const selectedSet = new Set( this.state.selectedRiffs );
+    const selectedRiffs = new Set( this.state.selectedRiffs );
+
+    const newFiltered = new Set( this.props.riffs );
 
     // go through each set of overlapping riffs
     for ( const set of this.state.overlappingRiffs )
     {
       // if that set contains the selected riff, remove all its values from the 
       if ( set.has( riff ) )
-        set.forEach( el => selectedSet.delete( el ) );
+      {
+        set.forEach( el => 
+          {
+            selectedRiffs.delete( el );
+            newFiltered.delete( el );
+          }
+        );
+      }
     }
 
-    const selectedRiffs = new Set( [ ...selectedSet, riff ] );
+    selectedRiffs.add( riff );
 
-    const newFiltered = new Set( this.props.riffs );
-
-    // from full set of riffs, remove all riffs from overlapping sets with a selected riff
-    selectedRiffs.forEach(
-      el =>
-        this.state.overlappingRiffs.forEach(
-          set =>
-          {
-            if ( set.has( el ) )
-              set.forEach( del => newFiltered.delete( del ) )
-          }
-        )
-    )
-
-    // fix selected riff list to include riffs that are now selected and in overlapping sets (but weren't before)
-    newFiltered.forEach( el => 
-      {
-        var found = false;
-        for ( const set of this.state.overlappingRiffs )
+    /*
+    this.state.overlappingRiffs.forEach(
+      overlapSet =>
         {
-          if ( set.has( el ) )
+          // remove overlap
+          overlapSet.forEach( el => newFiltered.delete( el ) );
+          for ( const sr of selectedRiffs )
           {
-            found = true;
-            break;
+            if ( overlapSet.has( sr ) )
+            {
+
+            }
           }
         }
-        selectedRiffs.add( el );
-      } );
+    );
+    */
 
     // generate final filtered list
     const filteredRiffs = [ ...newFiltered, ...selectedRiffs ];
@@ -218,7 +215,7 @@ class ViewFilter extends React.Component
                       <div style={ { position: "absolute", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", left: `${riff.time}em`, height: "1em", width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
                         onClick={ () => this.selectRiff( riff ) }>
                         <span style={{fontSize: "0.5em"}}>
-                          {riff.name}
+                          {riff.id}
                         </span>
                       </div>
                     )
