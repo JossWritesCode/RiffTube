@@ -16,10 +16,10 @@ class ViewFilter extends React.Component
     // tracks are used for the UI
   }
 
-  selectRiff = selected_id =>
+  selectRiff = riff =>
   {
     // use id to find riff in "master" list
-    const riff = this.props.riffs.find( r => r.id == selected_id );
+    //const riff = this.props.riffs.find( r => r.id == selected_id );
 
     const filteredSet = new Set( this.state.selectedRiffs );
 
@@ -69,7 +69,7 @@ class ViewFilter extends React.Component
       for ( const riff of this.props.riffs )
       {
         // check to see if any riffs end before this riff starts
-        if ( runningRiffs.size > 0 )
+        if ( runningRiffs.length > 0 )
         {
           // this could be optimized by first sorting running set
           const toDelete = [];
@@ -80,7 +80,7 @@ class ViewFilter extends React.Component
             {
                 // only add set if the prev action was an add,
                 // and there is more than 1 riff in the set
-                if ( slope > 0 && runningRiffs.size > 1 )
+                if ( slope > 0 && runningRiffs.length > 1 )
                 {
                     overlappingRiffs.push( new Set( runningRiffs ) );
 
@@ -143,7 +143,7 @@ class ViewFilter extends React.Component
       // cleanup after loop
       // check to see if running set has more than 1 riff
       // if so, add it etc.
-      if ( runningRiffs.size > 1 )
+      if ( runningRiffs.length > 1 )
       {
         overlappingRiffs.push( new Set( runningRiffs ) );
 
@@ -179,7 +179,8 @@ class ViewFilter extends React.Component
                 {
                   trackArray.map(
                     riff =>
-                    <div style={ { position: "absolute", left: `${riff.time}em`, width: `${riff.duration}em`, backgroundColor: "lightgrey" }}>
+                    <div style={ { position: "absolute", left: `${riff.time}em`, width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
+                      onClick={ () => this.selectRiff( riff ) }>
                       {riff.time}, 
                     </div>
                   )
