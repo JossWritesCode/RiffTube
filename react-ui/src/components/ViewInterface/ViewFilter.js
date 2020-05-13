@@ -27,23 +27,29 @@ class ViewFilter extends React.Component
 
     const selectedSet = new Set( this.state.selectedRiffs );
 
-    const newFiltered = new Set( this.props.riffs );
-
     // go through each set of overlapping riffs
     for ( const set of this.state.overlappingRiffs )
     {
       // if that set contains the selected riff, remove all its values from the 
       if ( set.has( riff ) )
-        set.forEach(
-          el =>
-          {
-            selectedSet.delete( el );
-            newFiltered.delete( el );
-          }
-        );
+        set.forEach( el => selectedSet.delete( el ) );
     }
 
     const selectedRiffs = new Set( [ ...selectedSet, riff ] );
+
+    const newFiltered = new Set( this.props.riffs );
+
+    selectedRiffs.forEach(
+      el =>
+        this.state.overlappingRiffs.forEach(
+          set =>
+          {
+            if ( set.has( el ) )
+              set.forEach( del => newFiltered.delete( del ) )
+          }
+        )
+    )
+
     const filteredRiffs = [ ...newFiltered, ...selectedRiffs ];
 
     this.setState( { filteredRiffs, selectedRiffs } );
@@ -192,9 +198,11 @@ class ViewFilter extends React.Component
                   {
                     trackArray.map(
                       riff =>
-                      <div style={ { position: "absolute", left: `${riff.time}em`, height: "1em", width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
+                      <div style={ { position: "absolute", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", left: `${riff.time}em`, height: "1em", width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
                         onClick={ () => this.selectRiff( riff ) }>
-                        &nbsp;
+                        <span style={{fontSize: "0.5em"}}>
+                          {riff.name}
+                        </span>
                       </div>
                     )
                   }
