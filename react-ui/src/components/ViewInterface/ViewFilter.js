@@ -39,6 +39,7 @@ class ViewFilter extends React.Component
 
     const newFiltered = new Set( this.props.riffs );
 
+    // from full set of riffs, remove all riffs from overlapping sets with a selected riff
     selectedRiffs.forEach(
       el =>
         this.state.overlappingRiffs.forEach(
@@ -50,6 +51,22 @@ class ViewFilter extends React.Component
         )
     )
 
+    // fix selected riff list to include riffs that are now selected and in overlapping sets (but weren't before)
+    newFiltered.forEach( el => 
+      {
+        var found = false;
+        for ( const set of this.state.overlappingRiffs )
+        {
+          if ( set.has( el ) )
+          {
+            found = true;
+            break;
+          }
+        }
+        selectedRiffs.add( el );
+      } );
+
+    // generate final filtered list
     const filteredRiffs = [ ...newFiltered, ...selectedRiffs ];
 
     this.setState( { filteredRiffs, selectedRiffs } );
