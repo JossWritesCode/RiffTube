@@ -231,22 +231,20 @@ class ViewFilter extends React.Component
       <React.Fragment>
         <YouTubeVideo id={this.props.id} riffs={this.state.filteredRiffs} />
         <div ref={this.selectDiv} style={ { fontSize: "2em", overflow: "hidden", width: "640px" } }>
-          <div style={ { height: `${this.state.tracks.length}em`, width: `${this.props.duration}em`, position: "relative" } }>
+          <div style={ { height: `${this.state.tracks.length * 0.75}em`, width: `${this.props.duration}em`, position: "relative" } }>
             <div id="meta-play-head"
               style={ { backgroundColor: "red", height: "inherit" } }
               ref={window.metaPlayHead} />
             {
               this.state.tracks.map(
                 trackArray =>
-                <div style={ { width: `${this.props.duration}em`, height: "1em" }}>
+                <div style={ { width: `${this.props.duration}em`, height: "0.75em" }}>
                   {
                     trackArray.map(
                       riff =>
-                      <div style={ { position: "absolute", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", left: `${riff.time}em`, height: "1em", width: `${riff.duration}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
+                      <div style={ { position: "absolute", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "0.25em", lineHeight: "3em", verticalAlign: "middle", left: `${riff.time * 4}em`, height: "3em", width: `${riff.duration * 4}em`, backgroundColor: this.state.filteredRiffs.includes(riff) ? "red" : "lightgrey" }}
                         onClick={ () => this.selectRiff( riff ) }>
-                        <span style={{fontSize: "0.5em"}}>
-                          {riff.id}
-                        </span>
+                          {riff.name}
                       </div>
                     )
                   }
