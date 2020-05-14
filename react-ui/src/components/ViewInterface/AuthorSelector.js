@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import ViewFilter from './ViewFilter';
 
@@ -56,7 +57,7 @@ class AuthorSelector extends React.Component
       }
     }
 
-    if ( prevProps.riffs !== this.props.riffs )
+    if ( prevProps.timestamp !== this.props.timestamp || (prevProps.riffs.length == 0 && this.props.riffs.length > 0) ) //( prevProps.riffs !== this.props.riffs )
     {
       const includes = (arr, id) => arr.some( el => el.id == id );
 
@@ -124,4 +125,8 @@ class AuthorSelector extends React.Component
   }
 }
 
-export default AuthorSelector;
+const mapStateToProps = state => ({
+  timestamp: state.riffs.timestamp
+});
+
+export default connect(mapStateToProps, null)(AuthorSelector);

@@ -99,7 +99,7 @@ class ViewFilter extends React.Component
     this.setState( { filteredRiffs, selectedRiffs } );
   }
 
-  componentDidUpdate( prevProps, prevState )
+  componentDidUpdate( prevProps )
   {
     if ( prevProps.riffs !== this.props.riffs )
     {

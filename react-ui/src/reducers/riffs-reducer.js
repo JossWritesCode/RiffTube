@@ -79,6 +79,7 @@ const riffsReducer = (state = initialState, action) => {
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
+        timestamp: action.payload.timestamp,
         all:
           action.payload.body.map(el => ({
             ...el,

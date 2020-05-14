@@ -347,6 +347,7 @@ server.post('/get-view-riffs', (req, res) => {
       res.status(200).json({
         status: 'ok',
         body: riffList.map(el => ({ ...el, video_id: body.videoID })),
+        timestamp: Date.now(),
         duration: dur
       });
     })
