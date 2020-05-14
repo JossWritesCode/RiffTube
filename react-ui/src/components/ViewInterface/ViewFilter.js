@@ -18,7 +18,7 @@ class ViewFilter extends React.Component
     // tracks are used for the UI
   }
 
-  selectRiff = riff =>
+  selectRiff = newRiff =>
   {
     // use id to find riff in "master" list
     //const riff = this.props.riffs.find( r => r.id == selected_id );
@@ -29,39 +29,69 @@ class ViewFilter extends React.Component
 
     const newFiltered = new Set( this.props.riffs );
 
-    // go through each set of overlapping riffs
-    for ( const set of this.state.overlappingRiffs )
+    const otherOverlaps = new Set(); //new Set( this.state.overlappingRiffs );
+    this.state.overlappingRiffs.forEach( el => otherOverlaps.add( new Set( el ) ) );
+
+    var riff = newRiff;
+
+    do
     {
-      // if that set contains the selected riff, remove all its values from the 
-      if ( set.has( riff ) )
+      // go through each set of overlapping riffs
+      for ( const set of this.state.overlappingRiffs )
       {
-        set.forEach( el => 
-          {
-            selectedRiffs.delete( el );
-            newFiltered.delete( el );
-          }
-        );
-      }
-    }
-
-    selectedRiffs.add( riff );
-
-    /*
-    this.state.overlappingRiffs.forEach(
-      overlapSet =>
+        // if that set contains the selected riff, remove all its values from the 
+        if ( set.has( riff ) )
         {
-          // remove overlap
-          overlapSet.forEach( el => newFiltered.delete( el ) );
-          for ( const sr of selectedRiffs )
-          {
-            if ( overlapSet.has( sr ) )
+          set.forEach( el => 
             {
+              selectedRiffs.delete( el );
+              newFiltered.delete( el );
+            }
+          );
+        }
+      }
 
+      selectedRiffs.add( riff );
+
+      // now the hard part
+
+      for ( const r of selectedRiffs )
+      {
+        // find and delete sets of overlap that contain a selected riff
+        const toDelete = [];
+        for ( const set of otherOverlaps )
+        {
+          if ( set.has( r ) )
+          {
+            toDelete.push( set );
+          }
+        }
+        for ( const set of toDelete )
+        {
+          otherOverlaps.delete( set );
+          // from the sets in question, remove all their riffs from other overlap sets
+          // (because they are no longer valid options)
+          var curOverlap = new Set();
+          for ( const redu of otherOverlaps )
+          {
+            for ( const tod of set )
+            {
+              newFiltered.delete( tod );
+              redu.delete( tod );
             }
           }
         }
-    );
-    */
+      }
+      for ( const redu of otherOverlaps )
+      {
+        if ( redu.size > 0 )
+          curOverlap = new Set( [ ...curOverlap, ...redu ] );
+      }
+
+      if ( curOverlap.size > 0 )
+        riff = curOverlap.values().next().value;
+    }
+    while ( curOverlap.size > 0 );
 
     // generate final filtered list
     const filteredRiffs = [ ...newFiltered, ...selectedRiffs ];
