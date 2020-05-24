@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import ViewFilter from './ViewFilter';
 
 class AuthorSelector extends React.Component

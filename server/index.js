@@ -454,7 +454,7 @@ const websockhttp = http.createServer(server);
 
 const wss1 = new WebSocket.Server({ noServer: true });
 
-wss1.on('connection', (ws) => {
+wss1.on('connection', (ws, request) => {
 
   //connection is up, let's add a simple simple event
   ws.on('message', (message) => {
@@ -465,22 +465,29 @@ wss1.on('connection', (ws) => {
   });
 
   //send immediatly a feedback to the incoming connection    
-  ws.send('Hi there, I am a WebSocket server');
+  ws.send(`Hi there, I am a WebSocket server ${request.url}`);
 });
 
 
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
-  const pathname = url.parse(request.url).pathname;
+  const sockurl = url.parse(request.url, true);
 
-  console.log('upgrade');
+  console.log( "query", turl.query );
 
-  if (pathname === '/foo') {
-    wss1.handleUpgrade(request, socket, head, function done(ws) {
-      wss1.emit('connection', ws, request);
-    });
-  } else {
-    socket.destroy();
-  }
+  verify( sockurl.query["googleToken"] )
+  // once verified, get and pass on payload
+  .then(ticket => {
+    console.log('upgrade');
+
+    if (sockurl.pathname === '/riff') {
+      wss1.handleUpgrade(request, socket, head, function done(ws) {
+        wss1.emit('connection', ws, request);
+      });
+    } else {
+      socket.destroy();
+    }
+  })
+  .catch(err => console.log( "google verify error", err ));
 });
 
 /************************************************************ */
