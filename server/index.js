@@ -454,6 +454,21 @@ const websockhttp = http.createServer(server);
 
 const wss1 = new WebSocket.Server({ noServer: true });
 
+wss1.on('connection', (ws) => {
+
+  //connection is up, let's add a simple simple event
+  ws.on('message', (message) => {
+
+      //log the received message and send it back to the client
+      console.log('received: %s', message);
+      ws.send(`Hello, you sent -> ${message}`);
+  });
+
+  //send immediatly a feedback to the incoming connection    
+  ws.send('Hi there, I am a WebSocket server');
+});
+
+
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
   const pathname = url.parse(request.url).pathname;
 
