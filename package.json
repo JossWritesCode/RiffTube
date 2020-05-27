@@ -29,21 +29,21 @@
     "can-autoplay": "^3.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "google-auth-library": "^5.9.2",
-    "helmet": "^3.21.2",
-    "knex": "^0.20.8",
+    "google-auth-library": "^6.0.0",
+    "helmet": "^3.22.0",
+    "knex": "^0.21.1",
     "multer": "^1.4.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "path": "^0.12.7",
-    "pg": "^7.18.1",
+    "pg": "^8.2.1",
     "simple-youtube-api": "^5.2.1",
-    "sqlite3": "^4.1.1",
-    "styled-components": "^5.0.1",
+    "sqlite3": "^4.2.0",
+    "styled-components": "^5.1.0",
     "utf-8-validate": "^5.0.2",
-    "ws": "^7.2.1"
+    "ws": "^7.3.0"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.4"
   }
 }
