@@ -15,6 +15,15 @@ class EditInterface extends React.Component {
     this.state = { websocket: null };
   }
 
+  componentDidMount = () =>
+  {
+    if ( this.props.match.params.videoID )
+    {
+      this.props.setVideoID( this.props.match.params.videoID, this.props.googleUser );
+      this.videoIDRef.current.value = this.props.match.params.videoID;
+    }
+  };
+
   componentDidUpdate = (prevProps, prevState) =>
   {
     if ( this.props.match.params.videoID != this.props.videoID )
@@ -25,20 +34,12 @@ class EditInterface extends React.Component {
 
     if ( this.loggedIn() && ( !this.state.websocket || this.props.videoID != prevProps.videoID ) )
     {
-      const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
+      //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
+      const websocket = new WebSocket( `ws://rifftube.herokuapp.com/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       websocket.onmessage = function (event) {
         console.log(event.data);
       };
       this.setState( { websocket } );
-    }
-  }
-
-  componentDidMount = () =>
-  {
-    if ( this.props.match.params.videoID )
-    {
-      this.props.setVideoID( this.props.match.params.videoID, this.props.googleUser );
-      this.videoIDRef.current.value = this.props.match.params.videoID;
     }
   };
 
