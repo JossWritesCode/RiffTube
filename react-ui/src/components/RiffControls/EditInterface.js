@@ -35,7 +35,7 @@ class EditInterface extends React.Component {
     if ( this.loggedIn() && ( !this.state.websocket || this.props.videoID != prevProps.videoID ) )
     {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
-      const websocket = new WebSocket( `ws://rifftube.herokuapp.com/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
+      const websocket = new WebSocket( `wss://rifftube.herokuapp.com/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       websocket.onmessage = function (event) {
         console.log(event.data);
       };
