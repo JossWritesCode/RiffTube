@@ -472,7 +472,7 @@ wss1.on('connection', (ws, request) => {
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
   const sockurl = url.parse(request.url, true);
 
-  console.log( "query", turl.query );
+  console.log( "query", sockurl.query );
 
   verify( sockurl.query["googleToken"] )
   // once verified, get and pass on payload
