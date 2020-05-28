@@ -5,7 +5,10 @@ const videoDurationReducer = (state = null, action) => {
     case RECEIVE_RIFF_LIST:
     case SAVE_RIFF_SUCCESS: // this needs testing
       console.log( "video duration reducer", action);
-      return action.payload.duration;
+      if ( action.payload.duration )
+        return action.payload.duration;
+      // else
+      return state;
     default:
       return state;
   }

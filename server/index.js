@@ -480,7 +480,7 @@ websockhttp.on('upgrade', function upgrade(request, socket, head) {
             {
               wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
-                  client.send(data);
+                  client.send( message );
                 }
               });
             }
