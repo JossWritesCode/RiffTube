@@ -129,7 +129,8 @@ class EditRiff extends React.Component {
                       ),
                       time: Number(this.startTimeField.current.value)
                     },
-                    this.props.tempRiff
+                    this.props.tempRiff,
+                    this.props.websocket
                   );
                 }}
               >
@@ -155,7 +156,8 @@ const mapStateToProps = state => ({
   mode: state.mode,
   tempRiff: state.riffs.temp,
   editIndex: state.riffs.editIndex,
-  googleUser: state.googleUser
+  googleUser: state.googleUser,
+  websocket: state.websocket
 });
 
 const mapDispatchToProps = {

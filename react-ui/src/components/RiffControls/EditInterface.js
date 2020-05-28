@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID } from '../../actions';
+import { setVideoID, setWebSocket } from '../../actions';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 
@@ -35,11 +35,17 @@ class EditInterface extends React.Component {
     if ( this.loggedIn() && ( !this.state.websocket || this.props.videoID != prevProps.videoID ) )
     {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
-      const websocket = new WebSocket( `wss://rifftube.herokuapp.com/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
+      var baseURL;
+      if (process.env.NODE_ENV === 'production')
+        baseURL = 'wss://rifftube.herokuapp.com';
+      else
+        baseURL = 'ws://localhost:3300'
+        
+      const websocket = new WebSocket( `${baseURL}/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       websocket.onmessage = function (event) {
         console.log(event.data);
       };
-      this.setState( { websocket } );
+      this.props.setWebSocket( websocket );
     }
   };
 
@@ -146,7 +152,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setVideoID
+  setVideoID,
+  setWebSocket
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);

@@ -452,36 +452,51 @@ const websockmap = new Map();
 
 const websockhttp = http.createServer(server);
 
-const wss1 = new WebSocket.Server({ noServer: true });
-
-wss1.on('connection', (ws, request) => {
-
-  //connection is up, let's add a simple simple event
-  ws.on('message', (message) => {
-
-      //log the received message and send it back to the client
-      console.log('received: %s', message);
-      ws.send(`Hello, you sent -> ${message}`);
-  });
-
-  //send immediatly a feedback to the incoming connection    
-  ws.send(`Hi there, I am a WebSocket server ${request.url}`);
-});
-
-
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
   const sockurl = url.parse(request.url, true);
 
   console.log( "query", sockurl.query );
 
-  verify( sockurl.query["googleToken"] )
+  verify( sockurl.query.googleToken )
   // once verified, get and pass on payload
   .then(ticket => {
     console.log('upgrade');
 
     if (sockurl.pathname === '/riff') {
-      wss1.handleUpgrade(request, socket, head, function done(ws) {
-        wss1.emit('connection', ws, request);
+
+      var wss = websockmap.get( sockurl.query.videoID );
+      if ( !wss )
+      {
+        wss = new WebSocket.Server({ noServer: true });
+        websockmap.set( sockurl.query.videoID, wss );
+        wss.on('connection', (ws, request) => {
+
+          //connection is up, let's add a simple simple event
+          ws.on('message', (message) => {
+        
+            let data = JSON.parse( message );
+        
+            if ( data.type === 'update' )
+            {
+              wss.clients.forEach(function each(client) {
+                if (client.readyState === WebSocket.OPEN) {
+                  client.send(data);
+                }
+              });
+            }
+        
+              //log the received message and send it back to the client
+              console.log('received: %s', message);
+              //ws.send(`Hello, you sent -> ${message}`);
+          });
+        
+          //send immediatly a feedback to the incoming connection    
+          ws.send(`Hi there, I am a WebSocket server ${request.url}`);
+        });
+      }
+
+      wss.handleUpgrade(request, socket, head, function done(ws) {
+        wss.emit('connection', ws, request);
       });
     } else {
       socket.destroy();

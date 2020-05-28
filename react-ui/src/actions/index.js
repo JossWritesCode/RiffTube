@@ -43,110 +43,14 @@ export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
 export const CREATE_PLAYLIST_SUCCESS = 'START_COLLABORATION_SUCCESS';
 export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 
-/****** Collaboration */
+export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
-export const createPlaylist = (googleUser, name) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/create-playlist`,
-      data: { token: googleUser.getAuthResponse().id_token }
-    })
-      .then(res => {
-        dispatch({ type: CREATE_PLAYLIST_SUCCESS, payload: res.data });
-      })
-      .catch(err => {
-        dispatch({ type: CREATE_PLAYLIST_FAILURE, payload: err.response });
-      });
-  };
-};
+/******** WebSockets */
 
-export const deletePlaylist = (googleUser, id) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/create-playlist`,
-      data: { token: googleUser.getAuthResponse().id_token }
-    })
-      .then(res => {
-        dispatch({ type: CREATE_PLAYLIST_SUCCESS, payload: res.data });
-      })
-      .catch(err => {
-        dispatch({ type: CREATE_PLAYLIST_FAILURE, payload: err.response });
-      });
-  };
-};
-
-export const getPlaylists = googleUser => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/get-playlists`,
-      data: { token: googleUser.getAuthResponse().id_token }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
-
-export const addCollaborator = (googleUser, playlistID, collaboratorID) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/add-collaborator`,
-      data: {
-        token: googleUser.getAuthResponse().id_token,
-        collaborator_id: collaboratorID
-      }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
-
-export const removeCollaborator = (googleUser, playlistID, collaboratorID) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/remove-collaborator`,
-      data: {
-        token: googleUser.getAuthResponse().id_token,
-        collaborator_id: collaboratorID
-      }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
-
-export const startCollaboration = (googleUser, playlistID) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/start-collaboration`,
-      data: {
-        token: googleUser.getAuthResponse().id_token
-      }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
-
-export const endCollaboration = (googleUser, playlistID, collaboratorID) => {
-  return dispatch => {
-    axios({
-      method: 'post',
-      url: `/end-collaboration`,
-      data: {
-        token: googleUser.getAuthResponse().id_token,
-        collaborator_id: collaboratorID
-      }
-    }).then(res => {
-      dispatch({ type: RECEIVE_COLLABORATION_ID, payload: res.data });
-    });
-  };
-};
+export const setWebSocket = payload => ({
+  type: WEB_SOCKET_UPDATE,
+  payload
+});
 
 /******** Editing Interface */
 
@@ -276,7 +180,7 @@ export const cancelEdit = () => ({
   type: CANCEL_EDIT
 });
 
-export const saveRiff = (token, payload, riff) => {
+export const saveRiff = (token, payload, riff, websocket) => {
   return dispatch => {
     dispatch({ type: SAVE_RIFF, payload });
 
@@ -304,6 +208,8 @@ export const saveRiff = (token, payload, riff) => {
       .then(res => {
         // res.data.data
         dispatch({ type: SAVE_RIFF_SUCCESS, payload: res.data });
+        // websocket call
+        websocket.send( JSON.stringify( { type: 'update', video_id: riff.video_id } ) )
       })
       .catch(err => {
         dispatch({ type: SAVE_RIFF_FAILURE, payload: err.response });
