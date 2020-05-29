@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 server.get('/api-status', (req, res) => {
-  res.status(200).json({ api: 'running; updated 5.29' });
+  res.status(200).json({ api: 'running', updated: '5.29' });
 });
 
 const { OAuth2Client } = require('google-auth-library');
