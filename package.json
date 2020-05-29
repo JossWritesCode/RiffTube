@@ -6,11 +6,11 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "build": "cd ../front-end/ && npm install && npm run build"
+    "build": "cd front-end/ && npm install && npm run build"
   },
   "cacheDirectories": [
     "node_modules",
-    "../front-end/node_modules"
+    "front-end/node_modules"
   ],
   "repository": {
     "type": "git",
