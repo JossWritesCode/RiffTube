@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 server.get('/api-status', (req, res) => {
-  res.status(200).json({ api: 'up' });
+  res.status(200).json({ api: 'running; updated 5.29' });
 });
 
 const { OAuth2Client } = require('google-auth-library');
@@ -438,7 +438,7 @@ server.post('/collaboration/status', (req, res) => {
 });
 
 // this seems to be necessary! even with the .get below
-server.use(express.static('/app/front-end/build/'));
+server.use(express.static('/app/front-end/build/='));
 
 server.get('/*', function(req, res) {
   res.sendFile('/app/front-end/build/index.html');
