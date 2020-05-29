@@ -103,3 +103,6 @@ typings/
 
 # RiffTube database
 data/db.db3
+
+# Peacock
+.vscode
