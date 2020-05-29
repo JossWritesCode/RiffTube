@@ -109,6 +109,8 @@ class YouTubeVideo extends React.Component {
           if (window.metaUpdate)
             window.metaUpdate(window.metaPlayHead.current);
         }
+
+        //
         this.checkForRiffsToLoad(t);
 
         // first stop any zombie riffs
