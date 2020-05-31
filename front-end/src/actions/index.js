@@ -168,7 +168,8 @@ export const editRiff = (payload, id, gus) => {
   return dispatch => {
     dispatch({
       type: EDIT_RIFF,
-      payload
+      payload, // index
+      id
     });
 
     // id is only passed when the audio riff needs loading
@@ -182,7 +183,7 @@ export const cancelEdit = () => ({
 
 export const saveRiff = (token, payload, riff, websocket) => {
   return dispatch => {
-    dispatch({ type: SAVE_RIFF, payload });
+    dispatch({ type: SAVE_RIFF, payload, riff });
 
     let fd = new FormData();
     fd.append('token', token);

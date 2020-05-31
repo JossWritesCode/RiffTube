@@ -21,6 +21,8 @@ let initialState = {
 
 const riffsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_VIDEO_ID:
+      return initialState;
     case CREATE_TEMP_AUDIO_RIFF:
     case CREATE_TEMP_TEXT_RIFF:
       return {
@@ -65,7 +67,7 @@ const riffsReducer = (state = initialState, action) => {
         temp: {
           ...state.temp,
           duration: action.duration,
-          payload: action.payload
+          //payload: action.payload
         }
       };
     case CANCEL_EDIT:
@@ -85,16 +87,9 @@ const riffsReducer = (state = initialState, action) => {
             payload: el.isText ? el.text : null,
             type: el.isText ? 'text' : 'audio'
           }))
-        /*[
-          ...state.all, // !!! this seems like it shouldn't be here (hence the change)
-          ...action.payload.body.map(el => ({
-            ...el,
-            time: el.start_time,
-            payload: el.isText ? el.text : null,
-            type: el.isText ? 'text' : 'audio'
-          }))
-        ]*/
       };
+
+    /*
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
         let riffs = [...state.all];
@@ -106,8 +101,10 @@ const riffsReducer = (state = initialState, action) => {
         let ret = { ...state, all: riffs };
         return ret;
       } else return state;
+      */
     case SAVE_RIFF: {
-      let riff = { ...state.temp, ...action.payload };
+      const { payload, ...actionPayload } = action.payload; // payload (audio data) will be ignored
+      const riff = { ...state.temp, ...actionPayload };
       let riffs;
 
       // adding a new riff:
@@ -119,12 +116,13 @@ const riffsReducer = (state = initialState, action) => {
       }
 
       return {
-        //        ...state, // not needed because the state is fully specified
         all: riffs,
         temp: null,
         editIndex: null
       };
     }
+
+    /*
     case LOAD_RIFF:
       let ret = { ...state }; // will this work?
       ret.all[action.payload].loading = true;
@@ -148,6 +146,8 @@ const riffsReducer = (state = initialState, action) => {
 
       return ret;
     }
+    */
+   
     default:
       return state;
   }

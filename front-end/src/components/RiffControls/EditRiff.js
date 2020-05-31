@@ -26,11 +26,11 @@ class EditRiff extends React.Component {
         <div className="edit-riff-inner">
           {this.props.tempRiff.type === 'audio' ? (
             <React.Fragment>
-              {this.props.mode === EDIT_MODE && this.props.editIndex && !this.props.tempRiff.payload ? (
+              {this.props.mode === EDIT_MODE && this.props.editIndex && !this.props.tempAudio ? (
                 <span>Loading...</span>
               ) : null}
               <Record saveTempAudio={this.props.saveTempAudio} />
-              {this.props.tempRiff.payload ? (
+              {this.props.tempAudio ? (
                 <button
                   onClick={async () => {
                     debugger;
@@ -39,7 +39,7 @@ class EditRiff extends React.Component {
                     // answer by scottmizo
                     
                     /*
-                    var blob = this.props.tempRiff.payload;
+                    var blob = this.props.tempAudio;
                     var audioContext = new (window.webkitAudioContext || window.AudioContext)();
                     var arrayBuffer = await (new Response(blob)).arrayBuffer();
                     audioContext.decodeAudioData(arrayBuffer, audioData => {
@@ -58,7 +58,7 @@ class EditRiff extends React.Component {
 
                     audio.controls = false;
                     var audioURL = URL.createObjectURL(
-                      this.props.tempRiff.payload
+                      this.props.tempAudio
                     );
                     
                     source.src = audioURL;
@@ -82,12 +82,12 @@ class EditRiff extends React.Component {
                 />
               </div>
               <button
-                disabled={!this.props.tempRiff.payload}
+                disabled={!this.props.tempAudio}
                 onClick={() => {
                   this.props.saveRiff(
                     this.props.googleUser.getAuthResponse().id_token,
                     {
-                      payload: this.props.tempRiff.payload,
+                      payload: this.props.tempAudio,
                       time: Number(this.startTimeField.current.value)
                     },
                     this.props.tempRiff
@@ -100,7 +100,7 @@ class EditRiff extends React.Component {
           ) : (
             <React.Fragment>
               <div>HTML payload:</div>
-              <textarea id="riff-edit-field" ref={this.htmlPayloadField} defaultValue={this.props.tempRiff.payload} />
+              <textarea id="riff-edit-field" ref={this.htmlPayloadField} defaultValue={this.props.tempAudio} />
 
               <div>
                 Duration:{' '}
@@ -155,6 +155,7 @@ class EditRiff extends React.Component {
 const mapStateToProps = state => ({
   mode: state.mode,
   tempRiff: state.riffs.temp,
+  tempAudio: state.riffsAudio.temp,
   editIndex: state.riffs.editIndex,
   googleUser: state.googleUser,
   websocket: state.websocket

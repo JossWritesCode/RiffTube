@@ -66,8 +66,8 @@ class YouTubeVideo extends React.Component {
     this.props.riffs.forEach(riff => {
       if (
         riff.type === 'audio' &&
-        !riff.payload &&
-        !riff.loading &&
+        !this.props.riffsAudio.all[ riff.id ] && //!riff.payload &&
+        !this.props.riffsAudio.loading[ riff.id ] && //!riff.loading &&
         riff.time >= t &&
         riff.time < t + 10
       )
@@ -156,14 +156,14 @@ class YouTubeVideo extends React.Component {
               if (!this.audLock) this.audLock = 1;
               else this.audLock++;
 
-              if (!riff.payload) {
+              if ( !this.props.riffsAudio.all[ riff.id ] ) { //(!riff.payload) {
                 console.log('empty payload error');
                 return;
               } // DEBUG - SHOULD BE REMOVED
-              var audioURL = URL.createObjectURL(riff.payload);
+              var audioURL = URL.createObjectURL( this.props.riffsAudio.all[ riff.id ] );   //(riff.payload);
               //debugger;
 
-              window.lastRiff = riff.payload;
+              window.lastRiff = this.props.riffsAudio.all[ riff.id ]; // riff.payload;
 
               // FIX THIS:
 
@@ -293,7 +293,8 @@ const mapStateToProps = state => ({
   //riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying,
   googleUser: state.googleUser,
-  duration: state.duration
+  duration: state.duration,
+  riffsAudio: state.riffsAudio
 });
 
 const mapDispatchToProps = {

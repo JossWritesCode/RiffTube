@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import riffsReducer from './riffs-reducer';
+import riffsAudioReducer from './riffsAudio-reducer';
 import riffsMetaReducer from './riffsMeta-reducer';
 import modeReducer from './mode-reducer';
 import googleUserReducer from './googleUser-reducer';
@@ -13,6 +14,7 @@ import webSocketReducer from './websocket-reducer';
 
 export default combineReducers({
   riffs: riffsReducer,
+  riffsAudio: riffsAudioReducer,
   riffsMeta: riffsMetaReducer,
   mode: modeReducer,
   googleUser: googleUserReducer,
