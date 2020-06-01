@@ -89,7 +89,7 @@ const riffsReducer = (state = initialState, action) => {
           }))
       };
 
-    /*
+    
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
         let riffs = [...state.all];
@@ -101,7 +101,7 @@ const riffsReducer = (state = initialState, action) => {
         let ret = { ...state, all: riffs };
         return ret;
       } else return state;
-      */
+
     case SAVE_RIFF: {
       const { payload, ...actionPayload } = action.payload; // payload (audio data) will be ignored
       const riff = { ...state.temp, ...actionPayload };

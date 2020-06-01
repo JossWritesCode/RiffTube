@@ -44,7 +44,7 @@ function RiffDetail(props) {
           </button>
           <button
             className="riff-button-delete"
-            onClick={ () => { if (window.confirm("Delete?")) props.deleteRiff(props.id, props.googleUser); } }
+            onClick={ () => { if (window.confirm("Delete?")) props.deleteRiff(props.id, props.googleUser, props.video_id, props.websocket); } }
           >
             <img alt="delete button" src={Delete} />
           </button>
@@ -56,7 +56,8 @@ function RiffDetail(props) {
 
 const mapStateToProps = state => ({
   googleUser: state.googleUser,
-  riffsAudio: state.riffsAudio
+  riffsAudio: state.riffsAudio,
+  websocket: state.websocket
 });
 
 const mapDispatchToProps = {
