@@ -12,7 +12,6 @@ class EditInterface extends React.Component {
   constructor(props) {
     super(props);
     this.videoIDRef = React.createRef();
-    this.state = { websocket: null };
   }
 
   componentDidMount = () => {
@@ -36,7 +35,7 @@ class EditInterface extends React.Component {
 
     if (
       this.loggedIn() &&
-      (!this.state.websocket || this.props.videoID !== prevProps.videoID)
+      (!this.props.websocket || this.props.videoID !== prevProps.videoID)
     ) {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       var baseURL;
@@ -155,6 +154,7 @@ const mapStateToProps = (state) => ({
   videoID: state.videoID,
   googleUser: state.googleUser,
   user_id: state.user_id,
+  websocket: state.websocket
 });
 
 const mapDispatchToProps = {
