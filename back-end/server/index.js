@@ -29,7 +29,6 @@ server.use(express.json());
 server.use(cors());
 
 // enforce HTTPS
-
 if (process.env.NODE_ENV === 'production') {
   server.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
@@ -55,6 +54,7 @@ function verify(token) {
   });
 }
 
+// return given riff's audio data
 server.post('/load-riff', (req, res) => {
   const body = req.body;
   return db('riffs')
@@ -90,6 +90,7 @@ server.delete('/riff-remove/:id', (req, res) => {
     });
 });
 
+// sets the "riffer name" for a given user
 server.post('/set-name', (req, res) => {
   const body = req.body;
 
@@ -126,6 +127,7 @@ server.post('/set-name', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// get riffs returns the riffs of a given user for a given video
 server.post('/get-riffs', (req, res) => {
   const body = req.body;
 
@@ -172,18 +174,6 @@ server.post('/get-riffs', (req, res) => {
               'riffs.isText as isText',
               'riffs.text as text'
             )
-            /*
-        return db('riffs')
-          .select(
-            'id',
-            'user_id',
-            'video_id',
-            'duration',
-            'start_time',
-            'isText',
-            'text'
-          )
-          */
             .where({ user_id: uID, video_id: vID })
             .then(riffList => {
               console.log('GF then 3');
@@ -201,6 +191,11 @@ server.post('/get-riffs', (req, res) => {
     });
 });
 
+// save riff does as it name suggests.
+// in addition, if this is the first riff ever for a video,
+// this function will also add that video to the video table.
+// likewise if it happens to be the users first riff ever,
+// this will add the user to the users table.
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
@@ -259,37 +254,12 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 },
                 ['id']
               );
-              
-              /*
-              // duration stuff moved to front-end
-              return ytapi
-                .getVideoByID(body.video_id)
-                .then(video => {
-                  console.log(
-                    `The video's title is ${video.title}, duration: ${video.durationSeconds}`
-                  );
-
-                  return db('videos').insert(
-                    {
-                      url: body.video_id,
-                      title: video.title,
-                      duration: video.durationSeconds
-                    },
-                    ['id', 'duration']
-                  );
-                })
-                .catch(console.log);
-                */
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           })
       ]);
     })
     // once we know the user and video exist, insert the riff
-    /*.then(() => {
-      // get the IDs of the user and video, then insert the data
-      return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
-    })*/
     .then(([[{ id: idin }], [{ id: vidid }]]) => {
       console.log('UID!', idin);
       console.log('VID!', vidid);
@@ -325,6 +295,9 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// get view riffs essentially returns riff meta for a video.
+// it is used in both the edit and view interfaces,
+// but the reducer behaves differently, depending.
 server.post('/get-view-riffs', (req, res) => {
   const body = req.body;
 
@@ -448,9 +421,10 @@ server.post('/collaboration/status', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-// this seems to be necessary! even with the .get below
+// serve up the base directory
 server.use(express.static('/app/front-end/build/'));
 
+// send all otherwise uncaught requests to index.html (?)
 server.get('/*', function(req, res) {
   res.sendFile('/app/front-end/build/index.html');
 });
