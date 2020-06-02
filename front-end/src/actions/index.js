@@ -93,7 +93,7 @@ export const setVideoID = (videoID, googleUser) => {
 };
 
 //Delete Riff
-export const deleteRiff = (riffID, googleUser) => {
+export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
   return dispatch => {
     axios({
       method: 'delete',
@@ -103,6 +103,9 @@ export const deleteRiff = (riffID, googleUser) => {
       }
     }).then(res => {
       dispatch({ type: DELETE_RIFF, id: riffID });
+      
+      // websocket call
+      websocket.send( JSON.stringify( { type: 'update', video_id } ) )
     });
   };
 };
@@ -122,6 +125,18 @@ export const setGoogleUser = (googleUser, videoID) => {
     }).then(res => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
+    axios({
+      method: 'post',
+      url: `/get-view-riffs`,
+      data: { videoID }
+    }).then(res => {
+      dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
+    });
+  };
+};
+
+export const getRiffsMeta = videoID => {
+  return dispatch => {
     axios({
       method: 'post',
       url: `/get-view-riffs`,
@@ -168,11 +183,12 @@ export const editRiff = (payload, id, gus) => {
   return dispatch => {
     dispatch({
       type: EDIT_RIFF,
-      payload
+      payload, // index
+      id
     });
 
     // id is only passed when the audio riff needs loading
-    if (id) rawLoadAxios(dispatch, id, gus);
+    if (id) rawLoadAxios(dispatch, id, gus); // loads riff audio
   };
 };
 
@@ -182,7 +198,7 @@ export const cancelEdit = () => ({
 
 export const saveRiff = (token, payload, riff, websocket) => {
   return dispatch => {
-    dispatch({ type: SAVE_RIFF, payload });
+    dispatch({ type: SAVE_RIFF, payload, riff });
 
     let fd = new FormData();
     fd.append('token', token);

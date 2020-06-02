@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
-    "start": "node back-end/index.js",
+    "start": "node index.js",
     "build": "cd ../front-end/ && npm install && npm run build"
   },
   "cacheDirectories": [

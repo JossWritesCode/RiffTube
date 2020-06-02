@@ -9,8 +9,9 @@ class ViewFilter extends React.Component {
     this.selectDiv = React.createRef();
     window.metaUpdate = (el) => {
       console.log(el.offsetLeft);
-      this.selectDiv.current.scrollLeft =
-        el.offsetLeft - this.selectDiv.current.offsetWidth / 2;
+      if ( this.selectDiv.current ) // seems like it shouldn't be needed, but here we are
+        this.selectDiv.current.scrollLeft =
+          el.offsetLeft - this.selectDiv.current.offsetWidth / 2;
     };
 
     this.state = {

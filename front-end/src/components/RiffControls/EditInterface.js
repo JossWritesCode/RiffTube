@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID, setWebSocket } from '../../actions';
+import { setVideoID, setWebSocket, getRiffsMeta } from '../../actions';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 
@@ -12,7 +12,6 @@ class EditInterface extends React.Component {
   constructor(props) {
     super(props);
     this.videoIDRef = React.createRef();
-    this.state = { websocket: null };
   }
 
   componentDidMount = () => {
@@ -36,7 +35,7 @@ class EditInterface extends React.Component {
 
     if (
       this.loggedIn() &&
-      (!this.state.websocket || this.props.videoID !== prevProps.videoID)
+      (!this.props.websocket || this.props.videoID !== prevProps.videoID)
     ) {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       var baseURL;
@@ -49,8 +48,13 @@ class EditInterface extends React.Component {
           this.props.match.params.videoID
         }&googleToken=${this.props.googleUser.getAuthResponse().id_token}`
       );
-      websocket.onmessage = function (event) {
+      websocket.onmessage = (event) => {
         console.log(event.data);
+
+        const msg = JSON.parse( event.data );
+
+        if ( msg.video_id === this.props.videoID && msg.type === "update" )
+          this.props.getRiffsMeta( this.props.videoID )
       };
       this.props.setWebSocket(websocket);
     }
@@ -155,11 +159,13 @@ const mapStateToProps = (state) => ({
   videoID: state.videoID,
   googleUser: state.googleUser,
   user_id: state.user_id,
+  websocket: state.websocket
 });
 
 const mapDispatchToProps = {
   setVideoID,
   setWebSocket,
+  getRiffsMeta
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);
