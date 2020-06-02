@@ -8,10 +8,10 @@ function getIdAndNameFromEmail(email) {
     );
 }
 
-function getIdAndDurationFromVideoId(url) {
+function getIdFromVideoId(url) {
     return (
         db('videos')
-            .select('id', 'duration')
+            .select('id')
             .where({ url })
     );
 }
@@ -26,6 +26,6 @@ function getNameFromID(id) {
 
 module.exports = {
     getIdAndNameFromEmail,
-    getIdAndDurationFromVideoId,
+    getIdFromVideoId,
     getNameFromID
   };

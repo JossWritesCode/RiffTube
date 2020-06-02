@@ -10,7 +10,9 @@ const WebSocket = require('ws');
 
 // to get youtube video names
 const SimpleYouTubeAPI = require('simple-youtube-api');
-const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
+
+// was used for duration -- no longer needed
+//const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -144,16 +146,16 @@ server.post('/get-riffs', (req, res) => {
 
       return Promise.all([
         data_model.getIdAndNameFromEmail(payload.email),
-        data_model.getIdAndDurationFromVideoId(body.videoID)
+        data_model.getIdFromVideoId(body.videoID)
       ]);
     })
     .then(([emailArr, vIDArr]) => {
       console.log('GR then again', emailArr, vIDArr);
       if (emailArr.length === 0 || vIDArr.length === 0) {
-        res.status(200).json({ info: 'no riffs yet', body: [], duration: null });
+        res.status(200).json({ info: 'no riffs yet', body: [] });
       } else {
         var [{ id: uID, name }] = emailArr;
-        var [{ id: vID, duration }] = vIDArr;
+        var [{ id: vID }] = vIDArr;
 
         console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
@@ -190,8 +192,7 @@ server.post('/get-riffs', (req, res) => {
                 status: 'ok',
                 body: riffList,
                 name,
-                user_id: uID,
-                duration
+                user_id: uID
               });
             })
             .catch(err => res.status(500).json({ error: err }))
@@ -248,6 +249,19 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             console.log('SR get vidlist', vidList);
 
             if (vidList.length === 0) {
+              console.log( `The video's title is ${video.title}` );
+
+              return db('videos').insert(
+                {
+                  url: body.video_id,
+                  title: video.title,
+                  duration: 0 // duration unneeded -- TBD: remove column from table
+                },
+                ['id']
+              );
+              
+              /*
+              // duration stuff moved to front-end
               return ytapi
                 .getVideoByID(body.video_id)
                 .then(video => {
@@ -265,6 +279,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                   );
                 })
                 .catch(console.log);
+                */
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           })
@@ -275,7 +290,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       // get the IDs of the user and video, then insert the data
       return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
     })*/
-    .then(([[{ id: idin }], [{ id: vidid, duration }]]) => {
+    .then(([[{ id: idin }], [{ id: vidid }]]) => {
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
@@ -297,8 +312,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               status: 'ok',
               type: 'add',
               tempId: Number(body.tempId),
-              id: newRiffId,
-              duration: duration
+              id: newRiffId
             })
           );
       } else {
@@ -316,14 +330,10 @@ server.post('/get-view-riffs', (req, res) => {
 
   console.log('get view riffs', body.videoID);
 
-  let dur;
-
   data_model
-    .getIdAndDurationFromVideoId(body.videoID)
-    .then(([{ id: vID, duration }]) => {
+    .getIdFromVideoId(body.videoID)
+    .then(([{ id: vID }]) => {
       console.log(vID);
-
-      dur = duration;
 
       console.log('GVR then 1');
 
@@ -347,12 +357,13 @@ server.post('/get-view-riffs', (req, res) => {
       res.status(200).json({
         status: 'ok',
         body: riffList.map(el => ({ ...el, video_id: body.videoID })),
-        timestamp: Date.now(),
-        duration: dur
+        timestamp: Date.now()
       });
     })
     .catch(err => res.status(500).json({ error: err }));
 });
+
+/************ collaboration: not yet implemented */
 
 // start collaboration (and create websocket)
 server.post('/collaboration/start', (req, res) => {

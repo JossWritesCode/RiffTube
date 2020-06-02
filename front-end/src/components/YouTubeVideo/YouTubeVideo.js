@@ -5,6 +5,7 @@ import {
   setRiffPlaying,
   loadRiff,
   togglePlayerMode,
+  setVideoDuration,
   EDIT_MODE,
   EDIT_NEW_MODE,
   PLAY_MODE,
@@ -59,6 +60,8 @@ class YouTubeVideo extends React.Component {
 
   onPlayerReady = event => {
     //event.target.playVideo();
+
+    this.props.setVideoDuration( event.target.getDuration() );
   };
 
   // TODO: account for muted riffs!!!!
@@ -301,7 +304,8 @@ const mapDispatchToProps = {
   setPlayerMode,
   setRiffPlaying,
   togglePlayerMode,
-  loadRiff
+  loadRiff,
+  setVideoDuration
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YouTubeVideo);
