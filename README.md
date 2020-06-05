@@ -10,26 +10,23 @@ RiffTube allows you to add your own riffs to any video on YouTube.
 
 Site deployed here: [https://rifftube.herokuapp.com/](https://rifftube.herokuapp.com/)
 
-
 ## Built With
 
-* [React](https://reactjs.org/)
-* [Redux](https://redux.js.org/) - State Management
-* [Sass](https://sass-lang.com/) - Style Library
-* [YouTube API](https://developers.google.com/youtube/v3)
-* [Google Login](https://developers.google.com/identity)
-* [Node.js](https://nodejs.org/en/) - Back End Language
-* [Express](https://expressjs.com/) - Node Framework
-
+- [React](https://reactjs.org/)
+- [Redux](https://redux.js.org/) - State Management
+- [Sass](https://sass-lang.com/) - Style Library
+- [YouTube API](https://developers.google.com/youtube/v3)
+- [Google Login](https://developers.google.com/identity)
+- [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js) Audio API
+- [Node.js](https://nodejs.org/en/) - Back End Language
+- [Express](https://expressjs.com/) - Node Framework
 
 ## Authors
 
-* **David Newberry** - [paxfeline](https://github.com/paxfeline)
+- **David Newberry** - [paxfeline](https://github.com/paxfeline)
 
-* **Joscelyn Stancek** - [JossWritesCode](https://github.com/JossWritesCode)
-
+- **Joscelyn Stancek** - [JossWritesCode](https://github.com/JossWritesCode)
 
 ## License
 
 This project is licensed under the MIT License
-

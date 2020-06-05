@@ -11,7 +11,7 @@ class Login extends React.Component {
         className="google-login"
         scope="profile email"
         fetchBasicProfile={false}
-        responseHandler={gus => {
+        responseHandler={(gus) => {
           this.props.setGoogleUser(gus, this.props.videoID);
         }}
         buttonText="Login With Google"
@@ -20,12 +20,12 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  videoID: state.videoID
+const mapStateToProps = (state) => ({
+  videoID: state.videoID,
 });
 
 const mapDispatchToProps = {
-  setGoogleUser
+  setGoogleUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
