@@ -58,7 +58,7 @@ export const setWebSocket = (payload) => ({
 
 export const setVideoDuration = (payload) => ({
   type: SET_VIDEO_DURATION,
-  payload
+  payload,
 });
 
 export const setRifferName = (newName, googleUser) => {

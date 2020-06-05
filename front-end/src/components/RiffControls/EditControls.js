@@ -11,22 +11,24 @@ import { EDIT_MODE, EDIT_NEW_MODE } from '../../actions/index.js';
 function EditControls(props) {
   return (
     <div className="control-panel">
-      {// make this into a component?:
-      props.name ? (
-        <div>
-          Riffer Name:&nbsp;
-          {props.name}
-          <button
-            type="button"
-            onClick={() => {
-              var n = prompt('Enter name', props.name);
-              if (n) props.setRifferName(n, props.googleUser);
-            }}
-          >
-            Update Name
-          </button>
-        </div>
-      ) : null}
+      {
+        // make this into a component?:
+        props.name ? (
+          <div>
+            Riffer Name:&nbsp;
+            {props.name}
+            <button
+              type="button"
+              onClick={() => {
+                var n = prompt('Enter name', props.name);
+                if (n) props.setRifferName(n, props.googleUser);
+              }}
+            >
+              Update Name
+            </button>
+          </div>
+        ) : null
+      }
 
       {/* to add back later <Collaboration /> */}
 
@@ -45,14 +47,14 @@ function EditControls(props) {
   );
 }
 
-let mapStateToProps = state => ({
+let mapStateToProps = (state) => ({
   mode: state.mode,
   name: state.name,
-  googleUser: state.googleUser
+  googleUser: state.googleUser,
 });
 
 const mapDispatchToProps = {
-  setRifferName
+  setRifferName,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditControls);
