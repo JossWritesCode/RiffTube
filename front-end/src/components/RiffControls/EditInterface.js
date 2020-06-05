@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
@@ -91,17 +91,15 @@ class EditInterface extends React.Component {
             </div>
           </div>
           <h4 className="get-started-instructions">
-            <Route
-              exact
-              path="/riff/:videoID"
-              render={() => {
-                return this.loggedIn() ? null : (
-                  <React.Fragment>
-                    <Login /> <p>to get started</p>
-                  </React.Fragment>
-                );
-              }}
-            />
+            {
+              this.loggedIn()
+              ?
+                null
+              :
+                <React.Fragment>
+                  <Login /> <p>to get started</p>
+                </React.Fragment>
+            }
           </h4>
           <form
             onSubmit={(e) => {
@@ -140,12 +138,13 @@ class EditInterface extends React.Component {
             </a>
           </div>
         </div>
-        <Route
-          exact
-          path="/riff/:videoID"
-          render={() => {
-            return this.loggedIn() ? <EditControls /> : null;
-          }}
+        {
+          this.loggedIn()
+          ?
+            <EditControls />
+          :
+            null
+        }
         />
       </React.Fragment>
     ) : (
