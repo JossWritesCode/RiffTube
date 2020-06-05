@@ -7,8 +7,6 @@ import {
   SAVE_TEMP_AUDIO,
   CANCEL_EDIT,
   EDIT_RIFF,
-  LOAD_RIFF,
-  RIFF_LOADED,
   RECEIVE_RIFF_LIST,
   SAVE_RIFF_SUCCESS
 } from '../actions/index.js';

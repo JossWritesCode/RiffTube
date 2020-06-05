@@ -43,6 +43,8 @@ export const RECEIVE_COLLABORATION_ID = 'RECEIVE_COLLABORATION_ID';
 export const CREATE_PLAYLIST_SUCCESS = 'START_COLLABORATION_SUCCESS';
 export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 
+export const SET_VIDEO_DURATION = 'SET_VIDEO_DURATION';
+
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
 /******** WebSockets */
@@ -53,6 +55,11 @@ export const setWebSocket = (payload) => ({
 });
 
 /******** Editing Interface */
+
+export const setVideoDuration = (payload) => ({
+  type: SET_VIDEO_DURATION,
+  payload
+});
 
 export const setRifferName = (newName, googleUser) => {
   return (dispatch) => {

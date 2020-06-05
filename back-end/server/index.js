@@ -10,7 +10,9 @@ const WebSocket = require('ws');
 
 // to get youtube video names
 const SimpleYouTubeAPI = require('simple-youtube-api');
-const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
+
+// was used for duration -- no longer needed
+//const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -27,7 +29,6 @@ server.use(express.json());
 server.use(cors());
 
 // enforce HTTPS
-
 if (process.env.NODE_ENV === 'production') {
   server.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
@@ -53,6 +54,7 @@ function verify(token) {
   });
 }
 
+// return given riff's audio data
 server.post('/load-riff', (req, res) => {
   const body = req.body;
   return db('riffs')
@@ -88,6 +90,7 @@ server.delete('/riff-remove/:id', (req, res) => {
     });
 });
 
+// sets the "riffer name" for a given user
 server.post('/set-name', (req, res) => {
   const body = req.body;
 
@@ -124,6 +127,7 @@ server.post('/set-name', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// get riffs returns the riffs of a given user for a given video
 server.post('/get-riffs', (req, res) => {
   const body = req.body;
 
@@ -144,16 +148,16 @@ server.post('/get-riffs', (req, res) => {
 
       return Promise.all([
         data_model.getIdAndNameFromEmail(payload.email),
-        data_model.getIdAndDurationFromVideoId(body.videoID)
+        data_model.getIdFromVideoId(body.videoID)
       ]);
     })
     .then(([emailArr, vIDArr]) => {
       console.log('GR then again', emailArr, vIDArr);
       if (emailArr.length === 0 || vIDArr.length === 0) {
-        res.status(200).json({ info: 'no riffs yet', body: [], duration: null });
+        res.status(200).json({ info: 'no riffs yet', body: [] });
       } else {
         var [{ id: uID, name }] = emailArr;
-        var [{ id: vID, duration }] = vIDArr;
+        var [{ id: vID }] = vIDArr;
 
         console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
@@ -170,18 +174,6 @@ server.post('/get-riffs', (req, res) => {
               'riffs.isText as isText',
               'riffs.text as text'
             )
-            /*
-        return db('riffs')
-          .select(
-            'id',
-            'user_id',
-            'video_id',
-            'duration',
-            'start_time',
-            'isText',
-            'text'
-          )
-          */
             .where({ user_id: uID, video_id: vID })
             .then(riffList => {
               console.log('GF then 3');
@@ -190,8 +182,7 @@ server.post('/get-riffs', (req, res) => {
                 status: 'ok',
                 body: riffList,
                 name,
-                user_id: uID,
-                duration
+                user_id: uID
               });
             })
             .catch(err => res.status(500).json({ error: err }))
@@ -200,6 +191,11 @@ server.post('/get-riffs', (req, res) => {
     });
 });
 
+// save riff does as it name suggests.
+// in addition, if this is the first riff ever for a video,
+// this function will also add that video to the video table.
+// likewise if it happens to be the users first riff ever,
+// this will add the user to the users table.
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
@@ -248,34 +244,23 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             console.log('SR get vidlist', vidList);
 
             if (vidList.length === 0) {
-              return ytapi
-                .getVideoByID(body.video_id)
-                .then(video => {
-                  console.log(
-                    `The video's title is ${video.title}, duration: ${video.durationSeconds}`
-                  );
+              console.log( `The video's title is ${video.title}` );
 
-                  return db('videos').insert(
-                    {
-                      url: body.video_id,
-                      title: video.title,
-                      duration: video.durationSeconds
-                    },
-                    ['id', 'duration']
-                  );
-                })
-                .catch(console.log);
+              return db('videos').insert(
+                {
+                  url: body.video_id,
+                  title: video.title,
+                  duration: 0 // duration unneeded -- TBD: remove column from table
+                },
+                ['id']
+              );
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           })
       ]);
     })
     // once we know the user and video exist, insert the riff
-    /*.then(() => {
-      // get the IDs of the user and video, then insert the data
-      return Promise.all([data_model.getIdFromEmail(payload.email), data_model.getIdFromVideoId(body.video_id)]);
-    })*/
-    .then(([[{ id: idin }], [{ id: vidid, duration }]]) => {
+    .then(([[{ id: idin }], [{ id: vidid }]]) => {
       console.log('UID!', idin);
       console.log('VID!', vidid);
 
@@ -297,8 +282,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               status: 'ok',
               type: 'add',
               tempId: Number(body.tempId),
-              id: newRiffId,
-              duration: duration
+              id: newRiffId
             })
           );
       } else {
@@ -311,19 +295,18 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
+// get view riffs essentially returns riff meta for a video.
+// it is used in both the edit and view interfaces,
+// but the reducer behaves differently, depending.
 server.post('/get-view-riffs', (req, res) => {
   const body = req.body;
 
   console.log('get view riffs', body.videoID);
 
-  let dur;
-
   data_model
-    .getIdAndDurationFromVideoId(body.videoID)
-    .then(([{ id: vID, duration }]) => {
+    .getIdFromVideoId(body.videoID)
+    .then(([{ id: vID }]) => {
       console.log(vID);
-
-      dur = duration;
 
       console.log('GVR then 1');
 
@@ -347,12 +330,13 @@ server.post('/get-view-riffs', (req, res) => {
       res.status(200).json({
         status: 'ok',
         body: riffList.map(el => ({ ...el, video_id: body.videoID })),
-        timestamp: Date.now(),
-        duration: dur
+        timestamp: Date.now()
       });
     })
     .catch(err => res.status(500).json({ error: err }));
 });
+
+/************ collaboration: not yet implemented */
 
 // start collaboration (and create websocket)
 server.post('/collaboration/start', (req, res) => {
@@ -437,9 +421,10 @@ server.post('/collaboration/status', (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-// this seems to be necessary! even with the .get below
+// serve up the base directory
 server.use(express.static('/app/front-end/build/'));
 
+// send all otherwise uncaught requests to index.html (?)
 server.get('/*', function(req, res) {
   res.sendFile('/app/front-end/build/index.html');
 });
