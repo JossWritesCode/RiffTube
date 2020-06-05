@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 function NavBar({ color, googleUser }) {
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
-
     return false;
   };
+  
   return (
     <nav className="navbar">
       <NavLink style={{ color }} to="/">
