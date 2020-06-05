@@ -51,10 +51,10 @@ class EditInterface extends React.Component {
       websocket.onmessage = (event) => {
         console.log(event.data);
 
-        const msg = JSON.parse( event.data );
+        const msg = JSON.parse(event.data);
 
-        if ( msg.video_id === this.props.videoID && msg.type === "update" )
-          this.props.getRiffsMeta( this.props.videoID )
+        if (msg.video_id === this.props.videoID && msg.type === 'update')
+          this.props.getRiffsMeta(this.props.videoID);
       };
       this.props.setWebSocket(websocket);
     }
@@ -159,13 +159,13 @@ const mapStateToProps = (state) => ({
   videoID: state.videoID,
   googleUser: state.googleUser,
   user_id: state.user_id,
-  websocket: state.websocket
+  websocket: state.websocket,
 });
 
 const mapDispatchToProps = {
   setVideoID,
   setWebSocket,
-  getRiffsMeta
+  getRiffsMeta,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);

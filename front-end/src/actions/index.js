@@ -47,45 +47,45 @@ export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
 /******** WebSockets */
 
-export const setWebSocket = payload => ({
+export const setWebSocket = (payload) => ({
   type: WEB_SOCKET_UPDATE,
-  payload
+  payload,
 });
 
 /******** Editing Interface */
 
 export const setRifferName = (newName, googleUser) => {
-  return dispatch => {
+  return (dispatch) => {
     axios({
       method: 'post',
       url: `/set-name`,
-      data: { token: googleUser.getAuthResponse().id_token, newName }
-    }).then(res => {
+      data: { token: googleUser.getAuthResponse().id_token, newName },
+    }).then((res) => {
       dispatch({ type: RECEIVE_NAME_UPDATE, payload: res.data });
     });
   };
 };
 
 export const setVideoID = (videoID, googleUser) => {
-  return dispatch => {
+  return (dispatch) => {
     //console.log( "get url", `/get-riffs` );
     dispatch({
       type: SET_VIDEO_ID,
-      payload: videoID
+      payload: videoID,
     });
     if (googleUser && googleUser.getAuthResponse) {
       axios({
         method: 'post',
         url: `/get-riffs`,
-        data: { token: googleUser.getAuthResponse().id_token, videoID }
-      }).then(res => {
+        data: { token: googleUser.getAuthResponse().id_token, videoID },
+      }).then((res) => {
         dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
       });
       axios({
         method: 'post',
         url: `/get-view-riffs`,
-        data: { videoID }
-      }).then(res => {
+        data: { videoID },
+      }).then((res) => {
         dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
       });
     }
@@ -94,78 +94,78 @@ export const setVideoID = (videoID, googleUser) => {
 
 //Delete Riff
 export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
-  return dispatch => {
+  return (dispatch) => {
     axios({
       method: 'delete',
       url: `/riff-remove/${riffID}`,
       data: {
-        token: googleUser.getAuthResponse().id_token
-      }
-    }).then(res => {
+        token: googleUser.getAuthResponse().id_token,
+      },
+    }).then((res) => {
       dispatch({ type: DELETE_RIFF, id: riffID });
-      
+
       // websocket call
-      websocket.send( JSON.stringify( { type: 'update', video_id } ) )
+      websocket.send(JSON.stringify({ type: 'update', video_id }));
     });
   };
 };
 
 // perhaps this action should somehow call the above action (setVideoID)?
 export const setGoogleUser = (googleUser, videoID) => {
-  return dispatch => {
+  return (dispatch) => {
     //console.log( "get url", `/get-riffs` );
     dispatch({
       type: GOOGLE_USER_SIGNIN,
-      payload: googleUser
+      payload: googleUser,
     });
     axios({
       method: 'post',
       url: `/get-riffs`,
-      data: { token: googleUser.getAuthResponse().id_token, videoID }
-    }).then(res => {
+      data: { token: googleUser.getAuthResponse().id_token, videoID },
+    }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
     axios({
       method: 'post',
       url: `/get-view-riffs`,
-      data: { videoID }
-    }).then(res => {
+      data: { videoID },
+    }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     });
   };
 };
 
-export const getRiffsMeta = videoID => {
-  return dispatch => {
+export const getRiffsMeta = (videoID) => {
+  return (dispatch) => {
     axios({
       method: 'post',
       url: `/get-view-riffs`,
-      data: { videoID }
-    }).then(res => {
+      data: { videoID },
+    }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     });
   };
 };
 
-export const getViewRiffs = videoID => {
-  return dispatch => {
+export const getViewRiffs = (videoID) => {
+  return (dispatch) => {
     axios({
       method: 'post',
       url: `/get-view-riffs`,
-      data: { videoID }
-    }).then(res => {
+      data: { videoID },
+    }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
   };
 };
 
-export const setPlayerMode = mode => ({
+export const setPlayerMode = (mode) => ({
   type: SET_PLAYER_MODE,
-  payload: mode
+  payload: mode,
 });
 
-export const togglePlayerMode = mode => ({
-  type: TOGGLE_PLAYER_MODE
+export const togglePlayerMode = (mode) => ({
+  type: TOGGLE_PLAYER_MODE,
 });
 
 /*export const saveRiff = payload => ({
@@ -176,15 +176,15 @@ export const togglePlayerMode = mode => ({
 export const saveTempAudio = (payload, duration) => ({
   type: SAVE_TEMP_AUDIO,
   payload,
-  duration
+  duration,
 });
 
 export const editRiff = (payload, id, gus) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: EDIT_RIFF,
       payload, // index
-      id
+      id,
     });
 
     // id is only passed when the audio riff needs loading
@@ -193,11 +193,11 @@ export const editRiff = (payload, id, gus) => {
 };
 
 export const cancelEdit = () => ({
-  type: CANCEL_EDIT
+  type: CANCEL_EDIT,
 });
 
 export const saveRiff = (token, payload, riff, websocket) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: SAVE_RIFF, payload, riff });
 
     let fd = new FormData();
@@ -219,15 +219,17 @@ export const saveRiff = (token, payload, riff, websocket) => {
       method: 'post',
       url: `/save-riff`,
       data: fd,
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
-      .then(res => {
+      .then((res) => {
         // res.data.data
         dispatch({ type: SAVE_RIFF_SUCCESS, payload: res.data });
         // websocket call
-        websocket.send( JSON.stringify( { type: 'update', video_id: riff.video_id } ) )
+        websocket.send(
+          JSON.stringify({ type: 'update', video_id: riff.video_id })
+        );
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch({ type: SAVE_RIFF_FAILURE, payload: err.response });
       });
   };
@@ -235,16 +237,16 @@ export const saveRiff = (token, payload, riff, websocket) => {
 
 export const createTempRiff = (type, videoID) => ({
   type: type === 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF,
-  videoID
+  videoID,
 });
 
 export const setRiffPlaying = (index, playing) => ({
   type: playing ? SET_RIFF_PLAYING : SET_RIFF_NOT_PLAYING,
-  payload: index
+  payload: index,
 });
 
 export const loadRiff = (id, guser) => {
-  return dispatch => {
+  return (dispatch) => {
     rawLoadAxios(dispatch, id, guser);
   };
 };
@@ -254,8 +256,8 @@ const rawLoadAxios = (dispatch, id, guser) => {
     method: 'post',
     url: `/load-riff`,
     responseType: 'arraybuffer',
-    data: { token: guser ? guser.getAuthResponse().id_token : null, id } // modified to make guser optional
-  }).then(res => {
+    data: { token: guser ? guser.getAuthResponse().id_token : null, id }, // modified to make guser optional
+  }).then((res) => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
   });
 };
