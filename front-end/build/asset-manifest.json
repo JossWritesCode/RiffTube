@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6fe9e27b.chunk.css",
+    "main.js": "/static/js/main.c05e0359.chunk.js",
+    "main.js.map": "/static/js/main.c05e0359.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.cd939493.js",
+    "runtime-main.js.map": "/static/js/runtime-main.cd939493.js.map",
+    "static/css/2.1f156bdb.chunk.css": "/static/css/2.1f156bdb.chunk.css",
+    "static/js/2.e6d0f6ce.chunk.js": "/static/js/2.e6d0f6ce.chunk.js",
+    "static/js/2.e6d0f6ce.chunk.js.map": "/static/js/2.e6d0f6ce.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.c361f9c132a2c75a31c2ca157a524d81.js": "/precache-manifest.c361f9c132a2c75a31c2ca157a524d81.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.1f156bdb.chunk.css.map": "/static/css/2.1f156bdb.chunk.css.map",
+    "static/css/main.6fe9e27b.chunk.css.map": "/static/css/main.6fe9e27b.chunk.css.map",
+    "static/js/2.e6d0f6ce.chunk.js.LICENSE.txt": "/static/js/2.e6d0f6ce.chunk.js.LICENSE.txt",
+    "static/media/chat-24px.svg": "/static/media/chat-24px.190e0f49.svg",
+    "static/media/delete-24px.svg": "/static/media/delete-24px.2fc9a828.svg",
+    "static/media/edit-24px.svg": "/static/media/edit-24px.94f6e29d.svg",
+    "static/media/settings_voice-24px.svg": "/static/media/settings_voice-24px.62e607b7.svg",
+    "static/media/undraw_horror_movie_3988.svg": "/static/media/undraw_horror_movie_3988.a8de6ac3.svg",
+    "static/media/undraw_movie_night_93wl.svg": "/static/media/undraw_movie_night_93wl.bd90a236.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd939493.js",
+    "static/css/2.1f156bdb.chunk.css",
+    "static/js/2.e6d0f6ce.chunk.js",
+    "static/css/main.6fe9e27b.chunk.css",
+    "static/js/main.c05e0359.chunk.js"
+  ]
+}
