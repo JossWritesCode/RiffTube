@@ -12,7 +12,7 @@ const WebSocket = require('ws');
 const SimpleYouTubeAPI = require('simple-youtube-api');
 
 // was used for duration -- no longer needed
-//const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
+const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
 const server = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -240,16 +240,21 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             console.log('SR get vidlist', vidList);
 
             if (vidList.length === 0) {
-              console.log(`The video's title is ${video.title}`);
+              return ytapi
+              .getVideoByID(body.video_id)
+              .then(video => {
+                console.log( `The video's title is ${video.title}` );
 
-              return db('videos').insert(
-                {
-                  url: body.video_id,
-                  title: video.title,
-                  duration: 0, // duration unneeded -- TBD: remove column from table
-                },
-                ['id']
-              );
+                return db('videos').insert(
+                  {
+                    url: body.video_id,
+                    title: video.title,
+                    duration: 0 // duration no longer used
+                  },
+                  ['id']
+                );
+              })
+              .catch(console.log);
             } else console.log('not inserting video');
             return Promise.resolve(vidList);
           }),

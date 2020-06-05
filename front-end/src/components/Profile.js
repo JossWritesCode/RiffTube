@@ -3,11 +3,22 @@ import { connect } from 'react-redux';
 import { setRifferName } from '../actions';
 import NavBar from './NavBar.js';
 
-function Profile({ name, googleUser }) {
+function Profile({ name, googleUser, setRifferName }) {
   return (
     <div className="landing-page">
-      <NavBar color="white" />
-      <p>Hello ${name}</p>
+      <NavBar />
+      <section className="top-part">
+        <p>Hello {name}</p>
+        <button
+          type="button"
+          onClick={() => {
+            var n = prompt('Enter name', name);
+            if (n) setRifferName(n, googleUser);
+          }}
+        >
+          Update Name
+        </button>
+      </section>
     </div>
   );
 }
