@@ -45,6 +45,8 @@ export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 
 export const SET_VIDEO_DURATION = 'SET_VIDEO_DURATION';
 
+export const LOAD_PROFILE_DATA = 'LOAD_PROFILE_DATA';
+
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
 /******** WebSockets */
@@ -164,6 +166,18 @@ export const getViewRiffs = (videoID) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     });
   };
+};
+
+export const getProfileData = googleUser => {
+  return (dispatch) => {
+    axios({
+      method: 'post',
+      url: `/get-user-data`,
+      data: { videoID },
+    }).then((res) => {
+      dispatch({ type: LOAD_PROFILE_DATA, payload: res.data });
+    });
+  }
 };
 
 export const setPlayerMode = (mode) => ({

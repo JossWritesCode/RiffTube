@@ -24,8 +24,20 @@ function getNameFromID(id) {
     );
 }
 
+function getVideoInfoForUser(user_id)
+{
+    return (
+        db('riffs')
+            .join('videos', 'riffs.video_id', 'videos.id')
+            .select('videos.id', 'videos.name')
+            .groupBy('video_id')
+            .where({ user_id })
+    );
+}
+
 module.exports = {
     getIdAndNameFromEmail,
     getIdFromVideoId,
-    getNameFromID
+    getNameFromID,
+    getVideoInfoForUser
   };

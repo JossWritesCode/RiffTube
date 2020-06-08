@@ -337,13 +337,11 @@ server.post('/get-view-riffs', (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-/************ collaboration: not yet implemented */
-
-// start collaboration (and create websocket)
-server.post('/collaboration/start', (req, res) => {
+// get info for profile
+server.get('/get-user-data', (req, res) => {
   const body = req.body;
 
-  console.log('collaboration start');
+  console.log('get user data', body.videoID);
 
   var payload;
 
@@ -351,74 +349,23 @@ server.post('/collaboration/start', (req, res) => {
     // once verified, get and pass on payload
     .then((ticket) => {
       payload = ticket.getPayload();
-
-      console.log('VT then 1');
-
-      return data_model.getIdAndNameFromEmail(payload.email);
+      console.log( `GUD 2 ${payload.email}`);
+      return data_model.getIdAndNameFromEmail(payload.email)
     })
-    .then((emailArr) => {
-      var [{ id: uID }] = emailArr;
-      console.log('CS then again', uID, emailArr);
-
-      return db('collaborations').insert(
-        {
-          owner_id: uID,
-        },
-        'id'
-      );
+    .then(([{ id: uID }]) => {
+      console.log( `GUD 3 ${id}`);
+      return data_model.getVideoInfoForUser(uID)
     })
-    .then((collabArr) => {
-      var [cID] = collabArr;
-      console.log('CS then again', cID, collabArr);
+    .then( (body) => {
+      console.log( `GUD 4 ${body}`);
 
-      res.status(200).json({ status: 'ok', id: cID });
-    })
-    .catch((err) => res.status(500).json({ error: err }));
-});
-
-// check if collaboration exists
-server.post('/collaboration/status', (req, res) => {
-  const body = req.body;
-
-  console.log('collaboration status check');
-
-  var payload;
-
-  verify(body.token)
-    // once verified, get and pass on payload
-    .then((ticket) => {
-      payload = ticket.getPayload();
-
-      console.log('VT then 1');
-
-      return data_model.getIdAndNameFromEmail(payload.email);
-    })
-    .then((emailArr) => {
-      var [{ id: uID }] = emailArr;
-      console.log('CE then again', uID, emailArr);
-
-      return Promise.all([
-        db('collaborations').select().where('owner_id', uID),
-        db('collaborators')
-          .join(
-            'collaborations',
-            'collaborators.user_id',
-            'collaborations.owner_id'
-          )
-          .join('users', 'collaborations.owner_id', 'users.name')
-          .select()
-          .where('collaboration_id', uID),
-      ]);
-    })
-    .then(([colationsList, colatorsList]) => {
       res.status(200).json({
         status: 'ok',
-        collaboration: colationsList.length > 0 ? colationsList[0].id : null,
-        collaborators: colatorsList,
+        body
       });
     })
     .catch((err) => res.status(500).json({ error: err }));
-});
+  });
 
 // serve up the base directory
 server.use(express.static('/app/front-end/build/'));
