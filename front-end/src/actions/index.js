@@ -168,16 +168,16 @@ export const getViewRiffs = (videoID) => {
   };
 };
 
-export const getProfileData = googleUser => {
+export const getProfileData = (googleUser) => {
   return (dispatch) => {
     axios({
       method: 'post',
       url: `/get-user-data`,
-      data: { videoID },
+      data: { googleUser },
     }).then((res) => {
       dispatch({ type: LOAD_PROFILE_DATA, payload: res.data });
     });
-  }
+  };
 };
 
 export const setPlayerMode = (mode) => ({
