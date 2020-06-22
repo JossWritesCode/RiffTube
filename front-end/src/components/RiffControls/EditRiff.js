@@ -6,13 +6,11 @@ import {
   setPlayerMode,
   saveTempAudio,
   cancelEdit,
-  EDIT_MODE
+  EDIT_MODE,
 } from '../../actions/index.js';
 
 class EditRiff extends React.Component {
-
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.durationField = React.createRef();
     this.htmlPayloadField = React.createRef();
@@ -26,7 +24,9 @@ class EditRiff extends React.Component {
         <div className="edit-riff-inner">
           {this.props.tempRiff.type === 'audio' ? (
             <React.Fragment>
-              {this.props.mode === EDIT_MODE && this.props.editIndex && !this.props.tempAudio ? (
+              {this.props.mode === EDIT_MODE &&
+              this.props.editIndex &&
+              !this.props.tempAudio ? (
                 <span>Loading...</span>
               ) : null}
               <Record saveTempAudio={this.props.saveTempAudio} />
@@ -37,7 +37,7 @@ class EditRiff extends React.Component {
 
                     // https://stackoverflow.com/questions/43620594/audio-blob-not-working-in-ios-safari
                     // answer by scottmizo
-                    
+
                     /*
                     var blob = this.props.tempAudio;
                     var audioContext = new (window.webkitAudioContext || window.AudioContext)();
@@ -49,24 +49,19 @@ class EditRiff extends React.Component {
                       source.start()
                     });
                     */
-                    
 
-                    
                     var audio = document.createElement('audio');
                     var source = document.createElement('source');
                     audio.appendChild(source);
 
                     audio.controls = false;
-                    var audioURL = URL.createObjectURL(
-                      this.props.tempAudio
-                    );
-                    
+                    var audioURL = URL.createObjectURL(this.props.tempAudio);
+
                     source.src = audioURL;
                     audio.load();
 
                     //audio.src = audioURL;
                     audio.play();
-                    
                   }}
                 >
                   Play
@@ -88,7 +83,7 @@ class EditRiff extends React.Component {
                     this.props.googleUser.getAuthResponse().id_token,
                     {
                       payload: this.props.tempAudio,
-                      time: Number(this.startTimeField.current.value)
+                      time: Number(this.startTimeField.current.value),
                     },
                     this.props.tempRiff
                   );
@@ -100,7 +95,11 @@ class EditRiff extends React.Component {
           ) : (
             <React.Fragment>
               <div>HTML payload:</div>
-              <textarea id="riff-edit-field" ref={this.htmlPayloadField} defaultValue={this.props.tempAudio} />
+              <textarea
+                id="riff-edit-field"
+                ref={this.htmlPayloadField}
+                defaultValue={this.props.tempAudio}
+              />
 
               <div>
                 Duration:{' '}
@@ -124,10 +123,8 @@ class EditRiff extends React.Component {
                     this.props.googleUser.getAuthResponse().id_token,
                     {
                       payload: this.htmlPayloadField.current.value,
-                      duration: Number(
-                        this.durationField.current.value
-                      ),
-                      time: Number(this.startTimeField.current.value)
+                      duration: Number(this.durationField.current.value),
+                      time: Number(this.startTimeField.current.value),
                     },
                     this.props.tempRiff,
                     this.props.websocket
@@ -152,20 +149,20 @@ class EditRiff extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   mode: state.mode,
   tempRiff: state.riffs.temp,
   tempAudio: state.riffsAudio.temp,
   editIndex: state.riffs.editIndex,
   googleUser: state.googleUser,
-  websocket: state.websocket
+  websocket: state.websocket,
 });
 
 const mapDispatchToProps = {
   setPlayerMode,
   saveRiff,
   saveTempAudio,
-  cancelEdit
+  cancelEdit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditRiff);

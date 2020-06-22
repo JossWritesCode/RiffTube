@@ -17,12 +17,12 @@ class RiffButton extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  videoID: state.videoID
+const mapStateToProps = (state) => ({
+  videoID: state.videoID,
 });
 
 const mapDispatchToProps = {
-  createTempRiff
+  createTempRiff,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RiffButton);

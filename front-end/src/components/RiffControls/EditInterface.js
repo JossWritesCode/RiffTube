@@ -81,76 +81,63 @@ class EditInterface extends React.Component {
   };
 
   render() {
-    return (
-      this.props.match.params.videoID
-      ?
-        <React.Fragment>
-          <NavBar color="grey" />
-          <div className="youtube-section">
-            <div className="top-section">
-              <div className="title-and-url">
-                <h1>RiffTube</h1>
-              </div>
-            </div>
-            <h4 className="get-started-instructions">
-              {
-                this.loggedIn()
-                ?
-                  null
-                :
-                  <React.Fragment>
-                    <Login /> <p>to get started</p>
-                  </React.Fragment>
-              }
-            </h4>
-            <form
-              onSubmit={(e) => {
-                const vID = this.extractVideoID(this.videoIDRef.current.value);
-
-                this.props.history.push(`/riff/${vID}`);
-
-                this.props.setVideoID(vID, this.props.googleUser);
-
-                e.preventDefault();
-              }}
-            >
-              <label>Paste any YouTube URL here &#8594; </label>
-              <input
-                type="text"
-                defaultValue={this.props.videoID}
-                ref={this.videoIDRef}
-              />
-              <button className="btn" id="change-video-btn" type="submit">
-                Change Video
-              </button>
-            </form>
-            <YouTubeVideo id={this.props.videoID} riffs={this.props.riffs} />
-            <MetaBar />
-            <div className="view-share-riff-link">
-              <a
-                href={
-                  '/view/' +
-                  this.props.videoID +
-                  (this.props.user_id ? '?solo=' + this.props.user_id : '')
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View &amp; Share Riffed Video
-              </a>
+    return this.props.match.params.videoID ? (
+      <React.Fragment>
+        <NavBar color="grey" />
+        <div className="youtube-section">
+          <div className="top-section">
+            <div className="title-and-url">
+              <h1>RiffTube</h1>
             </div>
           </div>
-          {
-            this.loggedIn()
-            ?
-              <EditControls />
-            :
-              null
-          }
-          />
-        </React.Fragment>
-      :
-        <Redirect to={`/riff/${this.props.videoID}`} />
+          <h4 className="get-started-instructions">
+            {this.loggedIn() ? null : (
+              <React.Fragment>
+                <Login /> <p>to get started</p>
+              </React.Fragment>
+            )}
+          </h4>
+          <form
+            onSubmit={(e) => {
+              const vID = this.extractVideoID(this.videoIDRef.current.value);
+
+              this.props.history.push(`/riff/${vID}`);
+
+              this.props.setVideoID(vID, this.props.googleUser);
+
+              e.preventDefault();
+            }}
+          >
+            <label>Paste any YouTube URL here &#8594; </label>
+            <input
+              type="text"
+              defaultValue={this.props.videoID}
+              ref={this.videoIDRef}
+            />
+            <button className="btn" id="change-video-btn" type="submit">
+              Change Video
+            </button>
+          </form>
+          <YouTubeVideo id={this.props.videoID} riffs={this.props.riffs} />
+          <MetaBar />
+          <div className="view-share-riff-link">
+            <a
+              href={
+                '/view/' +
+                this.props.videoID +
+                (this.props.user_id ? '?solo=' + this.props.user_id : '')
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View &amp; Share Riffed Video
+            </a>
+          </div>
+        </div>
+        {this.loggedIn() ? <EditControls /> : null}
+      </React.Fragment>
+    ) : (
+      <Redirect to={`/riff/${this.props.videoID}`} />
     );
   }
 }
