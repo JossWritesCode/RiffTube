@@ -8,13 +8,13 @@ import {
   CANCEL_EDIT,
   EDIT_RIFF,
   RECEIVE_RIFF_LIST,
-  SAVE_RIFF_SUCCESS
+  SAVE_RIFF_SUCCESS,
 } from '../actions/index.js';
 
 let initialState = {
   all: [],
   temp: null,
-  editIndex: null
+  editIndex: null,
 };
 
 const riffsReducer = (state = initialState, action) => {
@@ -32,20 +32,20 @@ const riffsReducer = (state = initialState, action) => {
           // rifftubePlayer isn't normally on the window object so this throws an error but it works.
           time: window.rifftubePlayer.getCurrentTime(),
           video_id: action.videoID,
-          tempId: new Date().getUTCMilliseconds() // used to get perm id from server
+          tempId: new Date().getUTCMilliseconds(), // used to get perm id from server
         },
-        editIndex: null
+        editIndex: null,
       };
     case EDIT_RIFF:
       return {
         ...state,
         temp: { ...state.all[action.payload] }, // copy specified riff to tempRiff
-        editIndex: action.payload
+        editIndex: action.payload,
       };
     case DELETE_RIFF: {
       let ret = { ...state };
 
-      ret.all = ret.all.filter( el => el.id !== action.id );
+      ret.all = ret.all.filter((el) => el.id !== action.id);
 
       // silly change
 
@@ -66,28 +66,26 @@ const riffsReducer = (state = initialState, action) => {
           ...state.temp,
           duration: action.duration,
           //payload: action.payload
-        }
+        },
       };
     case CANCEL_EDIT:
       return {
         ...state,
         temp: null,
-        editIndex: null
+        editIndex: null,
       };
     case RECEIVE_RIFF_LIST:
       return {
         ...state,
         timestamp: action.payload.timestamp,
-        all:
-          action.payload.body.map(el => ({
-            ...el,
-            time: el.start_time,
-            payload: el.isText ? el.text : null,
-            type: el.isText ? 'text' : 'audio'
-          }))
+        all: action.payload.body.map((el) => ({
+          ...el,
+          time: el.start_time,
+          payload: el.isText ? el.text : null,
+          type: el.isText ? 'text' : 'audio',
+        })),
       };
 
-    
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
         let riffs = [...state.all];
@@ -116,7 +114,7 @@ const riffsReducer = (state = initialState, action) => {
       return {
         all: riffs,
         temp: null,
-        editIndex: null
+        editIndex: null,
       };
     }
 
@@ -145,7 +143,7 @@ const riffsReducer = (state = initialState, action) => {
       return ret;
     }
     */
-   
+
     default:
       return state;
   }

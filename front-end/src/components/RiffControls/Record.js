@@ -7,7 +7,7 @@ class Record extends React.Component {
     this.state = {
       recorder: null,
       gumStream: null,
-      recordingState: false
+      recordingState: false,
     };
   }
 
@@ -15,10 +15,12 @@ class Record extends React.Component {
     if (navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: false })
-        .then(stream => {
-          this.setState( { "gumStream": stream } );
-        }).catch(function(err) { //enable the record button if getUSerMedia() fails 
-          console.log( "oops, can't get stream", err );
+        .then((stream) => {
+          this.setState({ gumStream: stream });
+        })
+        .catch(function (err) {
+          //enable the record button if getUSerMedia() fails
+          console.log("oops, can't get stream", err);
         });
     }
   }
@@ -36,42 +38,44 @@ class Record extends React.Component {
               this.startTime = Date.now();
               //this.state.mediaRecorder.start();
 
-              var AudioContext = window.AudioContext          // Default
-                  || window.webkitAudioContext;  // Safari and old versions of Chrome
+              var AudioContext =
+                window.AudioContext || window.webkitAudioContext; // Default // Safari and old versions of Chrome
               var audioContext = new AudioContext();
-              var input = audioContext.createMediaStreamSource(this.state.gumStream);
+              var input = audioContext.createMediaStreamSource(
+                this.state.gumStream
+              );
 
               var recorder = new window.WebAudioRecorder(input, {
-                workerDir: "/lib/",
+                workerDir: '/lib/',
                 encoding: 'mp3',
                 onEncoderLoading: (recorder, encoding) => {
-                    // show "loading encoder..." display 
-                    console.log("Loading " + encoding + " encoder...");
+                  // show "loading encoder..." display
+                  console.log('Loading ' + encoding + ' encoder...');
                 },
                 onEncoderLoaded: (recorder, encoding) => {
-                    // hide "loading encoder..." display
-                    console.log(encoding + " encoder loaded");
-                }
+                  // hide "loading encoder..." display
+                  console.log(encoding + ' encoder loaded');
+                },
               });
 
               //this.setState( recorder );
               this.recorder = recorder;
 
               recorder.onComplete = (recorder, blob) => {
-                console.log("Encoding complete");
+                console.log('Encoding complete');
                 //createDownloadLink(blob, recorder.encoding);
                 this.props.saveTempAudio(blob, this.duration);
               };
               recorder.setOptions({
-                  timeLimit: 120,
-                  encodeAfterRecord: true,
-                  mp3: {
-                      bitRate: 160
-                  }
+                timeLimit: 120,
+                encodeAfterRecord: true,
+                mp3: {
+                  bitRate: 160,
+                },
               });
 
-              //start the recording process 
-              console.log("Recording started");
+              //start the recording process
+              console.log('Recording started');
               recorder.startRecording();
             }}
           >
@@ -93,10 +97,12 @@ class Record extends React.Component {
               // create new stream
               navigator.mediaDevices
                 .getUserMedia({ audio: true, video: false })
-                .then(stream => {
-                  this.setState( { "gumStream": stream } );
-                }).catch(function(err) { //enable the record button if getUSerMedia() fails 
-                  console.log( "oops, can't get stream", err );
+                .then((stream) => {
+                  this.setState({ gumStream: stream });
+                })
+                .catch(function (err) {
+                  //enable the record button if getUSerMedia() fails
+                  console.log("oops, can't get stream", err);
                 });
             }}
           >
@@ -106,11 +112,7 @@ class Record extends React.Component {
       }
     } else ret = <span>navigator.mediaDevices not supported. sorry.</span>;
 
-    return (
-      <React.Fragment>
-        {ret}
-      </React.Fragment>
-    );
+    return <React.Fragment>{ret}</React.Fragment>;
   }
 }
 
