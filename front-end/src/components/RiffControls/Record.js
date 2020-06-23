@@ -62,7 +62,6 @@ class Record extends React.Component {
               this.recorder = recorder;
 
               recorder.onComplete = (recorder, blob) => {
-                console.log('Encoding complete');
                 //createDownloadLink(blob, recorder.encoding);
                 this.props.saveTempAudio(blob, this.duration);
               };
@@ -75,7 +74,7 @@ class Record extends React.Component {
               });
 
               //start the recording process
-              console.log('Recording started');
+
               recorder.startRecording();
             }}
           >

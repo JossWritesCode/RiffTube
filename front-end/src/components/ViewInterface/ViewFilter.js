@@ -8,8 +8,8 @@ class ViewFilter extends React.Component {
     window.metaPlayHead = React.createRef();
     this.selectDiv = React.createRef();
     window.metaUpdate = (el) => {
-      console.log(el.offsetLeft);
-      if ( this.selectDiv.current ) // seems like it shouldn't be needed, but here we are
+      if (this.selectDiv.current)
+        // seems like it shouldn't be needed, but here we are
         this.selectDiv.current.scrollLeft =
           el.offsetLeft - this.selectDiv.current.offsetWidth / 2;
     };

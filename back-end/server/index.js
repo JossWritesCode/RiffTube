@@ -71,8 +71,6 @@ server.delete('/riff-remove/:id', (req, res) => {
   const { token } = req.body;
   const id = req.params.id;
 
-  console.log('deleting riff 1');
-
   verify(req.body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
@@ -81,7 +79,6 @@ server.delete('/riff-remove/:id', (req, res) => {
 
     .then(() => {
       res.status(204).end();
-      console.log('deleting riff 2');
     })
     .catch((err) => {
       console.log(err);
@@ -94,8 +91,6 @@ server.post('/set-name', (req, res) => {
 
   // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
 
-  console.log('set name', body);
-
   var payload;
 
   verify(body.token)
@@ -103,15 +98,10 @@ server.post('/set-name', (req, res) => {
     .then((ticket) => {
       payload = ticket.getPayload();
 
-      console.log('SN then', body.newName);
-
-      console.log(payload.email);
-
       return data_model.getIdAndNameFromEmail(payload.email);
     })
     .then((emailArr) => {
       var [{ id: uID }] = emailArr;
-      console.log('SN then again', uID, emailArr);
 
       let dbpayload = {
         name: body.newName,
@@ -131,8 +121,6 @@ server.post('/get-riffs', (req, res) => {
 
   // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
 
-  console.log('get riffs');
-
   var payload;
 
   verify(body.token)
@@ -140,24 +128,17 @@ server.post('/get-riffs', (req, res) => {
     .then((ticket) => {
       payload = ticket.getPayload();
 
-      console.log('GR then 1');
-
-      console.log(payload.email);
-
       return Promise.all([
         data_model.getIdAndNameFromEmail(payload.email),
         data_model.getIdFromVideoId(body.videoID),
       ]);
     })
     .then(([emailArr, vIDArr]) => {
-      console.log('GR then again', emailArr, vIDArr);
       if (emailArr.length === 0 || vIDArr.length === 0) {
         res.status(200).json({ info: 'no riffs yet', body: [] });
       } else {
         var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
-
-        console.log(`GR then 2 ${uID} = ${name} and ${vID}`);
 
         return db('riffs')
           .join('videos', 'riffs.video_id', 'videos.id')
@@ -173,8 +154,6 @@ server.post('/get-riffs', (req, res) => {
           )
           .where({ user_id: uID, video_id: vID })
           .then((riffList) => {
-            console.log('GF then 3');
-
             res.status(200).json({
               status: 'ok',
               body: riffList,
@@ -195,18 +174,12 @@ server.post('/get-riffs', (req, res) => {
 server.post('/save-riff', upload.single('blob'), (req, res) => {
   const body = req.body;
 
-  console.log('save riff');
-
   var payload;
 
   verify(body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
       payload = ticket.getPayload();
-
-      console.log('VT then 1');
-
-      console.log(`SR `);
 
       // make sure that the user exists in the db, or else insert them
       // and
@@ -218,7 +191,6 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           .where('email', payload.email)
           .then((userList) => {
             /* TODO: fix this*/
-            console.log('SR get email', userList);
 
             if (userList.length === 0) {
               return db('users').insert(
@@ -228,7 +200,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                 },
                 ['id']
               );
-            } else console.log('not inserting user');
+            }
 
             return Promise.resolve(userList);
           }),
@@ -237,34 +209,27 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           .select('id')
           .where('url', body.video_id)
           .then((vidList) => {
-            console.log('SR get vidlist', vidList);
-
             if (vidList.length === 0) {
               return ytapi
-              .getVideoByID(body.video_id)
-              .then(video => {
-                console.log( `The video's title is ${video.title}` );
-
-                return db('videos').insert(
-                  {
-                    url: body.video_id,
-                    title: video.title,
-                    duration: 0 // duration no longer used
-                  },
-                  ['id']
-                );
-              })
-              .catch(console.log);
-            } else console.log('not inserting video');
+                .getVideoByID(body.video_id)
+                .then((video) => {
+                  return db('videos').insert(
+                    {
+                      url: body.video_id,
+                      title: video.title,
+                      duration: 0, // duration no longer used
+                    },
+                    ['id']
+                  );
+                })
+                .catch(console.log);
+            }
             return Promise.resolve(vidList);
           }),
       ]);
     })
     // once we know the user and video exist, insert the riff
     .then(([[{ id: idin }], [{ id: vidid }]]) => {
-      console.log('UID!', idin);
-      console.log('VID!', vidid);
-
       let dbpayload = {
         audio_datum: body.type == 'text' ? null : req.file.buffer,
         text: body.type == 'text' ? body.text : null,
@@ -302,15 +267,9 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 server.post('/get-view-riffs', (req, res) => {
   const body = req.body;
 
-  console.log('get view riffs', body.videoID);
-
   data_model
     .getIdFromVideoId(body.videoID)
     .then(([{ id: vID }]) => {
-      console.log(vID);
-
-      console.log('GVR then 1');
-
       return db('riffs')
         .join('users', 'riffs.user_id', 'users.id')
         .select(
@@ -326,8 +285,6 @@ server.post('/get-view-riffs', (req, res) => {
         .where({ video_id: vID });
     })
     .then((riffList) => {
-      console.log('GVR then 2');
-
       res.status(200).json({
         status: 'ok',
         body: riffList.map((el) => ({ ...el, video_id: body.videoID })),
@@ -341,31 +298,25 @@ server.post('/get-view-riffs', (req, res) => {
 server.get('/get-user-data', (req, res) => {
   const body = req.body;
 
-  console.log('get user data', body.videoID);
-
   var payload;
 
   verify(body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
       payload = ticket.getPayload();
-      console.log( `GUD 2 ${payload.email}`);
-      return data_model.getIdAndNameFromEmail(payload.email)
+      return data_model.getIdAndNameFromEmail(payload.email);
     })
     .then(([{ id: uID }]) => {
-      console.log( `GUD 3 ${id}`);
-      return data_model.getVideoInfoForUser(uID)
+      return data_model.getVideoInfoForUser(uID);
     })
-    .then( (body) => {
-      console.log( `GUD 4 ${body}`);
-
+    .then((body) => {
       res.status(200).json({
         status: 'ok',
-        body
+        body,
       });
     })
     .catch((err) => res.status(500).json({ error: err }));
-  });
+});
 
 // serve up the base directory
 server.use(express.static('/app/front-end/build/'));
@@ -386,13 +337,9 @@ const websockhttp = http.createServer(server);
 websockhttp.on('upgrade', function upgrade(request, socket, head) {
   const sockurl = url.parse(request.url, true);
 
-  console.log('query', sockurl.query);
-
   verify(sockurl.query.googleToken)
     // once verified, get and pass on payload
     .then((ticket) => {
-      console.log('upgrade');
-
       if (sockurl.pathname === '/riff') {
         var wss = websockmap.get(sockurl.query.videoID);
         if (!wss) {
@@ -412,7 +359,7 @@ websockhttp.on('upgrade', function upgrade(request, socket, head) {
               }
 
               //log the received message and send it back to the client
-              console.log('received: %s', message);
+
               //ws.send(`Hello, you sent -> ${message}`);
             });
 
