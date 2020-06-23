@@ -1,7 +1,7 @@
 import {
   SET_VIDEO_ID,
   SET_RIFF_NOT_PLAYING,
-  SET_RIFF_PLAYING
+  SET_RIFF_PLAYING,
 } from '../actions/index.js';
 
 const riffsPlayingReducer = (state = {}, action) => {
@@ -11,12 +11,12 @@ const riffsPlayingReducer = (state = {}, action) => {
     case SET_RIFF_PLAYING:
     case SET_RIFF_NOT_PLAYING:
       return {
-          ...state,
-          [action.payload]: action.type === SET_RIFF_PLAYING ? true : false
-        };
+        ...state,
+        [action.payload]: action.type === SET_RIFF_PLAYING ? true : false,
+      };
     default:
       return state;
   }
-}
+};
 
 export default riffsPlayingReducer;
