@@ -25,6 +25,25 @@ function LandingPage() {
         <div className="middle-text">
           <h3>Riffing for the Riff Raff</h3>
         </div>
+
+        <div className="about">
+          <div className="about-text">
+            <p>
+              In the glorious tradition of Mystery Science Theater 3000, The
+              Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
+            </p>
+
+            <p>
+              Now presenting: <em>you!</em>
+            </p>
+            <p>
+              RiffTube allows you to add your own riffs to any video on YouTube.
+            </p>
+          </div>
+          {/* <div>
+            <img className="horror-movie-image" src={HorrorMovie} />
+          </div> */}
+        </div>
         <div className="features">
           <div className="feature feature-one">
             <MaterialIcon icon="mic" color="#a41320" size="medium" />
@@ -46,25 +65,6 @@ function LandingPage() {
 
             <p>Share with anybody</p>
           </div>
-        </div>
-        <div className="about">
-          <div className="about-text">
-            <h2>About RiffTube</h2>
-            <p>
-              In the glorious tradition of Mystery Science Theater 3000, The
-              Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
-            </p>
-
-            <p>
-              Now presenting: <em>you!</em>
-            </p>
-            <p>
-              RiffTube allows you to add your own riffs to any video on YouTube.
-            </p>
-          </div>
-          {/* <div>
-            <img className="horror-movie-image" src={HorrorMovie} />
-          </div> */}
         </div>
       </section>
       <section className="bottom-part">
