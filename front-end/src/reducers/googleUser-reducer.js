@@ -1,6 +1,4 @@
-import {
-  GOOGLE_USER_SIGNIN
-} from '../actions/index.js';
+import { GOOGLE_USER_SIGNIN } from '../actions/index.js';
 
 const googleUserReducer = (state = null, action) => {
   switch (action.type) {

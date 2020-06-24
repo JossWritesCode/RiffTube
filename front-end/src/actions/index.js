@@ -77,7 +77,6 @@ export const setRifferName = (newName, googleUser) => {
 
 export const setVideoID = (videoID, googleUser) => {
   return (dispatch) => {
-    //console.log( "get url", `/get-riffs` );
     dispatch({
       type: SET_VIDEO_ID,
       payload: videoID,
@@ -122,7 +121,6 @@ export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
 // perhaps this action should somehow call the above action (setVideoID)?
 export const setGoogleUser = (googleUser, videoID) => {
   return (dispatch) => {
-    //console.log( "get url", `/get-riffs` );
     dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser,

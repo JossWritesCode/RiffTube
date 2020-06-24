@@ -9,7 +9,7 @@ import {
   SET_PLAYER_MODE,
   PLAY_MODE,
   PAUSE_MODE,
-  TOGGLE_PLAYER_MODE
+  TOGGLE_PLAYER_MODE,
 } from '../actions/index.js';
 
 const modeReducer = (state = PAUSE_MODE, action) => {

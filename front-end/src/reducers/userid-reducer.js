@@ -1,6 +1,4 @@
-import {
-  RECEIVE_RIFF_LIST
-} from '../actions/index.js';
+import { RECEIVE_RIFF_LIST } from '../actions/index.js';
 
 const useridReducer = (state = null, action) => {
   switch (action.type) {
