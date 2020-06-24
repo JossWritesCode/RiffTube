@@ -3,6 +3,12 @@
   height: $small;
   background-color: $color-dark-gray;
   position: relative;
+  width: 97.75%;
+
+  margin: 0 auto;
+  @media (min-width: 501px) {
+    width: 100%;
+  }
 
   .riff-meta {
     background-color: $color-light-gray;
