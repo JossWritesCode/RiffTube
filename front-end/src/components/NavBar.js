@@ -7,21 +7,38 @@ function NavBar({ color, googleUser }) {
     if (googleUser) return googleUser.isSignedIn();
     return false;
   };
-  
+
   return (
     <nav className="navbar">
-      <NavLink style={{ color }} to="/">
+      <NavLink
+        exact
+        activeClassName="navbar-link-active"
+        style={{ color }}
+        to="/"
+      >
         Home
       </NavLink>
-      <NavLink style={{ color }} to="/riff">
+      <NavLink
+        activeClassName="navbar-link-active"
+        style={{ color }}
+        to="/riff"
+      >
         Start Riffing
       </NavLink>
       {loggedIn() ? (
-        <NavLink style={{ color }} to="/profile">
+        <NavLink
+          activeClassName="navbar-link-active"
+          style={{ color }}
+          to="/profile"
+        >
           Profile
         </NavLink>
       ) : null}
-      <NavLink style={{ color }} to="/about">
+      <NavLink
+        activeClassName="navbar-link-active"
+        style={{ color }}
+        to="/about"
+      >
         About
       </NavLink>
     </nav>
