@@ -33,7 +33,7 @@ function Profile({ name, googleUser, setRifferName }) {
           <form onSubmit={(event) => handleSubmit(event)}>
             {/* <p>hello {name}</p> */}
             <label>
-              UserName:
+              Riffer Name:
               <input
                 onChange={(event) => handleChange(event)}
                 type="text"
