@@ -72,7 +72,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
+    width: 60%;
     font-size: 1.2rem;
 
     @media (min-width: 1000px) {
@@ -95,7 +95,6 @@ nav {
   .middle-text {
     h3 {
       font-weight: bold;
-      text-align: center;
       padding-bottom: 1rem;
       font-size: $medium;
       width: 70%;
@@ -125,12 +124,14 @@ nav {
   flex-direction: column;
   align-items: center;
   text-align: left;
+  width: 60%;
   @media (min-width: 1000px) {
     flex-direction: row;
   }
 
   .about-text {
     width: 18rem;
+
     h2 {
       text-align: center;
       font-size: $medium;
