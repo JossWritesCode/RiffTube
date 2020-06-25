@@ -1,39 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Login from './Login/Login';
 import { setRifferName } from '../actions';
 import NavBar from './NavBar.js';
 
 function Profile({ name, googleUser, setRifferName }) {
+  const [userName, setUserName] = useState(name);
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
     return false;
   };
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (userName !== '') {
+      setRifferName(userName, googleUser);
+    }
+  }
+  function handleChange(event) {
+    event.preventDefault();
+    setUserName(event.target.value);
+  }
+
   return (
     <div className="landing-page">
       <NavBar />
       <section className="top-part">
-        {
-          loggedIn()
-          ?
-            <React.Fragment>
-              <p>Hello {name}</p>
-              <button
-                type="button"
-                onClick={() => {
-                  var n = prompt('Enter name', name);
-                  if (n) setRifferName(n, googleUser);
-                }}
-              >
-                Update Name
-              </button>
-            </React.Fragment>
-          :
-            <React.Fragment>
-              <Login /> <p>to get started</p>
-            </React.Fragment>
-        }
+        {loggedIn() ? (
+          <form onSubmit={(event) => handleSubmit(event)}>
+            {/* <p>hello {name}</p> */}
+            <label>
+              UserName:
+              <input
+                onChange={(event) => handleChange(event)}
+                type="text"
+                name="name"
+                defaultValue={name}
+                className="form-field"
+              />
+            </label>
+            <input type="submit" value="Submit" className="btn" />
+          </form>
+        ) : (
+          <React.Fragment>
+            <Login /> <p>to get started</p>
+          </React.Fragment>
+        )}
       </section>
     </div>
   );
