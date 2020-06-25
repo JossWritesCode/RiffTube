@@ -25,6 +25,9 @@ function Profile({ name, googleUser, setRifferName }) {
   return (
     <div className="landing-page">
       <NavBar />
+      <div className="title-and-url heading">
+        <h1>Profile Settings</h1>
+      </div>
       <section className="top-part">
         {loggedIn() ? (
           <form onSubmit={(event) => handleSubmit(event)}>
