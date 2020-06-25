@@ -17,15 +17,6 @@ function EditControls(props) {
           <div>
             Riffer Name:&nbsp;
             {props.name}
-            <button
-              type="button"
-              onClick={() => {
-                var n = prompt('Enter name', props.name);
-                if (n) props.setRifferName(n, props.googleUser);
-              }}
-            >
-              Update Name
-            </button>
           </div>
         ) : null
       }
