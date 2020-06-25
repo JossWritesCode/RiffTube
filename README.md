@@ -17,7 +17,7 @@ Site deployed here: [https://rifftube.herokuapp.com/](https://rifftube.herokuapp
 - [Sass](https://sass-lang.com/) - Style Library
 - [YouTube API](https://developers.google.com/youtube/v3)
 - [Google Login](https://developers.google.com/identity)
-- [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js) Audio API
+- [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js) - Audio API
 - [Node.js](https://nodejs.org/en/) - Back End Language
 - [Express](https://expressjs.com/) - Node Framework
 
