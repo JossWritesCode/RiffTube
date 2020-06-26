@@ -26,7 +26,9 @@ function Profile({ name, googleUser, setRifferName }) {
     <div className="landing-page">
       <NavBar />
       <div className="title-and-url heading">
-        <h1>Profile Settings</h1>
+        <h1 className="heading-primary-main profile-heading">
+          Profile Settings
+        </h1>
       </div>
       <section className="top-part">
         {loggedIn() ? (
