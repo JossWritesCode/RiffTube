@@ -3,13 +3,14 @@ html {
   max-width: 100%;
   overflow-x: hidden;
   background-color: $color-white;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: $color-black;
   margin: 0;
   padding: 0;
 }
 html {
   font-size: 62.5%;
+  font-family: 'Open Sans', sans-serif;
 }
 p,
 h3 {
@@ -29,4 +30,12 @@ button {
   &:hover {
     cursor: pointer;
   }
+}
+
+h2,
+h1,
+h3,
+h4,
+h5 {
+  font-weight: normal;
 }

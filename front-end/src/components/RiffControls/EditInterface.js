@@ -87,7 +87,7 @@ class EditInterface extends React.Component {
         <div className="youtube-section">
           <div className="top-section">
             <div className="title-and-url">
-              <h1>RiffTube</h1>
+              <h1 className="heading-primary-main">RiffTube</h1>
             </div>
           </div>
           <h4 className="get-started-instructions">
