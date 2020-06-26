@@ -1,5 +1,12 @@
 .youtube-section {
-  margin-top: 5rem;
+  margin: 5rem auto 0rem auto;
+  form {
+    margin-bottom: 1rem;
+    input {
+      border-radius: 5px;
+      height: 1.35rem;
+    }
+  }
 }
 
 #rifftube-player {
@@ -182,10 +189,7 @@
     align-items: flex-start;
     justify-content: center;
   }
-  .youtube-section {
-    /*width: 70%;*/
-    margin: 5rem auto 0rem auto;
-  }
+
   .control-panel {
     height: 100%;
     min-height: 100vh;
@@ -194,4 +198,8 @@
     margin-top: 0;
     scrollbar-color: white;
   }
+}
+
+.view-share-riff-link {
+  margin-top: 1.5rem;
 }
