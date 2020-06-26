@@ -6,20 +6,19 @@ nav {
 .top-part {
   background-color: $color-white;
   width: 100vw;
-  height: 29rem;
+  height: 40rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rem;
-  overflow: hidden;
+  margin-top: 7rem;
 
   @media (min-width: 700px) {
-    height: 43rem;
+    height: 50rem;
   }
 
   @media (min-width: 1000px) {
     margin-top: 5rem;
-    height: 42rem;
+    height: 55rem;
   }
 
   .heading {
@@ -29,34 +28,34 @@ nav {
     margin: 2rem 1rem 0rem 1rem;
 
     .heading-primary-main {
-      font-size: $large;
+      font-size: $extra-large;
       color: $color-gray;
       font-weight: 700;
       margin: $small;
 
-      @media (min-width: 700px) {
-        font-size: $extra-large;
-      }
+      // @media (min-width: 700px) {
+      //   font-size: $extra-large;
+      // }
     }
     .heading-primary-sub {
-      width: 25rem;
+      width: 30rem;
       text-align: center;
-      font-size: $small;
+      font-size: $medium;
       color: $color-gray;
       margin: 0 0 $small 0;
-      @media (min-width: 700px) {
-        font-size: $small;
-      }
+      // @media (min-width: 700px) {
+      //   font-size: $medium;
+      // }
     }
   }
 }
 
 .middle-part {
   width: 100vw;
-  height: 65rem;
+  height: 80rem;
   text-align: center;
   display: flex;
-  font-size: 1.2rem;
+  font-size: $small;
   align-items: center;
   flex-direction: column;
   background-color: $color-dark-gray;
@@ -73,7 +72,7 @@ nav {
     flex-direction: column;
     align-items: center;
     width: 60%;
-    font-size: 1.2rem;
+    font-size: $small;
 
     @media (min-width: 1000px) {
       flex-direction: row;
@@ -134,7 +133,7 @@ nav {
 
     h2 {
       text-align: center;
-      font-size: $medium;
+      font-size: $large;
     }
     p,
     span {
@@ -161,4 +160,5 @@ nav {
   color: $color-white;
   display: flex;
   justify-content: center;
+  font-size: $small;
 }

@@ -14,7 +14,7 @@ function EditControls(props) {
       {
         // make this into a component?:
         props.name ? (
-          <div>
+          <div className="riffer-name">
             Riffer Name:&nbsp;
             {props.name}
           </div>

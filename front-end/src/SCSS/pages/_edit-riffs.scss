@@ -1,7 +1,33 @@
 .youtube-section {
-  margin-top: 5rem;
-}
+  margin: 11rem auto 0rem auto;
+  font-size: $small;
 
+  form {
+    margin-bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+
+    label {
+      font-size: 1.2rem;
+      @media (min-width: 700px) {
+        font-size: $small;
+      }
+    }
+    input {
+      border-radius: 5px;
+      min-height: 21px;
+      margin-left: 0.5rem;
+    }
+    #change-video-btn {
+      margin: 0 1rem;
+      height: 100%;
+    }
+  }
+}
+.riffer-name {
+  margin-top: 1rem;
+}
 #rifftube-player {
   max-width: 95vw;
 }
@@ -69,6 +95,7 @@
   flex-direction: column;
   align-items: center;
   color: $color-white;
+  font-size: $small;
 }
 
 .edit-riff {
@@ -84,15 +111,15 @@
 
 .edit-riff-inner {
   margin: 20% auto;
-  padding: 1em;
+  padding: 1rem;
   background-color: rgb(145, 145, 145);
   width: 50%;
-  font-size: 2em;
+  font-size: 2rem;
   box-shadow: 0 0 1em red;
 }
 
 .edit-riff button {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 .list-of-riffs {
@@ -119,12 +146,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-size: $small;
 
     .edit-riff-buttons {
       display: flex;
       flex-direction: row;
+      width: 15rem;
 
       button {
+        width: 40%;
+        height: 100%;
         &:hover {
           cursor: pointer;
         }
@@ -162,6 +193,7 @@
 
 .riff-list-title {
   text-align: center;
+  font-size: $small;
 }
 
 .riff-detail-selected {
@@ -182,10 +214,7 @@
     align-items: flex-start;
     justify-content: center;
   }
-  .youtube-section {
-    /*width: 70%;*/
-    margin: 5rem auto 0rem auto;
-  }
+
   .control-panel {
     height: 100%;
     min-height: 100vh;
@@ -193,5 +222,19 @@
     width: 30%;
     margin-top: 0;
     scrollbar-color: white;
+    font-size: $small;
   }
+}
+
+.view-share-riff-link {
+  margin-top: 1.5rem;
+}
+
+.riff-button {
+  width: 5rem;
+  height: 3rem;
+}
+
+.add-riff-title {
+  text-align: center;
 }

@@ -78,17 +78,18 @@ button:active {
 }
 
 .get-started-btn {
-  height: 1.5rem;
-  width: 7rem;
+  height: 3rem;
+  width: 11.5rem;
   text-align: center;
   display: flex;
+  font-size: $small;
   justify-content: center;
   align-items: center;
   @media (min-width: 700px) {
     text-align: center;
-    height: 2rem;
-    width: 8rem;
-    font-size: 1.2rem;
+    height: 3rem;
+    width: 11.5rem;
+
     display: flex;
     justify-content: center;
     align-items: center;

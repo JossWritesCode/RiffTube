@@ -1,5 +1,5 @@
 .navbar {
-  font-size: 1.2rem;
+  font-size: $small;
   display: flex;
   justify-content: flex-start;
   width: 50rem;
@@ -13,12 +13,17 @@
   }
   a {
     margin-left: $small;
+
+    @media (min-width: 700px) {
+      margin-left: 1.7rem;
+    }
+
     &:hover {
       color: $color-primary !important;
     }
   }
 
   @media (min-width: 700px) {
-    font-size: 1.6rem;
+    font-size: $medium;
   }
 }
