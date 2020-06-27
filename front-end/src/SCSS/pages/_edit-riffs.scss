@@ -96,6 +96,7 @@
   align-items: center;
   color: $color-white;
   font-size: $small;
+  max-height: 60rem;
 }
 
 .edit-riff {
@@ -128,6 +129,7 @@
   flex-wrap: wrap;
   justify-content: center;
   overflow-y: auto;
+  max-width: 50rem;
 }
 
 .riff-detail {
@@ -217,8 +219,7 @@
 
   .control-panel {
     height: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
+    min-height: 110vh;
     width: 30%;
     margin-top: 0;
     scrollbar-color: white;
