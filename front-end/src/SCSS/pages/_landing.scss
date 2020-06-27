@@ -61,7 +61,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 60%;
+    width: 25rem;
     font-size: $small;
 
     @media (min-width: 1000px) {
@@ -85,7 +85,7 @@ nav {
     h3 {
       padding-bottom: 1rem;
       font-size: $medium;
-      width: 70%;
+      width: 30rem;
       margin: 0 auto;
       margin-top: 2rem;
       font-weight: normal;
@@ -113,22 +113,21 @@ nav {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  text-align: left;
-  width: 60%;
 
   @media (min-width: 1000px) {
     flex-direction: row;
   }
 
   .about-text {
-    width: 18rem;
+    width: 30rem;
     font-size: $small;
+    text-align: left;
 
     .question {
-      font-weight: 800 !important;
+      font-weight: bold;
     }
     .answer {
-      font-weight: 200 !important;
+      font-weight: normal;
       margin-left: 2.2rem;
     }
 
