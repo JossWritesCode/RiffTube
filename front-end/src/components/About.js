@@ -39,7 +39,7 @@ function About() {
           style={{ backgroundColor: 'white', width: '100%', color: 'black' }}
         >
           <div className="about-text">
-            <h2>Q&amp;A</h2>
+            <h2 className="heading-qa">Q&amp;A</h2>
             <p className="question">Q: Just what is RiffTube?</p>
             <p className="answer">
               RiffTube is a tool that allows you to add your voice to YouTube
