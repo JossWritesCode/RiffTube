@@ -9,7 +9,7 @@ import {
   EDIT_MODE,
   EDIT_NEW_MODE,
   PLAY_MODE,
-  PAUSE_MODE
+  PAUSE_MODE,
 } from '../../actions/index.js';
 import AllowPlayback from './AllowPlayback.js';
 
@@ -36,7 +36,7 @@ class YouTubeVideo extends React.Component {
   };
 
   loadVideo = () => {
-    if ( !window.YT ) return; // can be called by componentDidUpdate before window.YT has loaded
+    if (!window.YT) return; // can be called by componentDidUpdate before window.YT has loaded
 
     const { id } = this.props;
 
@@ -47,33 +47,39 @@ class YouTubeVideo extends React.Component {
       height: 390,
       width: 640,
       playerVars: {
-        playsinline: 1 // allows it to play inline on iOS
+        playsinline: 1, // allows it to play inline on iOS
       },
       events: {
         onReady: this.onPlayerReady,
-        onStateChange: this.onPlayerStateChange
-      }
+        onStateChange: this.onPlayerStateChange,
+      },
     });
 
     window.rifftubePlayer = this.player; // store global reference (used to get current playback time when needed)
   };
 
-  onPlayerReady = event => {
+  onPlayerReady = (event) => {
     //event.target.playVideo();
 
-    this.props.setVideoDuration( event.target.getDuration() );
+    this.props.setVideoDuration(event.target.getDuration());
   };
 
   // TODO: account for muted riffs!!!!
-  checkForRiffsToLoad = t => {
-    this.props.riffs.forEach(riff => {
+  checkForRiffsToLoad = (t) => {
+    this.props.riffs.forEach((riff) => {
       if (
+        //if it's an audio riff
         riff.type === 'audio' &&
-        !this.props.riffsAudio.all[ riff.id ] && //!riff.payload &&
-        !this.props.riffsAudio.loading[ riff.id ] && //!riff.loading &&
+        //if it's not loaded already
+        !this.props.riffsAudio.all[riff.id] && //!riff.payload &&
+        //if it's not loading
+        !this.props.riffsAudio.loading[riff.id] && //!riff.loading &&
+        // if the riff is in the future
         riff.time >= t &&
+        // but is less than 10 seconds in the future
         riff.time < t + 10
       )
+        // load the riff to be played at the right time
         this.props.loadRiff(riff.id, this.props.googleUser);
     });
   };
@@ -108,9 +114,10 @@ class YouTubeVideo extends React.Component {
 
         // if the MetaBar component exists, update its playhead
         if (window.metaPlayHead) {
-          window.metaPlayHead.current.style.left = `${(t / this.props.duration) * 100}%`;
-          if (window.metaUpdate)
-            window.metaUpdate(window.metaPlayHead.current);
+          window.metaPlayHead.current.style.left = `${
+            (t / this.props.duration) * 100
+          }%`;
+          if (window.metaUpdate) window.metaUpdate(window.metaPlayHead.current);
         }
 
         //
@@ -141,11 +148,7 @@ class YouTubeVideo extends React.Component {
         // next start any that should be playing
         this.props.riffs.forEach((riff, index) => {
           // the riff will start playing within half a second, or will be skipped
-          if (
-            !this.curRiff[index] &&
-            t > riff.time &&
-            t < riff.time + 0.5
-          ) {
+          if (!this.curRiff[index] && t > riff.time && t < riff.time + 0.5) {
             this.props.setRiffPlaying(index, true);
             this.curRiff[index] = true; // used for text only; overwritten for audio
 
@@ -159,14 +162,17 @@ class YouTubeVideo extends React.Component {
               if (!this.audLock) this.audLock = 1;
               else this.audLock++;
 
-              if ( !this.props.riffsAudio.all[ riff.id ] ) { //(!riff.payload) {
+              if (!this.props.riffsAudio.all[riff.id]) {
+                //(!riff.payload) {
                 console.log('empty payload error');
                 return;
               } // DEBUG - SHOULD BE REMOVED
-              var audioURL = URL.createObjectURL( this.props.riffsAudio.all[ riff.id ] );   //(riff.payload);
+              var audioURL = URL.createObjectURL(
+                this.props.riffsAudio.all[riff.id]
+              ); //(riff.payload);
               //debugger;
 
-              window.lastRiff = this.props.riffsAudio.all[ riff.id ]; // riff.payload;
+              window.lastRiff = this.props.riffsAudio.all[riff.id]; // riff.payload;
 
               // FIX THIS:
 
@@ -236,7 +242,7 @@ class YouTubeVideo extends React.Component {
     }
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     //console.log( "youtube vid component upate" );
 
     this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
@@ -269,12 +275,12 @@ class YouTubeVideo extends React.Component {
             <div className="rifftube-riffs-container">
               {Object.keys(this.props.riffsPlaying)
                 .filter(
-                  i =>
+                  (i) =>
                     this.props.riffsPlaying[i] &&
                     this.props.riffs[i] &&
                     this.props.riffs[i].type === 'text'
                 )
-                .map(key => (
+                .map((key) => (
                   <div
                     key={this.props.riffs[key].id}
                     className="rifftube-textriff"
@@ -291,13 +297,13 @@ class YouTubeVideo extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   mode: state.mode,
   //riffs: state.riffs.all,
   riffsPlaying: state.riffsPlaying,
   googleUser: state.googleUser,
   duration: state.duration,
-  riffsAudio: state.riffsAudio
+  riffsAudio: state.riffsAudio,
 });
 
 const mapDispatchToProps = {
@@ -305,7 +311,7 @@ const mapDispatchToProps = {
   setRiffPlaying,
   togglePlayerMode,
   loadRiff,
-  setVideoDuration
+  setVideoDuration,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YouTubeVideo);

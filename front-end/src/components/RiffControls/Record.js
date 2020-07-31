@@ -16,6 +16,7 @@ class Record extends React.Component {
       navigator.mediaDevices
         .getUserMedia({ audio: true, video: false })
         .then((stream) => {
+          // gum (get user media)
           this.setState({ gumStream: stream });
         })
         .catch(function (err) {
@@ -109,7 +110,12 @@ class Record extends React.Component {
           </button>
         );
       }
-    } else ret = <span>navigator.mediaDevices not supported. sorry.</span>;
+    } else
+      ret = (
+        <span>
+          Your device is not supported by navigator.mediaDevices. Sorry.
+        </span>
+      );
 
     return <React.Fragment>{ret}</React.Fragment>;
   }
