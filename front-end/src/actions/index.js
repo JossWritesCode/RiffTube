@@ -95,6 +95,8 @@ export const setVideoID = (videoID, googleUser) => {
         data: { videoID },
       }).then((res) => {
         dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
+      }).catch( error => {
+        dispatch({ type: RECEIVE_RIFF_META, payload: { body: [] } });
       });
     }
   };
