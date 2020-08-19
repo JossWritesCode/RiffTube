@@ -19,8 +19,7 @@
     margin-left: $small;
 
     @media (min-width: 700px) {
-      margin-left: 1.7rem;
-      padding-right: 1rem;
+      margin-left: $medium;
     }
 
     &:hover {
