@@ -104,6 +104,10 @@
   color: $color-white;
   font-size: $small;
   max-height: 60rem;
+
+  div {
+    text-align: center;
+  }
 }
 
 .edit-riff {
