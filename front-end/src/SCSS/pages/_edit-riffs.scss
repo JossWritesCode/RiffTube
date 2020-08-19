@@ -2,6 +2,13 @@
   margin: 11rem auto 0rem auto;
   font-size: $small;
 
+  a {
+    font-size: 1.2rem;
+    @media (min-width: 700px) {
+      font-size: 2.5rem;
+    }
+  }
+
   form {
     margin-bottom: 1rem;
 
@@ -11,7 +18,7 @@
     label {
       font-size: 1.2rem;
       @media (min-width: 700px) {
-        font-size: $small;
+        font-size: 2.5rem;
       }
     }
     input {
@@ -97,6 +104,12 @@
   color: $color-white;
   font-size: $small;
   max-height: 60rem;
+  // border: 4px solid $color-primary;
+  // border-left: 5px solid $color-primary;
+
+  div {
+    text-align: center;
+  }
 }
 
 .edit-riff {
@@ -195,7 +208,10 @@
 
 .riff-list-title {
   text-align: center;
-  font-size: $small;
+  font-size: 2.5rem;
+  width: 100%;
+  // border-top: 4px solid $color-primary;
+  padding-top: 3rem;
 }
 
 .riff-detail-selected {
@@ -238,4 +254,5 @@
 
 .add-riff-title {
   text-align: center;
+  font-size: 2.5rem;
 }
