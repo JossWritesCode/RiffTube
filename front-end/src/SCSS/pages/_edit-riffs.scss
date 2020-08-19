@@ -2,6 +2,13 @@
   margin: 11rem auto 0rem auto;
   font-size: $small;
 
+  a {
+    font-size: 1.2rem;
+    @media (min-width: 700px) {
+      font-size: 2.5rem;
+    }
+  }
+
   form {
     margin-bottom: 1rem;
 
@@ -11,7 +18,7 @@
     label {
       font-size: 1.2rem;
       @media (min-width: 700px) {
-        font-size: $small;
+        font-size: 2.5rem;
       }
     }
     input {
