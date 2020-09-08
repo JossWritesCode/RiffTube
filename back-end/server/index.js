@@ -295,21 +295,28 @@ server.post('/get-view-riffs', (req, res) => {
 });
 
 // get info for profile
-server.get('/get-user-data', (req, res) => {
-  const body = req.body;
+server.get('/get-user-data/:token', (req, res) => {
+  const token = req.params.token;
 
   var payload;
 
-  verify(body.token)
+  console.log( "gud1" );
+
+  verify(token)
     // once verified, get and pass on payload
     .then((ticket) => {
+      console.log( "gud2" );
       payload = ticket.getPayload();
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then(([{ id: uID }]) => {
-      return data_model.getVideoInfoForUser(uID);
+    .then((idAndName) => {
+      console.log( "gud3", idAndName );
+      const vids = data_model.getVideoInfoForUser(idAndName[0].id);
+      console.log( vids );
+      return vids;
     })
     .then((body) => {
+      console.log("gud4", body);
       res.status(200).json({
         status: 'ok',
         body,
@@ -364,7 +371,7 @@ websockhttp.on('upgrade', function upgrade(request, socket, head) {
             });
 
             //send immediatly a feedback to the incoming connection
-            ws.send(`Hi there, I am a WebSocket server ${request.url}`);
+            ws.send(`"Hi there, I am a WebSocket server ${request.url}"`);
           });
         }
 

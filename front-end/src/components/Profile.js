@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Login from './Login/Login';
-import { setRifferName } from '../actions';
+import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 
-function Profile({ name, googleUser, setRifferName }) {
+function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
   const [userName, setUserName] = useState(name);
+
+  useEffect( () => {
+    if (googleUser)
+      getUserData(googleUser);
+  }, [googleUser] )
+
+
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
     return false;
@@ -22,6 +29,10 @@ function Profile({ name, googleUser, setRifferName }) {
     setUserName(event.target.value);
   }
 
+  useEffect( () => {
+    console.log(userData);
+  }, [userData] );
+
   return (
     <div className="landing-page">
       <NavBar />
@@ -32,6 +43,7 @@ function Profile({ name, googleUser, setRifferName }) {
       </div>
       <section className="top-part">
         {loggedIn() ? (
+          <React.Fragment>
           <form onSubmit={(event) => handleSubmit(event)}>
             {/* <p>hello {name}</p> */}
             <label>
@@ -46,6 +58,14 @@ function Profile({ name, googleUser, setRifferName }) {
             </label>
             <input type="submit" value="Submit" className="btn" />
           </form>
+          <ul>
+            {
+          /*? userData.map( () => {
+            <li></li> }
+          ) : null}*/
+          }
+          </ul>
+          </React.Fragment>
         ) : (
           <React.Fragment>
             <Login /> <p>to get started</p>
@@ -58,10 +78,12 @@ function Profile({ name, googleUser, setRifferName }) {
 let mapStateToProps = (state) => ({
   name: state.name,
   googleUser: state.googleUser,
+  userData: state.userData,
 });
 
 const mapDispatchToProps = {
   setRifferName,
+  getUserData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

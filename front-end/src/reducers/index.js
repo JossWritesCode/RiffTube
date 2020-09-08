@@ -11,6 +11,7 @@ import useridReducer from './userid-reducer';
 import videoIDReducer from './videoID-reducer';
 import videoDurationReducer from './videoDuration-reducer';
 import webSocketReducer from './websocket-reducer';
+import userDataReducer from './userData-reducer';
 
 export default combineReducers({
   riffs: riffsReducer,
@@ -24,4 +25,5 @@ export default combineReducers({
   videoID: videoIDReducer,
   duration: videoDurationReducer,
   websocket: webSocketReducer,
+  userData: userDataReducer,
 });
