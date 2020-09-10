@@ -16,9 +16,9 @@ function getIdFromVideoId(url) {
     );
 }
 
-function getNameFromID(id) {
+function getRifferNameFromID(id) {
     return (
-        db('videos')
+        db('users')
             .select('name')
             .where({ id })
     );
@@ -39,6 +39,6 @@ function getVideoInfoForUser(user_id)
 module.exports = {
     getIdAndNameFromEmail,
     getIdFromVideoId,
-    getNameFromID,
+    getRifferNameFromID,
     getVideoInfoForUser
   };

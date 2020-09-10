@@ -46,6 +46,8 @@ export const CREATE_PLAYLIST_FAILURE = 'START_COLLABORATION_FAILURE';
 export const SET_VIDEO_DURATION = 'SET_VIDEO_DURATION';
 
 export const LOAD_USER_DATA = 'LOAD_USER_DATA';
+export const LOAD_PUBLIC_USER_DATA = 'LOAD_PUBLIC_USER_DATA';
+export const LOAD_PUBLIC_USER_NAME = 'LOAD_PUBLIC_USER_NAME';
 
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
@@ -175,6 +177,17 @@ export const getUserData = (googleUser) => {
       url: `/get-user-data/${googleUser.getAuthResponse().id_token}`,
     }).then((res) => {
       dispatch({ type: LOAD_USER_DATA, payload: res.data });
+    }).catch( err => console.log( "error", err ) );
+  };
+};
+
+export const getPublicUserData = (id) => {
+  return (dispatch) => {
+    axios({
+      method: 'get',
+      url: `/get-user-data-by-id/${id}`,
+    }).then((res) => {
+      dispatch({ type: LOAD_PUBLIC_USER_DATA, payload: res.data });
     }).catch( err => console.log( "error", err ) );
   };
 };

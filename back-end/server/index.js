@@ -294,35 +294,57 @@ server.post('/get-view-riffs', (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// get info for profile
+// get info for account page
 server.get('/get-user-data/:token', (req, res) => {
   const token = req.params.token;
 
   var payload;
 
-  console.log( "gud1" );
-
   verify(token)
     // once verified, get and pass on payload
     .then((ticket) => {
-      console.log( "gud2" );
+      //console.log( "gud2" );
       payload = ticket.getPayload();
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then((idAndName) => {
-      console.log( "gud3", idAndName );
-      const vids = data_model.getVideoInfoForUser(idAndName[0].id);
-      console.log( vids );
+    .then(([{id: uID}]) => {
+      //console.log( "gud3", uID );
+      const vids = data_model.getVideoInfoForUser(uID);
+      //console.log( vids );
       return vids;
     })
     .then((body) => {
-      console.log("gud4", body);
+      //console.log("gud4", body);
       res.status(200).json({
         status: 'ok',
         body,
       });
     })
     .catch((err) => res.status(500).json({ error: err }));
+});
+
+// get info for public profile
+server.get('/get-user-data-by-id/:id', (req, res) =>
+{
+  const uID = req.params.id;
+
+  console.log( "load public", uID );
+
+  Promise.all([
+    data_model.getVideoInfoForUser(uID),
+    data_model.getRifferNameFromID(uID)
+  ])
+  .then((params) =>
+  {
+    console.log( "load public2", params );
+    let [body, [{name}]] = params;
+    res.status(200).json({
+      status: 'ok',
+      name,
+      body
+    });
+  })
+  .catch((err) => res.status(500).json({ error: err }));
 });
 
 // serve up the base directory

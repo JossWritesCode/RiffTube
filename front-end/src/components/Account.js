@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Login from './Login/Login';
 import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
-import { Link } from 'react-router-dom';
+import VideoList from './VideoList';
 
 function Account({ name, googleUser, setRifferName, userData, getUserData }) {
   const [userName, setUserName] = useState(name);
@@ -58,27 +58,7 @@ function Account({ name, googleUser, setRifferName, userData, getUserData }) {
               <input type="submit" value="Submit" className="btn" />
             </form>
             <h2 className="account-section-title">My Videos</h2>
-            <ul className="my-videos-list">
-              {userData
-                ? userData.map(({ url, title, count }) => (
-                    <Link to={`/riff/${url}`}>
-                      <li className="my-video">
-                        <h3 className="my-video-title">
-                          {title.length > 52
-                            ? title.slice(0, 52) + '...'
-                            : title}
-                          &nbsp;
-                          ({count} riff{count == 1 ? '' : 's'})
-                        </h3>
-                        <img
-                          alt="video frame"
-                          src={`https://img.youtube.com/vi/${url}/0.jpg`}
-                        />
-                      </li>
-                    </Link>
-                  ))
-                : null}
-            </ul>
+            <VideoList userData={userData} />
           </React.Fragment>
         ) : (
           <React.Fragment>
