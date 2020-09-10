@@ -55,7 +55,6 @@ nav {
 
   @media (min-width: 1000px) {
     height: 70rem;
-    margin-top: 8rem;
   }
 
   .features {
@@ -104,7 +103,7 @@ nav {
 .movie-image {
   width: 14rem;
   margin-top: 1rem;
-
+  margin-bottom: 8rem;
   @media (min-width: 700px) {
     width: 25rem;
   }
