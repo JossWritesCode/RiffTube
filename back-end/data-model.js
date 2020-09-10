@@ -32,6 +32,7 @@ function getVideoInfoForUser(user_id)
             .select('videos.url', 'videos.title')
             .groupBy('videos.id')
             .where({ user_id })
+            .count('videos.url')
     );
 }
 
