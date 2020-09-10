@@ -60,10 +60,11 @@ function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
           </form>
           <ul>
             {
-          /*? userData.map( () => {
-            <li></li> }
-          ) : null}*/
-          }
+            userData ? userData.map( ({url, title}) =>
+            (
+            <li><img src={`https://img.youtube.com/vi/${url}/0.jpg`} /><br />{title}</li>
+            ) ) : null
+            }
           </ul>
           </React.Fragment>
         ) : (

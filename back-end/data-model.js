@@ -29,8 +29,8 @@ function getVideoInfoForUser(user_id)
     return (
         db('riffs')
             .join('videos', 'riffs.video_id', 'videos.id')
-            .select('videos.id', 'videos.title')
-            .groupBy('video_id', 'videos.id', 'videos.title')
+            .select('videos.url', 'videos.title')
+            .groupBy('videos.id')
             .where({ user_id })
     );
 }
