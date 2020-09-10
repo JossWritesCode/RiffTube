@@ -77,7 +77,7 @@ function About() {
                 github repository
               </a>{' '}
               <a href="https://github.com/JossWritesCode/RiffTube/issues">
-                issue tracker
+                issue tracker.{' '}
               </a>
               You can also email us:{' '}
               <a href="mailto:grokprogramming@gmail.com">
