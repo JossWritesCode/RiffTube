@@ -4,7 +4,7 @@ import ViewInterface from './components/ViewInterface/ViewInterface';
 import LandingPage from './components/LandingPage.js';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import About from './components/About';
-import Profile from './components/Profile';
+import Account from './components/Account';
 
 class App extends React.Component {
   render() {
@@ -17,7 +17,7 @@ class App extends React.Component {
             <Route exact path="/riff/:videoID" component={EditInterface} />
             <Route exact path="/about" component={About} />
             <Route exact path="/view/:videoID" component={ViewInterface} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/account" component={Account} />
           </div>
         </div>
       </Router>

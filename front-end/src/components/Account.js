@@ -4,7 +4,7 @@ import Login from './Login/Login';
 import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 
-function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
+function Account({ name, googleUser, setRifferName, userData, getUserData }) {
   const [userName, setUserName] = useState(name);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
     <div className="landing-page">
       <NavBar />
       <div className="title-and-url heading">
-        <h1 className="heading-primary-main profile-heading">
-          Profile Settings
+        <h1 className="heading-primary-main account-heading">
+          Account Settings
         </h1>
       </div>
       <section className="top-part">
@@ -91,4 +91,4 @@ const mapDispatchToProps = {
   getUserData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

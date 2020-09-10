@@ -8,7 +8,7 @@
   left: 0;
 
   @media (min-width: 700px) {
-    width: 60rem;
+    width: 80rem;
   }
 
   .navbar-link-active {
@@ -16,10 +16,10 @@
     transition: border-bottom 0.5s ease-in-out;
   }
   a {
-    margin-left: $small;
+    margin-left: 2rem;
 
     @media (min-width: 700px) {
-      margin-left: $medium;
+      margin-left: 5rem;
     }
 
     &:hover {
