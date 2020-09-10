@@ -29,9 +29,9 @@ function NavBar({ color, googleUser }) {
         <NavLink
           activeClassName="navbar-link-active"
           style={{ color }}
-          to="/profile"
+          to="/account"
         >
-          Profile
+          My Account
         </NavLink>
       ) : null}
       <NavLink
