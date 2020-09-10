@@ -1,3 +1,27 @@
 .heading {
   margin: 5rem auto 0rem auto;
 }
+.account-section-title {
+  margin-top: 3rem;
+  text-align: center;
+}
+.my-videos-list {
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+  flex-wrap: wrap;
+
+  .my-video {
+    margin: 2rem;
+
+    .my-video-title {
+      text-align: center;
+    }
+  }
+}
+
+.main-section {
+  .top-part {
+    height: 100%;
+  }
+}

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import Login from './Login/Login';
 import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
+import { Link } from 'react-router-dom';
 
 function Account({ name, googleUser, setRifferName, userData, getUserData }) {
   const [userName, setUserName] = useState(name);
 
   useEffect(() => {
     if (googleUser) getUserData(googleUser);
-  }, [googleUser, getUserData]);
+  }, [googleUser]);
 
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
@@ -45,7 +46,7 @@ function Account({ name, googleUser, setRifferName, userData, getUserData }) {
             <form onSubmit={(event) => handleSubmit(event)}>
               {/* <p>hello {name}</p> */}
               <label>
-                Riffer Name:
+                <h2 className="account-section-title">My Riffer Name</h2>
                 <input
                   onChange={(event) => handleChange(event)}
                   type="text"
@@ -56,17 +57,23 @@ function Account({ name, googleUser, setRifferName, userData, getUserData }) {
               </label>
               <input type="submit" value="Submit" className="btn" />
             </form>
-            <ul>
+            <h2 className="account-section-title">My Videos</h2>
+            <ul className="my-videos-list">
               {userData
                 ? userData.map(({ url, title }) => (
-                    <li>
-                      <img
-                        alt="video frame"
-                        src={`https://img.youtube.com/vi/${url}/0.jpg`}
-                      />
-                      <br />
-                      {title}
-                    </li>
+                    <Link to={`/riff/${url}`}>
+                      <li className="my-video">
+                        <h3 className="my-video-title">
+                          {title.length > 52
+                            ? title.slice(0, 52) + '...'
+                            : title}
+                        </h3>
+                        <img
+                          alt="video frame"
+                          src={`https://img.youtube.com/vi/${url}/0.jpg`}
+                        />
+                      </li>
+                    </Link>
                   ))
                 : null}
             </ul>

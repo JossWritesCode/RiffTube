@@ -43,6 +43,7 @@ nav {
 .middle-part {
   width: 100vw;
   height: 90rem;
+
   text-align: center;
   display: flex;
   font-size: $small;
@@ -53,7 +54,8 @@ nav {
   padding-top: 5rem;
 
   @media (min-width: 1000px) {
-    height: 50rem;
+    height: 70rem;
+    margin-top: 8rem;
   }
 
   .features {
@@ -166,4 +168,5 @@ nav {
 
 .landing-page {
   font-size: $small;
+  min-height: 100%;
 }
