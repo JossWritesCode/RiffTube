@@ -7,11 +7,9 @@ import NavBar from './NavBar.js';
 function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
   const [userName, setUserName] = useState(name);
 
-  useEffect( () => {
-    if (googleUser)
-      getUserData(googleUser);
-  }, [googleUser] )
-
+  useEffect(() => {
+    if (googleUser) getUserData(googleUser);
+  }, [googleUser, getUserData]);
 
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
@@ -29,9 +27,9 @@ function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
     setUserName(event.target.value);
   }
 
-  useEffect( () => {
+  useEffect(() => {
     console.log(userData);
-  }, [userData] );
+  }, [userData]);
 
   return (
     <div className="landing-page">
@@ -44,28 +42,34 @@ function Profile({ name, googleUser, setRifferName, userData, getUserData }) {
       <section className="top-part">
         {loggedIn() ? (
           <React.Fragment>
-          <form onSubmit={(event) => handleSubmit(event)}>
-            {/* <p>hello {name}</p> */}
-            <label>
-              Riffer Name:
-              <input
-                onChange={(event) => handleChange(event)}
-                type="text"
-                name="name"
-                defaultValue={name}
-                className="form-field"
-              />
-            </label>
-            <input type="submit" value="Submit" className="btn" />
-          </form>
-          <ul>
-            {
-            userData ? userData.map( ({url, title}) =>
-            (
-            <li><img src={`https://img.youtube.com/vi/${url}/0.jpg`} /><br />{title}</li>
-            ) ) : null
-            }
-          </ul>
+            <form onSubmit={(event) => handleSubmit(event)}>
+              {/* <p>hello {name}</p> */}
+              <label>
+                Riffer Name:
+                <input
+                  onChange={(event) => handleChange(event)}
+                  type="text"
+                  name="name"
+                  defaultValue={name}
+                  className="form-field"
+                />
+              </label>
+              <input type="submit" value="Submit" className="btn" />
+            </form>
+            <ul>
+              {userData
+                ? userData.map(({ url, title }) => (
+                    <li>
+                      <img
+                        alt="video frame"
+                        src={`https://img.youtube.com/vi/${url}/0.jpg`}
+                      />
+                      <br />
+                      {title}
+                    </li>
+                  ))
+                : null}
+            </ul>
           </React.Fragment>
         ) : (
           <React.Fragment>
