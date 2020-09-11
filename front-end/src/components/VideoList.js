@@ -10,7 +10,7 @@ function VideoList({ userData }) {
               <li className="my-video">
                 <h3 className="my-video-title">
                   {title.length > 45 ? title.slice(0, 45) + '...' : title}
-                  &nbsp; ({count} riff{count == 1 ? '' : 's'})
+                  &nbsp; ({count} riff{count === 1 ? '' : 's'})
                 </h3>
                 <img
                   alt="video frame"
