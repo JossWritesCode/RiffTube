@@ -74,8 +74,8 @@ class AuthorSelector extends React.Component {
     if ( prevProps.riffers != this.props.riffers )
     {
       const m = {};
-      this.state.names.forEach( el => m[el.id] = !(rifferList.includes( el.id ) || this.props.riffers === undefined) );
-      console.log( "riffchng", m );
+      this.state.names.forEach( el => { m[el.id] = !(rifferList.includes( String(el.id) ) || this.props.riffers === undefined) } );
+      //console.log( "riffchng", m );
       this.setState( {
         muted: m,
         all: this.props.riffers === undefined, 
