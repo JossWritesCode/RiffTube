@@ -18,6 +18,7 @@ class EditRiff extends React.Component {
   }
 
   render() {
+    debugger;
     console.log('ed rif red');
     return (
       <div className="edit-riff">

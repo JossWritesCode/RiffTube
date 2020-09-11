@@ -28,6 +28,7 @@ const riffsAudioReducer = (state = initialState, action) => {
         editIndex: action.payload
       };
     case SAVE_RIFF_SUCCESS: {
+      debugger;
       if (action.payload.type === 'add') {
         const { [action.payload.tempId]: foo, ...saving } = state.saving; // foo is discarded
         return {
@@ -35,12 +36,13 @@ const riffsAudioReducer = (state = initialState, action) => {
           saving,
           all: {
             ...state.all,
-            [action.payload.id]: state.saving[action.payload.tempId],
+            [action.payload.id]: state.temp,
           },
         };
       } else return state;
     }
     case SAVE_RIFF: {
+      debugger;
       // adding a new riff:
       if (state.editIndex === null)
         return {
@@ -84,10 +86,11 @@ const riffsAudioReducer = (state = initialState, action) => {
           ...state.all,
           [action.id]: audio
         },
-        temp: state.editIndex ? audio : null,
+        temp: state.editIndex === null ? null : audio,
       };
     }
     case SAVE_TEMP_AUDIO:
+      debugger;
       return {
         ...state,
         temp: action.payload,

@@ -164,6 +164,8 @@ class YouTubeVideo extends React.Component {
               if (!this.audLock) this.audLock = 1;
               else this.audLock++;
 
+              console.log( "pax", this.props.riffsAudio.all[riff.id] );
+
               if (!this.props.riffsAudio.all[riff.id]) {
                 //(!riff.payload) {
                 console.log('empty payload error');
@@ -247,7 +249,9 @@ class YouTubeVideo extends React.Component {
   componentDidUpdate = (prevProps) => {
     console.log( "youtube vid component upate" );
 
-    //this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
+    // seems needed on more than just mounting
+    // (makes sense; the riff meta takes some time to load)
+    this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
 
     if (this.props.id !== prevProps.id) this.loadVideo();
 
