@@ -8,6 +8,8 @@ import defaultReducer from './reducers';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+
+import './fonts/Limelight-Regular.ttf';
 import './SCSS/main.scss';
 import thunkMiddleware from 'redux-thunk';
 
