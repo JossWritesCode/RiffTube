@@ -59,6 +59,7 @@ const riffsAudioReducer = (state = initialState, action) => {
             ...state.all,
             [action.riff.id]: action.payload.payload,
           },
+          editIndex: null,
         };
     }
     case LOAD_RIFF: {
@@ -81,9 +82,9 @@ const riffsAudioReducer = (state = initialState, action) => {
         loading,
         all: {
           ...state.all,
-          [action.id]: audio,
-        temp: state.editIndex ? audio : null
+          [action.id]: audio
         },
+        temp: state.editIndex ? audio : null,
       };
     }
     case SAVE_TEMP_AUDIO:
