@@ -31,7 +31,9 @@ class YouTubeVideo extends React.Component {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     } // If script is already there, load the video directly
     else {
+      console.log( "youtube vid component mount" );
       this.loadVideo();
+      this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
     }
   };
 
@@ -243,9 +245,9 @@ class YouTubeVideo extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    //console.log( "youtube vid component upate" );
+    console.log( "youtube vid component upate" );
 
-    this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
+    //this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
 
     if (this.props.id !== prevProps.id) this.loadVideo();
 

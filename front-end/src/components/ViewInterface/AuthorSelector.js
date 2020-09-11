@@ -23,13 +23,28 @@ class AuthorSelector extends React.Component {
     });
   };
 
-  toggleMute = (id) => {
-    this.setMute(id, !this.state.muted[id]);
+  toggleMute = (id) =>
+  {
+    //this.setMute(id, !this.state.muted[id]);
+
+    debugger;
+
+    const m = { ...this.state.muted, [id]: !this.state.muted[id] };
+
+    // not muted
+    const nm2 = this.state.names.map((el) => el.id);
+    const nm = nm2.filter((el) => !m[el]);
+    const nmStr = '?solo=' + nm.join(',');
+
+    this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
   };
 
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props);
 
+    debugger;
+
+    /*
     if (
       prevState.muted !== this.state.muted ||
       prevState.all !== this.state.all
@@ -48,6 +63,25 @@ class AuthorSelector extends React.Component {
         this.props.history.push(`/view/${this.props.videoID}${nmStr}`);
       }
     }
+    */
+
+    const rifferList = this.props.riffers
+      ? this.props.riffers.indexOf(',') >= 0
+        ? this.props.riffers.split(',')
+        : [this.props.riffers]
+      : [];
+
+    if ( prevProps.riffers != this.props.riffers )
+    {
+      const m = {};
+      this.state.names.forEach( el => m[el.id] = !(rifferList.includes( el.id ) || this.props.riffers === undefined) );
+      console.log( "riffchng", m );
+      this.setState( {
+        muted: m,
+        all: this.props.riffers === undefined, 
+        filteredRiffs: this.props.riffs.filter((el) => !m[el.user_id])
+      });
+    }
 
     if (
       prevProps.timestamp !== this.props.timestamp ||
@@ -57,12 +91,6 @@ class AuthorSelector extends React.Component {
       const includes = (arr, id) => arr.some((el) => el.id === id);
 
       var names = [...this.state.names];
-
-      const rifferList = this.props.riffers
-        ? this.props.riffers.indexOf(',') >= 0
-          ? this.props.riffers.split(',')
-          : [this.props.riffers]
-        : [];
 
       const m = { ...this.state.muted };
 
@@ -102,12 +130,18 @@ class AuthorSelector extends React.Component {
         />
         <div
           onClick={() =>
-            this.setState({
-              muted: {},
-              all: !this.state.all,
-              filteredRiffs: this.props.riffs,
-            })
-          }
+            {
+              if (!this.state.all)
+                this.props.history.push(`/view/${this.props.videoID}`);
+              else
+              {
+                const nm2 = this.state.names.map((el) => el.id);
+                const nm = nm2.filter((el) => !this.state.muted[el]);
+                const nmStr = nm.join(',');
+
+                this.props.history.push(`/view/${this.props.videoID}?solo=${nmStr}`);
+              }
+            }}
           style={{
             backgroundColor: this.state.all ? 'blue' : 'gray',
           }}

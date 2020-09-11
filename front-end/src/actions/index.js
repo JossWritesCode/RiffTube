@@ -214,6 +214,7 @@ export const saveTempAudio = (payload, duration) => ({
 
 export const editRiff = (payload, id, gus) => {
   return (dispatch) => {
+    debugger;
     dispatch({
       type: EDIT_RIFF,
       payload, // index
@@ -280,6 +281,7 @@ export const setRiffPlaying = (index, playing) => ({
 
 export const loadRiff = (id, guser) => {
   return (dispatch) => {
+    dispatch({ type: LOAD_RIFF, payload: id });
     rawLoadAxios(dispatch, id, guser);
   };
 };
