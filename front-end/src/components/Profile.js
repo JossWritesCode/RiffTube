@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import Login from './Login/Login';
-import { publicProfileData, publicProfileName, getPublicUserData } from '../actions';
+// import Login from './Login/Login';
+import { getPublicUserData } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
-function Profile({ publicProfileData, publicProfileName, getPublicUserData, match: {params: {userID}} })
-{
+function Profile({
+  publicProfileData,
+  publicProfileName,
+  getPublicUserData,
+  match: {
+    params: { userID },
+  },
+}) {
   useEffect(() => {
     getPublicUserData(userID);
   }, []);
