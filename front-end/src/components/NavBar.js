@@ -25,6 +25,13 @@ function NavBar({ color, googleUser }) {
       >
         Start Riffing
       </NavLink>
+      <NavLink
+        activeClassName="navbar-link-active"
+        style={{ color }}
+        to="/TheList"
+      >
+        The List
+      </NavLink>
       {loggedIn() ? (
         <NavLink
           activeClassName="navbar-link-active"

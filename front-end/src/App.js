@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import About from './components/About';
 import Account from './components/Account';
 import Profile from './components/Profile';
+import TheList from './components/TheList';
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class App extends React.Component {
             <Route exact path="/view/:videoID" component={ViewInterface} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/profile/:userID" component={Profile} />
+            <Route exact path="/TheList" component={TheList} />
           </div>
         </div>
       </Router>

@@ -347,6 +347,23 @@ server.get('/get-user-data-by-id/:id', (req, res) =>
   .catch((err) => res.status(500).json({ error: err }));
 });
 
+// get global video list
+server.get('/get-global-video-list', (req, res) =>
+{
+  console.log( "load video list" );
+
+  data_model.getGlobalVideoList()
+  .then(body =>
+  {
+    console.log( "load videos 2", body );
+    res.status(200).json({
+      status: 'ok',
+      body
+    });
+  })
+  .catch((err) => res.status(500).json({ error: err }));
+});
+
 // serve up the base directory
 server.use(express.static('/app/front-end/build/'));
 

@@ -48,6 +48,7 @@ export const SET_VIDEO_DURATION = 'SET_VIDEO_DURATION';
 export const LOAD_USER_DATA = 'LOAD_USER_DATA';
 export const LOAD_PUBLIC_USER_DATA = 'LOAD_PUBLIC_USER_DATA';
 export const LOAD_PUBLIC_USER_NAME = 'LOAD_PUBLIC_USER_NAME';
+export const LOAD_GLOBAL_VIDEO_LIST = 'LOAD_GLOBAL_VIDEO_LIST';
 
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
@@ -188,6 +189,17 @@ export const getPublicUserData = (id) => {
       url: `/get-user-data-by-id/${id}`,
     }).then((res) => {
       dispatch({ type: LOAD_PUBLIC_USER_DATA, payload: res.data });
+    }).catch( err => console.log( "error", err ) );
+  };
+};
+
+export const getGlobalVideoList = () => {
+  return (dispatch) => {
+    axios({
+      method: 'get',
+      url: '/get-global-video-list',
+    }).then((res) => {
+      dispatch({ type: LOAD_GLOBAL_VIDEO_LIST, payload: res.data });
     }).catch( err => console.log( "error", err ) );
   };
 };

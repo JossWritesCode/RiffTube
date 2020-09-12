@@ -36,9 +36,21 @@ function getVideoInfoForUser(user_id)
     );
 }
 
+function getGlobalVideoList()
+{
+    return (
+        db('riffs')
+            .join('videos', 'riffs.video_id', 'videos.id')
+            .select('videos.url', 'videos.title')
+            .groupBy('videos.id')
+            .count('videos.url')
+    );
+}
+
 module.exports = {
     getIdAndNameFromEmail,
     getIdFromVideoId,
     getRifferNameFromID,
-    getVideoInfoForUser
+    getVideoInfoForUser,
+    getGlobalVideoList,
   };
