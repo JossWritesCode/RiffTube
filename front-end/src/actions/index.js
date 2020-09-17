@@ -147,6 +147,12 @@ export const setGoogleUser = (googleUser, videoID) => {
   };
 };
 
+// perhaps this action should somehow call the above action (setVideoID)?
+export const googleUserLogout = () => ({
+  type: GOOGLE_USER_SIGNIN,
+  payload: null,
+});
+
 export const getRiffsMeta = (videoID) => {
   return (dispatch) => {
     axios({
