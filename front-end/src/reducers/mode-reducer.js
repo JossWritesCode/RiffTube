@@ -26,8 +26,8 @@ const modeReducer = (state = PAUSE_MODE, action) => {
       return PAUSE_MODE;
     case TOGGLE_PLAYER_MODE: // not needed at the moment
       return state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE;
-    /*case SAVE_RIFF:
-      return PLAY_MODE; // should be an option*/
+    case SAVE_RIFF:
+      return PAUSE_MODE; // should be an option
     default:
       return state;
   }
