@@ -54,7 +54,7 @@ class AllowPlayback extends React.Component {
         className="audio-capture"
         onClick={() => {
           this.setupAudioPlayers();
-          //this.props.setPlayerMode(PLAY_MODE);
+          this.props.setPlayerMode(PLAY_MODE);
         }}
       />
     ) : null;
