@@ -99,6 +99,11 @@ const riffsReducer = (state = initialState, action) => {
     case SAVE_RIFF: {
       const { payload, ...actionPayload } = action.payload; // payload (audio data) will be ignored
       const riff = { ...state.temp, ...actionPayload };
+
+      // the payload should be included if this is a text riff
+      if ( state.temp.type === "text" )
+        riff.payload = payload;
+
       let riffs;
 
       // adding a new riff:

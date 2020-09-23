@@ -230,9 +230,8 @@ export const saveTempAudio = (payload, duration) => ({
   duration,
 });
 
-export const editRiff = (payload, id, gus) => {
+export const editRiff = (payload, id, load) => {
   return (dispatch) => {
-    debugger;
     dispatch({
       type: EDIT_RIFF,
       payload, // index
@@ -240,7 +239,7 @@ export const editRiff = (payload, id, gus) => {
     });
 
     // id is only passed when the audio riff needs loading
-    if (id) rawLoadAxios(dispatch, id, gus); // loads riff audio
+    if (load) rawLoadAxios(dispatch, id); // loads riff audio
   };
 };
 
@@ -249,9 +248,8 @@ export const cancelEdit = () => ({
 });
 
 export const saveRiff = (token, payload, riff, websocket) => {
-  return (dispatch) => {
-    dispatch({ type: SAVE_RIFF, payload, riff });
-
+  return (dispatch) =>
+  {
     let fd = new FormData();
     fd.append('token', token);
     fd.append(riff.type === 'text' ? 'text' : 'blob', payload.payload);
@@ -284,6 +282,9 @@ export const saveRiff = (token, payload, riff, websocket) => {
       .catch((err) => {
         dispatch({ type: SAVE_RIFF_FAILURE, payload: err.response });
       });
+
+    // dispatch local save command (clears temp audio)
+    dispatch({ type: SAVE_RIFF, payload, riff });
   };
 };
 
@@ -297,19 +298,19 @@ export const setRiffPlaying = (index, playing) => ({
   payload: index,
 });
 
-export const loadRiff = (id, guser) => {
+export const loadRiff = (id, load) => {
   return (dispatch) => {
     dispatch({ type: LOAD_RIFF, payload: id });
-    rawLoadAxios(dispatch, id, guser);
+    rawLoadAxios(dispatch, id);
   };
 };
 
-const rawLoadAxios = (dispatch, id, guser) => {
+const rawLoadAxios = (dispatch, id) => {
   axios({
     method: 'post',
     url: `/load-riff`,
     responseType: 'arraybuffer',
-    data: { token: guser ? guser.getAuthResponse().id_token : null, id }, // modified to make guser optional
+    data: { id },
   }).then((res) => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
   });

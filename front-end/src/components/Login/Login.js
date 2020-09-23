@@ -11,7 +11,6 @@ class Login extends React.Component {
         className="google-login"
         isSignedIn={true}
         onSuccess={(gus) => {
-          debugger;
           this.props.setGoogleUser(gus, this.props.videoID);
         }}
         buttonText="Login With Google"

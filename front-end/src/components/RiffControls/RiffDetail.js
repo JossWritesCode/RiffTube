@@ -35,10 +35,10 @@ function RiffDetail(props) {
             onClick={() =>
               props.editRiff(
                 props.index,
-                props.type === 'audio'// && props.riffsAudio.all[props.id]
+                props.type === 'audio'
                   ? props.id
                   : null, // weird but ok; yields id or null/false
-                props.googleUser
+                !props.riffsAudio.all[props.id],
               )
             }
           >

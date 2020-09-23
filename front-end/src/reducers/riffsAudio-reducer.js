@@ -21,14 +21,12 @@ const riffsAudioReducer = (state = initialState, action) => {
     case SET_VIDEO_ID:
       return initialState;
     case EDIT_RIFF:
-      debugger;
       return {
         ...state,
         temp: state.all[action.id], // copy specified riff audio to temp
         editIndex: action.payload
       };
     case SAVE_RIFF_SUCCESS: {
-      debugger;
       if (action.payload.type === 'add') {
         const { [action.payload.tempId]: foo, ...saving } = state.saving; // foo is discarded
         return {
@@ -42,7 +40,6 @@ const riffsAudioReducer = (state = initialState, action) => {
       } else return state;
     }
     case SAVE_RIFF: {
-      debugger;
       // adding a new riff:
       if (state.editIndex === null)
         return {
@@ -52,6 +49,7 @@ const riffsAudioReducer = (state = initialState, action) => {
             [action.riff.tempId]: true,
           },
           editIndex: null,
+          temp: null,
         };
       // EDIT_MODE (existing riff):
       else
@@ -62,6 +60,7 @@ const riffsAudioReducer = (state = initialState, action) => {
             [action.riff.id]: action.payload.payload,
           },
           editIndex: null,
+          temp: null,
         };
     }
     case LOAD_RIFF: {
@@ -74,7 +73,6 @@ const riffsAudioReducer = (state = initialState, action) => {
       };
     }
     case RIFF_LOADED: {
-      debugger;
       const { [action.id]: foo, ...loading } = state.loading; // foo is discarded
       const audio = new Blob(new Array(action.payload), {
             type: 'audio/mp3',
@@ -90,7 +88,6 @@ const riffsAudioReducer = (state = initialState, action) => {
       };
     }
     case SAVE_TEMP_AUDIO:
-      debugger;
       return {
         ...state,
         temp: action.payload,

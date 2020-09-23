@@ -18,7 +18,6 @@ class EditRiff extends React.Component {
   }
 
   render() {
-    debugger;
     console.log('ed rif red');
     return (
       <div className="edit-riff">
@@ -99,7 +98,7 @@ class EditRiff extends React.Component {
               <textarea
                 id="riff-edit-field"
                 ref={this.htmlPayloadField}
-                defaultValue={this.props.tempAudio}
+                defaultValue={this.props.tempRiff.payload}
               />
 
               <div>

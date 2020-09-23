@@ -70,6 +70,8 @@ class YouTubeVideo extends React.Component {
   checkForRiffsToLoad = (t) => {
     this.props.riffs.forEach((riff) => {
       if (
+        // if no id, it's being saved
+        riff.id &&
         //if it's an audio riff
         riff.type === 'audio' &&
         //if it's not loaded already
@@ -82,7 +84,7 @@ class YouTubeVideo extends React.Component {
         riff.time < t + 10
       )
         // load the riff to be played at the right time
-        this.props.loadRiff(riff.id, this.props.googleUser);
+        this.props.loadRiff( riff.id );
     });
   };
 

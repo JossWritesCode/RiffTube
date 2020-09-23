@@ -19,7 +19,7 @@ class AllowPlayback extends React.Component {
         this.setupAudioPlayers();
       })
       .catch(() => {
-        console.log('playback not allowed');
+        console.error('playback not allowed');
       });
   };
 
@@ -47,7 +47,7 @@ class AllowPlayback extends React.Component {
   };
 
   render = () => {
-    if (!this.state) return null;
+    //if (!this.state) return null;
 
     return !this.state.allowed ? (
       <div
