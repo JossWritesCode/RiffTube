@@ -36,6 +36,7 @@ const riffsAudioReducer = (state = initialState, action) => {
             ...state.all,
             [action.payload.id]: state.temp,
           },
+          temp: null,
         };
       } else return state;
     }
@@ -49,7 +50,6 @@ const riffsAudioReducer = (state = initialState, action) => {
             [action.riff.tempId]: true,
           },
           editIndex: null,
-          temp: null,
         };
       // EDIT_MODE (existing riff):
       else
