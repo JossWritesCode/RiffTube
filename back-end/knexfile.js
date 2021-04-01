@@ -13,10 +13,7 @@ module.exports = {
     client: 'pg',
     //connection: process.env.DATABASE_URL,
     connection: {
-      host: 'ec2-174-129-255-26.compute-1.amazonaws.com',
-      user : 'ivhxtosrdsnily',
-      password : '7be361340747590de7baac1b79e87c51c0baffdcbbbd01f04a37b847d9d1d18e',
-      database : 'd1ddtb5aknigj3',
+      connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
     },
     migrations: {
