@@ -17,7 +17,7 @@ module.exports = {
       user : 'ivhxtosrdsnily',
       password : '7be361340747590de7baac1b79e87c51c0baffdcbbbd01f04a37b847d9d1d18e',
       database : 'd1ddtb5aknigj3',
-      ssl: true,
+      ssl: { rejectUnauthorized: false },
     },
     migrations: {
       directory: './data/migrations'
