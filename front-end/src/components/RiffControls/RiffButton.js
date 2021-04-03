@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import { createTempRiff } from '../../actions/index.js';
 
 class RiffButton extends React.Component {
-  constructor(props) {
-    super(props)
-    window.addEventListener("keydown",
-      e => {if (e.key == "r") props.createTempRiff(props.type, props.videoID);})
-  }
-
   render() {
     return (
       <button

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { GoogleLogout } from 'react-google-login';
 
@@ -8,8 +8,18 @@ import RiffButton from './RiffButton.js';
 import { setRifferName, googleUserLogout } from '../../actions'; // this and below are the same file
 import { EDIT_MODE, EDIT_NEW_MODE } from '../../actions';
 
+import { createTempRiff } from '../../actions/index.js';
+
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
+  useEffect(() => {
+    window.addEventListener("keydown",
+      e => {
+        if (e.key === "r") props.createTempRiff("audio", props.videoID);
+        else if (e.key === "t") props.createTempRiff("text", props.videoID);
+      });
+  }, [createTempRiff]);
+
   return (
     <div className="control-panel">
       {
@@ -54,6 +64,7 @@ let mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   setRifferName,
   googleUserLogout,
+  createTempRiff,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditControls);
