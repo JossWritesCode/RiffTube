@@ -74,7 +74,7 @@ export const setRifferName = (newName, googleUser) => {
       data: { token: googleUser.getAuthResponse().id_token, newName },
     }).then((res) => {
       dispatch({ type: RECEIVE_NAME_UPDATE, payload: res.data });
-    });
+    }).catch( err => console.log( "error", err ) );
   };
 };
 
@@ -119,7 +119,7 @@ export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
 
       // websocket call
       websocket.send(JSON.stringify({ type: 'update', video_id }));
-    });
+    }).catch( err => console.log( "error", err ) );
   };
 };
 
@@ -136,14 +136,14 @@ export const setGoogleUser = (googleUser, videoID) => {
       data: { token: googleUser.getAuthResponse().id_token, videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-    });
+    }).catch( err => console.log( "error", err ) );
     axios({
       method: 'post',
       url: `/get-view-riffs`,
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-    });
+    }).catch( err => console.log( "error", err ) );
   };
 };
 
@@ -161,7 +161,7 @@ export const getRiffsMeta = (videoID) => {
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-    });
+    }).catch( err => console.log( "error", err ) );
   };
 };
 
@@ -173,7 +173,7 @@ export const getViewRiffs = (videoID) => {
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-    });
+    }).catch( err => console.log( "error", err ) );
   };
 };
 
@@ -313,5 +313,5 @@ const rawLoadAxios = (dispatch, id) => {
     data: { id },
   }).then((res) => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
-  });
+  }).catch( err => console.log( "error", err ) );
 };

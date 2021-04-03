@@ -134,10 +134,13 @@ server.post('/get-riffs', (req, res) => {
       ]);
     })
     .then(([emailArr, vIDArr]) => {
-      if (emailArr.length === 0 || vIDArr.length === 0) {
-        res.status(200).json({ info: 'no riffs yet', body: [] });
+      var [{ id: uID, name }] = emailArr; // this is silly, getting the name back should just be its own endpoint but noooooooooooooooo
+      if (emailArr.length === 0) {
+        res.status(200).json({ info: 'user not found' });
+      } else if (vIDArr.length === 0) {
+        res.status(200).json({ info: 'no riffs yet', body: [], name, user_id: uID, });
       } else {
-        var [{ id: uID, name }] = emailArr;
+        //var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
 
         return db('riffs')
@@ -155,7 +158,7 @@ server.post('/get-riffs', (req, res) => {
           .where({ user_id: uID, video_id: vID })
           .then((riffList) => {
             res.status(200).json({
-              status: 'ok',
+              status: 'ok', // meaningless (to computers)
               body: riffList,
               name,
               user_id: uID,
