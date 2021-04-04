@@ -59,6 +59,7 @@ let mapStateToProps = (state) => ({
   mode: state.mode,
   name: state.name,
   googleUser: state.googleUser,
+  videoID: state.videoID,
 });
 
 const mapDispatchToProps = {
