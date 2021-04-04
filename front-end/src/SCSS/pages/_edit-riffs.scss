@@ -163,6 +163,14 @@
     font-size: $small;
     flex: 1;
 
+    .riff-type-icon {
+      align-items: center;
+
+      img {
+        height: 60%;
+      }
+    }
+
     .edit-riff-buttons {
       display: flex;
       flex-direction: row;
@@ -170,8 +178,8 @@
       width: 15rem;
 
       button {
-        width: 40%;
-        height: 80%;
+        width: 4em;
+        height: 4em;
         &:hover {
           cursor: pointer;
         }

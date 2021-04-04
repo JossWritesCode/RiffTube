@@ -15,11 +15,11 @@ function RiffDetail(props) {
       <div>
         <button onClick={() => { window.rifftubePlayer.seekTo(props.time, true); }}>jump to</button>
         {props.type === 'audio' ? (
-          <div className="audio-icon">
+          <div className="audio-icon riff-type-icon">
             <img alt="audio" src={Audio} />
           </div>
         ) : (
-          <div className="text-icon">
+          <div className="text-icon riff-type-icon">
             <img alt="text" src={Text} />
           </div>
         )}
