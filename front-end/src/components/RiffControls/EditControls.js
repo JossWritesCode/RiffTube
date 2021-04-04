@@ -13,6 +13,8 @@ import { createTempRiff } from '../../actions/index.js';
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
   useEffect(() => {
+    window.addEventListener("blur", () => { setTimeout(() => {
+      document.activeElement.blur(); }, 20) });
     window.addEventListener("keydown",
       e => {
         if (e.key === "r") props.createTempRiff("audio", props.videoID);
