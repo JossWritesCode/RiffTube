@@ -143,17 +143,18 @@
   justify-content: center;
   overflow-y: auto;
   max-width: 50rem;
+  min-height: 4.5em;
 }
 
 .riff-detail {
   border-radius: 5px;
-  margin-bottom: 10px;
-  margin: 1.5em;
   color: $color-black;
   background-color: $color-white;
   border: 5px solid $color-primary;
   display: flex;
   width: 100%;
+  min-height: 4.5em;
+  box-sizing: border-box;
 
   div {
     display: flex;

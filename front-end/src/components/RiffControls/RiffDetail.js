@@ -11,6 +11,7 @@ function RiffDetail(props) {
   return (
     <div
       className={`riff-detail${props.selected ? ' riff-detail-selected' : ''}`}
+      style={props.style}
     >
       <div>
         <button onClick={() => { window.rifftubePlayer.seekTo(props.time, true); }}>jump to</button>
