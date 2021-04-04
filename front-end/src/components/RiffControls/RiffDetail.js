@@ -14,7 +14,7 @@ function RiffDetail(props) {
       style={props.style}
     >
       <div>
-        <button onClick={() => { window.rifftubePlayer.seekTo(props.time, true); }}>jump to</button>
+        <button onClick={() => { window.rifftubePlayer.seekTo(Math.max(props.time - 3, 0), true); }}>jump to</button>
         {props.type === 'audio' ? (
           <div className="audio-icon riff-type-icon">
             <img alt="audio" src={Audio} />
