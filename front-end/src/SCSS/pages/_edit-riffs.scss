@@ -147,30 +147,31 @@
 
 .riff-detail {
   border-radius: 5px;
-  padding: 30px;
   margin-bottom: 10px;
-  width: 150px;
-  margin: 20px;
+  margin: 1.5em;
   color: $color-black;
   background-color: $color-white;
   border: 5px solid $color-primary;
   display: flex;
+  width: 100%;
 
   div {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
     font-size: $small;
+    flex: 1;
 
     .edit-riff-buttons {
       display: flex;
       flex-direction: row;
+      justify-content: flex-end;
       width: 15rem;
 
       button {
         width: 40%;
-        height: 100%;
+        height: 80%;
         &:hover {
           cursor: pointer;
         }

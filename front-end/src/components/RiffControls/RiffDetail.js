@@ -13,22 +13,23 @@ function RiffDetail(props) {
       className={`riff-detail${props.selected ? ' riff-detail-selected' : ''}`}
     >
       <div>
-        <ul className="riff-detail-list">
-          {props.type === 'audio' ? (
-            <div className="audio-icon">
-              <img alt="audio" src={Audio} />
-            </div>
-          ) : (
-            <div className="text-icon">
-              <img alt="text" src={Text} />
-            </div>
-          )}
-          <li>
-            start time: {props.time.toFixed ? props.time.toFixed(2) : null}
-          </li>
-          <li>duration: {props.duration.toFixed(2)}secs</li>
-          {/* <li>type: {props.type}</li> */}
-        </ul>
+        <button onClick={() => { window.rifftubePlayer.seekTo(props.time, true); }}>jump to</button>
+        {props.type === 'audio' ? (
+          <div className="audio-icon">
+            <img alt="audio" src={Audio} />
+          </div>
+        ) : (
+          <div className="text-icon">
+            <img alt="text" src={Text} />
+          </div>
+        )}
+        {/* 
+        <li>
+          start time: {props.time.toFixed ? props.time.toFixed(2) : null}
+        </li>
+        <li>duration: {props.duration.toFixed(2)}secs</li>
+        <li>type: {props.type}</li>
+        */}
         <div className="edit-riff-buttons">
           <button
             className="riff-button"
