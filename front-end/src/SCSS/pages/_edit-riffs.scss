@@ -138,12 +138,10 @@
 
 .list-of-riffs {
   width: 80%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   overflow-y: auto;
   max-width: 50rem;
   min-height: 4.5em;
+  position: relative;
 }
 
 .riff-detail {
@@ -155,6 +153,7 @@
   width: 100%;
   min-height: 4.5em;
   box-sizing: border-box;
+  position: absolute;
 
   div {
     display: flex;
