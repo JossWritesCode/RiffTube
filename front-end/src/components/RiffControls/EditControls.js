@@ -14,7 +14,7 @@ import { createTempRiff } from '../../actions/index.js';
 function EditControls(props) {
   useEffect(() => {
     window.addEventListener("blur", () => { setTimeout(() => {
-      document.activeElement.blur(); }, 20) });
+      document.activeElement.blur(); }, 100) });
     window.addEventListener("keydown",
       e => {
         if (e.key === "r") props.createTempRiff("audio", props.videoID);
