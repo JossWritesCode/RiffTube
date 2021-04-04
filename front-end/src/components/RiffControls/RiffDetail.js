@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { editRiff, deleteRiff } from '../../actions/index.js';
 import Delete from '../../images/delete-24px.svg';
@@ -8,9 +8,15 @@ import Text from '../../images/chat-24px.svg';
 
 /* this component is where a user can edit their riff */
 function RiffDetail(props) {
+
+  const [visible, setVisible] = useState(false);
+
+  //useEffect(() => { setTimeout(() => {setVisible(true);}, 20000); }, []);
+  useEffect(() => { setVisible(true); });
+
   return (
     <div
-      className={`riff-detail${props.selected ? ' riff-detail-selected' : ''}`}
+      className={`riff-detail${props.selected ? ' riff-detail-selected' : ''}${visible ? '' : ' invisible'}`}
       style={props.style}
     >
       <div>

@@ -121,6 +121,7 @@
   background-color: #202020cc;
   text-align: center;
   color: #202020;
+  z-index: 1;
 }
 
 .edit-riff-inner {
@@ -142,6 +143,10 @@
   max-width: 50rem;
   min-height: 4.5em;
   position: relative;
+}
+
+.invisible {
+  opacity: 0;
 }
 
 .riff-detail {

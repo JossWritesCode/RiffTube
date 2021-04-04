@@ -12,7 +12,6 @@ function RiffList(props) {
   const riffDetails = [];
   for ( const index in riffs )
   {
-    debugger;
     const riff = riffs[index];
     const posStyles = {};
     if ( riff.time > totalLength )
