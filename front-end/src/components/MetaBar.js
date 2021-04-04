@@ -15,6 +15,7 @@ class MetaBar extends React.Component {
               .filter((el) => !this.props.riffs.find((t) => el.id === t.id))
               .map((riff) => (
                 <div
+                  key={riff.id}
                   className="riff-meta"
                   style={{
                     left: (riff.time / this.props.duration) * 100 + '%',
@@ -26,6 +27,7 @@ class MetaBar extends React.Component {
         {this.props.riffs
           ? this.props.riffs.map((riff) => (
               <div
+                key={riff.id}
                 className="riff-own-meta"
                 style={{
                   left: (riff.time / this.props.duration) * 100 + '%',
