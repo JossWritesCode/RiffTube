@@ -169,6 +169,28 @@ server.post('/get-riffs', (req, res) => {
     });
 });
 
+// update riff time.
+server.post('/update-riff-time', (req, res) => {
+  const body = req.body;
+
+  console.log("update", req);
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(() => {
+      let dbpayload = {
+        start_time: body.start_time,
+      };
+
+      db('riffs')
+        .where('id', body.id)
+        .update(dbpayload)
+        .then(() => res.status(200).json({ status: 'ok', type: 'edit' }))
+        .catch((err) => res.status(500).json({ error: err }));
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
 // save riff does as it name suggests.
 // in addition, if this is the first riff ever for a video,
 // this function will also add that video to the video table.

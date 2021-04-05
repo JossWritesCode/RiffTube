@@ -13,6 +13,8 @@ export const SAVE_RIFF = 'SAVE_RIFF';
 export const SAVE_RIFF_SUCCESS = 'SAVE_RIFF_SUCCESS';
 export const SAVE_RIFF_FAILURE = 'SAVE_RIFF_FAILURE';
 
+export const UPDATE_RIFF_TIME_SUCCESS = 'UPDATE_RIFF_TIME_SUCCESS';
+
 export const DELETE_RIFF = 'DELETE_RIFF';
 
 export const SAVE_TEMP_AUDIO = 'SAVE_TEMP_AUDIO';
@@ -246,6 +248,30 @@ export const editRiff = (payload, id, load) => {
 export const cancelEdit = () => ({
   type: CANCEL_EDIT,
 });
+
+export const updateRiffTime = (token, start_time, video_id, riff_id, websocket) => {
+  return (dispatch) =>
+  {
+    axios({
+      method: 'post',
+      url: `/update-riff-time`,
+      data: { token, start_time, id: riff_id },
+    })
+      .then((res) => {
+        // res.data.data
+        dispatch({ type: UPDATE_RIFF_TIME_SUCCESS, id: riff_id, time: start_time });
+        // websocket call
+        websocket.send(
+          JSON.stringify({ type: 'update', video_id: video_id })
+        );
+      })
+      .catch((err) => {
+        dispatch({ type: SAVE_RIFF_FAILURE, payload: err.response });
+      });
+
+    // dispatch NOTHING
+  };
+}
 
 export const saveRiff = (token, payload, riff, websocket) => {
   return (dispatch) =>

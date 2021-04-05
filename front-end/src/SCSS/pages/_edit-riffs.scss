@@ -154,41 +154,47 @@
   color: $color-black;
   background-color: $color-white;
   border: 5px solid $color-primary;
-  display: flex;
   width: 100%;
   min-height: 4.5em;
   box-sizing: border-box;
   position: absolute;
   transition: 0.5s all;
 
-  div {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  font-size: $small;
+
+  .audio-icon {
+    flex: auto;
+    padding: 1rem;
+  }
+
+  .riff-type-icon {
+    align-items: center;
+
+    img {
+      height: 60%;
+    }
+  }
+
+  .edit-time {
+    flex: 4em;
+    min-width: 2em;
+    font-size: 2rem;
+  }
+
+  .edit-riff-buttons {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
-    justify-content: flex-start;
-    font-size: $small;
-    flex: 1;
+    justify-content: flex-end;
 
-    .riff-type-icon {
-      align-items: center;
-
-      img {
-        height: 60%;
-      }
-    }
-
-    .edit-riff-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      width: 15rem;
-
-      button {
-        width: 4em;
-        height: 4em;
-        &:hover {
-          cursor: pointer;
-        }
+    button {
+      width: 4em;
+      height: 4em;
+      &:hover {
+        cursor: pointer;
       }
     }
   }
@@ -260,11 +266,6 @@
 
 .view-share-riff-link {
   margin-top: 1.5rem;
-}
-
-.riff-button {
-  width: 5rem;
-  height: 3rem;
 }
 
 .add-riff-title {

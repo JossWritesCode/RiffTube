@@ -9,6 +9,7 @@ import {
   EDIT_RIFF,
   RECEIVE_RIFF_LIST,
   SAVE_RIFF_SUCCESS,
+  UPDATE_RIFF_TIME_SUCCESS,
 } from '../actions/index.js';
 
 let initialState = {
@@ -83,6 +84,16 @@ const riffsReducer = (state = initialState, action) => {
           type: el.isText ? 'text' : 'audio',
         })),
       };
+
+    case UPDATE_RIFF_TIME_SUCCESS:
+      let riffs = [...state.all];
+      riffs.forEach((el, ind, arr) => {
+        if (el.id === action.id)
+          arr[ind] = { ...el, id: action.id, time: Number(action.time) };
+        //el.id = action.payload.id;
+      });
+      let ret = { ...state, all: riffs };
+      return ret;
 
     case SAVE_RIFF_SUCCESS:
       if (action.payload.type === 'add') {
