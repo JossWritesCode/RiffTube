@@ -9,6 +9,7 @@ function RiffList(props) {
   var totalLength = 0;
   const riffs = props.riffs ? props.riffs.sort( (e1,e2) => (e1.time - e2.time) ) : [];
 
+  var scroll = true;
   const riffDetails = [];
   for ( const index in riffs )
   {
@@ -31,8 +32,11 @@ function RiffList(props) {
         style={posStyles}
         {...riff}
         index={index}
-        selected={props.riffsPlaying[index] === true} // === unneeded
+        selected={props.riffsPlaying[index]}
+        scroll={props.riffsPlaying[index] && scroll}
       />
+    if (props.riffsPlaying[index])
+      scroll = false;
   }
 
   return (

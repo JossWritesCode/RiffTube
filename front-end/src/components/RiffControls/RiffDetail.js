@@ -14,12 +14,17 @@ function RiffDetail(props) {
   //useEffect(() => { setTimeout(() => {setVisible(true);}, 20000); }, []);
   useEffect(() => { setVisible(true); }, []);
 
+  const divRef = createRef();
+
+  useEffect(() => { if (props.scroll) divRef.current.parentNode.scrollTop = divRef.current.offsetTop; }, [props.scroll]);
+
   const timeRef = createRef();
 
   console.log("rifffdetail", props);
 
   return (
     <div
+      ref={divRef}
       className={`riff-detail${props.selected ? ' riff-detail-selected' : ''}${visible ? '' : ' invisible'}`}
       style={props.style}
     >
