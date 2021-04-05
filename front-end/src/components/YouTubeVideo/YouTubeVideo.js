@@ -114,6 +114,8 @@ class YouTubeVideo extends React.Component {
       this.riffInterval = setInterval(() => {
         //console.log( "interval", this.curRiff, this.props.riffsPlaying );
 
+        if ( !window.rifftubePlayer ) return;
+
         let t = window.rifftubePlayer.getCurrentTime();
 
         // if the MetaBar component exists, update its playhead
