@@ -25,7 +25,7 @@ const modeReducer = (state = PAUSE_MODE, action) => {
     case CANCEL_EDIT:
       return PAUSE_MODE;
     case TOGGLE_PLAYER_MODE: // not needed at the moment
-      return state.mode === PLAY_MODE ? PAUSE_MODE : PLAY_MODE;
+      return state === PLAY_MODE ? PAUSE_MODE : PLAY_MODE;
     case SAVE_RIFF:
       return PAUSE_MODE; // should be an option
     default:

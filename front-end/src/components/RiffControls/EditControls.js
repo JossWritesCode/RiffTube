@@ -8,7 +8,7 @@ import RiffButton from './RiffButton.js';
 import { setRifferName, googleUserLogout } from '../../actions'; // this and below are the same file
 import { EDIT_MODE, EDIT_NEW_MODE } from '../../actions';
 
-import { createTempRiff } from '../../actions/index.js';
+import { createTempRiff, togglePlayerMode } from '../../actions/index.js';
 
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
@@ -19,6 +19,15 @@ function EditControls(props) {
       e => {
         if (e.key === "r") props.createTempRiff("audio", props.videoID);
         else if (e.key === "t") props.createTempRiff("text", props.videoID);
+        else if (e.key == "j" || e.key == "ArrowLeft" || e.key == "Left") // I actually took MS specific BS into account
+          window.rifftubePlayer.seekTo(Math.max(window.rifftubePlayer.getCurrentTime() - 5, 0), true);
+        else if (e.key == "l" || e.key == "ArrowRight" || e.key == "Right")
+          window.rifftubePlayer.seekTo(Math.max(window.rifftubePlayer.getCurrentTime() + 5, props.duration), true);
+        else if (e.key == " " || e.key == "k")
+        {
+          props.togglePlayerMode();
+          e.preventDefault();
+        }
       });
   }, [createTempRiff]);
 
@@ -62,12 +71,14 @@ let mapStateToProps = (state) => ({
   name: state.name,
   googleUser: state.googleUser,
   videoID: state.videoID,
+  duration: state.duration,
 });
 
 const mapDispatchToProps = {
   setRifferName,
   googleUserLogout,
   createTempRiff,
+  togglePlayerMode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditControls);

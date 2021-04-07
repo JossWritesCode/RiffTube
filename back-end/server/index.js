@@ -166,7 +166,8 @@ server.post('/get-riffs', (req, res) => {
           })
           .catch((err) => res.status(500).json({ error: err }));
       }
-    });
+    })
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 // update riff time.
