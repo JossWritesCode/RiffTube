@@ -161,7 +161,7 @@ class YouTubeVideo extends React.Component {
             if (riff.type === 'audio') {
               if (!this.vol) {
                 this.vol = window.rifftubePlayer.getVolume();
-                window.rifftubePlayer.setVolume(this.vol * 0.5);
+                window.rifftubePlayer.setVolume(this.vol * 0.25);
               }
 
               // keeps track of how many audio tracks need to end before volume should be restored
