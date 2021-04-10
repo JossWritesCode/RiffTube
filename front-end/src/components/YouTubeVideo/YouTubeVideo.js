@@ -114,7 +114,7 @@ class YouTubeVideo extends React.Component {
       this.riffInterval = setInterval(() => {
         //console.log( "interval", this.curRiff, this.props.riffsPlaying );
 
-        if ( !window.rifftubePlayer ) return;
+        if ( !(window.rifftubePlayer && typeof(window.rifftubePlayer.getCurrentTime) == "function") ) return;
 
         let t = window.rifftubePlayer.getCurrentTime();
 
