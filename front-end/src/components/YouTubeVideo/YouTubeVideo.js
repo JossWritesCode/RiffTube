@@ -259,6 +259,8 @@ class YouTubeVideo extends React.Component {
 
     if (this.props.id !== prevProps.id) this.loadVideo();
 
+    if ( !(this.player && this.player.getPlayerState) ) return;
+
     if (this.props.mode !== prevProps.mode) {
       if (
         (this.props.mode === EDIT_MODE ||
