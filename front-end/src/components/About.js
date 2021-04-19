@@ -69,6 +69,20 @@ function About() {
               }}
             />
             <p className="question">
+              Q: Where are the riffs stored?
+            </p>
+            <p className="answer">
+              The are stored on a server, not your computer.
+            </p>
+            <div
+              style={{
+                height: '1px',
+                background: 'gray',
+                width: '75%',
+                margin: 'auto',
+              }}
+            />
+            <p className="question">
               Q: How can I contact you with questions or issues?
             </p>
             <p className="answer">
