@@ -19,9 +19,10 @@ function EditControls(props) {
     const keydownEvent = e =>
       {
         console.log(props.mode);
-        if (props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE) return;
+        
         if (e.key === "r") props.createTempRiff("audio", props.videoID);
         else if (e.key === "t") props.createTempRiff("text", props.videoID);
+        else if (props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE) return;
         else if (e.key == "j" || e.key == "ArrowLeft" || e.key == "Left") // I actually took MS specific BS into account
           window.rifftubePlayer.seekTo(Math.max(window.rifftubePlayer.getCurrentTime() - 5, 0), true);
         else if (e.key == "l" || e.key == "ArrowRight" || e.key == "Right")

@@ -54,6 +54,31 @@ function verify(token) {
   });
 }
 
+server.get('/user-name-from-token/:token', (req, res) => {
+  const token = req.params.token;
+
+  var payload;
+
+  verify(token)
+    // once verified, get and pass on payload
+    .then((ticket) => {
+      payload = ticket.getPayload();
+
+      db('users')
+        .select('id')
+        .where('email', payload.email)
+        .then((userList) => {
+          /* TODO: fix this*/
+
+          if (userList.length === 0)
+            res.status(200).json({ status: 'ok', name: 'all are bob' });
+          else
+            res.status(200).json({ status: 'ok', name: userList[0] });
+        })
+    })
+  .catch((err) => res.status(500).json({ error: err }));
+});
+
 // return given riff's audio data
 server.post('/load-riff', (req, res) => {
   const body = req.body;
