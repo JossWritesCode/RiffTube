@@ -23,8 +23,6 @@ const data_model = require('../data-model.js');
 const CLIENT_ID =
   '941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com';
 
-const CLIENT_2_ID = '941154439836-15mp35oempmj0mqo42kr7ep0kmmercpd.apps.googleusercontent.com';
-
 server.use(express.json());
 
 // needed only for localhost (remove for production)
@@ -50,36 +48,11 @@ const client = new OAuth2Client(CLIENT_ID);
 function verify(token) {
   return client.verifyIdToken({
     idToken: token,
-    audience: [CLIENT_ID, CLIENT_2_ID], // Specify the CLIENT_ID of the app that accesses the backend
+    audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
     // Or, if multiple clients access the backend:
     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
 }
-
-server.get('/user-name-from-token/:token', (req, res) => {
-  const token = req.params.token;
-
-  var payload;
-
-  verify(token)
-    // once verified, get and pass on payload
-    .then((ticket) => {
-      payload = ticket.getPayload();
-
-      db('users')
-        .select('id')
-        .where('email', payload.email)
-        .then((userList) => {
-          /* TODO: fix this*/
-
-          if (userList.length === 0)
-            res.status(200).json({ status: 'ok', name: 'all are bob' });
-          else
-            res.status(200).json({ status: 'ok', name: userList[0] });
-        })
-    })
-  .catch((err) => res.status(500).json({ error: err }));
-});
 
 // return given riff's audio data
 server.post('/load-riff', (req, res) => {
@@ -161,13 +134,10 @@ server.post('/get-riffs', (req, res) => {
       ]);
     })
     .then(([emailArr, vIDArr]) => {
-      var [{ id: uID, name }] = emailArr; // this is silly, getting the name back should just be its own endpoint but noooooooooooooooo
-      if (emailArr.length === 0) {
-        res.status(200).json({ info: 'user not found' });
-      } else if (vIDArr.length === 0) {
-        res.status(200).json({ info: 'no riffs yet', body: [], name, user_id: uID, });
+      if (emailArr.length === 0 || vIDArr.length === 0) {
+        res.status(200).json({ info: 'no riffs yet', body: [] });
       } else {
-        //var [{ id: uID, name }] = emailArr;
+        var [{ id: uID, name }] = emailArr;
         var [{ id: vID }] = vIDArr;
 
         return db('riffs')
@@ -185,7 +155,7 @@ server.post('/get-riffs', (req, res) => {
           .where({ user_id: uID, video_id: vID })
           .then((riffList) => {
             res.status(200).json({
-              status: 'ok', // meaningless (to computers)
+              status: 'ok',
               body: riffList,
               name,
               user_id: uID,
@@ -193,30 +163,7 @@ server.post('/get-riffs', (req, res) => {
           })
           .catch((err) => res.status(500).json({ error: err }));
       }
-    })
-    .catch((err) => res.status(500).json({ error: err }));
-});
-
-// update riff time.
-server.post('/update-riff-time', (req, res) => {
-  const body = req.body;
-
-  console.log("update", req);
-
-  verify(body.token)
-    // once verified, get and pass on payload
-    .then(() => {
-      let dbpayload = {
-        start_time: body.start_time,
-      };
-
-      db('riffs')
-        .where('id', body.id)
-        .update(dbpayload)
-        .then(() => res.status(200).json({ status: 'ok', type: 'edit' }))
-        .catch((err) => res.status(500).json({ error: err }));
-    })
-    .catch((err) => res.status(500).json({ error: err }));
+    });
 });
 
 // save riff does as it name suggests.
@@ -347,74 +294,28 @@ server.post('/get-view-riffs', (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-// get info for account page
-server.get('/get-user-data/:token', (req, res) => {
-  const token = req.params.token;
+// get info for profile
+server.get('/get-user-data', (req, res) => {
+  const body = req.body;
 
   var payload;
 
-  verify(token)
+  verify(body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
-      //console.log( "gud2" );
       payload = ticket.getPayload();
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then(([{id: uID}]) => {
-      //console.log( "gud3", uID );
-      const vids = data_model.getVideoInfoForUser(uID);
-      //console.log( vids );
-      return vids;
+    .then(([{ id: uID }]) => {
+      return data_model.getVideoInfoForUser(uID);
     })
     .then((body) => {
-      //console.log("gud4", body);
       res.status(200).json({
         status: 'ok',
         body,
       });
     })
     .catch((err) => res.status(500).json({ error: err }));
-});
-
-// get info for public profile
-server.get('/get-user-data-by-id/:id', (req, res) =>
-{
-  const uID = req.params.id;
-
-  console.log( "load public", uID );
-
-  Promise.all([
-    data_model.getVideoInfoForUser(uID),
-    data_model.getRifferNameFromID(uID)
-  ])
-  .then((params) =>
-  {
-    console.log( "load public2", params );
-    let [body, [{name}]] = params;
-    res.status(200).json({
-      status: 'ok',
-      name,
-      body
-    });
-  })
-  .catch((err) => res.status(500).json({ error: err }));
-});
-
-// get global video list
-server.get('/get-global-video-list', (req, res) =>
-{
-  console.log( "load video list" );
-
-  data_model.getGlobalVideoList()
-  .then(body =>
-  {
-    console.log( "load videos 2", body );
-    res.status(200).json({
-      status: 'ok',
-      body
-    });
-  })
-  .catch((err) => res.status(500).json({ error: err }));
 });
 
 // serve up the base directory
@@ -463,7 +364,7 @@ websockhttp.on('upgrade', function upgrade(request, socket, head) {
             });
 
             //send immediatly a feedback to the incoming connection
-            ws.send(`"Hi there, I am a WebSocket server ${request.url}"`);
+            ws.send(`Hi there, I am a WebSocket server ${request.url}`);
           });
         }
 

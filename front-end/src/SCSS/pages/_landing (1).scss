@@ -1,0 +1,169 @@
+nav {
+  color: $color-gray;
+  padding: $small;
+}
+
+.top-part {
+  background-color: $color-white;
+  width: 100vw;
+  height: 44rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7rem;
+
+  @media (min-width: 700px) {
+    height: 50rem;
+  }
+
+  @media (min-width: 1000px) {
+    margin-top: 5rem;
+    height: 55rem;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem 1rem 0rem 1rem;
+
+    .heading-primary-sub {
+      width: 30rem;
+      text-align: center;
+      font-size: $medium;
+      color: $color-gray;
+      margin: 0 0 $small 0;
+      // @media (min-width: 700px) {
+      //   font-size: $medium;
+      // }
+    }
+  }
+}
+
+.middle-part {
+  width: 100vw;
+  height: 90rem;
+  text-align: center;
+  display: flex;
+  font-size: $small;
+  align-items: center;
+  flex-direction: column;
+  background-color: $color-dark-gray;
+  color: $color-white;
+  padding-top: 5rem;
+
+  @media (min-width: 1000px) {
+    height: 50rem;
+  }
+
+  .features {
+    margin: $small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25rem;
+    font-size: $small;
+
+    @media (min-width: 1000px) {
+      flex-direction: row;
+      justify-content: center;
+      margin: $medium;
+      width: 50%;
+    }
+    .feature {
+      width: 15rem;
+      text-align: center;
+      margin: $small;
+      h3 {
+        color: $color-gray;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .middle-text {
+    h3 {
+      padding-bottom: 1rem;
+      font-size: $medium;
+      width: 30rem;
+      margin: 0 auto;
+      margin-top: 2rem;
+      font-weight: normal;
+    }
+    text-align: center;
+    width: 28rem;
+
+    @media (min-width: 1000px) {
+      width: 95%;
+    }
+  }
+}
+
+.movie-image {
+  width: 14rem;
+  margin-top: 1rem;
+
+  @media (min-width: 700px) {
+    width: 25rem;
+  }
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 1000px) {
+    flex-direction: row;
+  }
+
+  .about-text {
+    width: 30rem;
+    font-size: $small;
+    text-align: left;
+
+    .question {
+      font-weight: bold;
+    }
+    .answer {
+      font-weight: normal;
+      margin-left: 2.2rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: $large;
+      font-weight: normal;
+    }
+    p,
+    span {
+      padding: 1rem;
+    }
+
+    @media (min-width: 1000px) {
+      width: 40%;
+      margin: 1rem;
+    }
+  }
+}
+
+.horror-movie-image {
+  margin: 1rem;
+  width: 15rem;
+  @media (min-width: 1000px) {
+    width: 17rem;
+  }
+}
+
+.landing-footer {
+  background-color: $color-black;
+  color: $color-white;
+  display: flex;
+  justify-content: center;
+  font-size: $small;
+}
+
+.landing-page {
+  font-size: $small;
+}

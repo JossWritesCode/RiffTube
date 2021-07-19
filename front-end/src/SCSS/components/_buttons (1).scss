@@ -1,0 +1,97 @@
+button {
+  background-color: #202020;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+}
+
+button:disabled {
+  background-color: #868686;
+  color: rgb(70, 70, 70);
+}
+
+button:active {
+  position: relative;
+  top: 0.1em;
+  left: 0.1em;
+}
+
+.riff-button {
+  background-color: $color-gray;
+  color: $color-white;
+  border-radius: 5px;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid $color-gray;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-gray;
+  }
+}
+
+#change-video-btn {
+  background-color: $color-dark-gray !important;
+  border: 1px solid $color-gray;
+  color: $color-white;
+
+  &:hover {
+    background-color: $color-white !important;
+    color: $color-black;
+  }
+}
+
+.riff-button-delete {
+  background-color: $color-primary;
+  color: $color-white;
+  border-radius: 5px;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid $color-primary;
+
+  &:hover {
+    background-color: $color-white;
+    color: $color-primary;
+  }
+}
+
+.btn {
+  background-color: $color-primary;
+  border-radius: 5px;
+  color: $color-white;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid $color-primary;
+}
+
+.btn:hover {
+  background-color: $color-white;
+  border: 1px solid $color-primary;
+  color: $color-primary;
+}
+
+.get-started-btn {
+  height: 3rem;
+  width: 11.5rem;
+  text-align: center;
+  display: flex;
+  font-size: $small;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 700px) {
+    text-align: center;
+    height: 3rem;
+    width: 11.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
