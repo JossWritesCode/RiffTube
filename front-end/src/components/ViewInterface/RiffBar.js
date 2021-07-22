@@ -103,7 +103,6 @@ class RiffBar extends React.Component {
     console.log("show", this.state.test, this.state.tracks);
     return (
       <React.Fragment>
-        blah
         <YouTubeVideo id={this.props.id} riffs={this.props.riffs} />
         <div
           ref={this.selectDiv}
