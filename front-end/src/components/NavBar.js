@@ -23,7 +23,7 @@ function NavBar({ color, googleUser }) {
         style={{ color }}
         to="/riff"
       >
-        Start Riffing
+        Riff<em>!</em>
       </NavLink>
       <NavLink
         activeClassName="navbar-link-active"
@@ -32,21 +32,19 @@ function NavBar({ color, googleUser }) {
       >
         The List
       </NavLink>
-      {loggedIn() ? (
-        <NavLink
-          activeClassName="navbar-link-active"
-          style={{ color }}
-          to="/account"
-        >
-          My Account
-        </NavLink>
-      ) : null}
       <NavLink
         activeClassName="navbar-link-active"
         style={{ color }}
         to="/about"
       >
         About
+      </NavLink>
+      <NavLink
+        activeClassName="navbar-link-active"
+        style={{ color }}
+        to="/account"
+      >
+        My Account
       </NavLink>
     </nav>
   );
