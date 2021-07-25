@@ -76,7 +76,7 @@ export const setRifferName = (newName, googleUser) => {
       data: { token: googleUser.getAuthResponse().id_token, newName },
     }).then((res) => {
       dispatch({ type: RECEIVE_NAME_UPDATE, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -100,7 +100,7 @@ export const setVideoID = (videoID, googleUser) => {
         data: { videoID },
       }).then((res) => {
         dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-      }).catch( error => {
+      }).catch(error => {
         dispatch({ type: RECEIVE_RIFF_META, payload: { body: [] } });
       });
     }
@@ -121,11 +121,13 @@ export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
 
       // websocket call
       websocket.send(JSON.stringify({ type: 'update', video_id }));
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
 // perhaps this action should somehow call the above action (setVideoID)?
+
+// this shit really needs to be decoupled
 export const setGoogleUser = (googleUser, videoID) => {
   return (dispatch) => {
     dispatch({
@@ -138,14 +140,14 @@ export const setGoogleUser = (googleUser, videoID) => {
       data: { token: googleUser.getAuthResponse().id_token, videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
     axios({
       method: 'post',
       url: `/get-view-riffs`,
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -163,7 +165,7 @@ export const getRiffsMeta = (videoID) => {
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -175,7 +177,7 @@ export const getViewRiffs = (videoID) => {
       data: { videoID },
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -186,7 +188,7 @@ export const getUserData = (googleUser) => {
       url: `/get-user-data/${googleUser.getAuthResponse().id_token}`,
     }).then((res) => {
       dispatch({ type: LOAD_USER_DATA, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -197,7 +199,7 @@ export const getPublicUserData = (id) => {
       url: `/get-user-data-by-id/${id}`,
     }).then((res) => {
       dispatch({ type: LOAD_PUBLIC_USER_DATA, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -208,7 +210,7 @@ export const getGlobalVideoList = () => {
       url: '/get-global-video-list',
     }).then((res) => {
       dispatch({ type: LOAD_GLOBAL_VIDEO_LIST, payload: res.data });
-    }).catch( err => console.log( "error", err ) );
+    }).catch(err => console.log("error", err));
   };
 };
 
@@ -250,8 +252,7 @@ export const cancelEdit = () => ({
 });
 
 export const updateRiffTime = (token, start_time, video_id, riff_id, websocket) => {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     axios({
       method: 'post',
       url: `/update-riff-time`,
@@ -274,8 +275,7 @@ export const updateRiffTime = (token, start_time, video_id, riff_id, websocket) 
 }
 
 export const saveRiff = (token, payload, riff, websocket) => {
-  return (dispatch) =>
-  {
+  return (dispatch) => {
     let fd = new FormData();
     fd.append('token', token);
     fd.append(riff.type === 'text' ? 'text' : 'blob', payload.payload);
@@ -339,5 +339,5 @@ const rawLoadAxios = (dispatch, id) => {
     data: { id },
   }).then((res) => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
-  }).catch( err => console.log( "error", err ) );
+  }).catch(err => console.log("error", err));
 };

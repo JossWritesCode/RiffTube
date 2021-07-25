@@ -5,7 +5,7 @@ import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
-function Account({ name, googleUser, setRifferName, userData, getUserData }) {
+function Account({ name, googleUser, setRifferName, userData, getUserData, userid }) {
   const [userName, setUserName] = useState(name);
 
   useEffect(() => {
@@ -28,9 +28,15 @@ function Account({ name, googleUser, setRifferName, userData, getUserData }) {
     setUserName(event.target.value);
   }
 
+  /*
   useEffect(() => {
     console.log(userData);
   }, [userData]);
+
+  useEffect(() => {
+    console.log(userid);
+  }, [userid]);
+*/
 
   return (
     <div className="landing-page">
@@ -43,6 +49,9 @@ function Account({ name, googleUser, setRifferName, userData, getUserData }) {
       <section className="top-part">
         {loggedIn() ? (
           <React.Fragment>
+            <h3>
+              visit <a href={`/profile/${userid}`}>public profile</a>
+            </h3>
             <form onSubmit={(event) => handleSubmit(event)}>
               {/* <p>hello {name}</p> */}
               <label>
@@ -73,6 +82,7 @@ let mapStateToProps = (state) => ({
   name: state.name,
   googleUser: state.googleUser,
   userData: state.userData,
+  userid: state.user_id,
 });
 
 const mapDispatchToProps = {

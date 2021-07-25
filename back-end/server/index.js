@@ -364,12 +364,13 @@ server.get('/get-user-data/:token', (req, res) => {
       //console.log( "gud3", uID );
       const vids = data_model.getVideoInfoForUser(uID);
       //console.log( vids );
-      return vids;
+      return Promise.all( [vids, Promise.resolve(uID)] );
     })
-    .then((body) => {
+    .then(([body, userid]) => {
       //console.log("gud4", body);
       res.status(200).json({
         status: 'ok',
+        userid,
         body,
       });
     })
