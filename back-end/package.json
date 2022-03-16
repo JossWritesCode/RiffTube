@@ -43,7 +43,7 @@
     "sqlite3": "^4.2.0",
     "styled-components": "^5.1.0",
     "utf-8-validate": "^5.0.2",
-    "ws": "^7.3.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
