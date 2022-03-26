@@ -43,10 +43,7 @@ class EditInterface extends React.Component {
       this.props.videoID &&
       this.props.googleUser !== prevProps.googleUser
     ) {
-      this.props.getRiffs(
-        this.props.videoID,
-        this.props.googleUser.getAuthResponse().id_token
-      );
+      this.props.getRiffs(this.props.videoID, this.props.googleUser);
     }
 
     if (
