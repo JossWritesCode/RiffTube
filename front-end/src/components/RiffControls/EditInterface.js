@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID, setWebSocket, getRiffsMeta } from '../../actions';
+import { setVideoID, setWebSocket, getRiffsMeta, getRiffs } from '../../actions';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 
@@ -33,9 +33,13 @@ class EditInterface extends React.Component {
       this.videoIDRef.current.value = this.props.match.params.videoID;
     }
 
+    if (this.loggedIn() && this.props.videoID && (this.props.googleUser !== prevProps.googleUser))
+    {
+      this.props.getRiffs(this.props.videoID, this.props.googleUser.getAuthResponse().id_token);
+    }
+
     if (
-      this.loggedIn() &&
-      (!this.props.websocket || this.props.videoID !== prevProps.videoID)
+      this.loggedIn() && (!this.props.websocket || this.props.videoID !== prevProps.videoID)
     ) {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       var baseURL;
@@ -154,6 +158,7 @@ const mapDispatchToProps = {
   setVideoID,
   setWebSocket,
   getRiffsMeta,
+  getRiffs,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);

@@ -80,11 +80,40 @@ export const setRifferName = (newName, googleUser) => {
   };
 };
 
+export const getRiffs = (videoID, googleUser) => {
+  return (dispatch) => {
+    axios({
+      method: 'post',
+      url: `/get-riffs`,
+      data: { token: googleUser.getAuthResponse().id_token, videoID },
+    }).then((res) => {
+      dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
+    }).catch(err => console.log("error", err));
+
+    axios({
+      method: 'post',
+      url: `/get-view-riffs`,
+      data: { videoID },
+    }).then((res) => {
+      dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
+    }).catch(err => console.log("error", err));
+  }
+};
+
 export const setVideoID = (videoID, googleUser) => {
   return (dispatch) => {
     dispatch({
       type: SET_VIDEO_ID,
       payload: videoID,
+    });
+    axios({
+      method: 'post',
+      url: `/get-view-riffs`,
+      data: { videoID },
+    }).then((res) => {
+      dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
+    }).catch(error => {
+      dispatch({ type: RECEIVE_RIFF_META, payload: { body: [] } });
     });
     if (googleUser && googleUser.getAuthResponse) {
       axios({
@@ -93,15 +122,8 @@ export const setVideoID = (videoID, googleUser) => {
         data: { token: googleUser.getAuthResponse().id_token, videoID },
       }).then((res) => {
         dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-      });
-      axios({
-        method: 'post',
-        url: `/get-view-riffs`,
-        data: { videoID },
-      }).then((res) => {
-        dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
       }).catch(error => {
-        dispatch({ type: RECEIVE_RIFF_META, payload: { body: [] } });
+        console.error(error);
       });
     }
   };
@@ -128,26 +150,12 @@ export const deleteRiff = (riffID, googleUser, video_id, websocket) => {
 // perhaps this action should somehow call the above action (setVideoID)?
 
 // this shit really needs to be decoupled
-export const setGoogleUser = (googleUser, videoID) => {
+export const setGoogleUser = (googleUser) => {
   return (dispatch) => {
     dispatch({
       type: GOOGLE_USER_SIGNIN,
       payload: googleUser,
     });
-    axios({
-      method: 'post',
-      url: `/get-riffs`,
-      data: { token: googleUser.getAuthResponse().id_token, videoID },
-    }).then((res) => {
-      dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
-    }).catch(err => console.log("error", err));
-    axios({
-      method: 'post',
-      url: `/get-view-riffs`,
-      data: { videoID },
-    }).then((res) => {
-      dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
-    }).catch(err => console.log("error", err));
   };
 };
 
