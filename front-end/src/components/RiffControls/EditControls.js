@@ -13,33 +13,41 @@ import { createTempRiff, togglePlayerMode } from '../../actions/index.js';
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
   useEffect(() => {
-    const blurEvent = () => { setTimeout(() => {
-      document.activeElement.blur(); }, 100) };
-    window.addEventListener("blur", blurEvent);
-    const keydownEvent = e =>
-      {
-        console.log(props.mode);
-        
-        if (e.key === "r") props.createTempRiff("audio", props.videoID);
-        else if (e.key === "t") props.createTempRiff("text", props.videoID);
-        else if (props.mode == EDIT_MODE || props.mode == EDIT_NEW_MODE) return;
-        else if (e.key == "j" || e.key == "ArrowLeft" || e.key == "Left") // I actually took MS specific BS into account
-          window.rifftubePlayer.seekTo(Math.max(window.rifftubePlayer.getCurrentTime() - 5, 0), true);
-        else if (e.key == "l" || e.key == "ArrowRight" || e.key == "Right")
-          window.rifftubePlayer.seekTo(Math.min(window.rifftubePlayer.getCurrentTime() + 5, props.duration), true);
-        else if (e.key == " " || e.key == "k")
-        {
-          props.togglePlayerMode();
-          e.preventDefault();
-        }
-      };
-    window.addEventListener("keydown", keydownEvent);
+    const blurEvent = () => {
+      setTimeout(() => {
+        document.activeElement.blur();
+      }, 100);
+    };
+    window.addEventListener('blur', blurEvent);
+    const keydownEvent = (e) => {
+      console.log(props.mode);
+
+      if (e.key === 'r') props.createTempRiff('audio', props.videoID);
+      else if (e.key === 't') props.createTempRiff('text', props.videoID);
+      else if (props.mode === EDIT_MODE || props.mode === EDIT_NEW_MODE) return;
+      else if (e.key === 'j' || e.key === 'ArrowLeft' || e.key === 'Left')
+        // I actually took MS specific BS into account
+        window.rifftubePlayer.seekTo(
+          Math.max(window.rifftubePlayer.getCurrentTime() - 5, 0),
+          true
+        );
+      else if (e.key === 'l' || e.key === 'ArrowRight' || e.key === 'Right')
+        window.rifftubePlayer.seekTo(
+          Math.min(window.rifftubePlayer.getCurrentTime() + 5, props.duration),
+          true
+        );
+      else if (e.key === ' ' || e.key === 'k') {
+        props.togglePlayerMode();
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('keydown', keydownEvent);
 
     return () => {
-      window.removeEventListener("blur", blurEvent);
-      window.removeEventListener("keydown", keydownEvent);
+      window.removeEventListener('blur', blurEvent);
+      window.removeEventListener('keydown', keydownEvent);
     };
-  }, [createTempRiff, props.mode]);
+  }, [props]);
 
   return (
     <div className="control-panel">
@@ -54,7 +62,8 @@ function EditControls(props) {
             <GoogleLogout
               clientId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
               buttonText="Logout"
-              onLogoutSuccess={() => props.googleUserLogout()}></GoogleLogout>
+              onLogoutSuccess={() => props.googleUserLogout()}
+            ></GoogleLogout>
           </React.Fragment>
         ) : null
       }

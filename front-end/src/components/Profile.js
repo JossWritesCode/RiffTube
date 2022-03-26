@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 // import Login from './Login/Login';
 import { getPublicUserData } from '../actions';
@@ -15,7 +15,7 @@ function Profile({
 }) {
   useEffect(() => {
     getPublicUserData(userID);
-  }, []);
+  }, [getPublicUserData, userID]);
 
   return (
     <div className="landing-page">

@@ -2,12 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-function NavBar({ color, googleUser }) {
-  const loggedIn = () => {
-    if (googleUser) return googleUser.isSignedIn();
-    return false;
-  };
-
+function NavBar({ color }) {
   return (
     <nav className="navbar">
       <NavLink

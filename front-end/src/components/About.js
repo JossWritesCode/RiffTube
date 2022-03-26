@@ -68,9 +68,7 @@ function About() {
                 margin: 'auto',
               }}
             />
-            <p className="question">
-              Q: Where are the riffs stored?
-            </p>
+            <p className="question">Q: Where are the riffs stored?</p>
             <p className="answer">
               The are stored on a server, not your computer.
             </p>
