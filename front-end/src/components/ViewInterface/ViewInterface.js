@@ -16,8 +16,6 @@ class ViewInterface extends React.Component {
   render = () => {
     const parsed = queryString.parse(this.props.location.search);
 
-    //console.log( parsed );
-
     return (
       <React.Fragment>
         <NavBar color="grey" />

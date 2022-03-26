@@ -31,7 +31,6 @@ class YouTubeVideo extends React.Component {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     } // If script is already there, load the video directly
     else {
-      console.log( "youtube vid component mount" );
       this.loadVideo();
       this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
     }
@@ -84,7 +83,7 @@ class YouTubeVideo extends React.Component {
         riff.time < t + 10
       )
         // load the riff to be played at the right time
-        this.props.loadRiff( riff.id );
+        this.props.loadRiff(riff.id);
     });
   };
 
@@ -112,9 +111,13 @@ class YouTubeVideo extends React.Component {
       /*******************************************************/
       // this timer is responsible for showing and hiding riffs
       this.riffInterval = setInterval(() => {
-        //console.log( "interval", this.curRiff, this.props.riffsPlaying );
-
-        if ( !(window.rifftubePlayer && typeof(window.rifftubePlayer.getCurrentTime) == "function") ) return;
+        if (
+          !(
+            window.rifftubePlayer &&
+            typeof window.rifftubePlayer.getCurrentTime == 'function'
+          )
+        )
+          return;
 
         let t = window.rifftubePlayer.getCurrentTime();
 
@@ -168,11 +171,8 @@ class YouTubeVideo extends React.Component {
               if (!this.audLock) this.audLock = 1;
               else this.audLock++;
 
-              console.log( "pax", this.props.riffsAudio.all[riff.id] );
-
               if (!this.props.riffsAudio.all[riff.id]) {
                 //(!riff.payload) {
-                console.log('empty payload error');
                 return;
               } // DEBUG - SHOULD BE REMOVED
               var audioURL = URL.createObjectURL(
@@ -225,7 +225,6 @@ class YouTubeVideo extends React.Component {
                 audio.play();
                 */
 
-                console.log('play riff! at ', i);
                 this.curRiff[index] = audio; // audioContext;
                 break;
               }
@@ -251,15 +250,13 @@ class YouTubeVideo extends React.Component {
   };
 
   componentDidUpdate = (prevProps) => {
-    console.log( "youtube vid component upate" );
-
     // seems needed on more than just mounting
     // (makes sense; the riff meta takes some time to load)
     this.checkForRiffsToLoad(0); // check if any riffs at < 10s in need loading
 
     if (this.props.id !== prevProps.id) this.loadVideo();
 
-    if ( !(this.player && this.player.getPlayerState) ) return;
+    if (!(this.player && this.player.getPlayerState)) return;
 
     if (this.props.mode !== prevProps.mode) {
       if (

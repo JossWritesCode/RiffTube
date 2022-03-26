@@ -23,8 +23,7 @@ class AuthorSelector extends React.Component {
     });
   };
 
-  toggleMute = (id) =>
-  {
+  toggleMute = (id) => {
     //this.setMute(id, !this.state.muted[id]);
 
     debugger;
@@ -40,8 +39,6 @@ class AuthorSelector extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.props);
-
     debugger;
 
     /*
@@ -71,15 +68,17 @@ class AuthorSelector extends React.Component {
         : [this.props.riffers]
       : [];
 
-    if ( prevProps.riffers != this.props.riffers )
-    {
+    if (prevProps.riffers !== this.props.riffers) {
       const m = {};
-      this.state.names.forEach( el => { m[el.id] = !(rifferList.includes( String(el.id) ) || this.props.riffers === undefined) } );
-      //console.log( "riffchng", m );
-      this.setState( {
+      this.state.names.forEach((el) => {
+        m[el.id] = !(
+          rifferList.includes(String(el.id)) || this.props.riffers === undefined
+        );
+      });
+      this.setState({
         muted: m,
-        all: this.props.riffers === undefined, 
-        filteredRiffs: this.props.riffs.filter((el) => !m[el.user_id])
+        all: this.props.riffers === undefined,
+        filteredRiffs: this.props.riffs.filter((el) => !m[el.user_id]),
       });
     }
 
@@ -95,16 +94,13 @@ class AuthorSelector extends React.Component {
       const m = { ...this.state.muted };
 
       this.props.riffs.forEach((riff) => {
-        //console.log( "name", el.name, includes( names, el.user_id ) );
         if (!includes(names, riff.user_id)) {
-          //this.setState( state => ({ names: [ ...this.state.names, { name: el.name, id: el.user_id } ] }))
           names.push({ name: riff.name, id: riff.user_id });
 
           if (this.props.riffers !== undefined) {
             m[riff.user_id] = !rifferList.some(
               (riffer) => riff.user_id === Number(riffer)
             );
-            //this.setMute( riff.user_id, !rifferList.some( riffer => riff.user_id === Number(riffer) ) );
           }
         }
       });
@@ -129,19 +125,19 @@ class AuthorSelector extends React.Component {
           riffs={this.state.filteredRiffs}
         />
         <div
-          onClick={() =>
-            {
-              if (!this.state.all)
-                this.props.history.push(`/view/${this.props.videoID}`);
-              else
-              {
-                const nm2 = this.state.names.map((el) => el.id);
-                const nm = nm2.filter((el) => !this.state.muted[el]);
-                const nmStr = nm.join(',');
+          onClick={() => {
+            if (!this.state.all)
+              this.props.history.push(`/view/${this.props.videoID}`);
+            else {
+              const nm2 = this.state.names.map((el) => el.id);
+              const nm = nm2.filter((el) => !this.state.muted[el]);
+              const nmStr = nm.join(',');
 
-                this.props.history.push(`/view/${this.props.videoID}?solo=${nmStr}`);
-              }
-            }}
+              this.props.history.push(
+                `/view/${this.props.videoID}?solo=${nmStr}`
+              );
+            }
+          }}
           style={{
             backgroundColor: this.state.all ? 'blue' : 'gray',
           }}

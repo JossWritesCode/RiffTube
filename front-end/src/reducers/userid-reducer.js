@@ -5,7 +5,6 @@ const useridReducer = (state = null, action) => {
     case RECEIVE_RIFF_LIST:
       return action.payload.user_id || state; // hacky but added because no user-id is returned for view riffs
     case LOAD_USER_DATA:
-      console.log( "load user id", action.payload );
       return action.payload.userid; // so inconsistent
     default:
       return state;

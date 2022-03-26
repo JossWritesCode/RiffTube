@@ -14,7 +14,7 @@
     "node-sass": "^4.14.1",
     "query-string": "^6.12.1",
     "react": "^17.0.2",
-    "react-dom": "^16.12.0",
+    "react-dom": "^17.0.2",
     "react-google-login": "^5.1.21",
     "react-google-login-component": "^0.9.3",
     "react-private-route": "^1.1.2",
@@ -52,12 +52,10 @@
   },
   "proxy": "http://localhost:3300",
   "devDependencies": {
-    "eslint": "^8.12.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.1"
   },
-
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -75,4 +73,3 @@
     ]
   }
 }
-

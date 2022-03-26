@@ -4,7 +4,12 @@ import { Redirect } from 'react-router-dom';
 import YouTubeVideo from '../YouTubeVideo/YouTubeVideo';
 import Login from '../Login/Login';
 import EditControls from './EditControls';
-import { setVideoID, setWebSocket, getRiffsMeta, getRiffs } from '../../actions';
+import {
+  setVideoID,
+  setWebSocket,
+  getRiffsMeta,
+  getRiffs,
+} from '../../actions';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
 
@@ -33,13 +38,20 @@ class EditInterface extends React.Component {
       this.videoIDRef.current.value = this.props.match.params.videoID;
     }
 
-    if (this.loggedIn() && this.props.videoID && (this.props.googleUser !== prevProps.googleUser))
-    {
-      this.props.getRiffs(this.props.videoID, this.props.googleUser.getAuthResponse().id_token);
+    if (
+      this.loggedIn() &&
+      this.props.videoID &&
+      this.props.googleUser !== prevProps.googleUser
+    ) {
+      this.props.getRiffs(
+        this.props.videoID,
+        this.props.googleUser.getAuthResponse().id_token
+      );
     }
 
     if (
-      this.loggedIn() && (!this.props.websocket || this.props.videoID !== prevProps.videoID)
+      this.loggedIn() &&
+      (!this.props.websocket || this.props.videoID !== prevProps.videoID)
     ) {
       //const websocket = new WebSocket( `ws://localhost:3300/riff?videoID=${this.props.match.params.videoID}&googleToken=${this.props.googleUser.getAuthResponse().id_token}` );
       var baseURL;
@@ -75,7 +87,8 @@ class EditInterface extends React.Component {
   };
   /* extracts the youtube id from a url. got help from: https://ctrlq.org/code/19797-regex-youtube-id */
   extractVideoID = (url) => {
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    var regExp =
+      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     var match = url.match(regExp);
     if (match && match[7].length === 11) {
       return match[7];

@@ -15,7 +15,6 @@ class AllowPlayback extends React.Component {
     test
       .play()
       .then(() => {
-        console.log('playback ok');
         this.setupAudioPlayers();
       })
       .catch(() => {
@@ -35,9 +34,8 @@ class AllowPlayback extends React.Component {
 
       window.audioPlayers[i] = new Audio(); // should be identical behavior to: document.createElement('audio');
       window.audioPlayers[i].controls = false;
-      window.audioPlayers[i].addEventListener('ended', function() {
+      window.audioPlayers[i].addEventListener('ended', function () {
         this.inUse = false;
-        console.log('riff finished');
       });
 
       let se = document.createElement('source');
@@ -61,10 +59,10 @@ class AllowPlayback extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = {
-  setPlayerMode
+  setPlayerMode,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllowPlayback);

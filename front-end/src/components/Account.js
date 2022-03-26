@@ -5,12 +5,19 @@ import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
-function Account({ name, googleUser, setRifferName, userData, getUserData, userid }) {
+function Account({
+  name,
+  googleUser,
+  setRifferName,
+  userData,
+  getUserData,
+  userid,
+}) {
   const [userName, setUserName] = useState(name);
 
   useEffect(() => {
     if (googleUser) getUserData(googleUser);
-  }, [googleUser]);
+  }, [getUserData, googleUser]);
 
   const loggedIn = () => {
     if (googleUser) return googleUser.isSignedIn();
@@ -27,16 +34,6 @@ function Account({ name, googleUser, setRifferName, userData, getUserData, useri
     event.preventDefault();
     setUserName(event.target.value);
   }
-
-  /*
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
-  useEffect(() => {
-    console.log(userid);
-  }, [userid]);
-*/
 
   return (
     <div className="landing-page">
