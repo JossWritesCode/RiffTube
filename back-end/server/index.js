@@ -23,8 +23,6 @@ const data_model = require('../data-model.js');
 const CLIENT_ID =
   '941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com';
 
-const CLIENT_2_ID = '941154439836-15mp35oempmj0mqo42kr7ep0kmmercpd.apps.googleusercontent.com';
-
 server.use(express.json());
 
 // needed only for localhost (remove for production)
@@ -50,7 +48,7 @@ const client = new OAuth2Client(CLIENT_ID);
 function verify(token) {
   return client.verifyIdToken({
     idToken: token,
-    audience: [CLIENT_ID, CLIENT_2_ID], // Specify the CLIENT_ID of the app that accesses the backend
+    audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
     // Or, if multiple clients access the backend:
     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });

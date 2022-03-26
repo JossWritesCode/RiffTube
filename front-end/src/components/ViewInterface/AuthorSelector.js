@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import RiffBar from './RiffBar';
+import ViewFilter from './ViewFilter';
 
 class AuthorSelector extends React.Component {
   constructor(props) {
@@ -41,6 +41,8 @@ class AuthorSelector extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     console.log(this.props);
+
+    debugger;
 
     /*
     if (
@@ -119,17 +121,9 @@ class AuthorSelector extends React.Component {
   }
 
   render() {
-        /*
-        <ViewFilter
-          id={this.props.videoID}
-          duration={this.props.duration}
-          riffs={this.state.filteredRiffs}
-        />
-        */
-
     return (
       <React.Fragment>
-        <RiffBar
+        <ViewFilter
           id={this.props.videoID}
           duration={this.props.duration}
           riffs={this.state.filteredRiffs}
