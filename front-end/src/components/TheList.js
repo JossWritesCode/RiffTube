@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-// import Login from './Login/Login';
+
 import { getGlobalVideoList } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
-function TheList({ globalVideoList, getGlobalVideoList }) {
+const TheList = ({ globalVideoList, getGlobalVideoList }) => {
   useEffect(() => {
     getGlobalVideoList();
   }, [getGlobalVideoList]);
@@ -24,7 +24,8 @@ function TheList({ globalVideoList, getGlobalVideoList }) {
       </section>
     </div>
   );
-}
+};
+
 let mapStateToProps = (state) => ({
   globalVideoList: state.globalVideoList,
 });

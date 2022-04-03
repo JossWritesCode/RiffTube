@@ -1,52 +1,38 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { createRef } from 'react';
 
-class MetaBar extends React.Component {
-  constructor(props) {
-    super(props);
-    window.metaPlayHead = React.createRef();
-  }
-  render() {
-    return (
-      <div className="container-riff-meta">
-        <div id="meta-play-head" ref={window.metaPlayHead} />
-        {this.props.riffsMeta && this.props.duration && this.props.riffs
-          ? this.props.riffsMeta
-              .filter((el) => !this.props.riffs.find((t) => el.id === t.id))
-              .map((riff) => (
-                <div
-                  key={riff.id}
-                  className="riff-meta"
-                  style={{
-                    left: (riff.time / this.props.duration) * 100 + '%',
-                    width: (riff.duration / this.props.duration) * 100 + '%',
-                  }}
-                />
-              ))
-          : null}
-        {this.props.riffs
-          ? this.props.riffs.map((riff) => (
-              <div
-                key={riff.id}
-                className="riff-own-meta"
-                style={{
-                  left: (riff.time / this.props.duration) * 100 + '%',
-                  width: (riff.duration / this.props.duration) * 100 + '%',
-                }}
-              ></div>
-            ))
-          : null}
-      </div>
-    );
-  }
-}
+const MetaBar = ({ riffsMeta, riffs, duration }) => {
+  window.metaPlayHead = createRef();
+  return (
+    <div className="container-riff-meta">
+      <div id="meta-play-head" ref={window.metaPlayHead} />
+      {riffsMeta &&
+        duration &&
+        riffs &&
+        riffsMeta
+          .filter((el) => !riffs.find((t) => el.id === t.id))
+          .map((riff) => (
+            <div
+              key={riff.id}
+              className="riff-meta"
+              style={{
+                left: (riff.time / duration) * 100 + '%',
+                width: (riff.duration / duration) * 100 + '%',
+              }}
+            />
+          ))}
+      {riffs &&
+        riffs.map((riff) => (
+          <div
+            key={riff.id}
+            className="riff-own-meta"
+            style={{
+              left: (riff.time / duration) * 100 + '%',
+              width: (riff.duration / duration) * 100 + '%',
+            }}
+          ></div>
+        ))}
+    </div>
+  );
+};
 
-const mapStateToProps = (state) => ({
-  duration: state.duration,
-  riffsMeta: state.riffsMeta,
-  riffs: state.riffs.all,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MetaBar);
+export default MetaBar;

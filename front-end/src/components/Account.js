@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Login from './Login/Login';
 import { setRifferName, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
-function Account({
+const Account = ({
   name,
   googleUser,
   setRifferName,
   userData,
   getUserData,
   userid,
-}) {
+}) => {
   const [userName, setUserName] = useState(name);
 
   useEffect(() => {
@@ -24,16 +26,16 @@ function Account({
     return false;
   };
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (userName !== '') {
       setRifferName(userName, googleUser);
     }
-  }
-  function handleChange(event) {
+  };
+  const handleChange = (event) => {
     event.preventDefault();
     setUserName(event.target.value);
-  }
+  };
 
   return (
     <div className="landing-page">
@@ -45,12 +47,11 @@ function Account({
       </div>
       <section className="top-part">
         {loggedIn() ? (
-          <React.Fragment>
+          <>
             <h3>
-              visit <a href={`/profile/${userid}`}>public profile</a>
+              visit <Link to={`/profile/${userid}`}>public profile</Link>
             </h3>
             <form onSubmit={(event) => handleSubmit(event)}>
-              {/* <p>hello {name}</p> */}
               <label>
                 <h2 className="account-section-title">My Riffer Name</h2>
                 <input
@@ -65,16 +66,17 @@ function Account({
             </form>
             <h2 className="account-section-title">My Videos</h2>
             <VideoList userData={userData} />
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <Login /> <p>to get started</p>
-          </React.Fragment>
+          </>
         )}
       </section>
     </div>
   );
-}
+};
+
 let mapStateToProps = (state) => ({
   name: state.name,
   googleUser: state.googleUser,
