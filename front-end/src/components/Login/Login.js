@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import { setGoogleUser } from '../../actions/index.js';
 
-const Login = ({ setGoogleUser, videoID }) => (
+const Login = () => (
   <GoogleLogin
     clientId="941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com"
     className="google-login"
