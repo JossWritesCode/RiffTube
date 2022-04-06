@@ -17,7 +17,7 @@ const NavBar = ({ color }) => (
     <NavLink
       activeClassName="navbar-link-active"
       style={{ color }}
-      to="/TheList"
+      to="/thelist"
     >
       The List
     </NavLink>
