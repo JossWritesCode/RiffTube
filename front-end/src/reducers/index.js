@@ -15,6 +15,8 @@ import userDataReducer from './userData-reducer';
 import publicProfileDataReducer from './publicProfileData-reducer';
 import publicProfileNameReducer from './publicProfileName-reducer';
 import globalVideoListReducer from './globalVideoList-reducer';
+import immediateRecordReducer from './immediate-record-reducer';
+import userMediaReducer from './user-media-reducer';
 
 export default combineReducers({
   riffs: riffsReducer,
@@ -32,4 +34,6 @@ export default combineReducers({
   publicProfileData: publicProfileDataReducer,
   publicProfileName: publicProfileNameReducer,
   globalVideoList: globalVideoListReducer,
+  immediateRecord: immediateRecordReducer,
+  userMedia: userMediaReducer,
 });

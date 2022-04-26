@@ -8,7 +8,7 @@ import RiffButton from './RiffButton.js';
 import { setRifferName, googleUserLogout } from '../../actions'; // this and below are the same file
 import { EDIT_MODE, EDIT_NEW_MODE } from '../../actions';
 
-import { createTempRiff, togglePlayerMode } from '../../actions/index.js';
+import { createTempRiff, togglePlayerMode, setUserMedia } from '../../actions/index.js';
 
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
@@ -22,7 +22,20 @@ function EditControls(props) {
     const keydownEvent = (e) => {
       console.log(props.mode);
 
-      if (e.key === 'r') props.createTempRiff('audio', props.videoID);
+      if (e.key === 'r') {
+        if (navigator.mediaDevices) {
+          navigator.mediaDevices
+            .getUserMedia({ audio: true, video: false })
+            .then((stream) => {
+              // gum (get user media)
+              props.createTempRiff('audio', props.videoID, stream);
+            })
+            .catch(function (err) {
+              //enable the record button if getUSerMedia() fails
+              console.log("oops, can't get stream", err);
+            });
+        }
+      }
       else if (e.key === 't') props.createTempRiff('text', props.videoID);
       else if (props.mode === EDIT_MODE || props.mode === EDIT_NEW_MODE) return;
       else if (e.key === 'j' || e.key === 'ArrowLeft' || e.key === 'Left')
@@ -98,6 +111,7 @@ const mapDispatchToProps = {
   googleUserLogout,
   createTempRiff,
   togglePlayerMode,
+  setUserMedia,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditControls);

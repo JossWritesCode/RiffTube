@@ -17,6 +17,8 @@ class EditRiff extends React.Component {
     this.startTimeField = React.createRef();
   }
 
+
+
   render() {
     console.log('ed rif red');
     return (
@@ -34,10 +36,10 @@ class EditRiff extends React.Component {
                 <button
                   onClick={async () => {
                     debugger;
-
+                
                     // https://stackoverflow.com/questions/43620594/audio-blob-not-working-in-ios-safari
                     // answer by scottmizo
-
+                
                     /*
                     var blob = this.props.tempAudio;
                     var audioContext = new (window.webkitAudioContext || window.AudioContext)();
@@ -49,17 +51,17 @@ class EditRiff extends React.Component {
                       source.start()
                     });
                     */
-
+                
                     var audio = document.createElement('audio');
                     var source = document.createElement('source');
                     audio.appendChild(source);
-
+                
                     audio.controls = false;
                     var audioURL = URL.createObjectURL(this.props.tempAudio);
-
+                
                     source.src = audioURL;
                     audio.load();
-
+                
                     //audio.src = audioURL;
                     audio.play();
                   }}
