@@ -4,7 +4,8 @@
   "description": "RiffTube backend",
   "main": "index.js",
   "engines": {
-    "node": "14.x"
+    "node": "14.x",
+    "npm": "6.x"
   },
   "scripts": {
     "server": "nodemon index.js",
