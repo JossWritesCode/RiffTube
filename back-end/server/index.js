@@ -339,7 +339,7 @@ server.get('/get-view-riffs/:videoID', (req, res) => {
     .then((riffList) => {
       res.status(200).json({
         status: 'ok',
-        body: riffList.map((el) => ({ ...el, video_id: body.videoID })),
+        body: riffList.map((el) => ({ ...el, video_id: videoID })),
         timestamp: Date.now(),
       });
     })

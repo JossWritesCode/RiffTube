@@ -100,9 +100,8 @@ export const getRiffs = (videoID, googleUser) => {
     }).catch(err => console.log("error", err));
 
     axios({
-      method: 'post',
-      url: `/get-view-riffs`,
-      data: { videoID },
+      method: 'get',
+      url: `/get-view-riffs/${videoID}`,
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     }).catch(err => console.log("error", err));
@@ -116,9 +115,8 @@ export const setVideoID = (videoID, googleUser) => {
       payload: videoID,
     });
     axios({
-      method: 'post',
-      url: `/get-view-riffs`,
-      data: { videoID },
+      method: 'get',
+      url: `/get-view-riffs/${videoID}`,
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     }).catch(error => {
@@ -177,9 +175,8 @@ export const googleUserLogout = () => ({
 export const getRiffsMeta = (videoID) => {
   return (dispatch) => {
     axios({
-      method: 'post',
-      url: `/get-view-riffs`,
-      data: { videoID },
+      method: 'get',
+      url: `/get-view-riffs/${videoID}`,
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_META, payload: res.data });
     }).catch(err => console.log("error", err));
