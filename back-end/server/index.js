@@ -315,11 +315,12 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 // get view riffs essentially returns riff meta for a video.
 // it is used in both the edit and view interfaces,
 // but the reducer behaves differently, depending.
-server.post('/get-view-riffs', (req, res) => {
+server.get('/get-view-riffs/:videoID', (req, res) => {
   const body = req.body;
+  const videoID = req.params.videoID;
 
   data_model
-    .getIdFromVideoId(body.videoID)
+    .getIdFromVideoId(videoID)
     .then(([{ id: vID }]) => {
       return db('riffs')
         .join('users', 'riffs.user_id', 'users.id')

@@ -189,9 +189,8 @@ export const getRiffsMeta = (videoID) => {
 export const getViewRiffs = (videoID) => {
   return (dispatch) => {
     axios({
-      method: 'post',
-      url: `/get-view-riffs`,
-      data: { videoID },
+      method: 'get',
+      url: `/get-view-riffs/${videoID}`,
     }).then((res) => {
       dispatch({ type: RECEIVE_RIFF_LIST, payload: res.data });
     }).catch(err => console.log("error", err));
