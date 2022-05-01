@@ -352,10 +352,9 @@ export const loadRiff = (id, load) => {
 
 const rawLoadAxios = (dispatch, id) => {
   axios({
-    method: 'post',
-    url: `/load-riff`,
+    method: 'get',
+    url: `/load-riff/${id}`,
     responseType: 'arraybuffer',
-    data: { id },
   }).then((res) => {
     dispatch({ type: RIFF_LOADED, payload: res.data, id });
   }).catch(err => console.log("error", err));

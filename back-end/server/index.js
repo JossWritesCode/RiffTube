@@ -80,11 +80,11 @@ server.get('/user-name-from-token/:token', (req, res) => {
 });
 
 // return given riff's audio data
-server.post('/load-riff', (req, res) => {
-  const body = req.body;
+server.get('/load-riff/:id', (req, res) => {
+  const id = req.params.id;
   return db('riffs')
     .select('audio_datum')
-    .where({ id: body.id })
+    .where({ id })
     .then(([aud]) => {
       res.status(200).send(aud.audio_datum);
     })
