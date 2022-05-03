@@ -149,6 +149,19 @@ const About = () => (
             So many. All the plans. If you have a feature you'd like to see,
             please submit a request. It might already be in the works!
           </p>
+          <div
+            style={{
+              height: '1px',
+              background: 'gray',
+              width: '75%',
+              margin: 'auto',
+            }}
+          />
+
+          <p className="question">Q: What's your privacy policy?</p>
+          <p className="answer">
+            Riffs are stored on a server and associated with your Google account so that you can edit or delete them. (In the future other login methods will be available.) RiffTube does not sell or transmit any personal information to any 3rd party.
+          </p>
         </div>
         <div>
           <img
