@@ -160,7 +160,7 @@ const About = () => (
 
           <p className="question">Q: What's your privacy policy?</p>
           <p className="answer">
-            Riffs are stored on a server and associated with your Google account so that you can edit or delete them. (In the future other login methods will be available.) RiffTube does not sell or transmit any personal information to any 3rd party.
+            RiffTube does not display, sell, or transmit any personal information publically or to any 3rd party.
           </p>
         </div>
         <div>
