@@ -9,22 +9,23 @@ class Record extends React.Component {
     super(props);
 
     this.state = {
-      recorder: null,
-      gumStream: props.userMedia, // could be null, populated if immediate record set
       recordingState: false,
     };
   }
 
-  endRecord() {
+  // arrow classes bind the methods properly
+
+  endRecord = () => {
+    if (this.props.recorder == null) return; // do nothing if recording isn't yet allowed
+
     this.setState({ recordingState: false });
     this.duration = (Date.now() - this.startTime) / 1000;
-    //this.state.mediaRecorder.stop();
 
-    this.state.gumStream.getAudioTracks()[0].stop();
-    this.recorder.finishRecording();
+    // experimenting this.state.gumStream.getAudioTracks()[0].stop();
+    this.props.recorder.finishRecording();
 
-    // create new stream -- NEEDED????
-    navigator.mediaDevices
+    // create new stream -- NEEDED???? experimenting
+    /*navigator.mediaDevices
       .getUserMedia({ audio: true, video: false })
       .then((stream) => {
         this.setState({ gumStream: stream });
@@ -33,6 +34,7 @@ class Record extends React.Component {
         //enable the record button if getUSerMedia() fails
         console.log("oops, can't get stream", err);
       });
+      */
   }
 
   componentDidMount() {
@@ -47,39 +49,17 @@ class Record extends React.Component {
   }
 
 
-  startRecord() {
+  startRecord = () => {
+    if (this.props.recorder == null) return; // do nothing if recording isn't yet allowed
+
     this.setState({ recordingState: true });
     this.startTime = Date.now();
     //this.state.mediaRecorder.start();
-
-    var AudioContext =
-      window.AudioContext || window.webkitAudioContext; // Default // Safari and old versions of Chrome
-    var audioContext = new AudioContext();
-    var input = audioContext.createMediaStreamSource(
-      this.state.gumStream
-    );
-
-    var recorder = new window.WebAudioRecorder(input, {
-      workerDir: '/lib/',
-      encoding: 'mp3',
-      onEncoderLoading: (recorder, encoding) => {
-        // show "loading encoder..." display
-        console.log('Loading ' + encoding + ' encoder...');
-      },
-      onEncoderLoaded: (recorder, encoding) => {
-        // hide "loading encoder..." display
-        console.log(encoding + ' encoder loaded');
-      },
-    });
-
-    //this.setState( recorder );
-    this.recorder = recorder;
-
-    recorder.onComplete = (recorder, blob) => {
+    this.props.recorder.onComplete = (recorder, blob) => {
       //createDownloadLink(blob, recorder.encoding);
       this.props.saveTempAudio(blob, this.duration);
     };
-    recorder.setOptions({
+    this.props.recorder.setOptions({
       timeLimit: 120,
       encodeAfterRecord: true,
       mp3: {
@@ -88,8 +68,7 @@ class Record extends React.Component {
     });
 
     //start the recording process
-
-    recorder.startRecording();
+    setTimeout( () => this.props.recorder.startRecording(), 200 ); // delay start to avoid clicks and taps
   }
 
   render() {
@@ -109,25 +88,7 @@ class Record extends React.Component {
         ret = (
           <button
             id="stopBtn"
-            onClick={() => {
-              this.setState({ recordingState: false });
-              this.duration = (Date.now() - this.startTime) / 1000;
-              //this.state.mediaRecorder.stop();
-
-              this.state.gumStream.getAudioTracks()[0].stop();
-              this.recorder.finishRecording();
-
-              // create new stream
-              navigator.mediaDevices
-                .getUserMedia({ audio: true, video: false })
-                .then((stream) => {
-                  this.setState({ gumStream: stream });
-                })
-                .catch(function (err) {
-                  //enable the record button if getUSerMedia() fails
-                  console.log("oops, can't get stream", err);
-                });
-            }}
+            onClick={this.endRecord}
           >
             stop
           </button>
@@ -148,7 +109,7 @@ class Record extends React.Component {
 
 const mapStateToProps = (state) => ({
   immediateRecord: state.immediateRecord,
-  userMedia: state.userMedia,
+  recorder: state.recorder,
 });
 
 const mapDispatchToProps = {

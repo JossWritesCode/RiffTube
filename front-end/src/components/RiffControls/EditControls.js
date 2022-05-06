@@ -8,7 +8,7 @@ import RiffButton from './RiffButton.js';
 import { setRifferName, googleUserLogout } from '../../actions'; // this and below are the same file
 import { EDIT_MODE, EDIT_NEW_MODE } from '../../actions';
 
-import { createTempRiff, togglePlayerMode, setUserMedia } from '../../actions/index.js';
+import { createTempRiff, togglePlayerMode, setRecorder } from '../../actions/index.js';
 
 /*This component houses all of the riff buttons and the rifflist*/
 function EditControls(props) {
@@ -22,20 +22,7 @@ function EditControls(props) {
     const keydownEvent = (e) => {
       console.log(props.mode);
 
-      if (e.key === 'r') {
-        if (navigator.mediaDevices) {
-          navigator.mediaDevices
-            .getUserMedia({ audio: true, video: false })
-            .then((stream) => {
-              // gum (get user media)
-              props.createTempRiff('audio', props.videoID, stream);
-            })
-            .catch(function (err) {
-              //enable the record button if getUSerMedia() fails
-              console.log("oops, can't get stream", err);
-            });
-        }
-      }
+      if (e.key === 'r') props.createTempRiff('audio', props.videoID, true);
       else if (e.key === 't') props.createTempRiff('text', props.videoID);
       else if (props.mode === EDIT_MODE || props.mode === EDIT_NEW_MODE) return;
       else if (e.key === 'j' || e.key === 'ArrowLeft' || e.key === 'Left')
@@ -85,7 +72,44 @@ function EditControls(props) {
 
       <div>
         <h2 className="add-riff-title">Add New Riff</h2>
-        <RiffButton type="audio" />
+        {
+          props.recorder !== null ?
+            <RiffButton type="audio" />
+          :
+            <button onClick={() => {
+              var AudioContext =
+                window.AudioContext || window.webkitAudioContext; // Default // Safari and old versions of Chrome
+              var audioContext = new AudioContext();
+              if (navigator.mediaDevices) {
+                navigator.mediaDevices
+                  .getUserMedia({ audio: true, video: false })
+                  .then((stream) => {
+                    // gum (get user media)
+                    var input = audioContext.createMediaStreamSource(stream);
+                
+                    var recorder = new window.WebAudioRecorder(input, {
+                      workerDir: '/lib/',
+                      encoding: 'mp3',
+                      onEncoderLoading: (recorder, encoding) => {
+                        // show "loading encoder..." display
+                        console.log('Loading ' + encoding + ' encoder...');
+                      },
+                      onEncoderLoaded: (recorder, encoding) => {
+                        // hide "loading encoder..." display
+                        console.log(encoding + ' encoder loaded');
+                      },
+                    });
+                    props.setRecorder(recorder);
+                  })
+                  .catch(function (err) {
+                    //enable the record button if getUSerMedia() fails
+                    console.log("oops, can't get stream", err);
+                  });
+              }
+            }}>
+              Click to allow recording
+            </button>
+        }
         <RiffButton type="text" />
 
         {props.mode === EDIT_MODE || props.mode === EDIT_NEW_MODE ? (
@@ -104,6 +128,7 @@ let mapStateToProps = (state) => ({
   googleUser: state.googleUser,
   videoID: state.videoID,
   duration: state.duration,
+  recorder: state.recorder,
 });
 
 const mapDispatchToProps = {
@@ -111,7 +136,7 @@ const mapDispatchToProps = {
   googleUserLogout,
   createTempRiff,
   togglePlayerMode,
-  setUserMedia,
+  setRecorder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditControls);

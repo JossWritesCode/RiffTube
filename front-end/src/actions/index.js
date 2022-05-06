@@ -53,8 +53,9 @@ export const LOAD_PUBLIC_USER_NAME = 'LOAD_PUBLIC_USER_NAME';
 export const LOAD_GLOBAL_VIDEO_LIST = 'LOAD_GLOBAL_VIDEO_LIST';
 
 export const SET_IMMEDIATE_OFF = 'SET_IMMEDIATE_OFF';
+export const SET_IMMEDIATE_ON = 'SET_IMMEDIATE_ON';
 
-export const SET_USER_MEDIA = 'SET_USER_MEDIA';
+export const SET_RECORDER = 'SET_RECORDER';
 
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
@@ -66,11 +67,6 @@ export const setWebSocket = (payload) => ({
 });
 
 /******** Editing Interface */
-
-export const setUserMedia = (payload) => ({
-  type: SET_USER_MEDIA,
-  payload,
-});
 
 export const setVideoDuration = (payload) => ({
   type: SET_VIDEO_DURATION,
@@ -327,15 +323,23 @@ export const saveRiff = (token, payload, riff, websocket) => {
   };
 };
 
-export const createTempRiff = (type, videoID, stream = null) => ({
+export const createTempRiff = (type, videoID, immediateRecord = false) => ({
   type: type === 'audio' ? CREATE_TEMP_AUDIO_RIFF : CREATE_TEMP_TEXT_RIFF,
   videoID,
-  stream,
+  immediateRecord,
+});
+
+export const setImmediateOn = () => ({
+  type: SET_IMMEDIATE_ON,
 });
 
 export const setImmediateOff = () => ({
   type: SET_IMMEDIATE_OFF,
-  immediateRecord: false
+});
+
+export const setRecorder = (payload) => ({
+  type: SET_RECORDER,
+  payload,
 });
 
 export const setRiffPlaying = (index, playing) => ({

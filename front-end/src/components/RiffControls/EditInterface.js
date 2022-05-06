@@ -9,6 +9,7 @@ import {
   setWebSocket,
   getRiffsMeta,
   getRiffs,
+  setRecorder,
 } from '../../actions';
 import MetaBar from '../MetaBar';
 import NavBar from '../NavBar.js';
@@ -111,27 +112,21 @@ class EditInterface extends React.Component {
               </React.Fragment>
             )}
           </h4>
-          <form
-            onSubmit={(e) => {
+          <label>Paste any YouTube URL here &#8594; </label>
+          <input
+            type="text"
+            defaultValue={this.props.videoID}
+            ref={this.videoIDRef}
+          />
+          <button className="btn" id="change-video-btn" onClick={(e) => {
               const vID = this.extractVideoID(this.videoIDRef.current.value);
 
               this.props.history.push(`/riff/${vID}`);
 
               this.props.setVideoID(vID, this.props.googleUser);
-
-              e.preventDefault();
-            }}
-          >
-            <label>Paste any YouTube URL here &#8594; </label>
-            <input
-              type="text"
-              defaultValue={this.props.videoID}
-              ref={this.videoIDRef}
-            />
-            <button className="btn" id="change-video-btn" type="submit">
-              Change Video
-            </button>
-          </form>
+            }}>
+            Change Video
+          </button>
           <YouTubeVideo id={this.props.videoID} riffs={this.props.riffs} />
           <MetaBar />
           <div className="view-share-riff-link">
@@ -162,6 +157,7 @@ const mapStateToProps = (state) => ({
   googleUser: state.googleUser,
   user_id: state.user_id,
   websocket: state.websocket,
+  recorder: state.recorder,
 });
 
 const mapDispatchToProps = {
@@ -169,6 +165,7 @@ const mapDispatchToProps = {
   setWebSocket,
   getRiffsMeta,
   getRiffs,
+  setRecorder,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditInterface);
