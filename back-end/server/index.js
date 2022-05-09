@@ -267,6 +267,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                   return db('videos').insert(
                     {
                       url: body.video_id,
+                      host: body.host || 'youtube.com', // not sure why postgres default doesn't work automatically here
                       title: video.title,
                       duration: 0, // duration no longer used
                     },

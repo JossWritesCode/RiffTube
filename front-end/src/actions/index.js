@@ -291,7 +291,7 @@ export const saveRiff = (token, payload, riff, websocket) => {
     fd.append('type', riff.type);
     fd.append(
       'duration',
-      riff.type === 'text' ? payload.duration : riff.duration
+      riff.type === 'text' ? payload.duration : riff.duration // how can this be right? (I should just relax)
     );
     fd.append('start_time', payload.time);
     fd.append('video_id', riff.video_id);
