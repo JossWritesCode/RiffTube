@@ -295,7 +295,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       if (body.id === 'undefined') {
         db('riffs')
           .insert(dbpayload, 'id')
-          .then(([newRiffId]) =>
+          .then(([{id: newRiffId}]) => // this line is rather much but ah well
             res.status(200).json({
               status: 'ok',
               type: 'add',
