@@ -99,9 +99,14 @@ server.delete('/riff-remove/:id', (req, res) => {
   verify(req.body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
-      return db('riffs').where('id', id).del();
+      payload = ticket.getPayload();
+      return db('users')
+        .select('id')
+        .where('email', payload.email)
+        .then(([{id: user_id}]) => {
+          return db('riffs').where({'id': id, user_id}).del();  // incl. user_id to prevent malicious actions
+        })
     })
-
     .then(() => {
       res.status(204).end();
     })
@@ -305,7 +310,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           );
       } else {
         db('riffs')
-          .where('id', body.id)
+          .where({'id': body.id, 'user_id': idin}) // this should ensure only the original creater can update
           .update(dbpayload)
           .then(() => res.status(200).json({ status: 'ok', type: 'edit' }));
       }
