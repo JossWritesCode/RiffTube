@@ -266,20 +266,31 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
           .where('url', body.video_id)
           .then((vidList) => {
             if (vidList.length === 0) {
-              return ytapi
-                .getVideoByID(body.video_id)
-                .then((video) => {
+              if (!body.host)
+                return ytapi
+                  .getVideoByID(body.video_id)
+                  .then((video) => {
+                    return db('videos').insert(
+                      {
+                        url: body.video_id,
+                        host: body.host || 'www.youtube.com', // not sure why postgres default doesn't work automatically here
+                        title: video.title,
+                        duration: 0, // duration no longer used
+                      },
+                      ['id']
+                    );
+                  })
+                  .catch(console.log);
+                else
                   return db('videos').insert(
                     {
                       url: body.video_id,
-                      host: body.host || 'www.youtube.com', // not sure why postgres default doesn't work automatically here
-                      title: video.title,
+                      host: body.host, // not sure why postgres default doesn't work automatically here
+                      title: `${body.host}/${body.video_id}`,
                       duration: 0, // duration no longer used
                     },
                     ['id']
                   );
-                })
-                .catch(console.log);
             }
             return Promise.resolve(vidList);
           }),
@@ -365,17 +376,18 @@ server.get('/get-user-data/:token', (req, res) => {
       payload = ticket.getPayload();
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then(([{id: uID}]) => {
+    .then(([{id: uID, name: riffer}]) => {
       //console.log( "gud3", uID );
       const vids = data_model.getVideoInfoForUser(uID);
       //console.log( vids );
-      return Promise.all( [vids, Promise.resolve(uID)] );
+      return Promise.all( [vids, Promise.resolve(uID), Promise.resolve(riffer)] );
     })
-    .then(([body, userid]) => {
+    .then(([body, userid, riffer]) => {
       //console.log("gud4", body);
       res.status(200).json({
         status: 'ok',
         userid,
+        name: riffer,
         body,
       });
     })
