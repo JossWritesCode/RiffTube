@@ -11,6 +11,9 @@ const WebSocket = require('ws');
 // to get youtube video names
 const SimpleYouTubeAPI = require('simple-youtube-api');
 
+// encode to MP3 on server side
+const Lame = require("node-lame").Lame;
+
 // was used for duration -- no longer needed
 const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
@@ -259,7 +262,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
             }
 
             return Promise.resolve(userList);
-          }),
+          })
+          .catch(console.log),
 
         db('videos')
           .select('id')
@@ -281,23 +285,26 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
                     );
                   })
                   .catch(console.log);
-                else
-                  return db('videos').insert(
-                    {
-                      url: body.video_id,
-                      host: body.host, // not sure why postgres default doesn't work automatically here
-                      title: `${body.host}/${body.video_id}`,
-                      duration: 0, // duration no longer used
-                    },
-                    ['id']
-                  );
+              else
+                return db('videos').insert(
+                  {
+                    url: body.video_id,
+                    host: body.host, // not sure why postgres default doesn't work automatically here
+                    title: `${body.host}/${body.video_id}`,
+                    duration: 0, // duration no longer used
+                  },
+                  ['id']
+                )
+                .catch(console.log);
             }
             return Promise.resolve(vidList);
           }),
-      ]);
+      ])
+      .catch(console.log);
     })
     // once we know the user and video exist, insert the riff
     .then(([[{ id: idin }], [{ id: vidid }]]) => {
+      console.log("sr1");
       let dbpayload = {
         audio_datum: body.type == 'text' ? null : req.file.buffer,
         text: body.type == 'text' ? body.text : null,
@@ -318,13 +325,16 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
               tempId: Number(body.tempId),
               id: newRiffId,
             })
-          );
+          )
+          .catch(console.log);
       } else {
         db('riffs')
           .where({'id': body.id, 'user_id': idin}) // this should ensure only the original creater can update
           .update(dbpayload)
-          .then(() => res.status(200).json({ status: 'ok', type: 'edit' }));
+          .then(() => res.status(200).json({ status: 'ok', type: 'edit' }))
+          .catch(console.log);
       }
+      console.log("sr2");
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
