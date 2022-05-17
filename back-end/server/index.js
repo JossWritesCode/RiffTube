@@ -231,6 +231,8 @@ server.post('/update-riff-time', (req, res) => {
 // likewise if it happens to be the users first riff ever,
 // this will add the user to the users table.
 server.post('/save-riff', upload.single('blob'), (req, res) => {
+  console.log("sr0");
+
   const body = req.body;
 
   var payload;
@@ -238,6 +240,8 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
   verify(body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
+      console.log("verified");
+
       payload = ticket.getPayload();
 
       // make sure that the user exists in the db, or else insert them
@@ -303,10 +307,34 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       .catch(console.log);
     })
     // once we know the user and video exist, insert the riff
-    .then(([[{ id: idin }], [{ id: vidid }]]) => {
+    .then(async ([[{ id: idin }], [{ id: vidid }]]) => {
       console.log("sr1");
+
+      let blob = req.file ? req.file.buffer : null; // just in case req.file is ever null
+      if (body.raw_audio)
+      {
+        console.log("sr converting");
+
+        const encoder = new Lame({
+            "output": "buffer",
+            "bitrate": 192
+          }).setBuffer(req.file.buffer);
+          
+        try
+        {
+          blob = await encoder.encode();
+        }
+        catch (err)
+        {
+          console.error(err);
+        }
+
+        console.log("sr converted");
+      }
+
+      
       let dbpayload = {
-        audio_datum: body.type == 'text' ? null : req.file.buffer,
+        audio_datum: body.type == 'text' ? null : blob,
         text: body.type == 'text' ? body.text : null,
         isText: body.type == 'text',
         start_time: body.start_time,
