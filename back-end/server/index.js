@@ -12,7 +12,7 @@ const WebSocket = require('ws');
 const SimpleYouTubeAPI = require('simple-youtube-api');
 
 // encode to MP3 on server side
-const Lame = require("node-lame").Lame;
+const webmToMp4 = require("webm-to-mp4");
 
 // was used for duration -- no longer needed
 const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
@@ -311,18 +311,16 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
       console.log("sr1");
 
       let blob = req.file ? req.file.buffer : null; // just in case req.file is ever null
+      
       if (body.raw_audio)
       {
         console.log("sr converting");
-
-        const encoder = new Lame({
-            "output": "buffer",
-            "bitrate": 192
-          }).setBuffer(req.file.buffer);
           
         try
         {
-          blob = await encoder.encode();
+          //console.log(req.file.buffer);
+          blob = webmToMp4(req.file.buffer);
+          console.log(blob);
         }
         catch (err)
         {

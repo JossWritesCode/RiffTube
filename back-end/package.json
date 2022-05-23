@@ -33,6 +33,7 @@
     "can-autoplay": "^3.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "ffmpeg": "^0.0.4",
     "google-auth-library": "^6.0.0",
     "helmet": "^3.22.0",
     "knex": "^2.0.0",
@@ -46,6 +47,8 @@
     "sqlite3": "^5.0.0",
     "styled-components": "^5.1.0",
     "utf-8-validate": "^5.0.2",
+    "webm-to-mp4": "^1.0.0",
+    "webm-to-mp4-tweak": "^1.0.1",
     "ws": "^7.3.0"
   },
   "devDependencies": {
