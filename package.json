@@ -9,7 +9,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node back-end/index.js",
-    "build": "cd front-end/ && npm install && npm run build"
+    "build": "cd back-end/ && npm install && cd ../front-end/ && npm install && npm run build"
   },
   "cacheDirectories": [
     "back-end/node_modules",
