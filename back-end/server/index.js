@@ -27,6 +27,7 @@ const CLIENT_ID =
   '941154439836-s6iglcrdckcj6od74kssqsom58j96hd8.apps.googleusercontent.com';
 
 server.use(express.json());
+server.use(express.urlencoded({ extended: true })); // maybe not needed?
 
 // needed only for localhost (remove for production)
 server.use(cors());
@@ -49,6 +50,7 @@ const client = new OAuth2Client(CLIENT_ID);
 
 // function to verify the google token
 function verify(token) {
+  console.log("verify", token);
   return client.verifyIdToken({
     idToken: token,
     audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
@@ -98,7 +100,7 @@ server.get('/load-riff/:id', (req, res) => {
 server.delete('/riff-remove/:id', (req, res) => {
   const { token } = req.body;
   const id = req.params.id;
-
+  console.log("del", req);
   verify(req.body.token)
     // once verified, get and pass on payload
     .then((ticket) => {
