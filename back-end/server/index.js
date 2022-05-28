@@ -205,6 +205,7 @@ server.post('/get-riffs', (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+// TODO: make more secure
 // update riff time.
 server.post('/update-riff-time', (req, res) => {
   const body = req.body;
