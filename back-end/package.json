@@ -43,6 +43,7 @@
     "opus-media-recorder": "^0.8.0",
     "path": "^0.12.7",
     "pg": "^8.2.1",
+    "shark": "^2.3.0",
     "simple-youtube-api": "^5.2.1",
     "sqlite3": "^5.0.0",
     "styled-components": "^5.1.0",

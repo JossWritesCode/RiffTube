@@ -214,13 +214,19 @@ server.post('/update-riff-time', (req, res) => {
 
   verify(body.token)
     // once verified, get and pass on payload
-    .then(() => {
+    .then((ticket) => {
+      payload = ticket.getPayload();
+
+      return data_model.getIdAndNameFromEmail(payload.email);
+    })
+    .then(emailArr => {
+      var [{ id: uID }] = emailArr; // this is silly, getting the name back should just be its own endpoint but noooooooooooooooo
       let dbpayload = {
         start_time: body.start_time,
       };
 
       db('riffs')
-        .where('id', body.id)
+        .where({'id': body.id, 'user_id': uID}) // incl. user id should be security?
         .update(dbpayload)
         .then(() => res.status(200).json({ status: 'ok', type: 'edit' }))
         .catch((err) => res.status(500).json({ error: err }));
