@@ -48,7 +48,6 @@
     "styled-components": "^5.1.0",
     "utf-8-validate": "^5.0.2",
     "webm-to-mp4": "^1.0.0",
-    "webm-to-mp4-tweak": "^1.0.1",
     "ws": "^7.3.0"
   },
   "devDependencies": {
