@@ -60,7 +60,6 @@ const Account = ({
             <form onSubmit={(event) => handleSubmit(event)}>
               <label>
                 <h3 className="account-section-title">My Riffer Name</h3>
-                <h3>{name}</h3>
                 <input
                   onChange={(event) => handleChange(event)}
                   type="text"

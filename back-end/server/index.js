@@ -138,11 +138,14 @@ server.post('/set-name', (req, res) => {
     .then((ticket) => {
       payload = ticket.getPayload();
 
+      console.log("got payload", payload);
+
       return (
         db('users')
         .select('id')
         .where('email', payload.email)
         .then((userList) => {
+          console.log("got userlist", userList);
           if (userList.length === 0)
           {
             return db('users')
@@ -159,17 +162,16 @@ server.post('/set-name', (req, res) => {
             let dbpayload = {
               name: body.newName,
             };
-
-            db('users')
-              .where('id', uID)
-              .update(dbpayload);
-              
-            return Promise.resolve(userList);
+            console.log("user id", userList[0].id);
+            return db('users')
+              .where('id', userList[0].id)
+              .update(dbpayload)
+              .then(() => Promise.resolve(userList));
           }
         })
-        .then(([{id: uID}]) => 
+        .then(([{id: user_id}]) => 
         {
-          res.status(200).json({ status: 'ok', name: body.newName, user_id: uID })
+          res.status(200).json({ status: 'ok', name: body.newName, user_id })
         })
       );
     })
