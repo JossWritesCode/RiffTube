@@ -36,6 +36,15 @@ function getVideoInfoForUser(user_id)
     );
 }
 
+function getPicForUser(id)
+{
+    return (
+        db('users')
+            .select('riff_pic')
+            .where({ id })
+    );
+}
+
 function getGlobalVideoList()
 {
     return (
@@ -51,6 +60,7 @@ module.exports = {
     getIdAndNameFromEmail,
     getIdFromVideoId,
     getRifferNameFromID,
+    getPicForUser,
     getVideoInfoForUser,
     getGlobalVideoList,
   };

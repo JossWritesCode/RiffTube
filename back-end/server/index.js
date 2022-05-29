@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors'); // may ultimately not be needed
 const path = require('path');
 
+var fs = require('fs');
+
 // for web sockets:
 const url = require('url');
 const http = require('http');
@@ -18,7 +20,10 @@ const webmToMp4 = require("webm-to-mp4");
 const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
 const server = express();
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage(),
+  limits: { // seems good? hope it doesn't hurt anything
+    fileSize: 4 * 1024 * 1024,
+  } });
 
 const db = require('../data/db.js');
 const data_model = require('../data-model.js');
@@ -133,19 +138,40 @@ server.post('/set-name', (req, res) => {
     .then((ticket) => {
       payload = ticket.getPayload();
 
-      return data_model.getIdAndNameFromEmail(payload.email);
-    })
-    .then((emailArr) => {
-      var [{ id: uID }] = emailArr;
+      return (
+        db('users')
+        .select('id')
+        .where('email', payload.email)
+        .then((userList) => {
+          if (userList.length === 0)
+          {
+            return db('users')
+              .insert(
+                {
+                  name: body.newName,
+                  email: payload.email,
+                  riff_pic: null
+                },
+                ['id'] );
+          }
+          else
+          {
+            let dbpayload = {
+              name: body.newName,
+            };
 
-      let dbpayload = {
-        name: body.newName,
-      };
-
-      db('users')
-        .where('id', uID)
-        .update(dbpayload)
-        .then(() => res.status(200).json({ status: 'ok', name: body.newName }));
+            db('users')
+              .where('id', uID)
+              .update(dbpayload);
+              
+            return Promise.resolve(userList);
+          }
+        })
+        .then(([{id: uID}]) => 
+        {
+          res.status(200).json({ status: 'ok', name: body.newName, user_id: uID })
+        })
+      );
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -479,6 +505,47 @@ server.get('/get-global-video-list', (req, res) =>
   })
   .catch((err) => res.status(500).json({ error: err }));
 });
+
+// get riffer pic
+
+
+const default_pic = fs.readFileSync('default_pic.png');
+
+
+server.get('/get-riffer-pic/:id', (req, res) =>
+{
+  const uID = req.params.id.split(".")[0]; // strip off .png
+
+  console.log( "load pic", uID );
+
+  data_model.getPicForUser(uID)
+    .then(([{riff_pic: pic}]) =>
+    {
+      console.log( "get-riffer-pic2", pic );
+
+      res.type('png');
+      res.set("Content-Disposition", "inline;");
+
+      if (pic === null)
+        res.status(200).send(default_pic);
+      else
+        res.status(200).send(pic);
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+
+
+
+// save riff does as it name suggests.
+// in addition, if this is the first riff ever for a video,
+// this function will also add that video to the video table.
+// likewise if it happens to be the users first riff ever,
+// this will add the user to the users table.
+server.post('/save-pic', upload.single('image'), (req, res) => {
+
+});
+
 
 // serve up the base directory
 server.use(express.static('/app/front-end/build/'));
