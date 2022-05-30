@@ -85,6 +85,28 @@ export const setRifferName = (newName, googleUser) => {
   };
 };
 
+export const setRiffPic = (payload, googleUser) => {
+  debugger;
+  return (dispatch) => {
+    let fd = new FormData();
+    fd.append('token', googleUser.getAuthResponse().id_token);
+    fd.append('image', payload);
+    axios({
+      method: 'post',
+      url: `/save-pic`,
+      data: fd,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+      .then((res) => {
+        // res.data.data
+        dispatch({ type: 'SAVE_PIC_SUCCESS', payload: res.data }); // fix these to constants
+      })
+      .catch((err) => {
+        dispatch({ type: 'SAVE_PIC_FAILURE', payload: err.response });
+      });
+  };
+};
+
 export const getRiffs = (videoID, googleUser) => {
   return (dispatch) => {
     axios({

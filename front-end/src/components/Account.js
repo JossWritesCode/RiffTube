@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Login from './Login/Login';
-import { setRifferName, getUserData } from '../actions';
+import { setRifferName, setRiffPic, getUserData } from '../actions';
 import NavBar from './NavBar.js';
 import VideoList from './VideoList';
 
@@ -11,6 +11,7 @@ const Account = ({
   name,
   googleUser,
   setRifferName,
+  setRiffPic,
   userData,
   getUserData,
   userid,
@@ -35,7 +36,8 @@ const Account = ({
 
   const picSubmit = (event) => {
     event.preventDefault();
-    console.log(event.target.children[0].value);
+    //console.log(event.target.children[0].value);
+    setRiffPic(event.target.children[0].files[0], googleUser);
   };
 
   const handleChange = (event) => {
@@ -97,6 +99,7 @@ let mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setRifferName,
+  setRiffPic,
   getUserData,
 };
 

@@ -16,6 +16,9 @@ const SimpleYouTubeAPI = require('simple-youtube-api');
 // encode to MP3 on server side
 const webmToMp4 = require("webm-to-mp4");
 
+// img resize
+const sharp = require('sharp');
+
 // was used for duration -- no longer needed
 const ytapi = new SimpleYouTubeAPI('AIzaSyB1drUN9ne_NHwFxv0YFEeGmuVRqV6cKJQ');
 
@@ -128,8 +131,6 @@ server.delete('/riff-remove/:id', (req, res) => {
 // sets the "riffer name" for a given user
 server.post('/set-name', (req, res) => {
   const body = req.body;
-
-  // thanks to https://2ality.com/2017/08/promise-callback-data-flow.html for pointing out Promise.all as used below
 
   var payload;
 
@@ -539,13 +540,68 @@ server.get('/get-riffer-pic/:id', (req, res) =>
 
 
 
-// save riff does as it name suggests.
-// in addition, if this is the first riff ever for a video,
-// this function will also add that video to the video table.
-// likewise if it happens to be the users first riff ever,
-// this will add the user to the users table.
-server.post('/save-pic', upload.single('image'), (req, res) => {
+// save pic does as it name suggests.
+server.post('/save-pic', upload.single('image'), (req, res) =>
+{
+  const body = req.body;
 
+  var payload;
+
+  verify(body.token)
+    // once verified, get and pass on payload
+    .then(async (ticket) => {
+      payload = ticket.getPayload();
+
+      console.log("got payload", payload);
+
+      let img = req.file ? req.file.buffer : null; // do better
+
+      const data = await sharp(img)
+        .resize(400, 400, {
+          fit: sharp.fit.inside,
+          withoutEnlargement: true
+        })
+        .png()
+        .toBuffer();
+      
+        console.log("data", data);
+
+      return (
+        db('users')
+        .select('id')
+        .where('email', payload.email)
+        .then((userList) => {
+          console.log("got userlist", userList);
+          if (userList.length === 0)
+          {
+            return db('users')
+              .insert(
+                {
+                  name: body.newName,
+                  email: payload.email,
+                  riff_pic: data
+                },
+                ['id'] );
+          }
+          else
+          {
+            let dbpayload = {
+              riff_pic: data,
+            };
+            console.log("user id", userList[0].id);
+            return db('users')
+              .where('id', userList[0].id)
+              .update(dbpayload)
+              .then(() => Promise.resolve(userList));
+          }
+        })
+        .then(([{id: user_id}]) => 
+        {
+          res.status(200).json({ status: 'ok', user_id })
+        })
+      );
+    })
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 
