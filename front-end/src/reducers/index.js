@@ -17,6 +17,7 @@ import publicProfileNameReducer from './publicProfileName-reducer';
 import globalVideoListReducer from './globalVideoList-reducer';
 import immediateRecordReducer from './immediate-record-reducer';
 import recorderReducer from './recorder-reducer';
+import acctImgKeyReducer from './acctImgKey-reducer';
 
 export default combineReducers({
   riffs: riffsReducer,
@@ -36,4 +37,5 @@ export default combineReducers({
   globalVideoList: globalVideoListReducer,
   immediateRecord: immediateRecordReducer,
   recorder: recorderReducer,
+  acctImgKey: acctImgKeyReducer,
 });

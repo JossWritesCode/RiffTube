@@ -59,6 +59,9 @@ export const SET_RECORDER = 'SET_RECORDER';
 
 export const WEB_SOCKET_UPDATE = 'WEB_SOCKET_UPDATE';
 
+export const SAVE_PIC_SUCCESS = 'SAVE_PIC_SUCCESS';
+export const SAVE_PIC_FAILURE = 'SAVE_PIC_FAILURE';
+
 /******** WebSockets */
 
 export const setWebSocket = (payload) => ({
@@ -86,7 +89,6 @@ export const setRifferName = (newName, googleUser) => {
 };
 
 export const setRiffPic = (payload, googleUser) => {
-  debugger;
   return (dispatch) => {
     let fd = new FormData();
     fd.append('token', googleUser.getAuthResponse().id_token);
@@ -99,10 +101,10 @@ export const setRiffPic = (payload, googleUser) => {
     })
       .then((res) => {
         // res.data.data
-        dispatch({ type: 'SAVE_PIC_SUCCESS', payload: res.data }); // fix these to constants
+        dispatch({ type: SAVE_PIC_SUCCESS, payload: res.data }); // fix these to constants
       })
       .catch((err) => {
-        dispatch({ type: 'SAVE_PIC_FAILURE', payload: err.response });
+        dispatch({ type: SAVE_PIC_FAILURE, payload: err.response });
       });
   };
 };

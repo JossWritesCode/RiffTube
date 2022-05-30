@@ -15,6 +15,7 @@ const Account = ({
   userData,
   getUserData,
   userid,
+  acctImgKey,
 }) => {
   const [userName, setUserName] = useState(name);
 
@@ -72,7 +73,7 @@ const Account = ({
               </label>
               <input type="submit" value="Submit" className="btn" />
             </form>
-            <img src={`/get-riffer-pic/${userid}.png`} />
+            <img key={acctImgKey} src={`/get-riffer-pic/${userid}.png?${acctImgKey}`} />
             <form onSubmit={(event) => picSubmit(event)}>
               <input type="file" name="image" /><br /><br />
               <button type="submit">Upload</button>
@@ -95,6 +96,7 @@ let mapStateToProps = (state) => ({
   googleUser: state.googleUser,
   userData: state.userData,
   userid: state.user_id,
+  acctImgKey: state.acctImgKey,
 });
 
 const mapDispatchToProps = {
