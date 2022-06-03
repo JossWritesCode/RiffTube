@@ -49,6 +49,11 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+server.use(function (req, res, next) {
+  console.log("incoming", req.body);
+  next();
+});
+
 server.get('/api-status', (req, res) => {
   res.status(200).json({ api: 'running', updated: '5.29' });
 });
@@ -370,7 +375,7 @@ server.post('/save-riff', upload.single('blob'), (req, res) => {
 
       
       let dbpayload = {
-        audio_datum: body.type == 'text' ? null : blob,
+        audio_datum: body.type == 'text' ? null : Buffer.from(blob),
         text: body.type == 'text' ? body.text : null,
         isText: body.type == 'text',
         start_time: body.start_time,
@@ -450,20 +455,32 @@ server.get('/get-user-data/:token', (req, res) => {
       payload = ticket.getPayload();
       return data_model.getIdAndNameFromEmail(payload.email);
     })
-    .then(([{id: uID, name: riffer}]) => {
-      //console.log( "gud3", uID );
-      const vids = data_model.getVideoInfoForUser(uID);
-      //console.log( vids );
-      return Promise.all( [vids, Promise.resolve(uID), Promise.resolve(riffer)] );
-    })
-    .then(([body, userid, riffer]) => {
-      //console.log("gud4", body);
-      res.status(200).json({
-        status: 'ok',
-        userid,
-        name: riffer,
-        body,
-      });
+    .then( resList => {
+      if (resList.length === 0)
+      {
+        res.status(200).json({
+          status: 'user not found'
+        });
+      }
+      else
+      {
+        return Promise.resolve(resList)
+          .then(([{id: uID, name: riffer}]) => {
+            //console.log( "gud3", uID );
+            const vids = data_model.getVideoInfoForUser(uID);
+            //console.log( vids );
+            return Promise.all( [vids, Promise.resolve(uID), Promise.resolve(riffer)] );
+          })
+          .then(([body, userid, riffer]) => {
+            //console.log("gud4", body);
+            res.status(200).json({
+              status: 'ok',
+              userid,
+              name: riffer,
+              body,
+            });
+          })
+      }
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
