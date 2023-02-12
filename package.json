@@ -47,6 +47,6 @@
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.7",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.20"
   }
 }
