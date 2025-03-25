@@ -1,49 +1,11 @@
 {
-  "name": "rifftube-backend",
+  "name": "rifftube",
   "version": "1.0.0",
-  "description": "RiffTube backend",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "server": "nodemon index.js",
-    "start": "node back-end/index.js",
-    "build": "cd front-end/ && npm install && npm run build"
-  },
-  "cacheDirectories": [
-    "back-end/node_modules",
-    "front-end/node_modules"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JossWritesCode/RiffTube.git"
-  },
-  "keywords": [],
-  "author": "Joscelyn and David",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JossWritesCode/RiffTube/issues"
-  },
-  "homepage": "https://github.com/JossWritesCode/RiffTube/blob/master/README.md",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "bufferutil": "^4.0.1",
-    "can-autoplay": "^3.0.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "google-auth-library": "^6.0.0",
-    "helmet": "^3.22.0",
-    "knex": "^0.21.1",
-    "multer": "^1.4.2",
-    "node-sass": "^4.14.1",
-    "path": "^0.12.7",
-    "pg": "^8.2.1",
-    "simple-youtube-api": "^5.2.1",
-    "sqlite3": "^4.2.0",
-    "styled-components": "^5.1.0",
-    "utf-8-validate": "^5.0.2",
-    "ws": "^7.3.0"
+    "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\""
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.7",
-    "nodemon": "^2.0.4"
+    "concurrently": "^8.2.0"
   }
 }
