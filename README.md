@@ -2,31 +2,60 @@
 
 In the glorious tradition of Mystery Science Theater 3000, The Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
 
-Now presenting: you!
+Now presenting: **you**.
 
-RiffTube allows you to add your own riffs to any video on YouTube.
+**RiffTube** lets you add your own riffs to any video on YouTube. Watch, comment, create — your voice, your style, your movie night.
 
-## Getting Started
+---
 
-Site deployed here: [https://rifftube.herokuapp.com/](https://rifftube.herokuapp.com/)
+## 🚀 Getting Started
 
-## Built With
+This project uses a Vite + React frontend and a Ruby on Rails API backend. Both are booted up together with one command.
 
+### 1. Install dependencies
+
+```bash
+# from the root
+npm install
+cd backend && bundle install
+```
+
+### 2. Start the app
+
+```bash
+npm run dev
+```
+
+This runs both servers concurrently:
+
+- Rails API at `http://localhost:3000`
+- Vite frontend at `http://localhost:5173`
+
+---
+
+## 🧱 Tech Stack
+
+### Frontend
+- [Vite](https://vitejs.dev/)
 - [React](https://reactjs.org/)
-- [Redux](https://redux.js.org/) - State Management
-- [Sass](https://sass-lang.com/) - Style Library
+- [TypeScript](https://www.typescriptlang.org/)
 - [YouTube API](https://developers.google.com/youtube/v3)
 - [Google Login](https://developers.google.com/identity)
-- [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js) - Audio API
-- [Node.js](https://nodejs.org/en/) - Back End Language
-- [Express](https://expressjs.com/) - Node Framework
+- [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js)
 
-## Authors
+### Backend
+- [Ruby on Rails](https://rubyonrails.org/) (API mode)
+- [PostgreSQL](https://www.postgresql.org/) (planned)
 
-- **David Newberry** - [paxfeline](https://github.com/paxfeline)
+---
 
-- **Joscelyn Stancek** - [JossWritesCode](https://github.com/JossWritesCode)
+## 👥 Authors
 
-## License
+- **David Newberry** — [paxfeline](https://github.com/paxfeline)
+- **Joscelyn Stancek** — [JossWritesCode](https://github.com/JossWritesCode)
 
-This project is licensed under the MIT License
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
