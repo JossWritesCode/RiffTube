@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\""
+    "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "lint": "cd frontend && npm run lint"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "prettier": "^3.5.3"
   }
 }
