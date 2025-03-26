@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
-    "format": "prettier --write .",
-    "check-format": "prettier --check .",
-    "lint": "cd frontend && npm run lint"
+    "lint": "cd frontend && npm run lint",
+    "format": "cd frontend && npm run format",
+    "check-format": "cd frontend && npm run check-format"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0",
-    "prettier": "^3.5.3"
+    "concurrently": "^8.2.0"
   }
 }
