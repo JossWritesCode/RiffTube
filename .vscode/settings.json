@@ -27,5 +27,11 @@
     "statusBarItem.remoteBackground": "#007fff",
     "statusBarItem.remoteForeground": "#e7e7e7"
   },
-  "peacock.color": "#007fff"
+  "peacock.color": "#007fff",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
 }

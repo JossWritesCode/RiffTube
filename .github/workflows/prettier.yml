@@ -1,11 +1,11 @@
-name: Prettier Check
+name: Prettier & ESLint Check
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  prettier:
+  linting:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Prettier check
         run: npm run check-format

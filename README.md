@@ -36,6 +36,7 @@ This runs both servers concurrently:
 ## 🧱 Tech Stack
 
 ### Frontend
+
 - [Vite](https://vitejs.dev/)
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -44,6 +45,7 @@ This runs both servers concurrently:
 - [Web Audio Recorder](https://github.com/higuma/web-audio-recorder-js)
 
 ### Backend
+
 - [Ruby on Rails](https://rubyonrails.org/) (API mode)
 - [PostgreSQL](https://www.postgresql.org/) (planned)
 
