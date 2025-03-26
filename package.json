@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
     "format": "prettier --write .",
-    "check-format": "prettier --check ."
+    "check-format": "prettier --check .",
+    "lint": "cd frontend && npm run lint"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",
