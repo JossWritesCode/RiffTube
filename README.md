@@ -1,5 +1,12 @@
 # RiffTube
 
+[![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
+[![Vite](https://img.shields.io/badge/Vite-4.0-646CFF?logo=vite)](https://vitejs.dev/)
+
+---
+
 In the glorious tradition of Mystery Science Theater 3000, The Film Crew, RiffTrax, Cinematic Titanic, MST3k again, and others...
 
 Now presenting: **you**.
@@ -8,32 +15,70 @@ Now presenting: **you**.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-This project uses a Vite + React frontend and a Ruby on Rails API backend. Both are booted up together with one command.
+This project uses a Vite + React frontend and a Ruby on Rails API backend. They are booted separately but coordinated during development.
+
+---
 
 ### 1. Install dependencies
 
 ```bash
-# from the root
+# install frontend dependencies
+cd frontend
 npm install
-cd backend && bundle install
+
+# install backend dependencies
+cd ../backend
+bundle install
 ```
-
-### 2. Start the app
-
-```bash
-npm run dev
-```
-
-This runs both servers concurrently:
-
-- Rails API at `http://localhost:3000`
-- Vite frontend at `http://localhost:5173`
 
 ---
 
-## 🧱 Tech Stack
+### 2. Set up environment variables
+
+- Copy `.env.example` to `.env` at the project root:
+  ```bash
+  cp .env.example .env
+  ```
+- Fill in real credentials in `.env` for your local database connection and CORS settings.
+
+---
+
+### 3. Set up the database
+
+```bash
+cd backend
+rails db:create
+rails db:migrate
+```
+
+---
+
+### 4. Start the app
+
+In two separate terminal windows or tabs:
+
+```bash
+# Terminal 1 - start Rails API
+cd backend
+rails server
+```
+
+```bash
+# Terminal 2 - start Vite frontend
+cd frontend
+npm run dev
+```
+
+The servers will be running at:
+
+- Rails API → [http://localhost:3000](http://localhost:3000)
+- Vite frontend → [http://localhost:5173](http://localhost:5173)
+
+---
+
+## Tech Stack
 
 ### Frontend
 
@@ -47,17 +92,19 @@ This runs both servers concurrently:
 ### Backend
 
 - [Ruby on Rails](https://rubyonrails.org/) (API mode)
-- [PostgreSQL](https://www.postgresql.org/) (planned)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Google Cloud Storage](https://cloud.google.com/storage) (planned)
+- [Google Cloud Text-to-Speech](https://cloud.google.com/text-to-speech) (planned)
 
 ---
 
-## 👥 Authors
+## Authors
 
 - **David Newberry** — [paxfeline](https://github.com/paxfeline)
 - **Joscelyn Stancek** — [JossWritesCode](https://github.com/JossWritesCode)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
