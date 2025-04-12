@@ -41,7 +41,17 @@ bundle install
   ```bash
   cp .env.example .env
   ```
-- Fill in real credentials in `.env` for your local database connection and CORS settings.
+- Fill in real credentials in `.env` for your local database connection and CORS settings:
+
+```bash
+DATABASE_USERNAME=your_postgres_username
+DATABASE_PASSWORD=your_postgres_password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+ALLOWED_CORS_ORIGINS=http://localhost:5173
+```
+
+> **Important:** `.env` must be located at the project root (`/RiffTube/.env`), **not inside `/backend` or `/frontend`**.
 
 ---
 
@@ -52,6 +62,11 @@ cd backend
 rails db:create
 rails db:migrate
 ```
+
+This will:
+
+- Create the `rifftube_development` and `rifftube_test` databases
+- Enable the `uuid-ossp` extension for UUID primary keys
 
 ---
 
@@ -75,6 +90,19 @@ The servers will be running at:
 
 - Rails API → [http://localhost:3000](http://localhost:3000)
 - Vite frontend → [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🧹 Local Development Setup Checklist
+
+- [ ] `.env` exists at project root and contains correct database and CORS variables
+- [ ] `npm install` completed inside `/frontend`
+- [ ] `bundle install` completed inside `/backend`
+- [ ] `rails db:create` and `rails db:migrate` completed without errors
+- [ ] Rails server (`rails server`) starts successfully
+- [ ] Vite server (`npm run dev`) starts successfully
+- [ ] Access Rails API at `http://localhost:3000`
+- [ ] Access React frontend at `http://localhost:5173`
 
 ---
 
