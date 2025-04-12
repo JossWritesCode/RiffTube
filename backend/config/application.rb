@@ -17,8 +17,10 @@ require "logger"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-# Load environment variables from .env file if it exists
-Dotenv::Railtie.load if defined?(Dotenv)
+# Load environment variables early
+require "dotenv/load"
+
+
 
 module BackEnd
   class Application < Rails::Application

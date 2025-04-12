@@ -1,0 +1,2 @@
+class Riff < ApplicationRecord
+end
