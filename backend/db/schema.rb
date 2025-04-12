@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_12_203053) do
 
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.enum "commentable_type", null: false, enum_type: "commentable_type_enum"
+    t.string "commentable_type", null: false
     t.uuid "commentable_id", null: false
     t.text "content", null: false
     t.datetime "deleted_at"
