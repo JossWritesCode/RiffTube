@@ -22,13 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_12_203053) do
   create_enum "storage_provider_enum", ["gcs", "url"]
 
   create_table "audit_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
+    t.uuid "user_id"
     t.text "action", null: false
     t.string "entity_type", null: false
     t.uuid "entity_id", null: false
     t.jsonb "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["entity_type", "entity_id"], name: "index_audit_logs_on_entity_type_and_entity_id"
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
   create_table "collaborations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -205,6 +207,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_12_203053) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "audit_logs", "users"
   add_foreign_key "project_riffs", "projects"
   add_foreign_key "project_riffs", "riffs"
   add_foreign_key "projects", "projects", column: "forked_from_project_id"

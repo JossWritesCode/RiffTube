@@ -1,7 +1,13 @@
 class User < ApplicationRecord
   ## Validations
-  validates :email, presence: true, uniqueness: true
+  has_secure_password
+
+  validates :password, length: { minimum: 6 }, allow_nil: true, presence: true, if: :password_required?
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { maximum: 255 }
   validates :uid,   uniqueness: true, allow_nil: true
+  validate :uid_presence_if_provider
+  # Soft delete
+  default_scope { where(deleted_at: nil) }
 
   # Require password if not using OAuth
   has_secure_password validations: false
@@ -40,6 +46,16 @@ class User < ApplicationRecord
   has_many :subscriptions, through: :user_subscriptions
 
   private
+
+  def password_required?
+    provider.blank? || (!password_digest.present? && provider_changed?)
+  end
+
+  def uid_presence_if_provider
+    if provider.present? && uid.blank?
+      errors.add(:uid, "can't be blank if provider is set")
+    end
+  end
 
   def password_required_unless_oauth
     if provider.blank? && password_digest.blank?
