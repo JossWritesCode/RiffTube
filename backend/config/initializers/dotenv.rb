@@ -1,4 +1,3 @@
-# backend/config/initializers/dotenv.rb
 require 'dotenv'
 
 root_env = File.expand_path('../../../.env', __dir__)  # three “..” segments
