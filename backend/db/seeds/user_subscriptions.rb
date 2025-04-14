@@ -1,5 +1,3 @@
-# db/seeds/user_subscriptions.rb
-
 puts "🙋‍♂️ Seeding user subscriptions..."
 
 # Fetch subscriptions

@@ -1,5 +1,3 @@
-# db/seeds/tags.rb
-
 puts "🏷️ Seeding tags..."
 
 tags = [

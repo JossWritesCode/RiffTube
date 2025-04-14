@@ -14,13 +14,12 @@ cambot = User.find_by(name: "Cambot")
 
 # Define relationships
 relationships = [
-  # Following relationships
   { from: servo, to: crow, type: "follow" },
   { from: crow, to: servo, type: "follow" },
   { from: gypsy, to: joel, type: "follow" },
   { from: mike, to: cambot, type: "follow" },
   { from: brain_guy, to: pearl, type: "follow" },
-  { from: frank, to: everyone = User.where.not(id: frank.id).pluck(:id), type: "follow" }, # Frank follows everyone
+  { from: frank, to: User.where.not(id: frank.id).pluck(:id), type: "follow" },
 
   # Blocking relationships
   { from: pearl, to: crow, type: "block" },

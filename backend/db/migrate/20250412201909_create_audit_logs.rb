@@ -1,8 +1,7 @@
-# db/migrate/2025xxxxxxxx_create_audit_logs.rb
 class CreateAuditLogs < ActiveRecord::Migration[7.0]
   def change
     create_table :audit_logs, id: :uuid do |t|
-      t.references :user, null: true, foreign_key: true, type: :uuid
+      t.references :user,      null: true, foreign_key: true, type: :uuid
       t.text    :action,       null: false
       t.string  :entity_type,  null: false
       t.uuid    :entity_id,    null: false

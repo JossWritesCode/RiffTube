@@ -1,5 +1,3 @@
-# db/seeds/riffs.rb
-
 puts "🎤 Seeding riffs and riff versions..."
 
 # Grab users

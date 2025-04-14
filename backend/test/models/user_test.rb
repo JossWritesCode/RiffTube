@@ -26,7 +26,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "very long emails are invalid" do
-    email = "a" * 245 + "@example.com" # 256 chars
+    email = "a" * 245 + "@example.com" # 257 chars
     user = build(:user, email: email)
     assert_not user.valid?
   end
