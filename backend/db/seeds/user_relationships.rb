@@ -20,7 +20,7 @@ relationships = [
   { from: gypsy, to: joel, type: "follow" },
   { from: mike, to: cambot, type: "follow" },
   { from: brain_guy, to: pearl, type: "follow" },
-  { from: frank, to: everyone = User.where.not(id: frank.id).pluck(:id), type: "follow" }, # Frank follows everyone
+  { from: frank, to: User.where.not(id: frank.id).pluck(:id), type: "follow" }, # Frank follows everyone
 
   # Blocking relationships
   { from: pearl, to: crow, type: "block" },
