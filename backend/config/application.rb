@@ -20,6 +20,9 @@ Bundler.require(*Rails.groups)
 # Load environment variables from .env file if it exists
 Dotenv::Railtie.load if defined?(Dotenv)
 
+
+
+
 module BackEnd
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
