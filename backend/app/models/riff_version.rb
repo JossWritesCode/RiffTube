@@ -6,7 +6,6 @@ class RiffVersion < ApplicationRecord
              class_name: "User",
              foreign_key: "changed_by"
 
-
   ## Enum
   enum audio_source: {
     recorded: "recorded",
