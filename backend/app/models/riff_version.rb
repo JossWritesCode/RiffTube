@@ -6,6 +6,7 @@ class RiffVersion < ApplicationRecord
              class_name: "User",
              foreign_key: "changed_by"
 
+
   ## Enum
   enum audio_source: {
     recorded: "recorded",
@@ -14,5 +15,5 @@ class RiffVersion < ApplicationRecord
 
   ## Validations
   validates :version_number, presence: true,
-                              uniqueness: { scope: :riff_id }
+                             uniqueness: { scope: :riff_id }
 end
