@@ -1,5 +1,3 @@
-# db/seeds/projects.rb
-
 puts "🎬 Seeding projects..."
 
 projects = [

@@ -1,7 +1,6 @@
-# backend/config/initializers/dotenv.rb
 require 'dotenv'
 
-root_env = File.expand_path('../../../.env', __dir__)  # three “..” segments
+root_env = File.expand_path('../../../.env', __dir__) 
 Dotenv.load(root_env) if File.exist?(root_env)
 
 if Rails.env.development? || Rails.env.test?

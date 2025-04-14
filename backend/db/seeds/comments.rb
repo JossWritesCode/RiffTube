@@ -1,5 +1,3 @@
-# db/seeds/comments.rb
-
 puts "💬 Seeding comments..."
 
 # Fetch users

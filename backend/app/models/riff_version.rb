@@ -4,8 +4,8 @@ class RiffVersion < ApplicationRecord
   belongs_to :media_file, optional: true
   belongs_to :changed_by_user,
              class_name: "User",
-             foreign_key: "changed_by",
-             optional: true
+             foreign_key: "changed_by"
+
 
   ## Enum
   enum audio_source: {
