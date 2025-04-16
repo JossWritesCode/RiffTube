@@ -18,8 +18,7 @@ require "logger"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 # Load environment variables from .env file if it exists
-Dotenv::Railtie.load if defined?(Dotenv)
-
+Dotenv::Rails.files.unshift("../.env") if defined?(Dotenv)
 
 
 
