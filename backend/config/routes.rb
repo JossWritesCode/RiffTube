@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  namespace :api do
+    namespace :v1 do
+      # ─── AUTHENTICATION ─────────────────────────────
+      post   'signup', to: 'users#signup'     # Register a new user
+      post   'login',  to: 'users#login'      # Log in an existing user
+      delete 'logout', to: 'users#logout'     # Log out current user
+      get    'me',     to: 'users#me'         # Get current logged-in user info
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+      # ─── OAUTH ──────────────────────────────────────
+      get 'auth/google_oauth2/callback', to: 'users#google_oauth2_callback' # OAuth callback for Google login
+    end
+  end
 end
