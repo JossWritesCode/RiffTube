@@ -9,6 +9,13 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors[:email], "has already been taken"
   end
 
+  test "username must be unique, case insensitive" do
+    create(:user, username: "TakenUsername")
+    user = build(:user, username: "takenusername")
+    assert_not user.valid?
+    assert_includes user.errors[:username], "has already been taken"
+  end
+
   test "uid must be unique if present" do
     create(:user, uid: "OAuthID123")
     user = build(:user, uid: "OAuthID123")
@@ -51,7 +58,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "switching from OAuth to password requires password" do
-    user = create(:user, provider: "google", uid: "123456")  # no password_digest manually!
+    user = create(:user, provider: "google", uid: "123456")
     user.provider = nil
     user.uid = nil
     user.password = "newpassword"
@@ -60,25 +67,24 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
   end
   
-
   # Soft delete behavior (if you implement soft delete)
   test "soft-deleted users are not returned by default" do
     user = create(:user)
     user.update(deleted_at: Time.current)
-
-    assert_not_includes User.all, user
+  
+    assert_not_includes User.active, user
   end
-
+  
   test "soft-deleted users still retain associations" do
     user = create(:user)
     project = create(:project, owner: user)
     user.update(deleted_at: Time.current)
-
+  
     assert Project.exists?(project.id)
   end
-
-# Cascading deletion for owned content
-test "destroying user deletes owned riffs, comments, media files" do
+  
+  # Cascading deletion for owned content
+  test "destroying user deletes owned riffs, comments, media files" do
     user = create(:user)
     riff = create(:riff, creator: user)
     comment = create(:comment, user: user, commentable: riff)
@@ -92,7 +98,7 @@ test "destroying user deletes owned riffs, comments, media files" do
       end
     end
   end
-
+  
   # Nullify audit logs
   test "destroying user nullifies audit logs" do
     user = create(:user)

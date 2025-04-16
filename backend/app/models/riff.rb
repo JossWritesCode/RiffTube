@@ -5,7 +5,8 @@ class Riff < ApplicationRecord
   # Creator
   belongs_to :creator,
              class_name: "User",
-             foreign_key: :created_by
+             foreign_key: :created_by,
+             inverse_of: :created_riffs
 
   # Latest revision (nullable)
   belongs_to :latest_revision,

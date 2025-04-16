@@ -1,4 +1,4 @@
-puts "🪪 Seeding subscription plans..."
+Rails.logger.info "🪪 Seeding subscription plans..."
 
 subscriptions = [
   {
@@ -32,4 +32,4 @@ subscriptions.each do |sub_data|
   end
 end
 
-puts "✅ Subscription plans seeded."
+Rails.logger.info "✅ Subscription plans seeded."

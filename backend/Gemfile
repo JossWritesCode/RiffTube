@@ -48,6 +48,9 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "dotenv-rails"
   gem "uuidtools"
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-factory_bot', require: false
 end
 
 group :development do

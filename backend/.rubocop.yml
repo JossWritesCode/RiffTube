@@ -1,0 +1,3 @@
+plugins:
+  - rubocop-rails
+  - rubocop-factory_bot

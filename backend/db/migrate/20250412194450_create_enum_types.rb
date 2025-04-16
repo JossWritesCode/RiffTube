@@ -1,3 +1,5 @@
+# rubocop:disable Rails/ReversibleMigration
+
 class CreateEnumTypes < ActiveRecord::Migration[7.0]
   def change
     execute <<-SQL
@@ -13,3 +15,4 @@ class CreateEnumTypes < ActiveRecord::Migration[7.0]
     SQL
   end
 end
+# rubocop:enable Rails/ReversibleMigration

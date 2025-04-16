@@ -1,4 +1,4 @@
-puts "🏷️ Seeding tags..."
+Rails.logger.info "🏷️ Seeding tags..."
 
 tags = [
   "badmovies",
@@ -29,4 +29,4 @@ tags.each do |tag_name|
   Tag.find_or_create_by!(name: tag_name)
 end
 
-puts "✅ Tags seeded."
+Rails.logger.info "✅ Tags seeded."
