@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '👍👎 Seeding riff reactions...'
 
 servo = fetch_user!('Tom Servo')

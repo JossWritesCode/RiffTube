@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 # rubocop:disable Rails/ReversibleMigration
 
+# This migration creates custom ENUM types for use in the database.
 class CreateEnumTypes < ActiveRecord::Migration[7.0]
   def change
     execute <<-SQL

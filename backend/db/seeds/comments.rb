@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '💬 Seeding comments...'
 
 # Fetch users

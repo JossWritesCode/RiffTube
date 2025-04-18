@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '🏷️ Linking projects with tags...'
 
 # Fetch projects

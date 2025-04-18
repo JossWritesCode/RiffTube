@@ -1,16 +1,19 @@
-class Riff < ApplicationRecord
+# frozen_string_literal: true
 
+# The Riff model represents a musical riff created by a user.
+# It includes associations for creator, revisions, projects, comments, and reactions.
+class Riff < ApplicationRecord
   ## Associations
 
   # Creator
   belongs_to :creator,
-             class_name: "User",
+             class_name: 'User',
              foreign_key: :created_by,
              inverse_of: :created_riffs
 
   # Latest revision (nullable)
   belongs_to :latest_revision,
-             class_name: "RiffVersion",
+             class_name: 'RiffVersion',
              optional: true
 
   # All revisions

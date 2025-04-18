@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Migration to create the riffs table with associated foreign keys and attributes.
 class CreateRiffs < ActiveRecord::Migration[7.0]
   def change
     create_table :riffs, id: :uuid do |t|

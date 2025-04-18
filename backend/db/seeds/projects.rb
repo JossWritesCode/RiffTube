@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '🎬 Seeding projects...'
 
 joel  = User.find_by!(name: 'Joel Robinson')

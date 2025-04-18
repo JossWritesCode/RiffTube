@@ -1,11 +1,16 @@
+# frozen_string_literal: true
+
+# MediaFile represents a media file associated with a user.
+# It supports different storage providers (e.g., GCS, external URLs)
+# and validates the presence of required attributes based on the provider.
 class MediaFile < ApplicationRecord
   ## Associations
   belongs_to :user
 
   ## Enum  (maps to the Postgres enum `storage_provider_enum`)
   enum provider: {
-    gcs: "gcs",
-    url: "url"
+    gcs: 'gcs',
+    url: 'url'
   }
 
   ## Validations

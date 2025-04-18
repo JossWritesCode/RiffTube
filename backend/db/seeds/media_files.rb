@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '🎙️ Seeding media files (real MP3s)...'
 
 # Fetch users
@@ -65,9 +67,9 @@ media_files.each_with_index do |mf_data, index|
 
   # Link media file to a riff version
   riff = riffs[index]
-  if riff && riff.latest_revision_id
+  if riff&.latest_revision_id
     riff_version = RiffVersion.find_by(id: riff.latest_revision_id)
-    riff_version.update!(media_file_id: media_file.id) if riff_version
+    riff_version&.update!(media_file_id: media_file.id)
   end
 end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.logger.info '🎤 Seeding riffs and riff versions...'
 
 # Grab users using the fetch_user helper

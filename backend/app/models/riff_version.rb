@@ -1,16 +1,20 @@
+# frozen_string_literal: true
+
+# RiffVersion represents a version of a riff, including its associations,
+# audio source, and validations for versioning.
 class RiffVersion < ApplicationRecord
   ## Associations
   belongs_to :riff
   belongs_to :media_file, optional: true
   belongs_to :changed_by_user,
-             class_name: "User",
-             foreign_key: "changed_by",
+             class_name: 'User',
+             foreign_key: 'changed_by',
              inverse_of: :riff_versions
 
   ## Enum
   enum audio_source: {
-    recorded: "recorded",
-    synth:    "synth"
+    recorded: 'recorded',
+    synth: 'synth'
   }
 
   ## Validations

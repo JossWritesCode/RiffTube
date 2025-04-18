@@ -1,13 +1,17 @@
-class Project < ApplicationRecord
+# frozen_string_literal: true
 
+# The Project model represents a project in the system.
+# It includes associations for ownership, riffs, collaborations, tags, and comments.
+# Projects can also be forked from other projects and have various visibility settings.
+class Project < ApplicationRecord
   ## Associations
 
   # Owner
-  belongs_to :owner, class_name: "User"
+  belongs_to :owner, class_name: 'User'
 
   # Fork relationship (optional)
   belongs_to :forked_from_project,
-             class_name: "Project",
+             class_name: 'Project',
              optional: true
 
   # Riffs
@@ -21,7 +25,7 @@ class Project < ApplicationRecord
            dependent: :destroy
   has_many :collaborators,
            through: :collaborations,
-           source:  :user
+           source: :user
 
   # Tags
   has_many :project_tags,
