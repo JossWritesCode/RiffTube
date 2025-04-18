@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'backend/**/*.rb'
-      - 'backend/rubocop.yml'
+      - 'backend/.rubocop.yml'
 
 jobs:
   rubocop:
@@ -22,10 +22,9 @@ jobs:
           bundler-cache: true
 
       - name: Install backend dependencies
-        run: |
-          cd backend
-          bundle install
+        working-directory: backend
+        run: bundle install --jobs 4 --retry 3
 
       - name: Run RuboCop
-        run: |
-          bundle exec rubocop backend
+        working-directory: backend
+        run: bundle exec rubocop
