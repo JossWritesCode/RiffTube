@@ -1,8 +1,8 @@
 # RiffTube
 
-[![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
+[![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)  
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)  
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)  
 [![Vite](https://img.shields.io/badge/Vite-4.0-646CFF?logo=vite)](https://vitejs.dev/)
 
 ---
@@ -21,26 +21,80 @@ This project uses a Vite + React frontend and a Ruby on Rails API backend. They 
 
 ---
 
-### 1. Install dependencies
+### 💻 IDE Setup
+
+We recommend using **Visual Studio Code** for local development.
+
+1. **Open the project folder in VS Code**
+2. **When prompted, install the recommended extensions:**
+   - Prettier (`esbenp.prettier-vscode`)
+   - ESLint (`dbaeumer.vscode-eslint`)
+   - RuboCop (`rubocop.vscode-rubocop`)
+3. **On save, your code will auto‑format** for:
+   - JavaScript & TypeScript (via Prettier + ESLint)
+   - Ruby (via RuboCop)
+
+---
+
+### 🔧 Linting & Formatting
+
+The `package.json` includes scripts for checking and formatting code in both the frontend and backend.
+
+To lint everything:
 
 ```bash
-# install frontend dependencies
-cd frontend
-npm install
-
-# install backend dependencies
-cd ../backend
-bundle install
+npm run lint
 ```
+
+To format everything automatically:
+
+```bash
+npm run format
+```
+
+You can also target each side individually:
+
+```bash
+
+# Frontend only
+
+npm run lint:frontend
+npm run format:frontend
+
+# Backend only
+
+npm run lint:backend
+npm run format:backend
+```
+
+To check if your frontend code is formatted correctly (without writing changes):
+
+```bash
+npm run check-format
+```
+
+---
+
+### 1. Install dependencies
+
+We’ve added a convenient script that installs both frontend and backend dependencies in one go:
+
+```bash
+npm run install:all
+```
+
+This runs `npm install` in `frontend/` and `bundle install` in `backend/`.
 
 ---
 
 ### 2. Set up environment variables
 
 - Copy `.env.example` to `.env` at the project root:
-  ```bash
-  cp .env.example .env
-  ```
+
+```bash
+cp .env.example .env
+```
+
 - Fill in real credentials in `.env` for your local database connection and CORS settings:
 
 ```bash
@@ -72,37 +126,58 @@ This will:
 
 ### 4. Start the app
 
-In two separate terminal windows or tabs:
+From the project root, run:
 
 ```bash
-# Terminal 1 - start Rails API
-cd backend
-rails server
-```
-
-```bash
-# Terminal 2 - start Vite frontend
-cd frontend
 npm run dev
 ```
 
-The servers will be running at:
+This will concurrently start:
 
-- Rails API → [http://localhost:3000](http://localhost:3000)
-- Vite frontend → [http://localhost:5173](http://localhost:5173)
+- Rails API → http://localhost:3000
+- Vite frontend → http://localhost:5173
 
 ---
 
 ## 🧹 Local Development Setup Checklist
 
 - [ ] `.env` exists at project root and contains correct database and CORS variables
-- [ ] `npm install` completed inside `/frontend`
-- [ ] `bundle install` completed inside `/backend`
+- [ ] `npm run install:all` completed without errors
 - [ ] `rails db:create` and `rails db:migrate` completed without errors
 - [ ] Rails server (`rails server`) starts successfully
 - [ ] Vite server (`npm run dev`) starts successfully
 - [ ] Access Rails API at `http://localhost:3000`
 - [ ] Access React frontend at `http://localhost:5173`
+
+---
+
+## 📝 Commit & Pull Request Guidelines
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/) for a clear history and automated workflows.
+
+**Commit messages should:**
+
+- Use the imperative, present tense (e.g., `add x to y`, not `added x to y`).
+- Begin with a type prefix: `feat:`, `fix:` or `chore:`.
+
+**Pull request conventions:**
+
+- **Title:** Must match your commit message.
+- **Body:** Include `resolves #<issue-number>` to automatically close the related issue.
+
+**Example:**
+
+**PR Title:**  
+`feat: support time-traveling riffs from future disappointed users`
+
+**PR Body:**
+
+```text
+resolves #303
+
+- allows pre-emptive commentary before scenes even happen
+- breaks causality but improves engagement metrics
+```
 
 ---
 
@@ -136,3 +211,7 @@ The servers will be running at:
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+```
+
+```

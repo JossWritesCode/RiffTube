@@ -4,9 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
-    "lint": "cd frontend && npm run lint",
-    "format": "cd frontend && npm run format",
-    "check-format": "cd frontend && npm run check-format"
+    "check-format": "cd frontend && npm run check-format",
+    "lint:frontend": "cd frontend && npm run lint",
+    "format:frontend": "cd frontend && npm run format",
+    "lint:backend": "cd backend && bundle exec rubocop",
+    "format:backend": "cd backend && bundle exec rubocop -A",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && bundle install",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "format": "npm run format:backend && npm run format:frontend",
+    "install:all": "npm run install:frontend && npm run install:backend"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
