@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# ProjectRiff represents the association between a project and a riff,
+# including validations and optional sanity checks for time attributes.
 class ProjectRiff < ApplicationRecord
   ## Associations
   belongs_to :project
@@ -7,7 +11,7 @@ class ProjectRiff < ApplicationRecord
   validates :project_id, :riff_id, presence: true
   validates :riff_id,
             uniqueness: { scope: :project_id,
-                          message: "already linked to this project" }
+                          message: 'already linked to this project' }
 
   # Optional sanity checks
   validates :start_time, :end_time,

@@ -1,31 +1,32 @@
+# frozen_string_literal: true
 
-puts "👥 Seeding user relationships..."
+Rails.logger.info '👥 Seeding user relationships...'
 
 # Fetch users
-servo = User.find_by(name: "Tom Servo")
-crow = User.find_by(name: "Crow T. Robot")
-joel = User.find_by(name: "Joel Robinson")
-mike = User.find_by(name: "Mike Nelson")
-gypsy = User.find_by(name: "Gypsy")
-frank = User.find_by(name: "TV's Frank")
-pearl = User.find_by(name: "Pearl Forrester")
-brain_guy = User.find_by(name: "Observer (Brain Guy)")
-cambot = User.find_by(name: "Cambot")
+servo = fetch_user!('Tom Servo')
+crow = fetch_user!('Crow T. Robot')
+joel = fetch_user!('Joel Robinson')
+mike = fetch_user!('Mike Nelson')
+gypsy = fetch_user!('Gypsy')
+frank = fetch_user!("TV's Frank")
+pearl = fetch_user!('Pearl Forrester')
+brain_guy = fetch_user!('Observer (Brain Guy)')
+cambot = fetch_user!('Cambot')
 
 # Define relationships
 relationships = [
-  { from: servo, to: crow, type: "follow" },
-  { from: crow, to: servo, type: "follow" },
-  { from: gypsy, to: joel, type: "follow" },
-  { from: mike, to: cambot, type: "follow" },
-  { from: brain_guy, to: pearl, type: "follow" },
-  { from: frank, to: User.where.not(id: frank.id).pluck(:id), type: "follow" },
+  { from: servo, to: crow, type: 'follow' },
+  { from: crow, to: servo, type: 'follow' },
+  { from: gypsy, to: joel, type: 'follow' },
+  { from: mike, to: cambot, type: 'follow' },
+  { from: brain_guy, to: pearl, type: 'follow' },
+  { from: frank, to: User.where.not(id: frank.id).pluck(:id), type: 'follow' },
 
   # Blocking relationships
-  { from: pearl, to: crow, type: "block" },
-  { from: pearl, to: servo, type: "block" },
-  { from: pearl, to: mike, type: "block" },
-  { from: crow, to: pearl, type: "block" }
+  { from: pearl, to: crow, type: 'block' },
+  { from: pearl, to: servo, type: 'block' },
+  { from: pearl, to: mike, type: 'block' },
+  { from: crow, to: pearl, type: 'block' }
 ]
 
 # Seed relationships
@@ -48,4 +49,4 @@ relationships.each do |rel|
   end
 end
 
-puts "✅ User relationships seeded."
+Rails.logger.info '✅ User relationships seeded.'

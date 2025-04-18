@@ -1,0 +1,30 @@
+name: RuboCop Linter
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**/*.rb'
+      - 'backend/.rubocop.yml'
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.3'
+          bundler-cache: true
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: bundle install --jobs 4 --retry 3
+
+      - name: Run RuboCop
+        working-directory: backend
+        run: bundle exec rubocop

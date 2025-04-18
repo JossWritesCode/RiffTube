@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Migration to create the user_preferences table with user-specific settings.
 class CreateUserPreferences < ActiveRecord::Migration[7.0]
   def change
     create_table :user_preferences, id: :uuid do |t|

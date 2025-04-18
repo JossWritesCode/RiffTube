@@ -1,20 +1,22 @@
-puts "🎤 Seeding riffs and riff versions..."
+# frozen_string_literal: true
 
-# Grab users
-servo = User.find_by(name: "Tom Servo")
-crow = User.find_by(name: "Crow T. Robot")
-joel = User.find_by(name: "Joel Robinson")
-mike = User.find_by(name: "Mike Nelson")
-gypsy = User.find_by(name: "Gypsy")
-cambot = User.find_by(name: "Cambot")
-frank = User.find_by(name: "TV's Frank")
+Rails.logger.info '🎤 Seeding riffs and riff versions...'
+
+# Grab users using the fetch_user helper
+servo = User.find_by!(name: 'Tom Servo')
+crow = User.find_by!(name: 'Crow T. Robot')
+joel = User.find_by!(name: 'Joel Robinson')
+mike = User.find_by!(name: 'Mike Nelson')
+gypsy = User.find_by!(name: 'Gypsy')
+cambot = User.find_by!(name: 'Cambot')
+frank = User.find_by!(name: "TV's Frank")
 
 # Grab projects
-manos = Project.find_by(title: "Manos: The Hands of Fate")
-santa = Project.find_by(title: "Santa Claus Conquers the Martians")
-zombies = Project.find_by(title: "The Incredibly Strange Creatures Who Stopped Living and Became Mixed-Up Zombies")
-time_chasers = Project.find_by(title: "Time Chasers")
-final_sacrifice = Project.find_by(title: "The Final Sacrifice")
+manos = Project.find_by!(title: 'Manos: The Hands of Fate')
+santa = Project.find_by!(title: 'Santa Claus Conquers the Martians')
+zombies = Project.find_by!(title: 'The Incredibly Strange Creatures Who Stopped Living and Became Mixed-Up Zombies')
+time_chasers = Project.find_by!(title: 'Time Chasers')
+final_sacrifice = Project.find_by!(title: 'The Final Sacrifice')
 
 # Define riffs
 riffs_data = [
@@ -23,7 +25,7 @@ riffs_data = [
     creator: servo,
     start_time: 45.0,
     end_time: 50.0,
-    text: "Torgo walks like every floor is made of hot coals."
+    text: 'Torgo walks like every floor is made of hot coals.'
   },
   {
     project: manos,
@@ -37,7 +39,7 @@ riffs_data = [
     creator: mike,
     start_time: 120.0,
     end_time: 125.0,
-    text: "Every frame of this movie smells faintly of mildew."
+    text: 'Every frame of this movie smells faintly of mildew.'
   },
   {
     project: santa,
@@ -51,21 +53,21 @@ riffs_data = [
     creator: joel,
     start_time: 60.0,
     end_time: 65.0,
-    text: "Martian fashion: When your mom knits your armor."
+    text: 'Martian fashion: When your mom knits your armor.'
   },
   {
     project: zombies,
     creator: cambot,
     start_time: 15.0,
     end_time: 20.0,
-    text: "Ah yes, the time-honored zombie dance-off."
+    text: 'Ah yes, the time-honored zombie dance-off.'
   },
   {
     project: zombies,
     creator: crow,
     start_time: 75.0,
     end_time: 80.0,
-    text: "Thrill! As our hero loses a fistfight with his own shirt!"
+    text: 'Thrill! As our hero loses a fistfight with his own shirt!'
   },
   {
     project: time_chasers,
@@ -79,14 +81,14 @@ riffs_data = [
     creator: frank,
     start_time: 10.0,
     end_time: 15.0,
-    text: "Meanwhile, somewhere deep in the Canadian woods... confusion reigns."
+    text: 'Meanwhile, somewhere deep in the Canadian woods... confusion reigns.'
   },
   {
     project: final_sacrifice,
     creator: servo,
     start_time: 70.0,
     end_time: 75.0,
-    text: "Somewhere, a director is watching this and quietly weeping."
+    text: 'Somewhere, a director is watching this and quietly weeping.'
   }
 ]
 
@@ -114,4 +116,4 @@ riffs_data.each do |riff_info|
   )
 end
 
-puts "✅ Riffs and riff versions seeded."
+Rails.logger.info '✅ Riffs and riff versions seeded.'

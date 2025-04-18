@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 
-puts "📜 Seeding audit logs..."
+Rails.logger.info '📜 Seeding audit logs...'
 
 # Fetch users
-servo = User.find_by(name: "Tom Servo")
-crow = User.find_by(name: "Crow T. Robot")
-joel = User.find_by(name: "Joel Robinson")
-mike = User.find_by(name: "Mike Nelson")
-gypsy = User.find_by(name: "Gypsy")
+servo = fetch_user!('Tom Servo')
+crow = fetch_user!('Crow T. Robot')
+joel = fetch_user!('Joel Robinson')
+mike = fetch_user!('Mike Nelson')
+gypsy = fetch_user!('Gypsy')
 
 # Fetch riffs, comments, and projects
 some_riff = Riff.first
@@ -19,38 +20,38 @@ some_comment = Comment.first
 audit_logs = [
   {
     user: servo,
-    action: "created_riff",
-    entity_type: "Riff",
+    action: 'created_riff',
+    entity_type: 'Riff',
     entity_id: some_riff.id,
-    details: { note: "First hilarious riff by Servo" }
+    details: { note: 'First hilarious riff by Servo' }
   },
   {
     user: crow,
-    action: "created_comment",
-    entity_type: "Comment",
+    action: 'created_comment',
+    entity_type: 'Comment',
     entity_id: some_comment.id,
     details: { content_preview: some_comment.content.truncate(30) }
   },
   {
     user: mike,
-    action: "liked_riff",
-    entity_type: "Riff",
+    action: 'liked_riff',
+    entity_type: 'Riff',
     entity_id: another_riff.id,
-    details: { reaction: "like" }
+    details: { reaction: 'like' }
   },
   {
     user: gypsy,
-    action: "created_project",
-    entity_type: "Project",
+    action: 'created_project',
+    entity_type: 'Project',
     entity_id: another_project.id,
     details: { title: another_project.title }
   },
   {
     user: joel,
-    action: "forked_project",
-    entity_type: "Project",
+    action: 'forked_project',
+    entity_type: 'Project',
     entity_id: some_project.id,
-    details: { fork_reason: "Wanted to riff differently" }
+    details: { fork_reason: 'Wanted to riff differently' }
   }
 ]
 
@@ -61,9 +62,9 @@ audit_logs.each do |log|
     entity_type: log[:entity_type],
     entity_id: log[:entity_id],
     details: log[:details],
-    created_at: Time.now,
-    updated_at: Time.now
+    created_at: Time.current,
+    updated_at: Time.current
   )
 end
 
-puts "✅ Audit logs seeded."
+Rails.logger.info '✅ Audit logs seeded.'

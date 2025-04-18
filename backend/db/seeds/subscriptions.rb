@@ -1,9 +1,11 @@
-puts "🪪 Seeding subscription plans..."
+# frozen_string_literal: true
+
+Rails.logger.info '🪪 Seeding subscription plans...'
 
 subscriptions = [
   {
-    name: "Riffer",
-    description: "Ability to record and post your own riffs.",
+    name: 'Riffer',
+    description: 'Ability to record and post your own riffs.',
     features: {
       can_watch: true,
       can_comment: true,
@@ -13,8 +15,8 @@ subscriptions = [
     }
   },
   {
-    name: "Super Riffer",
-    description: "Record, synthesize, and download riffs in HD glory.",
+    name: 'Super Riffer',
+    description: 'Record, synthesize, and download riffs in HD glory.',
     features: {
       can_watch: true,
       can_comment: true,
@@ -32,4 +34,4 @@ subscriptions.each do |sub_data|
   end
 end
 
-puts "✅ Subscription plans seeded."
+Rails.logger.info '✅ Subscription plans seeded.'

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Migration to create the audit_logs table with user references, action details, and entity information.
 class CreateAuditLogs < ActiveRecord::Migration[7.0]
   def change
     create_table :audit_logs, id: :uuid do |t|
