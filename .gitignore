@@ -5,10 +5,15 @@
 # Node stuff (if root uses concurrently, etc.)
 node_modules/
 
-# Editor cruft
-.vscode/
+
 .idea/
 
 # exclude log files, .env
 *.log
 .env
+rifftube-personal.code-workspace
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

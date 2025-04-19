@@ -3,9 +3,6 @@ name: RuboCop Linter
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'backend/**/*.rb'
-      - 'backend/.rubocop.yml'
 
 jobs:
   rubocop:
@@ -14,6 +11,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('backend/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -27,4 +32,4 @@ jobs:
 
       - name: Run RuboCop
         working-directory: backend
-        run: bundle exec rubocop
+        run: npm run lint:backend
