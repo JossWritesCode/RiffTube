@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
+    "release": "semantic-release",
     "check-format": "cd frontend && npm run check-format",
     "lint:frontend": "cd frontend && npm run lint",
     "format:frontend": "cd frontend && npm run format",
@@ -16,6 +17,11 @@
     "install:all": "npm run install:frontend && npm run install:backend"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "concurrently": "^8.2.0",
+    "semantic-release": "^24.2.3"
   }
 }
