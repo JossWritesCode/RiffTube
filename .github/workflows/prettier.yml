@@ -1,33 +1,29 @@
-name: Prettier & ESLint Check
+name: Frontend Lint & Format Check
 
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/prettier.yml'
 
 jobs:
-  linting:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node
+      - name: Set up Node.js (with npm cache)
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
-      - name: Install frontend dependencies
+      - name: Install & Run Prettier/ESLint
+        working-directory: frontend
         run: |
-          cd frontend
           npm ci
-
-      - name: Run Prettier check
-        run: |
-          cd frontend
-          npm run check-format
-
-      - name: Run ESLint
-        run: |
-          cd frontend
-          npm run lint
+          npm run check-format       # your Prettier “--check” step
+          npm run lint               # your ESLint step
