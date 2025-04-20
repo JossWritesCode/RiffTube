@@ -6,20 +6,9 @@ module Api
   module V1
     # Test suite for the SessionsController in the API V1 namespace.
     class SessionsControllerTest < ActionDispatch::IntegrationTest
-      # Helpers
-      def json_body
-        return if response.body.blank?
-
-        JSON.parse(response.body)
-      end
-
-      def log_in(user, password = 'secret123')
-        post '/api/v1/login', params: { email: user.email, password: password }
-      end
-
       # ─── Happy path ──────────────────────────────────────────
       test 'login succeeds with valid credentials' do
-        user = create(:user, email: 'foo@bar.com', password: 'secret123')
+        user = create(:user, name: 'Crow T Robot', email: 'foo@bar.com', password: 'secret123')
 
         log_in(user)
 
@@ -56,7 +45,7 @@ module Api
       end
 
       test 'login fails with wrong password' do
-        user = create(:user, password: 'correct')
+        user = create(:user, name: 'Crow T Robot', password: 'correct')
 
         post '/api/v1/login', params: { email: user.email, password: 'wrong' }
 
@@ -66,12 +55,29 @@ module Api
 
       test 'login fails for soft‑deleted user' do
         password = 'correct'
-        user = create(:user, password: password)
+        user = create(:user, name: 'Crow T Robot', password: password)
         user.update!(deleted_at: Time.current)
-
         post '/api/v1/login', params: { email: user.email, password: password }
 
         assert_response :unauthorized
+      end
+      test 'signup fails for soft-deleted user reusing same email' do
+        soft_deleted_user = create(:user, email: 'deleted@example.com', name: 'Soft Deleted')
+        soft_deleted_user.update(deleted_at: Time.current)
+
+        post '/api/v1/signup', params: {
+          user: {
+            email: soft_deleted_user.email,
+            password: 'secret123',
+            username: 'AnotherUser',
+            name: 'Soft Deleted'
+          }
+        }
+
+        assert_response :unprocessable_entity
+
+        json = JSON.parse(response.body)
+        assert_includes json['errors']['email'], 'has already been taken'
       end
     end
   end

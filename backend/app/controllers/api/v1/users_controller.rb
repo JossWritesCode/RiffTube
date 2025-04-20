@@ -7,6 +7,8 @@ module Api
       include Authenticatable
       include ResponseRenderable
 
+      before_action :authenticate_user!, only: [:me]
+
       def signup
         user = User.new(signup_params)
 
@@ -16,6 +18,10 @@ module Api
         else
           render_unprocessable(user)
         end
+      end
+
+      def me
+        render_ok(current_user)
       end
 
       private
