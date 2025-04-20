@@ -1,3 +1,4 @@
+# test/controllers/api/v1/sessions_controller_test.rb
 # frozen_string_literal: true
 
 require 'test_helper'
@@ -72,6 +73,16 @@ module Api
         post '/api/v1/login', params: { email: user.email, password: password }
 
         assert_response :unauthorized
+      end
+
+      test 'logout clears the session' do
+        user = create(:user, password: 'secret123')
+        log_in(user)
+
+        delete '/api/v1/logout'
+
+        assert_response :no_content
+        assert_nil session[:user_id]
       end
     end
   end
