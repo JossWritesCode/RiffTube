@@ -2,23 +2,25 @@
 
 module Api
   module V1
-    # Controller for handling user-related actions in API version 1.
+    # Handles user creation
     class UsersController < ApplicationController
+      include Authenticatable
+      include ResponseRenderable
+
       def signup
-        user = User.new(user_params)
+        user = User.new(signup_params)
 
         if user.save
-          session[:user_id] = user.id
-          render json: { user: user.slice(:id, :email, :username, :name) }, status: :created
-
+          log_in(user)
+          render_created(user)
         else
-          render json: { errors: user.errors.messages }, status: :unprocessable_entity
+          render_unprocessable(user)
         end
       end
 
       private
 
-      def user_params
+      def signup_params
         params.require(:user).permit(:email, :password, :name, :username)
       end
     end

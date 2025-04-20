@@ -10,39 +10,45 @@ require 'active_record/railtie'
 require 'active_storage/engine'
 require 'action_controller/railtie'
 require 'action_mailer/railtie'
-require 'action_mailbox/engine'
-require 'action_text/engine'
 require 'action_view/railtie'
-require 'action_cable/engine'
+# require 'action_mailbox/engine'
+# require 'action_text/engine'
+# require 'action_cable/engine'
 # require "rails/test_unit/railtie"
 require 'logger'
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+
 Bundler.require(*Rails.groups)
+
 # Load environment variables from .env file if it exists
 Dotenv::Rails.files.unshift('../.env') if defined?(Dotenv)
 
 module BackEnd
-  # This is the main application class for the BackEnd module.
-  # It inherits from Rails::Application and configures the application settings.
+  # The BackEnd module serves as the namespace for the application.
+  # The Application class configures the Rails application settings.
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.api_only = true
+
+    # Use UUIDs for primary keys by default
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
-
-    # Configuration for the application, engines, and railties goes here.
+    # ────────────────── Cookies & Session Middleware ──────────────────
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore,
+                          key: ENV.fetch('RIFFTUBE_SESSION_KEY', '_rifftube_session'),
+                          secure: Rails.env.production?,
+                          httponly: true,
+                          same_site: :lax
+    # ────────────────────────── Optional Settings ──────────────────────────
+    # config.time_zone = 'UTC'
     #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
-
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
+    # If you need CORS for cross-origin requests, e.g. React front-end:
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins 'your-frontend-domain.com'
+    #     resource '*', headers: :any, methods: [:get, :post, :patch, :put, :delete, :options]
+    #   end
+    # end
   end
 end

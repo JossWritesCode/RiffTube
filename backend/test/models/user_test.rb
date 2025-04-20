@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+# Test suite for the User model, covering validations, OAuth behavior,
+# soft delete functionality, and cascading deletions.
 class UserTest < ActiveSupport::TestCase
   # Uniqueness validations
   test 'email must be unique, case insensitive' do

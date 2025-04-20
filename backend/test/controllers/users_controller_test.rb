@@ -4,6 +4,7 @@ require 'test_helper'
 
 module Api
   module V1
+    # Test suite for the UsersController in the API V1 namespace
     class UsersControllerTest < ActionDispatch::IntegrationTest
       test 'signup creates a user and sets session' do
         post '/api/v1/signup', params: {
@@ -55,6 +56,15 @@ module Api
         assert_response :unprocessable_entity
         json = JSON.parse(response.body)
         assert_includes json['errors']['email'], 'is invalid'
+      end
+
+      test 'signup downcases email before saving' do
+        post '/api/v1/signup', params: {
+          user: { email: 'UPPER@Example.COM', password: 'pw12345', username: 'u1', name: 'N' }
+        }
+        assert_response :created
+        json = JSON.parse(response.body)
+        assert_equal 'upper@example.com', json['user']['email']
       end
 
       test 'signup fails with duplicate email' do
