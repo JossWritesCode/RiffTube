@@ -12,6 +12,7 @@ class User < ApplicationRecord
                          message: 'can only contain letters, numbers, and underscores'
                        }
   validates :password, length: { minimum: 6 }, allow_nil: true, if: :password_required?
+  before_validation :normalize_email
   validates :email, presence: true, uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP },
                     length: { maximum: 255 }
@@ -84,5 +85,9 @@ class User < ApplicationRecord
     return unless provider.present? && uid.blank?
 
     errors.add(:uid, "can't be blank if provider is set")
+  end
+
+  def normalize_email
+    self.email = email.to_s.downcase.strip
   end
 end

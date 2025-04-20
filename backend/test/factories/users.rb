@@ -3,9 +3,9 @@
 FactoryBot.define do
   factory :user do
     email                 { Faker::Internet.unique.email }
-    password              { 'password123' }
-    password_confirmation { 'password123' }
     username              { Faker::Internet.unique.username(specifier: 5..10, separators: %w[_]) }
+    password              { 'password123' }
+    password_confirmation { password }
 
     trait :oauth do
       provider { 'google' }
