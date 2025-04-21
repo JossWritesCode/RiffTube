@@ -39,7 +39,9 @@ class Project < ApplicationRecord
            dependent: :destroy
 
   ## Validations
-  validates :title,       presence: true,
+before_validation { title&.strip! }
+validates :title, presence: true, length: { maximum: 255 }
+
                           length: { maximum: 255 }
   validates :video_host,  presence: true
   validates :visibility,  inclusion: { in: %w[public private unlisted] }
