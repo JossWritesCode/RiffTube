@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    # Manages login (create session)
+    # Manages login (create session) and logout (destroy session) actions.
     class SessionsController < ApplicationController
       include Authenticatable
       include ResponseRenderable
@@ -15,6 +15,11 @@ module Api
 
         log_in(user)
         render_ok(user)
+      end
+
+      def destroy
+        log_out
+        head :no_content
       end
 
       private

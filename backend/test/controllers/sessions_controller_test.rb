@@ -4,11 +4,14 @@ require 'test_helper'
 
 module Api
   module V1
-    # Test suite for the SessionsController in the API V1 namespace.
+    # Test suite for the SessionsController in the API V1 namespace.
     class SessionsControllerTest < ActionDispatch::IntegrationTest
       # ─── Happy path ──────────────────────────────────────────
       test 'login succeeds with valid credentials' do
-        user = create(:user, name: 'Crow T Robot', email: 'foo@bar.com', password: 'secret123')
+        user = create(:user,
+                      name: 'Crow T Robot',
+                      email: 'foo@bar.com',
+                      password: 'secret123')
 
         log_in(user)
 
@@ -23,7 +26,8 @@ module Api
       test 'login is case‑insensitive for email' do
         user = create(:user, email: 'foo@bar.com', password: 'secret123')
 
-        post '/api/v1/login', params: { email: 'FOO@BAR.COM', password: 'secret123' }
+        post '/api/v1/login',
+             params: { email: 'FOO@BAR.COM', password: 'secret123' }
 
         assert_response :ok
         assert_equal user.id, session[:user_id]
@@ -38,7 +42,8 @@ module Api
       end
 
       test 'login fails with non‑existent user' do
-        post '/api/v1/login', params: { email: 'nope@example.com', password: 'whatever' }
+        post '/api/v1/login',
+             params: { email: 'nope@example.com', password: 'whatever' }
 
         assert_response :unauthorized
         assert_match(/invalid/i, json_body['error'])
@@ -47,7 +52,8 @@ module Api
       test 'login fails with wrong password' do
         user = create(:user, name: 'Crow T Robot', password: 'correct')
 
-        post '/api/v1/login', params: { email: user.email, password: 'wrong' }
+        post '/api/v1/login',
+             params: { email: user.email, password: 'wrong' }
 
         assert_response :unauthorized
         assert_match(/invalid/i, json_body['error'])
@@ -55,15 +61,20 @@ module Api
 
       test 'login fails for soft‑deleted user' do
         password = 'correct'
-        user = create(:user, name: 'Crow T Robot', password: password)
+        user     = create(:user, name: 'Crow T Robot', password:)
         user.update!(deleted_at: Time.current)
-        post '/api/v1/login', params: { email: user.email, password: password }
+
+        post '/api/v1/login',
+             params: { email: user.email, password: }
 
         assert_response :unauthorized
       end
-      test 'signup fails for soft-deleted user reusing same email' do
-        soft_deleted_user = create(:user, email: 'deleted@example.com', name: 'Soft Deleted')
-        soft_deleted_user.update(deleted_at: Time.current)
+
+      test 'signup fails when reusing email of soft‑deleted user' do
+        soft_deleted_user = create(:user,
+                                   email: 'deleted@example.com',
+                                   name: 'Soft Deleted')
+        soft_deleted_user.update!(deleted_at: Time.current)
 
         post '/api/v1/signup', params: {
           user: {
@@ -75,9 +86,17 @@ module Api
         }
 
         assert_response :unprocessable_entity
+        assert_includes json_body['errors']['email'], 'has already been taken'
+      end
 
-        json = JSON.parse(response.body)
-        assert_includes json['errors']['email'], 'has already been taken'
+      test 'logout clears the session' do
+        user = create(:user, password: 'secret123')
+        log_in(user)
+
+        delete '/api/v1/logout'
+
+        assert_response :no_content
+        assert_nil session[:user_id]
       end
     end
   end
