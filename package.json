@@ -14,7 +14,8 @@
     "install:backend": "cd backend && bundle install",
     "lint": "npm run lint:backend && npm run lint:frontend",
     "format": "npm run format:backend && npm run format:frontend",
-    "install:all": "npm run install:frontend && npm run install:backend"
+    "install:all": "npm run install:frontend && npm run install:backend",
+    "test": "cd frontend && npm test"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^13.0.1",
