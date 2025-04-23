@@ -1,0 +1,21 @@
+<p>Hello <%= @user.name.presence || @user.email %>,</p>
+
+<p>
+  Thank you for signing up for <strong>RiffTube</strong> — the only platform
+  brave enough to let you talk over videos without being shushed.
+</p>
+
+<p>
+  Before we hand you the mic, we just need you to confirm your email by clicking
+  the link below:
+</p>
+
+<p>
+  <%= link_to 'Activate my riffing powers',
+  "#{ENV['FRONTEND_URL']}/confirm?token=#{@token}" %>
+</p>
+
+<p>
+  If you didn’t sign up for RiffTube, no worries — just ignore this message and
+  know someone else out there is riffing under your name. Bold choice.
+</p>

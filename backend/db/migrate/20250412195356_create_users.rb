@@ -10,21 +10,36 @@ class CreateUsers < ActiveRecord::Migration[7.0]
   private
 
   def create_users_table
-    create_table :users, id: :uuid do |t|
-      t.string :email, null: false
-      t.string :username, null: false
-      t.string :name
-      t.string :password_digest
-      t.string :provider
-      t.string :uid
-      t.datetime :deleted_at
-      t.timestamps
+    create_table :users, id: :uuid do |tbl|
+      add_user_basic_fields(tbl)
+      add_user_auth_fields(tbl)
+      add_user_metadata_fields(tbl)
+      tbl.timestamps
     end
+  end
+
+  def add_user_basic_fields(tbl)
+    tbl.string :email, null: false
+    tbl.string :username, null: false
+    tbl.string :name
+  end
+
+  def add_user_auth_fields(tbl)
+    tbl.string :password_digest
+    tbl.string :provider
+    tbl.string :uid
+  end
+
+  def add_user_metadata_fields(tbl)
+    tbl.string   :password_reset_token
+    tbl.datetime :password_reset_sent_at
+    tbl.datetime :deleted_at
   end
 
   def add_users_indexes
     add_index :users, :email, unique: true
     add_index :users, :username, unique: true
     add_index :users, :uid, unique: true
+    add_index :users, :password_reset_token
   end
 end

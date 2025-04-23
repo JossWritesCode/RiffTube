@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_16_162408) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_23_001117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -52,6 +52,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_162408) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+  end
+
+  create_table "email_confirmations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "token", null: false
+    t.datetime "confirmed_at"
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_email_confirmations_on_token", unique: true
+    t.index ["user_id"], name: "index_email_confirmations_on_user_id"
   end
 
   create_table "media_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -196,20 +207,24 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_162408) do
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
+    t.string "username", null: false
     t.string "name"
     t.string "password_digest"
     t.string "provider"
     t.string "uid"
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["password_reset_token"], name: "index_users_on_password_reset_token"
     t.index ["uid"], name: "index_users_on_uid", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "audit_logs", "users"
+  add_foreign_key "email_confirmations", "users"
   add_foreign_key "project_riffs", "projects"
   add_foreign_key "project_riffs", "riffs"
   add_foreign_key "projects", "projects", column: "forked_from_project_id"

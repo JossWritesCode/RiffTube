@@ -19,7 +19,17 @@
     "typescriptreact"
   ],
 
-  // Ruby specific settings using Rubocop
+  // ERB templates as HTML
+  "files.associations": {
+    "*.erb": "html",
+    "*.html.erb": "html",
+    "*.text.erb": "html"
+  },
+  "[html]": {
+    "ruby.lint": false
+  },
+
+  // Ruby / RuboCop
   "ruby.format": "rubocop",
   "ruby.lint": "rubocop",
   "[ruby]": {
