@@ -3,11 +3,11 @@
 Rails.logger.info '🏷️ Linking projects with tags...'
 
 # Fetch projects
-manos = fetch_project!('Manos: The Hands of Fate')
-santa = fetch_project!('Santa Claus Conquers the Martians')
-zombies = fetch_project!('The Incredibly Strange Creatures Who Stopped Living and Became Mixed-Up Zombies')
-time_chasers = fetch_project!('Time Chasers')
-final_sacrifice = fetch_project!('The Final Sacrifice')
+manos = Project.find_by!(title: 'Manos: The Hands of Fate')
+santa = Project.find_by!(title: 'Santa Claus Conquers the Martians')
+zombies = Project.find_by!(title: 'The Incredibly Strange Creatures Who Stopped Living and Became Mixed-Up Zombies')
+time_chasers = Project.find_by!(title: 'Time Chasers')
+final_sacrifice = Project.find_by!(title: 'The Final Sacrifice')
 
 # Define project to tags mapping
 project_tags = {

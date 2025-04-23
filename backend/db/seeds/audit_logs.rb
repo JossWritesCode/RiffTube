@@ -3,11 +3,11 @@
 Rails.logger.info '📜 Seeding audit logs...'
 
 # Fetch users
-servo = fetch_user!('Tom Servo')
-crow = fetch_user!('Crow T. Robot')
-joel = fetch_user!('Joel Robinson')
-mike = fetch_user!('Mike Nelson')
-gypsy = fetch_user!('Gypsy')
+servo = User.find_by(name: 'Tom Servo')
+crow = User.find_by(name: 'Crow T. Robot')
+joel = User.find_by(name: 'Joel Robinson')
+mike = User.find_by(name: 'Mike Nelson')
+gypsy = User.find_by(name: 'Gypsy')
 
 # Fetch riffs, comments, and projects
 some_riff = Riff.first

@@ -3,15 +3,15 @@
 Rails.logger.info '👥 Seeding user relationships...'
 
 # Fetch users
-servo = fetch_user!('Tom Servo')
-crow = fetch_user!('Crow T. Robot')
-joel = fetch_user!('Joel Robinson')
-mike = fetch_user!('Mike Nelson')
-gypsy = fetch_user!('Gypsy')
-frank = fetch_user!("TV's Frank")
-pearl = fetch_user!('Pearl Forrester')
-brain_guy = fetch_user!('Observer (Brain Guy)')
-cambot = fetch_user!('Cambot')
+servo = User.find_by(name: 'Tom Servo')
+crow = User.find_by(name: 'Crow T. Robot')
+joel = User.find_by(name: 'Joel Robinson')
+mike = User.find_by(name: 'Mike Nelson')
+gypsy = User.find_by(name: 'Gypsy')
+frank = User.find_by(name: "TV's Frank")
+pearl = User.find_by(name: 'Pearl Forrester')
+brain_guy = User.find_by(name: 'Observer (Brain Guy)')
+cambot = User.find_by(name: 'Cambot')
 
 # Define relationships
 relationships = [
