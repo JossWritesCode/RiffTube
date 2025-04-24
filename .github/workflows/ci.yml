@@ -1,4 +1,4 @@
-name: CI
+name: CI & Release
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
     branches: [main]
 
 jobs:
+  # ---------------- 1) Back-end: Rails + RuboCop + Tests ----------------
   backend:
     name: Rails API & RuboCop
     runs-on: ubuntu-latest
 
-    # ---------- Shared env for all backend steps ----------
     env:
       DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/rifftube_test
       DATABASE_USERNAME: postgres
@@ -19,7 +19,6 @@ jobs:
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: 5432
 
-    # ---------- PostgreSQL service ----------
     services:
       postgres:
         image: postgres:15
@@ -52,12 +51,10 @@ jobs:
           bundle config set --local path 'vendor/bundle'
           bundle install --jobs 4 --retry 3
 
-      # ---------- Lint Ruby (RuboCop) ----------
       - name: Run RuboCop
         working-directory: backend
         run: bundle exec rubocop
 
-      # ---------- Prepare DB & run tests ----------
       - name: Prepare DB
         working-directory: backend
         run: bundle exec rails db:create db:schema:load
@@ -66,8 +63,9 @@ jobs:
         working-directory: backend
         run: bundle exec rails test
 
+  # ---------------- 2) Front-end: ESLint + Prettier + Tests -------------
   frontend:
-    name: Front‑end (ESLint + Prettier + Tests)
+    name: Front-end (ESLint + Prettier + Tests)
     runs-on: ubuntu-latest
     needs: backend
 
@@ -88,14 +86,38 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      # ---------- Lint & Prettier check ----------
       - name: Lint & format
         working-directory: frontend
         run: |
-          npm run lint          # ESLint
-          npm run check-format  # Prettier --check
+          npm run lint
+          npm run check-format
 
-      # ---------- Run front‑end tests ----------
-      - name: Run front‑end tests
+      - name: Run front-end tests
         working-directory: frontend
         run: npm test
+
+  # ---------------- 3) Release: semantic-release -----------------------
+  release:
+    name: Release 🎉
+    runs-on: ubuntu-latest
+    needs: frontend
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js ≥20.8.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.10.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
