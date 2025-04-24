@@ -1,4 +1,4 @@
-# RiffTube
+# RiffTube [![CI](https://github.com/JossWritesCode/RiffTube/actions/workflows/ci.yml/badge.svg)](https://github.com/JossWritesCode/RiffTube/actions/workflows/ci.yml)
 
 [![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)  
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)  
