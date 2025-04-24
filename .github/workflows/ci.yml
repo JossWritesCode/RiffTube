@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Rails API & RuboCop
+    runs-on: ubuntu-latest
+
+    # ---------- Shared env for all backend steps ----------
+    env:
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/rifftube_test
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: 5432
+
+    # ---------- PostgreSQL service ----------
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.3
+
+      - uses: actions/cache@v3
+        with:
+          path: backend/vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('backend/Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-gems-
+
+      - name: Install gems
+        working-directory: backend
+        run: |
+          bundle config set --local path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      # ---------- Lint Ruby (RuboCop) ----------
+      - name: Run RuboCop
+        working-directory: backend
+        run: bundle exec rubocop
+
+      # ---------- Prepare DB & run tests ----------
+      - name: Prepare DB
+        working-directory: backend
+        run: bundle exec rails db:create db:schema:load
+
+      - name: Run Rails tests
+        working-directory: backend
+        run: bundle exec rails test
+
+  frontend:
+    name: Front‑end (ESLint + Prettier + Tests)
+    runs-on: ubuntu-latest
+    needs: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+
+      - name: Install packages
+        working-directory: frontend
+        run: npm ci
+
+      # ---------- Lint & Prettier check ----------
+      - name: Lint & format
+        working-directory: frontend
+        run: |
+          npm run lint          # ESLint
+          npm run check-format  # Prettier --check
+
+      # ---------- Run front‑end tests ----------
+      - name: Run front‑end tests
+        working-directory: frontend
+        run: npm test

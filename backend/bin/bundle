@@ -44,12 +44,13 @@ m = Module.new do
 
   def extract_version_from_arg(arg, update_index, index)
     return arg if update_index && update_index.succ == index && arg =~ Gem::Version::ANCHORED_VERSION_PATTERN
+
     Regexp.last_match(1) if arg =~ /\A--bundler(?:[= ](#{Gem::Version::VERSION_PATTERN}))?\z/
   end
 
   def gemfile
     gemfile = ENV['BUNDLE_GEMFILE']
-    return gemfile if gemfile && !gemfile.empty?
+    return gemfile if gemfile.present?
 
     File.expand_path('../Gemfile', __dir__)
   end
@@ -62,20 +63,23 @@ m = Module.new do
 
   def lockfile_version
     return unless File.file?(lockfile)
+
     contents = File.read(lockfile)
     return unless contents =~ /\n\nBUNDLED WITH\n\s{2,}(#{Gem::Version::VERSION_PATTERN})\n/
+
     Regexp.last_match(1)
   end
 
   def bundler_requirement
     @bundler_requirement ||=
       env_var_version ||
-      cli_arg_version  ||
+      cli_arg_version ||
       bundler_requirement_for(lockfile_version)
   end
 
   def bundler_requirement_for(version)
     return "#{Gem::Requirement.default}.a" unless version
+
     Gem::Version.new(version).approximate_recommendation
   end
 
