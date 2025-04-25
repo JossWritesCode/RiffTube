@@ -100,7 +100,7 @@ module Api
 
         json = JSON.parse(response.body)
 
-        assert_includes json['errors']['username'], 'can only contain letters, numbers, and underscores'
+        assert_includes json['errors']['username'], 'letters, numbers, and underscores only'
       end
 
       test 'signup fails with duplicate email' do

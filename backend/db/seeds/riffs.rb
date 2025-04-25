@@ -2,7 +2,7 @@
 
 Rails.logger.info '🎤 Seeding riffs and riff versions...'
 
-# Grab users using the fetch_user helper
+# Grab users
 servo = User.find_by!(name: 'Tom Servo')
 crow = User.find_by!(name: 'Crow T. Robot')
 joel = User.find_by!(name: 'Joel Robinson')

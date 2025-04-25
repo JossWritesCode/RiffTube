@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       # ─── USERS ────────────────────────────────────────────
       post 'signup', to: 'users#signup'    # POST   /api/v1/signup
@@ -13,6 +13,18 @@ Rails.application.routes.draw do
 
       # ─── OAUTH ───────────────────────────────────────────
       get 'auth/google_oauth2/callback', to: 'sessions#google_oauth2_callback'
+
+      # ─── CONFIRMATIONS ───────────────────────────────────
+      resources :confirmations, only: [:create] # POST   /api/v1/confirmations
+      get 'confirm', to: 'confirmations#confirm', as: :confirm # GET    /api/v1/confirm?token=XYZ
+
+      # ─── PASSWORD RESETS ─────────────────────────────────
+      resources :password_resets,
+                only: %i[create update],
+                param: :token,
+                constraints: { token: /\h{40}/ }
+      # POST   /api/v1/password_resets
+      # PATCH  /api/v1/password_resets/:token
     end
   end
 end

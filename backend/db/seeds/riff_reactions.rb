@@ -2,13 +2,13 @@
 
 Rails.logger.info '👍👎 Seeding riff reactions...'
 
-servo = fetch_user!('Tom Servo')
-crow = fetch_user!('Crow T. Robot')
-joel = fetch_user!('Joel Robinson')
-mike = fetch_user!('Mike Nelson')
-gypsy = fetch_user!('Gypsy')
-frank = fetch_user!("TV's Frank")
-pearl = fetch_user!('Pearl Forrester')
+servo = User.find_by(name: 'Tom Servo')
+crow = User.find_by(name: 'Crow T. Robot')
+joel = User.find_by(name: 'Joel Robinson')
+mike = User.find_by(name: 'Mike Nelson')
+gypsy = User.find_by(name: 'Gypsy')
+frank = User.find_by(name: "TV's Frank")
+pearl = User.find_by(name: 'Pearl Forrester')
 
 riffs = Riff.all.to_a
 
