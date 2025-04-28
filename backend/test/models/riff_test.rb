@@ -4,6 +4,12 @@ require 'test_helper'
 
 # Tests for Riffs
 class RiffTest < ActiveSupport::TestCase
+# Sanity check to ensure the factory builds a valid riff
+
+test 'factory is valid' do
+  assert build(:riff).valid?
+end
+
   #   Assert that a Riff without a created_by (creator) is invalid.
   test 'a Riff without a created_by (creator) is invalid' do
     riff = build(:riff)
