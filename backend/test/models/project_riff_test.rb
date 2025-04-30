@@ -6,7 +6,7 @@ require 'test_helper'
 class ProjectRiffTest < ActiveSupport::TestCase
   #   Assert that a ProjectRiff without a project_id is invalid.
   test 'a ProjectRiff without a project_id is invalid' do
-    project_riff = build(:project_riff)
+    project_riff = build(:project_riff, project: nil)
     assert_nil project_riff.project_id
     assert_not project_riff.valid?
     assert_includes project_riff.errors[:project_id], "can't be blank"
@@ -14,7 +14,7 @@ class ProjectRiffTest < ActiveSupport::TestCase
 
   #   Assert that a ProjectRiff without a riff_id is invalid.
   test 'a ProjectRiff without a riff_id is invalid' do
-    project_riff = build(:project_riff)
+    project_riff = build(:project_riff, riff: nil)
     assert_not project_riff.valid?
     assert_includes project_riff.errors[:riff_id], "can't be blank"
   end
@@ -28,13 +28,16 @@ class ProjectRiffTest < ActiveSupport::TestCase
     assert_not project_riff2.valid?
     assert_includes project_riff2.errors[:riff_id], 'already linked to this project'
 
+    # different riffs in the same project is valid
     riff2 = create(:riff)
     project_riff2 = build(:project_riff, project: project, riff: riff2)
     assert_not_equal project_riff1.riff_id, project_riff2.riff_id
     assert project_riff2.valid?
 
+    # the same riff in different projects is valid
     project2 = create(:project)
     project_riff3 = create(:project_riff, project: project2, riff: riff)
+    assert project_riff2.valid?
     assert project_riff3.valid?
   end
 
