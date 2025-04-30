@@ -4,15 +4,20 @@ require 'test_helper'
 
 # Tests for Riffs
 class RiffTest < ActiveSupport::TestCase
-# Sanity check to ensure the factory builds a valid riff
+  # Sanity check to ensure the factory builds a valid riff
+  test 'factory is valid' do
+    assert create(:riff).valid?
+  end
 
-test 'factory is valid' do
-  assert build(:riff).valid?
-end
+  #   Assert riff without a title is valid
+  test 'allows riff without a title' do
+    riff = create(:riff, title: nil)
+    assert riff.valid?
+  end
 
   #   Assert that a Riff without a created_by (creator) is invalid.
   test 'a Riff without a created_by (creator) is invalid' do
-    riff = build(:riff)
+    riff = build(:riff, creator: nil)
     assert_not riff.valid?
   end
 
@@ -22,6 +27,11 @@ end
     assert_equal :belongs_to, assoc.macro
     assert_equal 'User', assoc.class_name
     assert_equal 'created_by', assoc.foreign_key
+  end
+
+  #   Assert riff without latest_revision is valid
+  test 'allows riff without latest_revision by default' do
+    assert create(:riff, latest_revision: nil).valid?
   end
 
   #   Assert belongs_to :latest_revision (optional).
@@ -46,6 +56,10 @@ end
     assert_equal :has_many, assoc.macro
     assert_equal 'ProjectRiff', assoc.class_name
     assert_equal 'riff_id', assoc.foreign_key
+
+    riff = create(:riff)
+    project_riff = create(:project_riff, riff: riff)
+    assert_includes riff.projects, project_riff.project
   end
 
   #   Assert has_many :projects, through: :project_riffs.
