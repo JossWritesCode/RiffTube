@@ -13,10 +13,10 @@ module Api
 
       def google_oauth2_callback
         auth = request.env['omniauth.auth']
-        logger.debug request.env.inspect
-        logger.debug auth.to_hash.inspect
-        user = User.active.find_or_initialize_by(provider: 'google',
-                                                 uid: auth.uid)
+        user = User.active.find_or_initialize_by(
+          provider: 'google',
+          uid: auth.uid
+        )
 
         if user.persisted?
           log_in(user)
@@ -28,7 +28,8 @@ module Api
           user.password = SecureRandom.hex(16) # unused
           if user.save
             log_in(user)
-            render_ok(user)
+            # render_ok(user)
+            redirect_to controller: :users, action: :me
           else
             render_unprocessable(user)
           end
