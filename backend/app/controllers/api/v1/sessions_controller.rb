@@ -18,9 +18,12 @@ module Api
           uid: auth.uid
         )
 
+        logger.debug user.inspect
+
         if user.persisted?
           log_in(user)
-          render_ok(user)
+          # render_ok(user)
+          redirect_to controller: :users, action: :me
         else
           user.email    = auth.info.email
           user.name     = auth.info.name
