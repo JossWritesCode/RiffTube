@@ -45,7 +45,9 @@ class ProjectRiffTest < ActiveSupport::TestCase
   test 'start_time and end_time, if present, must be greater than or equal to 0' do
     project = create(:project)
     riff = create(:riff)
-    project_riff = build(:project_riff, project: project, riff: riff)
+    project_riff = build(
+      :project_riff, project: project, riff: riff, start_time: nil, end_time: nil
+    )
 
     # nil values allowed
     assert project_riff.valid?
@@ -54,6 +56,7 @@ class ProjectRiffTest < ActiveSupport::TestCase
     project_riff.start_time = -1
     project_riff.end_time = -2
     assert_not project_riff.valid?
+    assert_includes project_riff.errors[:start_time], 'must be greater than or equal to 0'
 
     # positive values are allowed
     project_riff.start_time = 1
@@ -61,8 +64,9 @@ class ProjectRiffTest < ActiveSupport::TestCase
     assert project_riff.valid?
 
     # only numbers are allowed
-    project_riff.start_time = 'foo'
-    assert_includes project_riff.errors[:start_time], 'must be greater than or equal to 0'
+    project_riff.start_time = 'SOL'
+    assert_not project_riff.valid?
+    assert_includes project_riff.errors[:start_time], 'is not a number'
   end
 
   #   Assert belongs_to :project.
