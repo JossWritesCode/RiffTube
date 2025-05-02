@@ -74,4 +74,19 @@ class OmniAuth::SessionsControllerTest < ActionDispatch::IntegrationTest
     # json = JSON.parse(response.body)
     # assert_equal session[:user_id], json['user']['id']
   end
+
+  # Assert that failure redirects
+  test 'auth failure redirects' do
+    # New user logging in
+    OmniAuth.config.mock_auth[:google_oauth2] = :invalid_credentials
+
+    OmniAuth.config.on_failure = proc do |env|
+      OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+    end
+
+    get '/api/v1/auth/google_oauth2/callback'
+
+    # Should redirect to failure
+    assert_redirected_to '/auth/failure?message=invalid_credentials&strategy=google_oauth2'
+  end
 end
