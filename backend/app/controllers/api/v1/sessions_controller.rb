@@ -7,38 +7,29 @@ module Api
       include Authenticatable
       include ResponseRenderable
 
+      # Pass off authorizing process to OmniAuth
       def google_oauth2_redirect
         redirect_to '/auth/google_oauth2'
       end
 
+      # OmniAuth callback (receive authorization)
       def google_oauth2_callback
-        auth = request.env['omniauth.auth']
-        user = User.active.find_or_initialize_by(
-          provider: 'google',
-          uid: auth.uid
-        )
-
-        logger.debug user.inspect
+        user = find_or_init_user
 
         if user.persisted?
-          log_in(user)
-          # render_ok(user)
-          redirect_to controller: :users, action: :me
+          # If user exists, log in
+          log_in_and_redirect user
+        elsif user.save
+          # If user doesn't exist, but saving succeeds, log in
+          setup_new_user user, auth.info
+          log_in_and_redirect user
         else
-          user.email    = auth.info.email
-          user.name     = auth.info.name
-          user.username = auth.info.email.split('@').first
-          user.password = SecureRandom.hex(16) # unused
-          if user.save
-            log_in(user)
-            # render_ok(user)
-            redirect_to controller: :users, action: :me
-          else
-            render_unprocessable(user)
-          end
+          # If user doesn't exist and can't be created, fail
+          render_unprocessable(user)
         end
       end
 
+      # Log in user with credentials
       def create
         return render_missing_credentials if blank_credentials?
 
@@ -49,12 +40,37 @@ module Api
         render_ok(user)
       end
 
+      # Log out user
       def destroy
         log_out
         head :no_content
       end
 
       private
+
+      # ——— OAuth Helpers ————————————————————————————
+      def setup_new_user(user, auth_info)
+        user.email    = auth_info.email
+        user.name     = auth_info.name
+        user.username = auth_info.email.split('@').first
+        user.password = SecureRandom.hex(16) # unused
+      end
+
+      def auth
+        request.env['omniauth.auth']
+      end
+
+      def find_or_init_user
+        User.active.find_or_initialize_by(
+          provider: 'google',
+          uid: auth.uid
+        )
+      end
+
+      def log_in_and_redirect(user)
+        log_in(user)
+        redirect_to controller: :users, action: :me
+      end
 
       # ——— Params & normalization ————————————————————————————
       def session_params
