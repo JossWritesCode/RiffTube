@@ -1,8 +1,8 @@
 # RiffTube [![CI](https://github.com/JossWritesCode/RiffTube/actions/workflows/ci.yml/badge.svg)](https://github.com/JossWritesCode/RiffTube/actions/workflows/ci.yml)
 
-[![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)  
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)  
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)  
+[![Rails](https://img.shields.io/badge/Rails-7.0-red?logo=rubyonrails)](https://rubyonrails.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://reactjs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?logo=postgresql)](https://www.postgresql.org/)
 [![Vite](https://img.shields.io/badge/Vite-4.0-646CFF?logo=vite)](https://vitejs.dev/)
 
 ---
@@ -167,7 +167,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/) for a cle
 
 **Example:**
 
-**PR Title:**  
+**PR Title:**
 `feat: support time-traveling riffs from future disappointed users`
 
 **PR Body:**
@@ -196,6 +196,8 @@ resolves #303
 
 - [Ruby on Rails](https://rubyonrails.org/) (API mode)
 - [PostgreSQL](https://www.postgresql.org/)
+- [OmniAuth](https://github.com/omniauth/omniauth)
+- [omniauth-google-oauth2](https://rubygems.org/gems/omniauth-google-oauth2)
 - [Google Cloud Storage](https://cloud.google.com/storage) (planned)
 - [Google Cloud Text-to-Speech](https://cloud.google.com/text-to-speech) (planned)
 
@@ -211,4 +213,3 @@ resolves #303
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-

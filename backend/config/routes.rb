@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       delete 'logout', to: 'sessions#destroy'  # DELETE /api/v1/logout
 
       # ─── OAUTH ───────────────────────────────────────────
+      get 'auth/google_oauth2',          to: 'sessions#google_oauth2_redirect'
       get 'auth/google_oauth2/callback', to: 'sessions#google_oauth2_callback'
 
       # ─── CONFIRMATIONS ───────────────────────────────────
