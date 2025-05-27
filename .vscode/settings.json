@@ -3,6 +3,7 @@
   "files.trimTrailingWhitespace": true,
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
+  "prettier.requireConfig": true,
 
   // Global ESLint settings for JavaScript/TypeScript
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -19,11 +20,11 @@
     "typescriptreact"
   ],
 
-  // ERB templates as HTML
   "files.associations": {
     "*.erb": "html",
     "*.html.erb": "html",
-    "*.text.erb": "html"
+    "*.text.erb": "html",
+    "*.css": "postcss"
   },
   "[html]": {
     "ruby.lint": false
