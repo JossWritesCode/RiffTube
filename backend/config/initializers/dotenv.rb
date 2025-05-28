@@ -4,9 +4,9 @@
 if Rails.env.development? || Rails.env.test?
   require 'dotenv'
 
-  # Load the root .env file
-  root_env = File.expand_path('../../../.env', __dir__) # three “..” segments
-  Dotenv.load(root_env) if File.exist?(root_env)
+root_env = File.expand_path('../../../.env', __dir__)
+Dotenv.load(root_env) if File.exist?(root_env)
+
 
   # Enforce required keys in development and test environments
   Dotenv.require_keys(
