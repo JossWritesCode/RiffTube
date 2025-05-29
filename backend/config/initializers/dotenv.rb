@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-require 'dotenv'
+# Only use dotenv when not in production mode
+if Rails.env.development? || Rails.env.test?
+  require 'dotenv'
 
-# Load the root .env file
 root_env = File.expand_path('../../../.env', __dir__)
 Dotenv.load(root_env) if File.exist?(root_env)
 
-# Enforce required keys in development and test environments
-if Rails.env.development? || Rails.env.test?
+
+  # Enforce required keys in development and test environments
   Dotenv.require_keys(
     'DATABASE_USERNAME',
     'DATABASE_PASSWORD',
