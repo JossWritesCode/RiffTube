@@ -196,6 +196,8 @@ resolves #303
 
 - [Ruby on Rails](https://rubyonrails.org/) (API mode)
 - [PostgreSQL](https://www.postgresql.org/)
+- [OmniAuth](https://github.com/omniauth/omniauth)
+- [omniauth-google-oauth2](https://rubygems.org/gems/omniauth-google-oauth2)
 - [Google Cloud Storage](https://cloud.google.com/storage) (planned)
 - [Google Cloud Text-to-Speech](https://cloud.google.com/text-to-speech) (planned)
 
