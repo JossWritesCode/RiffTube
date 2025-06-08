@@ -69,7 +69,7 @@ module Api
 
       def log_in_and_redirect(user)
         log_in(user)
-        redirect_to controller: :users, action: :me
+        redirect_to dashboard_path
       end
 
       # ——— Params & normalization ————————————————————————————
