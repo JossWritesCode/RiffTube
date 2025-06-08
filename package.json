@@ -25,10 +25,5 @@
     "concurrently": "^8.2.2",
     "conventional-changelog-conventionalcommits": "^8.0.0",
     "semantic-release": "^24.2.3"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.8",
-    "vite": "^6.3.5",
-    "vite-plugin-svgr": "^4.3.0"
   }
 }
