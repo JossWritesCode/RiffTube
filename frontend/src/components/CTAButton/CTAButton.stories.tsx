@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Play } from 'lucide-react';
-
 import CTAButton from './CTAButton';
 
 const meta: Meta<typeof CTAButton> = {

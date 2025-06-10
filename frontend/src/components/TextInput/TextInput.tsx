@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export type TextInputProps = {
   id: string;
@@ -35,12 +35,7 @@ function TextInput({
     <div className="relative">
       <label
         htmlFor={id}
-        className="
-          absolute top-2 left-4
-          text-xs font-medium
-          text-silver-dust
-          pointer-events-none
-        "
+        className="pointer-events-none absolute top-2 left-4 text-xs font-medium text-silver-dust"
       >
         {label}
         {required && ' *'}
@@ -58,22 +53,7 @@ function TextInput({
         pattern={pattern}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className="
-          peer
-          block w-full
-          pt-6 pb-3 px-4
-          rounded-2xl
-          bg-transparent
-          text-white
-          placeholder-gray-600
-          border-2 border-smoke
-          focus:outline-none
-          focus:ring-4 focus:ring-silver-dust/50
-          focus:border-silver-dust
-          invalid:focus:border-red-500
-          invalid:focus:ring-red-500/50
-          transition
-        "
+        className="peer block w-full rounded-2xl border-2 border-smoke bg-transparent px-4 pt-6 pb-3 text-white placeholder-gray-600 transition focus:border-silver-dust focus:ring-4 focus:ring-silver-dust/50 focus:outline-none invalid:focus:border-red-500 invalid:focus:ring-red-500/50"
       />
       <div className="mt-2 ml-1 h-5">
         {showError && <p className="text-xs text-red-500">{errorMessage}</p>}

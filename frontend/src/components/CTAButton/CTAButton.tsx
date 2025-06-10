@@ -74,7 +74,7 @@ function CTAButton({
       {isLoading ? (
         <svg
           aria-hidden="true"
-          className="animate-spin h-5 w-5"
+          className="h-5 w-5 animate-spin"
           viewBox="0 0 24 24"
         >
           <circle
