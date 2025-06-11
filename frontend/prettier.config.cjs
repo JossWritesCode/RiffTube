@@ -1,5 +1,6 @@
 /** @type {import('prettier').Config} */
-export default {
+// eslint-disable-next-line no-undef
+module.exports = {
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
