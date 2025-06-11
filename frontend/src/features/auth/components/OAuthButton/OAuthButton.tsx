@@ -1,7 +1,7 @@
 import GoogleLogo from '@/assets/google.svg?react';
 import CTAButton, { CTAButtonProps } from '@/components/CTAButton';
 
-export type OAuthProvider = 'google'; // later: | 'github' | 'apple'
+export type OAuthProvider = 'google'; // later could include: | 'github' | 'apple'
 
 export interface OAuthButtonProps extends Omit<CTAButtonProps, 'variant'> {
   provider: OAuthProvider;
