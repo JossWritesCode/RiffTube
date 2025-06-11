@@ -36,6 +36,10 @@ export const Secondary: Story = {
   args: { variant: 'secondary' },
 };
 
+export const LightMode: Story = {
+  args: { variant: 'lightMode' },
+};
+
 export const Disabled: Story = {
   args: { disabled: true },
 };

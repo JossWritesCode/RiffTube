@@ -36,6 +36,14 @@ describe('CTAButton', () => {
     expect(button).toHaveClass('hover:bg-gray-600');
   });
 
+  it('applies lightMode variant', () => {
+    render(<CTAButton variant="lightMode">Light Mode</CTAButton>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('bg-white');
+    expect(button).toHaveClass('text-gray-900');
+    expect(button).toHaveClass('hover:bg-gray-50');
+  });
+
   it('applies size variants correctly', () => {
     const sizes: Record<Size, [string, string]> = {
       sm: ['h-9', 'px-3'],
