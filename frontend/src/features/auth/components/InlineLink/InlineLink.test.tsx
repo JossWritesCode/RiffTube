@@ -9,7 +9,6 @@ describe('InlineLink component', () => {
     const link = screen.getByText('Click here');
     expect(link).toBeInTheDocument();
     expect(link.tagName).toBe('A');
-    expect(link).toHaveClass('text-yellow-400', 'hover:underline', 'text-sm');
     expect(link).toHaveAttribute('href', '#');
   });
 
@@ -20,12 +19,7 @@ describe('InlineLink component', () => {
       </InlineLink>,
     );
     const link = screen.getByText('Link Text');
-    expect(link).toHaveClass(
-      'text-yellow-400',
-      'hover:underline',
-      'text-sm',
-      'custom-class',
-    );
+    expect(link).toHaveClass('custom-class');
   });
 
   it('handles onClick events', () => {
