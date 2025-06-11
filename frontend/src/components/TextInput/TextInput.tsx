@@ -22,14 +22,14 @@ function TextInput({
   type = 'text',
   required = false,
   pattern,
-  errorMessage = 'Invalid value',
+  errorMessage,
   infoMessage = 'Looks good!',
 }: TextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const isInvalid = inputRef.current ? !inputRef.current.validity.valid : false;
-  const showError = isInvalid;
-  const showInfo = isFocused && !isInvalid;
+  const showError = Boolean(errorMessage) || isInvalid;
+  const showInfo = isFocused && !showError;
 
   return (
     <div className="relative">
@@ -55,11 +55,14 @@ function TextInput({
         onBlur={() => setIsFocused(false)}
         className="peer block w-full rounded-2xl border-2 border-smoke bg-transparent px-4 pt-6 pb-3 text-white placeholder-gray-600 transition focus:border-silver-dust focus:ring-4 focus:ring-silver-dust/50 focus:outline-none invalid:focus:border-red-500 invalid:focus:ring-red-500/50"
       />
+
       <div className="mt-2 ml-1 h-5">
-        {showError && <p className="text-xs text-red-500">{errorMessage}</p>}
-        {showInfo && !showError && (
-          <p className="text-xs text-white">{infoMessage}</p>
+        {showError && (
+          <p className="text-xs text-red-500">
+            {errorMessage ?? 'Invalid value'}
+          </p>
         )}
+        {showInfo && <p className="text-xs text-white">{infoMessage}</p>}
       </div>
     </div>
   );
