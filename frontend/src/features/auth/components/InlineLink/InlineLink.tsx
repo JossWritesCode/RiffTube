@@ -1,14 +1,14 @@
-import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 export type InlineLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
 function InlineLink({ className = '', ...props }: InlineLinkProps) {
-  return (
-    <a
-      {...props}
-      className={`text-sm text-yellow-400 hover:underline ${className}`.trim()}
-    />
-  );
+  const base =
+    'cursor-pointer text-sm text-popcorn-butter underline hover:underline';
+
+  const classes = twMerge(base, className);
+
+  return <a {...props} className={classes} />;
 }
 
 export default InlineLink;

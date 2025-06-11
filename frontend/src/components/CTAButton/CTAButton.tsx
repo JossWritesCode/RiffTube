@@ -1,11 +1,12 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 export type Variant = 'primary' | 'secondary' | 'lightMode';
 export type Size = 'sm' | 'md' | 'lg';
 
 export interface CTAButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
+  children?: ReactNode;
   /** Visual style */
   variant?: Variant;
   /** Button size */
@@ -54,22 +55,20 @@ function CTAButton({
   const activeClasses =
     !disabled && !isLoading ? 'active:opacity-75 active:scale-95' : '';
 
-  const composed = [
+  const classes = twMerge(
     base,
     variantMap[variant],
     sizeMap[size],
     activeClasses,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <button
       type={type}
       disabled={disabled || isLoading}
       aria-label={ariaLabel}
-      className={composed}
+      className={classes}
       {...rest}
     >
       {isLoading ? (

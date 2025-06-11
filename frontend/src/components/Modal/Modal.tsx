@@ -5,6 +5,7 @@ import {
   Transition,
   TransitionChild,
 } from '@headlessui/react';
+import { twMerge } from 'tailwind-merge';
 
 type ModalProps = {
   isOpen: boolean;
@@ -14,6 +15,11 @@ type ModalProps = {
 };
 
 function Modal({ isOpen, onClose, children, className = '' }: ModalProps) {
+  const panelClasses = twMerge(
+    'bg-reel-dust w-full max-w-md rounded-2xl p-8 text-white shadow-xl',
+    className,
+  );
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -29,11 +35,7 @@ function Modal({ isOpen, onClose, children, className = '' }: ModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel
-                className={`w-full max-w-md rounded-2xl bg-neutral-900 p-8 text-white shadow-xl ${className}`}
-              >
-                {children}
-              </DialogPanel>
+              <DialogPanel className={panelClasses}>{children}</DialogPanel>
             </TransitionChild>
           </div>
         </div>
