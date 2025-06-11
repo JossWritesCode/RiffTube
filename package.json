@@ -6,6 +6,8 @@
     "dev": "concurrently \"cd backend && rails s\" \"cd frontend && npm run dev\"",
     "release": "semantic-release",
     "check-format": "npm exec --prefix frontend prettier --check .",
+    "storybook": "cd frontend && npm run storybook",
+    "build:storybook": "cd frontend && npm run build-storybook",
     "lint:frontend": "cd frontend && npm run lint",
     "format:frontend": "npm exec --prefix frontend prettier --write .",
     "lint:backend": "cd backend && bundle exec rubocop",

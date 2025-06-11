@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
   viteFinal: async config => {
     config.optimizeDeps ??= {};
